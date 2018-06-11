@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Auth from '../Auth'
 import Artists from '../Artists/Artists'
-import Nav from '../Nav'
 import { Row, Collapsible, CollapsibleItem, Modal, Button, ProgressBar, Col, Card, CardTitle } from 'react-materialize'
 import { fetchRecentEntries } from '../../store/recentEntries'
 import { Redirect } from 'react-router-dom'
@@ -15,6 +14,7 @@ import { fetchArtist } from '../../store/currentArtist'
 import SpotifyPlayer from '../Music/Player'
 import ArtistPlaylist from './ArtistPlaylist'
 import ArtistArticles from './ArtistArticles'
+import Navbar from '../Navbar'
 import '../../assets/global.css'
 import '../../assets/landing.css'
 
@@ -55,6 +55,7 @@ const Artist = (props) => {
     } 
       return (
           <div>
+            <Navbar value={1}/>
             <ArtistPlaylist artist={artist} />
             <ArtistArticles artist={artist} />
           </div>
