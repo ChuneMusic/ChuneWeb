@@ -12,6 +12,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { Tweet } from 'react-twitter-widgets';
+import SpotifyWebApi from 'spotify-web-api-js';
 
 import {
   BasicArticleCard, TopTracksChartConnect, ChuneSupplyConnect,
@@ -32,21 +33,21 @@ class Home extends React.Component {
     this.state = {
       topTrackPlayId: null,
       playSupplyId: null,
-      // deviceId: '',
-      // loggedIn: false,
-      // error: '',
-      // trackName: 'Track Name',
-      // artistName: 'Artist Name',
-      // albumName: 'Album Name',
-      // playing: false,
-      // position: 0,
-      // duration: 0,
+      deviceId: '',
+      loggedIn: false,
+      error: '',
+      trackName: 'Track Name',
+      artistName: 'Artist Name',
+      albumName: 'Album Name',
+      playing: false,
+      position: 0,
+      duration: 0,
     };
   }
 
-  // componentDidMount() {
-  //   // window.onSpotifyWebPlaybackSDKReady = this.checkForPlayer;
-  // }
+  componentDidMount() {
+    window.onSpotifyWebPlaybackSDKReady = this.checkForPlayer;
+  }
 
   handleTopTrackPlay = (id, play) => {
     const playId = play ? id : null;
@@ -106,37 +107,54 @@ class Home extends React.Component {
     });
   };
 
-  // checkForPlayer = () => {
-  //   const token = 'BQAnK9-bDgNAOaZ7vh_Unh-VYWi0S9mzjiv42x5g4IzxFScMEMoZbnEvJVEvnXGQqfXzr24we4THtONmXnweB1TxNMCoI4oJdBW5ak0t966lsuqmfGtKEL-Pb-Ky2TZmu322SEtpj6dnFQ_b6Jtcp5EGlP58fBO3PJBN39W7QXnqETMxpAtR8SNH';
-  //   if (Spotify !== null) {
-  //     console.log('success!', Spotify);
-  //     this.player = new window.Spotify.Player({
-  //       name: 'Chune Spotify Player',
-  //       getOAuthToken: (cb) => { cb(token); },
-  //     });
-  //     console.log(this.player, 'player');
-  //     this.createEventHandlers();
+  checkForPlayer = () => {
+    const token = 'BQA4JuZqoBxr6UKvjDw1IHFnvUOkpoVm_4YLuXAysQfzCdLSd-i-3L8pbz3QveamiH48Kej0SZzHcgdPumu1vnSg1iU336rUjxi2KLlcKlhbOZ4VWjpVd5ZSeBNHBrv0bR45Adat5oZMih4Nzq6Ey11NjVwLHyS9756Fa7VPm8E2';
+    if (Spotify !== null) {
+      console.log('success!', Spotify);
+      this.player = new window.Spotify.Player({
+        name: 'Chune Spotify Player',
+        getOAuthToken: (cb) => { cb(token); },
+      });
+      console.log(this.player, 'player');
+      this.createEventHandlers();
 
-  //     // finally, connect!
-  //     this.player.connect();
-  //   }
-  // }
+      // finally, connect!
+      this.player.connect();
+    }
+  }
 
-  // createEventHandlers() {
-  //   this.player.on('initialization_error', (e) => { console.error(e); });
-  //   this.player.on('authentication_error', (e) => {
-  //     console.error(e);
-  //     this.setState({ loggedIn: false });
-  //   });
-  //   this.player.on('account_error', (e) => { console.error(e); });
-  //   this.player.on('playback_error', (e) => { console.error(e); });
-  //   this.player.on('player_state_changed', (state) => { console.log(state); });
-  //   this.player.on('ready', (data) => {
-  //     const { device_id } = data;
-  //     console.log('Let the music play on!');
-  //     this.setState({ deviceId: device_id });
-  //   });
-  // }
+  createEventHandlers() {
+    this.player.on('initialization_error', (e) => { console.error(e); });
+    this.player.on('authentication_error', (e) => {
+      console.error(e);
+      this.setState({ loggedIn: false });
+    });
+    this.player.on('account_error', (e) => { console.error(e); });
+    this.player.on('playback_error', (e) => { console.error(e); });
+    this.player.on('player_state_changed', (state) => { console.log(state); });
+    this.player.on('ready', (data) => {
+      const { device_id } = data;
+      console.log('Let the music play on!', data);
+      this.setState({ deviceId: device_id });
+    });
+  }
+
+  playMusicSpotify() {
+    const spotifyApi = new SpotifyWebApi();
+    spotifyApi.setAccessToken('BQA4JuZqoBxr6UKvjDw1IHFnvUOkpoVm_4YLuXAysQfzCdLSd-i-3L8pbz3QveamiH48Kej0SZzHcgdPumu1vnSg1iU336rUjxi2KLlcKlhbOZ4VWjpVd5ZSeBNHBrv0bR45Adat5oZMih4Nzq6Ey11NjVwLHyS9756Fa7VPm8E2');
+    spotifyApi.getMyDevices().then((response) => {
+      console.log(response, 'id');
+      const deviceIds = ['8fe85b6471563244c35c0e1d92cbe46dccc71ae8'];
+      spotifyApi.transferMyPlayback(deviceIds);
+      const data = JSON.stringify({
+        uris: ['spotify:track:0etM5OLS1gkjK26aRpKqPK']
+      });
+      spotifyApi.play(data);
+    });
+    spotifyApi.getTrack('4S8d14HvHb70ImctNgVzQQ').then((response) => {
+      console.log(response, 'res');
+    });
+  }
 
   render() {
     const { topTrackPlayId, playSupplyId } = this.state;
@@ -199,6 +217,7 @@ class Home extends React.Component {
     if (topChune.length === 0) return <Loading />;
     return (
       <div>
+        <button onClick={this.playMusicSpotify} type="button">Play</button>
         <div className="homePageWrapper">
           <div className="mainArticle">
             <BasicArticleCard
