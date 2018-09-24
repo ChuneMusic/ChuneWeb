@@ -32,21 +32,21 @@ class Home extends React.Component {
     this.state = {
       topTrackPlayId: null,
       playSupplyId: null,
-      deviceId: '',
-      loggedIn: false,
-      error: '',
-      trackName: 'Track Name',
-      artistName: 'Artist Name',
-      albumName: 'Album Name',
-      playing: false,
-      position: 0,
-      duration: 0,
+      // deviceId: '',
+      // loggedIn: false,
+      // error: '',
+      // trackName: 'Track Name',
+      // artistName: 'Artist Name',
+      // albumName: 'Album Name',
+      // playing: false,
+      // position: 0,
+      // duration: 0,
     };
   }
 
-  componentDidMount() {
-    // window.onSpotifyWebPlaybackSDKReady = this.checkForPlayer;
-  }
+  // componentDidMount() {
+  //   // window.onSpotifyWebPlaybackSDKReady = this.checkForPlayer;
+  // }
 
   handleTopTrackPlay = (id, play) => {
     const playId = play ? id : null;
@@ -106,37 +106,37 @@ class Home extends React.Component {
     });
   };
 
-  checkForPlayer = () => {
-    const token = 'BQAnK9-bDgNAOaZ7vh_Unh-VYWi0S9mzjiv42x5g4IzxFScMEMoZbnEvJVEvnXGQqfXzr24we4THtONmXnweB1TxNMCoI4oJdBW5ak0t966lsuqmfGtKEL-Pb-Ky2TZmu322SEtpj6dnFQ_b6Jtcp5EGlP58fBO3PJBN39W7QXnqETMxpAtR8SNH';
-    if (Spotify !== null) {
-      console.log('success!', Spotify);
-      this.player = new window.Spotify.Player({
-        name: 'Chune Spotify Player',
-        getOAuthToken: (cb) => { cb(token); },
-      });
-      console.log(this.player, 'player');
-      this.createEventHandlers();
+  // checkForPlayer = () => {
+  //   const token = 'BQAnK9-bDgNAOaZ7vh_Unh-VYWi0S9mzjiv42x5g4IzxFScMEMoZbnEvJVEvnXGQqfXzr24we4THtONmXnweB1TxNMCoI4oJdBW5ak0t966lsuqmfGtKEL-Pb-Ky2TZmu322SEtpj6dnFQ_b6Jtcp5EGlP58fBO3PJBN39W7QXnqETMxpAtR8SNH';
+  //   if (Spotify !== null) {
+  //     console.log('success!', Spotify);
+  //     this.player = new window.Spotify.Player({
+  //       name: 'Chune Spotify Player',
+  //       getOAuthToken: (cb) => { cb(token); },
+  //     });
+  //     console.log(this.player, 'player');
+  //     this.createEventHandlers();
 
-      // finally, connect!
-      this.player.connect();
-    }
-  }
+  //     // finally, connect!
+  //     this.player.connect();
+  //   }
+  // }
 
-  createEventHandlers() {
-    this.player.on('initialization_error', (e) => { console.error(e); });
-    this.player.on('authentication_error', (e) => {
-      console.error(e);
-      this.setState({ loggedIn: false });
-    });
-    this.player.on('account_error', (e) => { console.error(e); });
-    this.player.on('playback_error', (e) => { console.error(e); });
-    this.player.on('player_state_changed', (state) => { console.log(state); });
-    this.player.on('ready', (data) => {
-      const { device_id } = data;
-      console.log('Let the music play on!');
-      this.setState({ deviceId: device_id });
-    });
-  }
+  // createEventHandlers() {
+  //   this.player.on('initialization_error', (e) => { console.error(e); });
+  //   this.player.on('authentication_error', (e) => {
+  //     console.error(e);
+  //     this.setState({ loggedIn: false });
+  //   });
+  //   this.player.on('account_error', (e) => { console.error(e); });
+  //   this.player.on('playback_error', (e) => { console.error(e); });
+  //   this.player.on('player_state_changed', (state) => { console.log(state); });
+  //   this.player.on('ready', (data) => {
+  //     const { device_id } = data;
+  //     console.log('Let the music play on!');
+  //     this.setState({ deviceId: device_id });
+  //   });
+  // }
 
   render() {
     const { topTrackPlayId, playSupplyId } = this.state;

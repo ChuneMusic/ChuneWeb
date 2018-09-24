@@ -6,7 +6,8 @@ const compression = require('compression');
 const querystring = require('querystring');
 const request = require('request');
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4001;
+const NODE_ENV = process.env.NODE_ENV || 'test';
 const app = express();
 module.exports = app;
 
@@ -14,11 +15,14 @@ const createApp = () => {
   app.use(morgan('dev'));
 
   app.use((req, res, next) => {
-    if (req.headers['x-forwarded-proto'] !== 'https') {
-      const { hostname, originalUrl } = req;
-      res.redirect(302, `https://${hostname + originalUrl}`);
-    }
-    else {
+    if (NODE_ENV !== 'test') {
+      if (req.headers['x-forwarded-proto'] !== 'https') {
+        const { hostname, originalUrl } = req;
+        res.redirect(302, `https://${hostname + originalUrl}`);
+      } else {
+        next();
+      }
+    } else {
       next();
     }
   });
@@ -78,18 +82,19 @@ const createApp = () => {
       querystring.stringify({
         response_type: 'code',
         client_id: '94fd2677f20d454a8b1290266f882160',
-        scope: 'user-read-private user-read-email',
-        redirect_uri: 'http://localhost:4000/callback'
+        scope: 'user-read-private user-read-email user-read-playback-state',
+        redirect_uri: 'http://localhost:4001/callback'
       })}`);
   });
 
   app.get('/callback', (req, res) => {
+    console.log('2\n');
     const code = req.query.code || null;
     const authOptions = {
       url: 'https://accounts.spotify.com/api/token',
       form: {
         code,
-        redirect_uri: 'http://localhost:4000/callback',
+        redirect_uri: 'http://localhost:4001/callback',
         grant_type: 'authorization_code'
       },
       headers: {
