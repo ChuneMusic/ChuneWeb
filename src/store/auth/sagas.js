@@ -6,7 +6,7 @@ import {
   tokenVerifyCreate, refreshToken
 } from './utilities/authUser';
 import { CREATE_NEW_USER, LOGIN_USER, SUCCESS_GET_TOKEN } from './types';
-import { successGetToken, successGetProfileSocial } from './actions';
+import { successGetToken, successGetProfileSocial, logOutUser } from './actions';
 import { errorMessage } from '../error/actions';
 import { setUserToken } from '../../utilities/APIConfig';
 
@@ -26,15 +26,16 @@ export function* getTokenUser(action) {
 export function* rehydrateAuth({ payload }) {
   if (payload) {
     if (payload.dataAuth.token !== '') {
-      const { token } = payload.dataAuth;
-      let verifyToken = yield call(tokenVerifyCreate, token);
-      if (verifyToken !== token) {
-        verifyToken = yield call(refreshToken, token);
-      }
-      setUserToken(verifyToken);
       try {
+        const { token } = payload.dataAuth;
+        let verifyToken = yield call(tokenVerifyCreate, token);
+        if (verifyToken !== token) {
+          verifyToken = yield call(refreshToken, token);
+        }
+        setUserToken(verifyToken);
         yield put(successGetToken(verifyToken));
       } catch (e) {
+        yield put(logOutUser());
         yield put(errorMessage(e.message));
       }
     }
