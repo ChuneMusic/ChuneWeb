@@ -316,7 +316,7 @@ class Navbar extends React.Component {
     const { classes, logOut, profile } = this.props;
     const { value, searching, anchorEl } = this.state;
     const spotify = profile.display_name ? profile.display_name : (
-      <a href="https://chune-api.herokuapp.com/jwt/api/v1/users/social/login/spotify">
+      <a href="https://chune-api.herokuapp.com/api/v1/users/social/login/spotify">
         Spotify
       </a>
     );
