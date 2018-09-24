@@ -20,9 +20,8 @@ function* getListArtists({ payload }) {
 function* getInfoArtist({ payload }) {
   const { name } = payload;
   try {
-    const { artist, content = [], ...all } = yield call(getInfoSingleArtist, name);
-    console.log(artist, content, all, 'sagas');
-    yield put(successGetInfoArtist(artist, content));
+    const { artist, content = [], tracks = [] } = yield call(getInfoSingleArtist, name);
+    yield put(successGetInfoArtist(artist, content, tracks));
     yield put(push(`/artist/${artist.name}`));
   } catch (e) {
     yield put(errorMessage(e.message));

@@ -25,6 +25,7 @@ import { Loading } from '../shared/Loading';
 import { NoMediaConnect } from '../shared/NoMedia';
 import { VideoCardConnect } from '../Videos/Video';
 import { ArticleCardConnect } from '../News/Article';
+import { ArtistPlaylistConnect } from './ArtistPlaylist';
 // import { EmptyListConnect } from '../shared/EmptyList';
 
 const styles = () => ({
@@ -433,6 +434,7 @@ class Artist extends React.Component {
             </div>
           </div>
           {contentArtist}
+          <ArtistPlaylistConnect />
         </div>
       </div>
     );
