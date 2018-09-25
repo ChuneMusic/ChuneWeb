@@ -27,7 +27,7 @@ const TopTracksChart = ({
               <div className="number">{key + 1}</div>
               <div className="sound">
                 <div className="soundName">{track.title}</div>
-                <div className="artist">by {track.artist_name}</div>
+                <div className="artist">by {track.artist_name || 'NONE'}</div>
               </div>
               <div className="playerAction">
                 {isPlaying ? <PauseIcon /> : <PlayIcon />}
@@ -41,8 +41,7 @@ const TopTracksChart = ({
 );
 
 const mapStateToProps = store => ({
-  trackStore: store.dataMusicPlayer.track,
-  
+  trackStore: store.dataMusicPlayer.track
 });
 
 export const TopTracksChartConnect = connect(mapStateToProps)(TopTracksChart);
