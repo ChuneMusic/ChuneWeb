@@ -12,6 +12,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { Tweet } from 'react-twitter-widgets';
+import SpotifyWebApi from 'spotify-web-api-js';
 
 import {
   BasicArticleCard, TopTracksChartConnect, ChuneSupplyConnect,
@@ -31,21 +32,8 @@ class Home extends React.Component {
     super();
     this.state = {
       topTrackPlayId: null,
-      playSupplyId: null,
-      deviceId: '',
-      loggedIn: false,
-      error: '',
-      trackName: 'Track Name',
-      artistName: 'Artist Name',
-      albumName: 'Album Name',
-      playing: false,
-      position: 0,
-      duration: 0,
+      playSupplyId: null
     };
-  }
-
-  componentDidMount() {
-    // window.onSpotifyWebPlaybackSDKReady = this.checkForPlayer;
   }
 
   handleTopTrackPlay = (id, play) => {
@@ -106,35 +94,22 @@ class Home extends React.Component {
     });
   };
 
-  checkForPlayer = () => {
-    const token = 'BQAnK9-bDgNAOaZ7vh_Unh-VYWi0S9mzjiv42x5g4IzxFScMEMoZbnEvJVEvnXGQqfXzr24we4THtONmXnweB1TxNMCoI4oJdBW5ak0t966lsuqmfGtKEL-Pb-Ky2TZmu322SEtpj6dnFQ_b6Jtcp5EGlP58fBO3PJBN39W7QXnqETMxpAtR8SNH';
-    if (Spotify !== null) {
-      console.log('success!', Spotify);
-      this.player = new window.Spotify.Player({
-        name: 'Chune Spotify Player',
-        getOAuthToken: (cb) => { cb(token); },
+  playMusicSpotify = () => {
+    const { token, deviceID } = this.props;
+    const spotifyApi = new SpotifyWebApi();
+    spotifyApi.setAccessToken(token);
+    spotifyApi.getMyDevices().then((response) => {
+      console.log(response, 'id');
+      const data = [deviceID];
+      const play = { play: true };
+      spotifyApi.transferMyPlayback(data, play).then((res) => {
+        console.log(res, 'transfer');
+        const dataPlay = {
+          device_id: deviceID,
+          uris: ['spotify:track:4S8d14HvHb70ImctNgVzQQ', 'spotify:track:2xLMifQCjDGFmkHkpNLD9h']
+        };
+        spotifyApi.play(dataPlay);
       });
-      console.log(this.player, 'player');
-      this.createEventHandlers();
-
-      // finally, connect!
-      this.player.connect();
-    }
-  }
-
-  createEventHandlers() {
-    this.player.on('initialization_error', (e) => { console.error(e); });
-    this.player.on('authentication_error', (e) => {
-      console.error(e);
-      this.setState({ loggedIn: false });
-    });
-    this.player.on('account_error', (e) => { console.error(e); });
-    this.player.on('playback_error', (e) => { console.error(e); });
-    this.player.on('player_state_changed', (state) => { console.log(state); });
-    this.player.on('ready', (data) => {
-      const { device_id } = data;
-      console.log('Let the music play on!');
-      this.setState({ deviceId: device_id });
     });
   }
 
@@ -199,6 +174,7 @@ class Home extends React.Component {
     if (topChune.length === 0) return <Loading />;
     return (
       <div>
+        <button onClick={this.playMusicSpotify} type="button">Play</button>
         <div className="homePageWrapper">
           <div className="mainArticle">
             <BasicArticleCard
@@ -322,6 +298,7 @@ class Home extends React.Component {
 const mapStateToProps = store => ({
   token: store.dataSpotify.token,
   profile: store.dataSpotify.profile,
+  deviceID: store.dataSpotify.deviceID,
   contentFeed: store.dataContent.contentFeed,
   topTracks: store.dataContent.topTracks,
   topChune: store.dataContent.topChune
