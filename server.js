@@ -82,7 +82,7 @@ const createApp = () => {
       querystring.stringify({
         response_type: 'code',
         client_id: '94fd2677f20d454a8b1290266f882160',
-        scope: 'user-read-private user-read-email user-read-playback-state user-modify-playback-state',
+        scope: 'user-read-private user-read-email user-read-playback-state user-modify-playback-state streaming user-read-birthdate',
         redirect_uri: 'http://localhost:4001/callback'
       })}`);
   });
