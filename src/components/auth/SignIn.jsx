@@ -2,11 +2,21 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { objectOf, any, func } from 'prop-types';
+import {
+  objectOf, any, func,
+  string
+} from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import FormControl from '@material-ui/core/FormControl';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 import { GoogleIcon, FacebookIcon, TwitterIcon } from '../shared/SocialIcons';
 import { loginUser } from '../../store/auth/actions';
@@ -191,8 +201,7 @@ class SignIn extends React.Component {
     this.state = {
       email: '',
       password: '',
-      errored: false,
-      errorMessage: '',
+      showPassword: false
     };
   }
 
@@ -204,8 +213,25 @@ class SignIn extends React.Component {
     this.setState({ password: target.value });
   };
 
+  validateNotBlank = value => value !== '';
+
+  validateEmail = (email) => {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
+
+  handleClickShowPassword = () => {
+    this.setState(state => ({ showPassword: !state.showPassword }));
+  }
+
+  enableButton = () => {
+    const { email, password } = this.state;
+    return this.validateNotBlank(email)
+           && this.validateNotBlank(password)
+           && this.validateEmail(email);
+  }
+
   onSubmit = () => {
-    this.setState({ errored: false, errorMessage: '' });
     const { email, password } = this.state;
     const { loginBasic } = this.props;
     loginBasic(email, password);
@@ -218,10 +244,8 @@ class SignIn extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
-    const {
-      errored, errorMessage, email, password
-    } = this.state;
+    const { classes, messageSingIn } = this.props;
+    const { email, password, showPassword } = this.state;
     return (
       <div className={classes.pageContainer}>
         <Paper className={classes.contentContainer}>
@@ -254,13 +278,9 @@ class SignIn extends React.Component {
               Or use email instead
             </p>
           </div>
-          {
-            errored ? (
-              <div className={classes.errorMessage}>
-                {errorMessage}
-              </div>
-            ) : null
-          }
+          <div className={classes.errorMessage}>
+            {messageSingIn ? 'Email or password is incorrect' : null}
+          </div>
           <div className={classes.formContainer}>
             <form className={classes.signupForm} noValidate autoComplete="off" onKeyPress={this.handleKeyPress}>
               <div className={classes.inputStylesOverrides}>
@@ -277,20 +297,29 @@ class SignIn extends React.Component {
                 />
               </div>
               <div className={classes.inputStylesOverrides}>
-                <TextField
-                  label="Password"
-                  InputProps={{
-                    disableUnderline: true,
-                  }}
-                  className={classes.inputLabel}
-                  onChange={this.onPassChange}
-                  value={password}
-                  type="password"
-                  autoComplete="current-password"
-                  margin="normal"
-                />
+                <FormControl className={classes.inputLabel} margin="normal">
+                  <InputLabel htmlFor="adornment-password">Password</InputLabel>
+                  <Input
+                    id="adornment-password"
+                    type={showPassword ? 'text' : 'password'}
+                    value={password}
+                    onChange={this.onPassChange}
+                    disableUnderline
+                    autoComplete="current-password"
+                    endAdornment={(
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="Toggle password visibility"
+                          onClick={this.handleClickShowPassword}
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    )}
+                  />
+                </FormControl>
               </div>
-              <Button className={classes.submitButton} onClick={this.onSubmit}>
+              <Button className={classes.submitButton} onClick={this.onSubmit} disabled={!this.enableButton()}>
                   LOG IN
               </Button>
             </form>
@@ -316,13 +345,18 @@ class SignIn extends React.Component {
   }
 }
 
+const mapStateToProps = store => ({
+  messageSingIn: store.error.messageSingIn
+});
+
 const mapActionsToProps = dispatch => bindActionCreators({
   loginBasic: loginUser
 }, dispatch);
 
-export const SignInConnect = withStyles(styles)(connect(null, mapActionsToProps)(SignIn));
+export const SignInConnect = withStyles(styles)(connect(mapStateToProps, mapActionsToProps)(SignIn));
 
 SignIn.propTypes = {
   classes: objectOf(any).isRequired,
-  loginBasic: func.isRequired
+  loginBasic: func.isRequired,
+  messageSingIn: string.isRequired
 };

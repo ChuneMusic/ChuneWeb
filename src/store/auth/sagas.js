@@ -7,7 +7,7 @@ import {
 } from './utilities/authUser';
 import { CREATE_NEW_USER, LOGIN_USER, SUCCESS_GET_TOKEN } from './types';
 import { successGetToken, successGetProfileSocial, logOutUser } from './actions';
-import { errorMessage } from '../error/actions';
+import { errorMessage, errorMessageSingUp, errorMessageSingIn } from '../error/actions';
 import { setUserToken } from '../../utilities/APIConfig';
 
 export function* getTokenUser(action) {
@@ -20,7 +20,8 @@ export function* getTokenUser(action) {
     setUserToken(token);
     yield put(successGetToken(token));
   } catch (e) {
-    yield put(errorMessage(e.message));
+    if (action.type === 'CREATE_NEW_USER') yield put(errorMessageSingUp(e.message));
+    else if (action.type === 'LOGIN_USER') yield put(errorMessageSingIn(e.message));
   }
 }
 export function* rehydrateAuth({ payload }) {
