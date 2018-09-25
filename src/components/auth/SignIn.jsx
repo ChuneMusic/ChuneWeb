@@ -233,15 +233,19 @@ class SignIn extends React.Component {
           <div className={classes.iconListContainer}>
             <ul className={classes.iconList}>
               <li className={classes.iconListItem}>
-                <TwitterIcon />
+                <a href="https://chune-api.herokuapp.com/api/v1/users/social/login/twitter">
+                  <TwitterIcon />
+                </a>
               </li>
               <li className={classes.iconListItem}>
-                <a href="/facebook-auth">
+                <a href="https://chune-api.herokuapp.com/api/v1/users/social/login/facebook">
                   <FacebookIcon />
                 </a>
               </li>
               <li className={classes.iconListItem}>
-                <GoogleIcon />
+                <a href="https://chune-api.herokuapp.com/api/v1/users/social/login/google-oauth2">
+                  <GoogleIcon />
+                </a>
               </li>
             </ul>
           </div>

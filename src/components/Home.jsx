@@ -36,16 +36,8 @@ class Home extends React.Component {
     };
   }
 
-  componentWillMount() {
-    const spotifyApi = new SpotifyWebApi();
-    spotifyApi.setAccessToken('BQDdkI6xxEWnfKk7C74Wx8VspSlBq78l6ZE-1yOmYwmWQUfjjcaXopTUsf4gJs0GpyPXDWSCvUYYBY8LmmpP0BjLL8Tp18UfWJDp_11392oR9_FdAGi2mn6zO5khTeTM0f6ZRDauC2-kSJdcIGbnr93TeGn_AeAZLPH9J1X-TA');
-    spotifyApi.getMyDevices().then((response) => {
-      console.log(response, 'devices');
-    });
-    spotifyApi.getTrack('4S8d14HvHb70ImctNgVzQQ').then((response) => {
-      console.log(response, 'res');
-      spotifyApi.play();
-    });
+  componentDidMount() {
+    window.onSpotifyWebPlaybackSDKReady = this.checkForPlayer;
   }
 
   handleTopTrackPlay = (id, play) => {
@@ -105,6 +97,56 @@ class Home extends React.Component {
       topTrackPlayId: null
     });
   };
+
+  checkForPlayer = () => {
+    const token = 'BQDacDD_Ee222wlhq4vY3l3Wu1UU-vcoJrvHcN4SY699VHRPmE1B1VzxAxPSWzdlIq54QD_cCSF2bI7S-O3b1B3KJtFzgSXHNVCRpkvKfk1hrJdGjISoQfMfSOZWambh675jXAQgHlvmSflpFaMjNyhCnVXsoBLBcUVDFT44IsOh';
+    if (Spotify !== null) {
+      console.log('success!', Spotify);
+      this.player = new window.Spotify.Player({
+        name: 'Chune Spotify Player',
+        getOAuthToken: (cb) => { cb(token); },
+      });
+      console.log(this.player, 'player');
+      this.createEventHandlers();
+
+      // finally, connect!
+      this.player.connect();
+    }
+  }
+
+  createEventHandlers() {
+    this.player.on('initialization_error', (e) => { console.error(e); });
+    this.player.on('authentication_error', (e) => {
+      console.error(e);
+      this.setState({ loggedIn: false });
+    });
+    this.player.on('account_error', (e) => { console.error(e); });
+    this.player.on('playback_error', (e) => { console.error(e); });
+    this.player.on('player_state_changed', (state) => { console.log(state); });
+    this.player.on('ready', (data) => {
+      const { device_id } = data;
+      console.log('Let the music play on!', data);
+      this.setState({ deviceId: device_id });
+    });
+  }
+
+  playMusicSpotify() {
+    const spotifyApi = new SpotifyWebApi();
+    spotifyApi.setAccessToken('BQDacDD_Ee222wlhq4vY3l3Wu1UU-vcoJrvHcN4SY699VHRPmE1B1VzxAxPSWzdlIq54QD_cCSF2bI7S-O3b1B3KJtFzgSXHNVCRpkvKfk1hrJdGjISoQfMfSOZWambh675jXAQgHlvmSflpFaMjNyhCnVXsoBLBcUVDFT44IsOh');
+    spotifyApi.getMyDevices().then((response) => {
+      console.log(response, 'id');
+      const deviceIds = ['1127395fb530cf7dd6c4118dd5f329c74d1606b4'];
+      spotifyApi.transferMyPlayback(deviceIds);
+      const data = JSON.stringify({
+        uris: ['spotify:track:0etM5OLS1gkjK26aRpKqPK']
+      });
+      
+    });
+    spotifyApi.getTrack('4S8d14HvHb70ImctNgVzQQ').then((response) => {
+      spotifyApi.play(response);
+      console.log(response, 'res');
+    });
+  }
 
   render() {
     const { topTrackPlayId, playSupplyId } = this.state;
@@ -167,6 +209,7 @@ class Home extends React.Component {
     if (topChune.length === 0) return <Loading />;
     return (
       <div>
+        <button onClick={this.playMusicSpotify} type="button">Play</button>
         <div className="homePageWrapper">
           <div className="mainArticle">
             <BasicArticleCard
