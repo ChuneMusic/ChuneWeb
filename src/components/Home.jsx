@@ -108,7 +108,7 @@ class Home extends React.Component {
   };
 
   checkForPlayer = () => {
-    const token = 'BQA4JuZqoBxr6UKvjDw1IHFnvUOkpoVm_4YLuXAysQfzCdLSd-i-3L8pbz3QveamiH48Kej0SZzHcgdPumu1vnSg1iU336rUjxi2KLlcKlhbOZ4VWjpVd5ZSeBNHBrv0bR45Adat5oZMih4Nzq6Ey11NjVwLHyS9756Fa7VPm8E2';
+    const token = 'BQDacDD_Ee222wlhq4vY3l3Wu1UU-vcoJrvHcN4SY699VHRPmE1B1VzxAxPSWzdlIq54QD_cCSF2bI7S-O3b1B3KJtFzgSXHNVCRpkvKfk1hrJdGjISoQfMfSOZWambh675jXAQgHlvmSflpFaMjNyhCnVXsoBLBcUVDFT44IsOh';
     if (Spotify !== null) {
       console.log('success!', Spotify);
       this.player = new window.Spotify.Player({
@@ -141,17 +141,18 @@ class Home extends React.Component {
 
   playMusicSpotify() {
     const spotifyApi = new SpotifyWebApi();
-    spotifyApi.setAccessToken('BQA4JuZqoBxr6UKvjDw1IHFnvUOkpoVm_4YLuXAysQfzCdLSd-i-3L8pbz3QveamiH48Kej0SZzHcgdPumu1vnSg1iU336rUjxi2KLlcKlhbOZ4VWjpVd5ZSeBNHBrv0bR45Adat5oZMih4Nzq6Ey11NjVwLHyS9756Fa7VPm8E2');
+    spotifyApi.setAccessToken('BQDacDD_Ee222wlhq4vY3l3Wu1UU-vcoJrvHcN4SY699VHRPmE1B1VzxAxPSWzdlIq54QD_cCSF2bI7S-O3b1B3KJtFzgSXHNVCRpkvKfk1hrJdGjISoQfMfSOZWambh675jXAQgHlvmSflpFaMjNyhCnVXsoBLBcUVDFT44IsOh');
     spotifyApi.getMyDevices().then((response) => {
       console.log(response, 'id');
-      const deviceIds = ['8fe85b6471563244c35c0e1d92cbe46dccc71ae8'];
+      const deviceIds = ['1127395fb530cf7dd6c4118dd5f329c74d1606b4'];
       spotifyApi.transferMyPlayback(deviceIds);
       const data = JSON.stringify({
         uris: ['spotify:track:0etM5OLS1gkjK26aRpKqPK']
       });
-      spotifyApi.play(data);
+      
     });
     spotifyApi.getTrack('4S8d14HvHb70ImctNgVzQQ').then((response) => {
+      spotifyApi.play(response);
       console.log(response, 'res');
     });
   }
