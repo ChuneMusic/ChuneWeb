@@ -2,9 +2,12 @@ import { createReducer } from '../../utilities/utility';
 import * as TYPES from './types';
 
 export const initState = {
-  artistTracks: [],
-  contentFeed: [],
-  pages: 0,
+  artistTracksHome: [],
+  contentFeedHome: [],
+  artistTracksForYou: [],
+  contentFeedForYou: [],
+  pagesHome: 0,
+  pagesForYou: 0,
   topTracks: [],
   topChune: [],
   url: '',
@@ -12,14 +15,22 @@ export const initState = {
 };
 
 const getContentUser = state => ({ ...state });
-const successGetContentUser = (state, { artistTracks, contentFeed }) => {
-  // const traks = state.artistTracks.concat(artistTracks);
-  // const content = state.contentFeed.concat(contentFeed);
+const successGetContentHomePageUser = (state, { artistTracksHome, contentFeedHome }) => {
+  const content = state.contentFeedHome.concat(contentFeedHome);
   return ({
     ...state,
-    artistTracks: artistTracks,
-    contentFeed: contentFeed,
-    pages: state.pages + 1
+    artistTracksHome,
+    contentFeedHome: content,
+    pagesHome: state.pagesHome + 1
+  });
+};
+const successGetContentForYouPageUser = (state, { artistTracksForYou, contentFeedForYou }) => {
+  const content = state.contentFeedForYou.concat(contentFeedForYou);
+  return ({
+    ...state,
+    artistTracksForYou,
+    contentFeedForYou: content,
+    pagesForYou: state.pagesForYou + 1
   });
 };
 const fethcMoreContentUser = state => ({ ...state });
@@ -29,7 +40,8 @@ const openArticleUrl = (state, { url, title }) => ({ ...state, url, title });
 
 const handlers = {
   [TYPES.GET_CONTENT_USER]: getContentUser,
-  [TYPES.SUCCESS_GET_CONTENT_USER]: successGetContentUser,
+  [TYPES.SUCCESS_GET_CONTENT_HOME_PAGE_USER]: successGetContentHomePageUser,
+  [TYPES.SUCCESS_GET_CONTENT_FORYOU_PAGE_USER]: successGetContentForYouPageUser,
   [TYPES.FETCH_MORE_CONTENT_USER]: fethcMoreContentUser,
   [TYPES.SUCCESS_GET_TOP_TRACKS]: successGetTopTracks,
   [TYPES.SUCCESS_GET_CHUNE_SUPPLY]: successGetChuneSupply,

@@ -295,7 +295,7 @@ const mapStateToProps = store => ({
   token: store.dataSpotify.token,
   profile: store.dataSpotify.profile,
   deviceID: store.dataSpotify.deviceID,
-  contentFeed: store.dataContent.contentFeed,
+  contentFeed: store.dataContent.contentFeedHome,
   topTracks: store.dataContent.topTracks,
   topChune: store.dataContent.topChune
 });

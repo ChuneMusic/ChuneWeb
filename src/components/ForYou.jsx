@@ -137,9 +137,9 @@ const mapActionsToProps = dispatch => bindActionCreators({
 }, dispatch);
 
 const mapStateToProps = store => ({
-  contentFeed: store.dataContent.contentFeed,
+  contentFeed: store.dataContent.contentFeedForYou,
   artists: store.dataArtists.artists,
-  artistTracks: store.dataContent.artistTracks
+  artistTracks: store.dataContent.artistTracksForYou
 });
 
 export const ForYouConnect = withStyles(styles)(withRouter(connect(mapStateToProps, mapActionsToProps)(ForYou)));
