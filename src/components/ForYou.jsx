@@ -7,6 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { Tweet } from 'react-twitter-widgets';
+import { objectOf, any, arrayOf } from 'prop-types';
 
 import { ArticleCardConnect } from './News/Article';
 import { VideoCardConnect } from './Videos/Video';
@@ -112,8 +113,6 @@ class ForYou extends React.Component {
               <div className="chuneSupply">
                 <ChuneSupplyConnect
                   supplies={artistTracks}
-                  playingSupply={1}
-                  onPlayPauseSupply={this.handleSupplyPlay}
                   foryou
                 />
               </div>
@@ -144,3 +143,9 @@ const mapStateToProps = store => ({
 });
 
 export const ForYouConnect = withStyles(styles)(withRouter(connect(mapStateToProps, mapActionsToProps)(ForYou)));
+
+ForYou.propTypes = {
+  classes: objectOf(any).isRequired,
+  contentFeed: arrayOf(any).isRequired,
+  artistTracks: arrayOf(any).isRequired
+};

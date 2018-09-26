@@ -5,65 +5,62 @@ import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import { arrayOf, any, bool } from 'prop-types';
 
 import './ChuneSupply.css';
 
-class ChuneSupply extends React.Component {
-  onPlayPause = (id, play) => {
-    this.props.onPlayPauseSupply(id, play);
-  };
-
+class ChuneSupply extends React.PureComponent {
   render() {
-    const { supplies, playingSupply, foryou } = this.props;
+    const { supplies, foryou } = this.props;
     let textHeader = (
       <div>
         <h4 className="title">CHUNE SUPPLY</h4>
         <p className="subtitle">Updated every Wednesday, CHUNE SUPPLY is weekly supplying you with weekly fire.</p>
       </div>
     );
-    if (foryou) textHeader = <h4 className="title">RECENT RELEASES</h4>;
+    if (foryou) textHeader = <h4 className="title padding_recent">RECENT RELEASES</h4>;
     return (
       <div className="chuneSupplyWrapper">
         <Paper className="chuneSupplyPaper">
           {textHeader}
           <div className="tracksList">
             {map(supplies, (supply) => {
-              const isPlaying = playingSupply === supply.spotify_id;
-
+              let images = supply.image;
+              if (~images.indexOf('.jpg')) images = `https://chunesupply.s3.amazonaws.com/imgs/${images}`;
               return (
-                <Card
-                  className="card"
-                  onClick={() => this.onPlayPause(supply.id, !isPlaying)}
-                  key={supply.spotify_id}
-                >
-                  <CardMedia
-                    className="cover"
-                    image={supply.image}
-                    title={supply.title}
-                  />
+                <a href={`https://open.spotify.com/track/${supply.spotify_id}`} target="_blank" rel="noopener noreferrer" key={supply.id}>
+                  <Card
+                    className="card"
+                    key={supply.spotify_id}
+                  >
+                    <CardMedia
+                      className="cover"
+                      image={images}
+                      title={supply.title}
+                    />
 
 
-                  <div className="details">
-                    <CardContent className="content">
-                      <Typography
-                        variant="headline"
-                        className="headline"
-                      >
-                        {supply.title}
-                      </Typography>
-                      <Typography
-                        className="subheading"
-                        variant="subheading"
-                        color="textSecondary"
-                      >
-                        {supply.artist_name || 'None' }
-                      </Typography>
-                    </CardContent>
-                  </div>
-                </Card>
+                    <div className="details">
+                      <CardContent className="content">
+                        <Typography
+                          variant="headline"
+                          className="headline"
+                        >
+                          {supply.title}
+                        </Typography>
+                        <Typography
+                          className="subheading"
+                          variant="subheading"
+                          color="textSecondary"
+                        >
+                          {supply.artist_name || 'None' }
+                        </Typography>
+                      </CardContent>
+                    </div>
+                  </Card>
+                </a>
               );
             })}
-
           </div>
         </Paper>
       </div>
@@ -72,3 +69,8 @@ class ChuneSupply extends React.Component {
 }
 
 export const ChuneSupplyConnect = ChuneSupply;
+
+ChuneSupply.propTypes = {
+  foryou: bool.isRequired,
+  supplies: arrayOf(any).isRequired
+};

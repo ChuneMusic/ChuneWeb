@@ -8,8 +8,8 @@ import { PlayIcon, PauseIcon } from '../../shared/SocialIcons';
 import './TopTracksChart.css';
 
 const TopTracksChart = ({
-  tracks, playing, onPlayPause,
-  trackStore
+  tracks, playing, trackStore,
+  artistName
 }) => (
   <div className="topTracksChartWrapper">
     <Paper className="topTracksChartPaper">
@@ -19,20 +19,18 @@ const TopTracksChart = ({
           let isPlaying = false;
           if (playing === track.id || track.id === trackStore) isPlaying = true;
           return (
-            <div
-              key={key}
-              className={`track ${isPlaying ? 'isActive' : null}`}
-              onClick={() => onPlayPause(track.spotify_id, !isPlaying)}
-            >
-              <div className="number">{key + 1}</div>
-              <div className="sound">
-                <div className="soundName">{track.title}</div>
-                <div className="artist">by {track.artist_name || 'NONE'}</div>
+            <a href={`https://open.spotify.com/track/${track.spotify_id}`} target="_blank" rel="noopener noreferrer" key={key}>
+              <div className={`track ${isPlaying ? 'isActive' : null}`}>
+                <div className="number">{key + 1}</div>
+                <div className="sound">
+                  <div className="soundName">{track.title}</div>
+                  <div className="artist">by {track.artist_name || artistName}</div>
+                </div>
+                <div className="playerAction">
+                  {isPlaying ? <PauseIcon /> : <PlayIcon />}
+                </div>
               </div>
-              <div className="playerAction">
-                {isPlaying ? <PauseIcon /> : <PlayIcon />}
-              </div>
-            </div>
+            </a>
           );
         })}
       </div>

@@ -99,11 +99,9 @@ class Home extends React.Component {
     const spotifyApi = new SpotifyWebApi();
     spotifyApi.setAccessToken(token);
     spotifyApi.getMyDevices().then((response) => {
-      console.log(response, 'id');
       const data = [deviceID];
       const play = { play: true };
-      spotifyApi.transferMyPlayback(data, play).then((res) => {
-        console.log(res, 'transfer');
+      spotifyApi.transferMyPlayback(data, play).then(() => {
         const dataPlay = {
           device_id: deviceID,
           uris: ['spotify:track:4S8d14HvHb70ImctNgVzQQ', 'spotify:track:2xLMifQCjDGFmkHkpNLD9h']
@@ -174,7 +172,7 @@ class Home extends React.Component {
     if (topChune.length === 0) return <Loading />;
     return (
       <div>
-        <button onClick={this.playMusicSpotify} type="button">Play</button>
+        {/* <button onClick={this.playMusicSpotify} type="button">Play</button> */}
         <div className="homePageWrapper">
           <div className="mainArticle">
             <BasicArticleCard
@@ -272,7 +270,6 @@ class Home extends React.Component {
                 <TopTracksChartConnect
                   tracks={topTracks}
                   playing={topTrackPlayId}
-                  onPlayPause={this.handleTopTrackPlay}
                 />
 
                 <BasicSoundPlayer
@@ -283,8 +280,7 @@ class Home extends React.Component {
 
                 <ChuneSupplyConnect
                   supplies={topChune}
-                  playingSupply={playSupplyId}
-                  onPlayPauseSupply={this.handleSupplyPlay}
+                  foryou={false}
                 />
               </Grid>
             </Grid>

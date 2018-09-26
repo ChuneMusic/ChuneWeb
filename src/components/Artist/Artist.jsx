@@ -458,7 +458,7 @@ class Artist extends React.Component {
                   <TopTracksChartConnect
                     tracks={topTracksArtist}
                     playing={0}
-                    onPlayPause={this.handleTopTrackPlay}
+                    artistName={artist.name}
                   />
                 </div>
               </Grid>
