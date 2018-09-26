@@ -123,7 +123,8 @@ const EventStatus = (props) => {
   const eventsForArtist = getEventsForArtist(events, artist);
 
   if (eventsLoading) {
-    return <LinearProgress className={classes.progress} color="primary" size={20} />;
+    return <Typography gutterBottom variant="headline" component="h2" className={classes.eventStatusNo} />;
+    // return <LinearProgress className={classes.progress} color="primary" size={20} />;
   }
   if (eventsForArtist.length === 0) {
     return (
