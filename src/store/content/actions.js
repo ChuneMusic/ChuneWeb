@@ -1,7 +1,7 @@
 import {
-  GET_CONTENT_USER, SUCCESS_GET_CONTENT_HOME_PAGE_USER, FETCH_MORE_CONTENT_USER,
+  GET_CONTENT_USER, SUCCESS_GET_CONTENT_HOME_PAGE_USER, FETCH_MORE_CONTENT_HOME_PAGE_USER,
   SUCCESS_GET_TOP_TRACKS, SUCCESS_GET_CHUNE_SUPPLY, OPEN_ARTICLE_URL,
-  SUCCESS_GET_CONTENT_FORYOU_PAGE_USER
+  SUCCESS_GET_CONTENT_FORYOU_PAGE_USER, FETCH_MORE_CONTENT_FORYOU_PAGE_USER
 } from './types';
 
 export const getContentUser = () => ({
@@ -15,8 +15,11 @@ export const successGetContentForYouPageUser = (artistTracksForYou, contentFeedF
   type: SUCCESS_GET_CONTENT_FORYOU_PAGE_USER,
   payload: { artistTracksForYou, contentFeedForYou }
 });
-export const fethcMoreContentUser = () => ({
-  type: FETCH_MORE_CONTENT_USER
+export const fethcMoreContentHomePageUser = () => ({
+  type: FETCH_MORE_CONTENT_HOME_PAGE_USER
+});
+export const fethcMoreContentForYouPageUser = () => ({
+  type: FETCH_MORE_CONTENT_FORYOU_PAGE_USER
 });
 export const successGetTopTracks = topTracks => ({
   type: SUCCESS_GET_TOP_TRACKS,

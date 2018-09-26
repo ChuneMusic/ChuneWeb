@@ -13,6 +13,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { Tweet } from 'react-twitter-widgets';
 import SpotifyWebApi from 'spotify-web-api-js';
+import Waypoint from 'react-waypoint';
 
 import {
   BasicArticleCard, TopTracksChartConnect, ChuneSupplyConnect,
@@ -22,7 +23,7 @@ import { VideoCardConnect } from './Videos/Video';
 import { ArticleCardConnect } from './News/Article';
 import { playMusicPlayer, pauseMusicPlayer } from '../store/musicPlayer/actions';
 import { getAccessTokenSpotify } from '../store/spotify/actions';
-import { fethcMoreContentUser } from '../store/content/actions';
+import { fethcMoreContentHomePageUser } from '../store/content/actions';
 import { Loading } from './shared/Loading';
 
 import './Home.css';
@@ -94,11 +95,18 @@ class Home extends React.Component {
     });
   };
 
+  renderWaypoint = () => <Waypoint onEnter={this.loadMore} threshold={2.0} />
+
+  loadMore = () => {
+    const { loadMoreItems } = this.props;
+    loadMoreItems();
+  }
+
   playMusicSpotify = () => {
     const { token, deviceID } = this.props;
     const spotifyApi = new SpotifyWebApi();
     spotifyApi.setAccessToken(token);
-    spotifyApi.getMyDevices().then((response) => {
+    spotifyApi.getMyDevices().then(() => {
       const data = [deviceID];
       const play = { play: true };
       spotifyApi.transferMyPlayback(data, play).then(() => {
@@ -265,6 +273,7 @@ class Home extends React.Component {
                       return null;
                   }
                 })}
+                {this.renderWaypoint()}
               </Grid>
               <Grid item xs={12} md={4} lg={4} className="rightGridListWrapper">
                 <TopTracksChartConnect
@@ -304,7 +313,7 @@ const mapActionsToProps = dispatch => bindActionCreators({
   playMusic: playMusicPlayer,
   pauseMusic: pauseMusicPlayer,
   getTokenSpotify: getAccessTokenSpotify,
-  loadMoreItems: fethcMoreContentUser
+  loadMoreItems: fethcMoreContentHomePageUser
 }, dispatch);
 
 export const HomeConnect = connect(mapStateToProps, mapActionsToProps)(Home);
@@ -318,5 +327,6 @@ Home.propTypes = {
   history: objectOf(any).isRequired,
   contentFeed: arrayOf(any).isRequired,
   topTracks: arrayOf(any).isRequired,
-  topChune: arrayOf(any).isRequired
+  topChune: arrayOf(any).isRequired,
+  loadMoreItems: func.isRequired
 };
