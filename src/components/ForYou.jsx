@@ -7,11 +7,15 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { Tweet } from 'react-twitter-widgets';
+import {
+  objectOf, any, arrayOf,
+  func
+} from 'prop-types';
 
 import { ArticleCardConnect } from './News/Article';
 import { VideoCardConnect } from './Videos/Video';
 import { EmptyListConnect } from './shared/EmptyList';
-import { fethcMoreContentUser } from '../store/content/actions';
+import { fethcMoreContentForYouPageUser } from '../store/content/actions';
 import { ChuneSupplyConnect } from './blocks';
 import { Loading } from './shared/Loading';
 
@@ -53,7 +57,7 @@ const styles = () => ({
 });
 
 class ForYou extends React.Component {
-  // renderWaypoint = () => <Waypoint onEnter={this.loadMore} threshold={2.0} />
+  renderWaypoint = () => <Waypoint onEnter={this.loadMore} threshold={2.0} />
 
   renderItems = (contentFeed) => {
     const { classes } = this.props;
@@ -84,10 +88,10 @@ class ForYou extends React.Component {
     });
   }
 
-  // loadMore = () => {
-  //   const { loadMoreItems } = this.props;
-  //   loadMoreItems();
-  // }
+  loadMore = () => {
+    const { loadMoreItems } = this.props;
+    loadMoreItems();
+  }
 
   render() {
     const {
@@ -103,7 +107,7 @@ class ForYou extends React.Component {
                 <div className={classes.root}>
                   <ul className={classes.gridList}>
                     {this.renderItems(contentFeed)}
-                    {/* {this.renderWaypoint()} */}
+                    {this.renderWaypoint()}
                   </ul>
                 </div>
               </Paper>
@@ -112,8 +116,6 @@ class ForYou extends React.Component {
               <div className="chuneSupply">
                 <ChuneSupplyConnect
                   supplies={artistTracks}
-                  playingSupply={1}
-                  onPlayPauseSupply={this.handleSupplyPlay}
                   foryou
                 />
               </div>
@@ -134,13 +136,20 @@ class ForYou extends React.Component {
 }
 
 const mapActionsToProps = dispatch => bindActionCreators({
-  loadMoreItems: fethcMoreContentUser
+  loadMoreItems: fethcMoreContentForYouPageUser
 }, dispatch);
 
 const mapStateToProps = store => ({
-  contentFeed: store.dataContent.contentFeed,
+  contentFeed: store.dataContent.contentFeedForYou,
   artists: store.dataArtists.artists,
-  artistTracks: store.dataContent.artistTracks
+  artistTracks: store.dataContent.artistTracksForYou
 });
 
 export const ForYouConnect = withStyles(styles)(withRouter(connect(mapStateToProps, mapActionsToProps)(ForYou)));
+
+ForYou.propTypes = {
+  classes: objectOf(any).isRequired,
+  contentFeed: arrayOf(any).isRequired,
+  artistTracks: arrayOf(any).isRequired,
+  loadMoreItems: func.isRequired
+};

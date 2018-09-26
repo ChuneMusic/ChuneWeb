@@ -6,7 +6,17 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { objectOf, any, func } from 'prop-types';
+import IconButton from '@material-ui/core/IconButton';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import FormControl from '@material-ui/core/FormControl';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import {
+  objectOf, any, func,
+  string
+} from 'prop-types';
 
 import { GoogleIcon, FacebookIcon, TwitterIcon } from '../shared/SocialIcons';
 import { createNewUser } from '../../store/auth/actions';
@@ -65,7 +75,7 @@ const styles = () => ({
     justifyContent: 'center',
     alignItems: 'center',
     width: 342,
-    marginTop: 34,
+    marginTop: 14,
   },
   footerContainer: {
     display: 'flex',
@@ -92,7 +102,7 @@ const styles = () => ({
     lineHeight: 1.13,
     letterSpacing: 1.3,
     textAlign: 'center',
-    marginTop: 60,
+    marginTop: 40,
     color: 'white',
     backgroundColor: '#6200EE',
     '&:hover': {
@@ -192,9 +202,7 @@ class SignUp extends React.Component {
       name: '',
       email: '',
       password: '',
-      passwordConfirmation: '',
-      errored: false,
-      errorMessage: '',
+      showPassword: false
     };
   }
 
@@ -210,12 +218,11 @@ class SignUp extends React.Component {
     this.setState({ password: target.value });
   }
 
-  onPassRepeatChange = ({ target }) => {
-    this.setState({ passwordConfirmation: target.value });
+  handleClickShowPassword = () => {
+    this.setState(state => ({ showPassword: !state.showPassword }));
   }
 
   onSubmit = () => {
-    this.setState({ errored: false, errorMessage: '' });
     const { email, password, name } = this.state;
     const { newUserBasic } = this.props;
     newUserBasic(email, password, name);
@@ -234,25 +241,19 @@ class SignUp extends React.Component {
 
   validateNotBlank = value => value !== '';
 
-  validatePasswordMatch = (pass, repeatPass) => pass === repeatPass;
-
   enableButton = () => {
-    const {
-      email, password, passwordConfirmation,
-      pass, repeatPass
-    } = this.state;
+    const { email, password, name } = this.state;
     return this.validateNotBlank(email)
-           && this.validateNotBlank(password)
-           && this.validateNotBlank(passwordConfirmation)
-           && this.validateEmail(email)
-           && this.validatePasswordMatch(pass, repeatPass);
+    && this.validateNotBlank(name)
+    && this.validateNotBlank(password)
+    && this.validateEmail(email);
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, messageSingUp } = this.props;
     const {
-      errored, errorMessage, email,
-      password, passwordConfirmation, name
+      email, password, name,
+      showPassword
     } = this.state;
     return (
       <div className={classes.pageContainer}>
@@ -265,15 +266,19 @@ class SignUp extends React.Component {
           <div className={classes.iconListContainer}>
             <ul className={classes.iconList}>
               <li className={classes.iconListItem}>
-                <TwitterIcon />
+                <a href="https://chune-api.herokuapp.com/api/v1/users/social/login/twitter">
+                  <TwitterIcon />
+                </a>
               </li>
               <li className={classes.iconListItem}>
-                <a href="/facebook-auth">
+                <a href="https://chune-api.herokuapp.com/api/v1/users/social/login/facebook">
                   <FacebookIcon />
                 </a>
               </li>
               <li className={classes.iconListItem}>
-                <GoogleIcon />
+                <a href="https://chune-api.herokuapp.com/api/v1/users/social/login/google-oauth2">
+                  <GoogleIcon />
+                </a>
               </li>
             </ul>
           </div>
@@ -282,13 +287,9 @@ class SignUp extends React.Component {
               Or use email instead
             </p>
           </div>
-          {
-            errored ? (
-              <div className={classes.errorMessage}>
-                {errorMessage}
-              </div>
-            ) : null
-          }
+          <div className={classes.errorMessage}>
+            {messageSingUp ? 'This email is already in use' : null}
+          </div>
           <div className={classes.formContainer}>
             <form className={classes.signupForm} noValidate autoComplete="off" onKeyPress={this.handleKeyPress}>
               <div className={classes.inputStylesOverrides}>
@@ -318,31 +319,27 @@ class SignUp extends React.Component {
                 />
               </div>
               <div className={classes.inputStylesOverrides}>
-                <TextField
-                  label="Password"
-                  InputProps={{
-                    disableUnderline: true,
-                  }}
-                  className={classes.inputLabel}
-                  onChange={this.onPassChange}
-                  value={password}
-                  type="password"
-                  autoComplete="current-password"
-                  margin="normal"
-                />
-              </div>
-              <div className={classes.inputStylesOverrides}>
-                <TextField
-                  label="Repeat Password"
-                  InputProps={{
-                    disableUnderline: true,
-                  }}
-                  className={classes.inputLabel}
-                  type="password"
-                  onChange={this.onPassRepeatChange}
-                  value={passwordConfirmation}
-                  margin="normal"
-                />
+                <FormControl className={classes.inputLabel} margin="normal">
+                  <InputLabel htmlFor="adornment-password">Password</InputLabel>
+                  <Input
+                    id="adornment-password"
+                    type={showPassword ? 'text' : 'password'}
+                    value={password}
+                    onChange={this.onPassChange}
+                    disableUnderline
+                    autoComplete="current-password"
+                    endAdornment={(
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="Toggle password visibility"
+                          onClick={this.handleClickShowPassword}
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    )}
+                  />
+                </FormControl>
               </div>
               <Button className={classes.submitButton} onClick={this.onSubmit} disabled={!this.enableButton()}>
                 SIGN UP
@@ -364,13 +361,18 @@ class SignUp extends React.Component {
   }
 }
 
+const mapStateToProps = store => ({
+  messageSingUp: store.error.messageSingUp
+});
+
 const mapActionsToProps = dispatch => bindActionCreators({
   newUserBasic: createNewUser
 }, dispatch);
 
-export const SignUpConnect = withStyles(styles)(connect(null, mapActionsToProps)(SignUp));
+export const SignUpConnect = withStyles(styles)(connect(mapStateToProps, mapActionsToProps)(SignUp));
 
 SignUp.propTypes = {
   classes: objectOf(any).isRequired,
-  newUserBasic: func.isRequired
+  newUserBasic: func.isRequired,
+  messageSingUp: string.isRequired
 };

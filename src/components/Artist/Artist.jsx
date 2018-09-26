@@ -11,6 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import {
   objectOf, any, func,
@@ -18,6 +19,7 @@ import {
 } from 'prop-types';
 import { Tweet } from 'react-twitter-widgets';
 
+import { TopTracksChartConnect } from '../blocks';
 import { followArtist, unfollowArtist } from '../../store/artists/actions';
 // import { fetchCurrentArtist, reloadingArtist, fetchRecentEntriesForCurrentArtist } from '../../store/currentArtist';
 // import { appendArtist, removeArtist } from '../../store/followingArtists';
@@ -29,7 +31,7 @@ import { ArticleCardConnect } from '../News/Article';
 
 const styles = () => ({
   root: {
-    width: 716,
+    width: 1080,
     margin: '39px auto',
     '@media (max-width: 1023px)': {
       width: '100vw',
@@ -37,10 +39,11 @@ const styles = () => ({
     }
   },
   subMenuContainer: {
+    width: 716,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 9,
+    margin: '10px auto',
     height: 38,
     '@media (max-width: 1023px)': {
       width: 344,
@@ -99,8 +102,8 @@ const styles = () => ({
     height: 36,
   },
   recommendedArtistHeading: {
-    width: 437,
-    height: 72,
+    width: 200,
+    height: 50,
     fontFamily: 'Roboto',
     fontSize: 24,
     fontWeight: 'normal',
@@ -110,6 +113,8 @@ const styles = () => ({
     letterSpacing: 0.3,
     paddingLeft: 5,
     color: '#000000',
+    display: 'flex',
+    alignItems: 'center',
     '@media (max-width: 1023px)': {
       fontSize: 18,
       width: 244,
@@ -185,6 +190,12 @@ const styles = () => ({
     backgroundColor: '#fafafa',
     width: '100%',
     paddingTop: 24,
+  },
+  imagesArtist: {
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+    margin: '0 10px 0 0'
   }
 });
 
@@ -270,6 +281,9 @@ class Artist extends React.Component {
   //   props.fetchRecentEntriesForCurrentArtist(this.props.match.params.artistName, props.currentPage + 1);
   // }
 
+  handleTopTrackPlay = (id, play) => {
+    const playId = play ? id : null;
+  };
 
   renderWaypoint = () => <Waypoint onEnter={this.loadMoreItems} threshold={2.0} />
 
@@ -313,7 +327,8 @@ class Artist extends React.Component {
 
   render() {
     const {
-      classes, content, artists, artist
+      classes, content, artists,
+      artist, topTracksArtist
     } = this.props;
     const { filter, value, anchorEl } = this.state;
     if (artist.name === undefined) return <Loading />;
@@ -350,7 +365,8 @@ class Artist extends React.Component {
         <div className={classes.root}>
           <div className={classes.subMenuContainer}>
             <div className={classes.recommendedArtistHeading}>
-              {this.props.match.params.artistName}
+              <img src={artist.image_url} alt={artist.name} title={artist.name} className={classes.imagesArtist} />
+              <p>{artist.name}</p>
             </div>
             <div className={classes.menuActionsContainer}>
               <MediaQuery minWidth={1024}>
@@ -432,7 +448,22 @@ class Artist extends React.Component {
               }
             </div>
           </div>
-          {contentArtist}
+          <div className="foryou">
+            <Grid container spacing={24} className="foryou-container">
+              <Grid item xs={12} md={8} lg={8}>
+                {contentArtist}
+              </Grid>
+              <Grid item xs={12} md={4} lg={4} className="rightGridListWrapper">
+                <div className="chuneSupply">
+                  <TopTracksChartConnect
+                    tracks={topTracksArtist}
+                    playing={0}
+                    artistName={artist.name}
+                  />
+                </div>
+              </Grid>
+            </Grid>
+          </div>
         </div>
       </div>
     );
@@ -442,7 +473,8 @@ class Artist extends React.Component {
 const mapStateToProps = store => ({
   artist: store.dataArtists.artist,
   content: store.dataArtists.content,
-  artists: store.dataArtists.artists
+  artists: store.dataArtists.artists,
+  topTracksArtist: store.dataArtists.tracks
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({

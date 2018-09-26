@@ -16,4 +16,3 @@ export { default as PrivacyPolicy } from './PrivacyPolicy';
 export { SignInConnect } from './auth/SignIn';
 export { SignUpConnect } from './auth/SignUp';
 export { default as TermsOfUse } from './TermsOfUse';
-export { ArticleiFrameConnect } from './News/ArticleiFrame';

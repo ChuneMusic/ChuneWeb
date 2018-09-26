@@ -12,18 +12,20 @@ import { ConnectedRouter } from 'connected-react-router';
 
 import { store, persistor, history } from './store';
 import {
-  ArtistsConnect, ArtistConnect, HomeConnect, ForYouConnect,
+  ArtistsConnect, ArtistConnect, HomeConnect,
   LandingConnect, TermsOfUse, PrivacyPolicy, FAQ,
   SignUpConnect, SignInConnect, ForgotPassword,
-  EventsConnect, ArtistEventsConnect, Loading, NavBarConnect,
-  GuestNavbarConnect, ArticleiFrameConnect
+  EventsConnect, ArtistEventsConnect, NavBarConnect,
+  GuestNavbarConnect, ForYouConnect
 } from './components';
 import { ModalBlockConnect } from './components/blocks/LargeAudioPlayer/modalAudioPlayer';
+import { ModalNewsConnect } from './components/News/modalNews';
 import { topTracks } from './store/musicPlayer/topTracks/topTracks';
 
 import './styles/reset.css';
 import './styles/global.css';
 import './styles/artists.css';
+
 
 mixpanel.init('34f4d0ce6ee0830af62b12a7d0e53e1f');
 
@@ -64,20 +66,13 @@ function PublicRoute({ component: Component, token, ...rest }) {
   );
 }
 
-class App extends React.Component {
-  state = {
-    loading: false,
-  }
-
+class App extends React.PureComponent {
   render() {
-    const { loading } = this.state;
     const {
       token, modal, track,
-      playMusic
+      playMusic, modalNews
     } = this.props;
-    if (loading) {
-      return <Loading />;
-    }
+    const newsModal = modalNews ? <ModalNewsConnect /> : null;
     const musicPlayer = modal ? (
       <ModalBlockConnect
         playlist={topTracks}
@@ -89,6 +84,7 @@ class App extends React.Component {
     if (token) navbar = true;
     return (
       <div>
+        {newsModal}
         {musicPlayer}
         { navbar ? <NavBarConnect /> : <GuestNavbarConnect />}
         <Switch>
@@ -105,7 +101,6 @@ class App extends React.Component {
           <PrivateRoute exact path="/artist/:artistName" token={token} component={ArtistConnect} />
           <PrivateRoute exact path="/events" token={token} component={EventsConnect} />
           <PrivateRoute exact path="/event/:artistName" token={token} component={ArtistEventsConnect} />
-          <PrivateRoute path="/article/:news" token={token} component={ArticleiFrameConnect} />
           <Redirect to="/" />
         </Switch>
       </div>
@@ -118,7 +113,8 @@ const mapStateToProps = state => ({
   modal: state.dataMusicPlayer.modal,
   playlist: state.dataMusicPlayer.playlist,
   track: state.dataMusicPlayer.track,
-  playMusic: state.dataMusicPlayer.playMusic
+  playMusic: state.dataMusicPlayer.playMusic,
+  modalNews: state.dataContent.modal
 });
 
 const ChuneApp = withRouter(connect(mapStateToProps, null)(App));

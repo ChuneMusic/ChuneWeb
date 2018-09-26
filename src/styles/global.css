@@ -1,6 +1,7 @@
-body {
+html, body {
   background: #fafafa;
-  margin: 0px;
+  margin: 0;
+  padding: 0;
 }
 
 a {

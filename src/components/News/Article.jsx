@@ -150,6 +150,8 @@ const styles = () => ({
     textTransform: 'uppercase',
     color: '#6200ee',
     cursor: 'pointer',
+    border: 0,
+    outline: 'none',
     '@media (max-width: 1023px)': {
       marginTop: 30,
     }
@@ -202,9 +204,9 @@ const ArticleCard = ({
             <Typography component="p" className={classes.articleBody} />
           </CardContent>
           <CardActions className={classes.cardBody}>
-            <Link to={`/article/${article.url}`} className={classes.articleLink} onClick={() => openNews(article.url, article.title)}>
+            <button type="button" className={classes.articleLink} onClick={() => openNews(article.url, article.title, true)}>
               Read More
-            </Link>
+            </button>
           </CardActions>
         </div>
       </Card>

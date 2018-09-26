@@ -12,6 +12,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { Tweet } from 'react-twitter-widgets';
+import SpotifyWebApi from 'spotify-web-api-js';
+import Waypoint from 'react-waypoint';
 
 import {
   BasicArticleCard, TopTracksChartConnect, ChuneSupplyConnect,
@@ -21,7 +23,7 @@ import { VideoCardConnect } from './Videos/Video';
 import { ArticleCardConnect } from './News/Article';
 import { playMusicPlayer, pauseMusicPlayer } from '../store/musicPlayer/actions';
 import { getAccessTokenSpotify } from '../store/spotify/actions';
-import { fethcMoreContentUser } from '../store/content/actions';
+import { fethcMoreContentHomePageUser } from '../store/content/actions';
 import { Loading } from './shared/Loading';
 
 import './Home.css';
@@ -31,21 +33,8 @@ class Home extends React.Component {
     super();
     this.state = {
       topTrackPlayId: null,
-      playSupplyId: null,
-      deviceId: '',
-      loggedIn: false,
-      error: '',
-      trackName: 'Track Name',
-      artistName: 'Artist Name',
-      albumName: 'Album Name',
-      playing: false,
-      position: 0,
-      duration: 0,
+      playSupplyId: null
     };
-  }
-
-  componentDidMount() {
-    // window.onSpotifyWebPlaybackSDKReady = this.checkForPlayer;
   }
 
   handleTopTrackPlay = (id, play) => {
@@ -106,35 +95,27 @@ class Home extends React.Component {
     });
   };
 
-  checkForPlayer = () => {
-    const token = 'BQAnK9-bDgNAOaZ7vh_Unh-VYWi0S9mzjiv42x5g4IzxFScMEMoZbnEvJVEvnXGQqfXzr24we4THtONmXnweB1TxNMCoI4oJdBW5ak0t966lsuqmfGtKEL-Pb-Ky2TZmu322SEtpj6dnFQ_b6Jtcp5EGlP58fBO3PJBN39W7QXnqETMxpAtR8SNH';
-    if (Spotify !== null) {
-      console.log('success!', Spotify);
-      this.player = new window.Spotify.Player({
-        name: 'Chune Spotify Player',
-        getOAuthToken: (cb) => { cb(token); },
-      });
-      console.log(this.player, 'player');
-      this.createEventHandlers();
+  renderWaypoint = () => <Waypoint onEnter={this.loadMore} threshold={2.0} />
 
-      // finally, connect!
-      this.player.connect();
-    }
+  loadMore = () => {
+    const { loadMoreItems } = this.props;
+    loadMoreItems();
   }
 
-  createEventHandlers() {
-    this.player.on('initialization_error', (e) => { console.error(e); });
-    this.player.on('authentication_error', (e) => {
-      console.error(e);
-      this.setState({ loggedIn: false });
-    });
-    this.player.on('account_error', (e) => { console.error(e); });
-    this.player.on('playback_error', (e) => { console.error(e); });
-    this.player.on('player_state_changed', (state) => { console.log(state); });
-    this.player.on('ready', (data) => {
-      const { device_id } = data;
-      console.log('Let the music play on!');
-      this.setState({ deviceId: device_id });
+  playMusicSpotify = () => {
+    const { token, deviceID } = this.props;
+    const spotifyApi = new SpotifyWebApi();
+    spotifyApi.setAccessToken(token);
+    spotifyApi.getMyDevices().then(() => {
+      const data = [deviceID];
+      const play = { play: true };
+      spotifyApi.transferMyPlayback(data, play).then(() => {
+        const dataPlay = {
+          device_id: deviceID,
+          uris: ['spotify:track:4S8d14HvHb70ImctNgVzQQ', 'spotify:track:2xLMifQCjDGFmkHkpNLD9h']
+        };
+        spotifyApi.play(dataPlay);
+      });
     });
   }
 
@@ -199,6 +180,7 @@ class Home extends React.Component {
     if (topChune.length === 0) return <Loading />;
     return (
       <div>
+        {/* <button onClick={this.playMusicSpotify} type="button">Play</button> */}
         <div className="homePageWrapper">
           <div className="mainArticle">
             <BasicArticleCard
@@ -291,12 +273,12 @@ class Home extends React.Component {
                       return null;
                   }
                 })}
+                {this.renderWaypoint()}
               </Grid>
               <Grid item xs={12} md={4} lg={4} className="rightGridListWrapper">
                 <TopTracksChartConnect
                   tracks={topTracks}
                   playing={topTrackPlayId}
-                  onPlayPause={this.handleTopTrackPlay}
                 />
 
                 <BasicSoundPlayer
@@ -307,8 +289,7 @@ class Home extends React.Component {
 
                 <ChuneSupplyConnect
                   supplies={topChune}
-                  playingSupply={playSupplyId}
-                  onPlayPauseSupply={this.handleSupplyPlay}
+                  foryou={false}
                 />
               </Grid>
             </Grid>
@@ -322,7 +303,8 @@ class Home extends React.Component {
 const mapStateToProps = store => ({
   token: store.dataSpotify.token,
   profile: store.dataSpotify.profile,
-  contentFeed: store.dataContent.contentFeed,
+  deviceID: store.dataSpotify.deviceID,
+  contentFeed: store.dataContent.contentFeedHome,
   topTracks: store.dataContent.topTracks,
   topChune: store.dataContent.topChune
 });
@@ -331,7 +313,7 @@ const mapActionsToProps = dispatch => bindActionCreators({
   playMusic: playMusicPlayer,
   pauseMusic: pauseMusicPlayer,
   getTokenSpotify: getAccessTokenSpotify,
-  loadMoreItems: fethcMoreContentUser
+  loadMoreItems: fethcMoreContentHomePageUser
 }, dispatch);
 
 export const HomeConnect = connect(mapStateToProps, mapActionsToProps)(Home);
@@ -345,5 +327,6 @@ Home.propTypes = {
   history: objectOf(any).isRequired,
   contentFeed: arrayOf(any).isRequired,
   topTracks: arrayOf(any).isRequired,
-  topChune: arrayOf(any).isRequired
+  topChune: arrayOf(any).isRequired,
+  loadMoreItems: func.isRequired
 };
