@@ -26,7 +26,7 @@ class ChuneSupply extends React.PureComponent {
           <div className="tracksList">
             {map(supplies, (supply) => {
               let images = supply.image;
-              if (~images.indexOf('.jpg')) images = `https://chunesupply.s3.amazonaws.com/imgs/${images}`;
+              if (~images.indexOf('.jpg')) images = 'https://via.placeholder.com/100x150';
               return (
                 <a href={`https://open.spotify.com/track/${supply.spotify_id}`} target="_blank" rel="noopener noreferrer" key={supply.id}>
                   <Card
@@ -38,7 +38,6 @@ class ChuneSupply extends React.PureComponent {
                       image={images}
                       title={supply.title}
                     />
-
 
                     <div className="details">
                       <CardContent className="content">

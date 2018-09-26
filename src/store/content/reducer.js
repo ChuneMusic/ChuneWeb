@@ -11,7 +11,8 @@ export const initState = {
   topTracks: [],
   topChune: [],
   url: '',
-  title: ''
+  title: '',
+  modal: false
 };
 
 const getContentUser = state => ({ ...state });
@@ -41,7 +42,18 @@ const fethcMoreContentHomePageUser = state => ({ ...state });
 const fethcMoreContentForYouPageUser = state => ({ ...state });
 const successGetTopTracks = (state, { topTracks }) => ({ ...state, topTracks });
 const successGetChuneSupply = (state, { topChune }) => ({ ...state, topChune });
-const openArticleUrl = (state, { url, title }) => ({ ...state, url, title });
+const openArticleUrl = (state, { url, title, modal }) => ({
+  ...state,
+  url,
+  title,
+  modal
+});
+const closeArticleUrl = (state, { modal }) => ({
+  ...state,
+  url: '',
+  title: '',
+  modal
+});
 
 const handlers = {
   [TYPES.GET_CONTENT_USER]: getContentUser,
@@ -51,7 +63,8 @@ const handlers = {
   [TYPES.FETCH_MORE_CONTENT_FORYOU_PAGE_USER]: fethcMoreContentForYouPageUser,
   [TYPES.SUCCESS_GET_TOP_TRACKS]: successGetTopTracks,
   [TYPES.SUCCESS_GET_CHUNE_SUPPLY]: successGetChuneSupply,
-  [TYPES.OPEN_ARTICLE_URL]: openArticleUrl
+  [TYPES.OPEN_ARTICLE_URL]: openArticleUrl,
+  [TYPES.CLOSE_ARTICLE_URL]: closeArticleUrl
 };
 
 export const reducerContent = createReducer(initState, handlers);

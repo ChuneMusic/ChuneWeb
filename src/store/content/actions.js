@@ -1,7 +1,7 @@
 import {
   GET_CONTENT_USER, SUCCESS_GET_CONTENT_HOME_PAGE_USER, FETCH_MORE_CONTENT_HOME_PAGE_USER,
   SUCCESS_GET_TOP_TRACKS, SUCCESS_GET_CHUNE_SUPPLY, OPEN_ARTICLE_URL,
-  SUCCESS_GET_CONTENT_FORYOU_PAGE_USER, FETCH_MORE_CONTENT_FORYOU_PAGE_USER
+  SUCCESS_GET_CONTENT_FORYOU_PAGE_USER, FETCH_MORE_CONTENT_FORYOU_PAGE_USER, CLOSE_ARTICLE_URL
 } from './types';
 
 export const getContentUser = () => ({
@@ -29,7 +29,11 @@ export const successGetChuneSupply = topChune => ({
   type: SUCCESS_GET_CHUNE_SUPPLY,
   payload: { topChune }
 });
-export const openArticleUrl = (url, title) => ({
+export const openArticleUrl = (url, title, modal) => ({
   type: OPEN_ARTICLE_URL,
-  payload: { url, title }
+  payload: { url, title, modal }
+});
+export const closeArticleUrl = modal => ({
+  type: CLOSE_ARTICLE_URL,
+  payload: { modal }
 });
