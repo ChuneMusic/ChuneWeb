@@ -252,6 +252,8 @@ class Navbar extends React.Component {
         return this.setState({ value: 2 });
       case '/events':
         return this.setState({ value: 3 });
+      case '/blog':
+        return this.setState({ value: 4 });
       default:
         return null;
     }
@@ -268,6 +270,8 @@ class Navbar extends React.Component {
         return 'Artists';
       case '/events':
         return 'Events';
+      case '/blog':
+        return 'Blog';
       default:
         return null;
     }
@@ -354,6 +358,11 @@ class Navbar extends React.Component {
                       <ListItem button className={this.matchPath('/events') ? classes.activeListItem : classes.listItem}>
                         <NavLink exact to="/events" activeClassName={classes.navLinkActive} className={classes.navLink}>
                           Events
+                        </NavLink>
+                      </ListItem>
+                      <ListItem button className={this.matchPath('/blog') ? classes.activeListItem : classes.listItem}>
+                        <NavLink exact to="/blog" activeClassName={classes.navLinkActive} className={classes.navLink}>
+                          Blog
                         </NavLink>
                       </ListItem>
                     </List>
@@ -491,6 +500,16 @@ class Navbar extends React.Component {
                           )}
                           component={Link}
                           to="/events"
+                          className={classes.thetab}
+                        />
+                        <Tab
+                          label={(
+                            <span className={classes.tabLabel}>
+                              Blog
+                            </span>
+                          )}
+                          component={Link}
+                          to="/blog"
                           className={classes.thetab}
                         />
                       </Tabs>
