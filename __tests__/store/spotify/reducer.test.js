@@ -12,9 +12,18 @@ describe('Spotify reducer', () => {
 
   it('should success get user profile spotify', () => {
     const profile = { name: 'Name', email: 'Email', age: 24 };
-    const action = { type: TYPES.SUCCESS_GET_USER_PROFILE_SPOTIFY, payload: { profile } };
+    const token = 'token';
+    const action = { type: TYPES.SUCCESS_GET_USER_PROFILE_SPOTIFY, payload: { profile, token } };
     const nextState = reducer(initState, action);
 
-    expect(nextState).toEqual({ ...initState, profile });
+    expect(nextState).toEqual({ ...initState, profile, token });
+  });
+
+  it('should success get id device spotify', () => {
+    const deviceID = '1234567890';
+    const action = { type: TYPES.SUCCESS_GET_DEVICE_ID, payload: { deviceID } };
+    const nextState = reducer(initState, action);
+
+    expect(nextState).toEqual({ ...initState, deviceID });
   });
 });
