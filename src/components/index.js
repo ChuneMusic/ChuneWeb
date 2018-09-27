@@ -15,4 +15,5 @@ export { LandingConnect } from './Landing';
 export { default as PrivacyPolicy } from './PrivacyPolicy';
 export { SignInConnect } from './auth/SignIn';
 export { SignUpConnect } from './auth/SignUp';
+export { blogiFrame } from './blog/blogiFrame';
 export { default as TermsOfUse } from './TermsOfUse';
