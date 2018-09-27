@@ -1,8 +1,5 @@
 import { put, takeEvery, call } from 'redux-saga/effects';
-// import { uniqWith, isEqual } from 'lodash';
-// import { REHYDRATE } from 'redux-persist';
 
-import { SUCCESS_GET_TOKEN } from '../auth/types';
 import { errorMessage } from '../error/actions';
 import { getList, postArtist, deleteArtist } from './utilities/artistsUser';
 import { successGetUserArtists, successFollowArtist, successUnfollowArtist } from './actions';
@@ -10,6 +7,7 @@ import {
   FOLLOW_ARTIST, UNFOLLOW_ARTIST, SUCCESS_FOLLOW_ARTIST,
   SUCCESS_UNFOLLOW_ARTIST
 } from './types';
+import { locationChange } from '../../utilities/patternForSagas';
 
 export function* getListArtistsUser() {
   try {
@@ -39,7 +37,7 @@ export function* deleteFollowArtist({ payload }) {
 }
 
 export function* sagasArtists() {
-  yield takeEvery([SUCCESS_GET_TOKEN, SUCCESS_FOLLOW_ARTIST, SUCCESS_UNFOLLOW_ARTIST], getListArtistsUser);
+  yield takeEvery([locationChange('/artists'), SUCCESS_FOLLOW_ARTIST, SUCCESS_UNFOLLOW_ARTIST], getListArtistsUser);
   yield takeEvery(FOLLOW_ARTIST, postFollowArtist);
   yield takeEvery(UNFOLLOW_ARTIST, deleteFollowArtist);
 }

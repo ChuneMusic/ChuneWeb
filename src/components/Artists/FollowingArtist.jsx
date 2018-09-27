@@ -135,7 +135,7 @@ const FollowingArtist = ({ classes, artist, unfollowToArtist, seeMore }) => {
         </CardContent>
         <CardActions className={classes.cardBody}>
           <div className={classes.actionsContainer}>
-            <Link className={classes.seeMore} to={`/Artist/${artist.name}`} onClick={() => seeMore(artist.name)}>
+            <Link className={classes.seeMore} to={`/artist/${artist.name}`} onClick={() => seeMore(artist.name)}>
               More
             </Link>
             <button onClick={() => unfollowToArtist(artist.name)} className={classes.unfollow} type="button">

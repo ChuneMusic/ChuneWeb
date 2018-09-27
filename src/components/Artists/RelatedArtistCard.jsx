@@ -85,7 +85,10 @@ const styles = () => ({
   }
 });
 
-const RelatedArtistCard = ({ classes, artist, follow, seeMore }) => {
+const RelatedArtistCard = ({
+  classes, artist, follow,
+  seeMore
+}) => {
   const overrideBgStyle = {
     backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)), url(${artist.image_url})`,
     backgroundSize: 'cover',
@@ -102,7 +105,7 @@ const RelatedArtistCard = ({ classes, artist, follow, seeMore }) => {
         <h3 className={classes.artistName}>{artist.name}</h3>
       </div>
       <div className={classes.actionsContainer}>
-        <Button component={Link} to={`/Artist/${artist.name}`} className={classes.actionButton} onClick={() => seeMore(artist.name)}>See More</Button>
+        <Button component={Link} to={`/artist/${artist.name}`} className={classes.actionButton} onClick={() => seeMore(artist.name)}>See More</Button>
         <Button className={classes.actionButton} onClick={() => follow(artist.name)}>Follow</Button>
       </div>
     </Paper>
@@ -119,5 +122,6 @@ export const RelatedArtistCardConnect = withStyles(styles)(connect(null, mapActi
 RelatedArtistCard.propTypes = {
   classes: objectOf(any).isRequired,
   artist: objectOf(any).isRequired,
-  follow: func.isRequired
+  follow: func.isRequired,
+  seeMore: func.isRequired
 };

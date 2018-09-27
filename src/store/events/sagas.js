@@ -8,6 +8,9 @@ import { GET_EVENTS_ARTIST } from './types';
 import { errorMessage } from '../error/actions';
 import { getEventsToServer, getPositionUser } from './utilities/events';
 import { successGetEventsArtist, successGetPositionUser } from './actions';
+import { getList } from '../artists/utilities/artistsUser';
+import { successGetUserArtists } from '../artists/actions';
+import { locationChange } from '../../utilities/patternForSagas';
 
 export function* getGeolocation() {
   try {
@@ -17,6 +20,16 @@ export function* getGeolocation() {
     yield put(errorMessage(e.message));
   }
 }
+
+export function* getArtists() {
+  try {
+    const { artists, recommended } = yield call(getList);
+    yield put(successGetUserArtists(artists, recommended));
+  } catch (e) {
+    yield put(errorMessage(e.message));
+  }
+}
+
 export function* getEvent({ payload }) {
   const {
     id, startDate, endDate,
@@ -33,5 +46,6 @@ export function* getEvent({ payload }) {
 
 export function* sagasEvents() {
   yield fork(getGeolocation);
+  yield takeEvery(locationChange('/events'), getArtists);
   yield takeEvery(GET_EVENTS_ARTIST, getEvent);
 }

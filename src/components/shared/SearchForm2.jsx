@@ -121,7 +121,7 @@ const SearchForm2 = ({
 
   const onSuggestionSelected = (event, { suggestion }) => {
     resetSearch();
-    history.push(`/Artist/${suggestion}`);
+    history.push(`/artist/${suggestion}`);
   };
 
   return (
