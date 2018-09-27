@@ -10,7 +10,7 @@ import { closeArticleUrl } from '../../store/content/actions';
 const ArticleiFrame = ({ url, title, closeModalArticle }) => {
   if (url.length === 0) return <Loading />;
   return (
-    <div className="background_news">
+    <div className="background_news" onClick={() => closeModalArticle(false)}>
       <div className="modal_news">
         <div className="header_news_color">
           <button className="close_iframe" type="button" onClick={() => closeModalArticle(false)}>
