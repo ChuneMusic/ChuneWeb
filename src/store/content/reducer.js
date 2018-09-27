@@ -16,7 +16,6 @@ export const initState = {
   flag: false
 };
 
-const getContentUser = state => ({ ...state });
 const noArtistsUser = (state, { flag }) => ({ ...state, flag });
 const successGetContentHomePageUser = (state, { artistTracksHome, contentFeedHome }) => ({
   ...state,
@@ -70,7 +69,6 @@ const closeArticleUrl = (state, { modal }) => ({
 });
 
 const handlers = {
-  [TYPES.GET_CONTENT_USER]: getContentUser,
   [TYPES.NO_ARTISTS_USER]: noArtistsUser,
   [TYPES.SUCCESS_GET_CONTENT_HOME_PAGE_USER]: successGetContentHomePageUser,
   [TYPES.SUCCESS_GET_CONTENT_FORYOU_PAGE_USER]: successGetContentForYouPageUser,

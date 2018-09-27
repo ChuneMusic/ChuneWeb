@@ -1,63 +1,69 @@
 import {
   put, takeEvery, call,
-  select
+  select, take
 } from 'redux-saga/effects';
 
 import { errorMessage } from '../error/actions';
 import {
   successGetContentHomePageUser, successGetContentForYouPageUser,
-  successGetTopTracks, successGetChuneSupply, noArtistsUser
+  successGetTopTracks, successGetChuneSupply, noArtistsUser,
+  successfethcMoreContentHome, successfethcMoreContentForYou
 } from './actions';
 import {
   getContentHomePageToServer, getTopTracksToServer,
   getChuneSupplyToServer, getContentForYouPageToServer,
   getContentHome, getContentForYou
 } from './utilities/content';
-import { getPages } from './utilities/selectors';
-import { FETCH_MORE_CONTENT_FORYOU_PAGE_USER, FETCH_MORE_CONTENT_HOME_PAGE_USER } from './types';
+import { getPagesHome, getPagesForYou } from './utilities/selectors';
+import {
+  FETCH_MORE_CONTENT_FORYOU_PAGE_USER, FETCH_MORE_CONTENT_HOME_PAGE_USER,
+  SUCCESS_GET_CONTENT_HOME_PAGE_USER, SUCCESS_GET_TOP_TRACKS
+} from './types';
 import { locationChange } from '../../utilities/patternForSagas';
 
-export function* getContentHomePage() {
-  const { pagesHome } = yield select(getPages);
+export function* getContentHomePage({ type }) {
   let artistTracks = [];
   let contentFeed = [];
+  let pages = 0;
+  if (type === 'FETCH_MORE_CONTENT_HOME_PAGE_USER') pages = yield select(getPagesHome);
   try {
     const dataRecs = yield call(getContentHome);
     if (dataRecs.content_feed.length === 0) {
-      const data = yield call(getContentHomePageToServer, pagesHome);
+      const data = yield call(getContentHomePageToServer, pages);
       artistTracks = data.artist_tracks || [];
       contentFeed = data.content_feed || [];
     } else {
       artistTracks = dataRecs.featured || [];
       contentFeed = dataRecs.content_feed || [];
     }
-    yield put(successGetContentHomePageUser(artistTracks, contentFeed));
+    if (type === 'FETCH_MORE_CONTENT_HOME_PAGE_USER') yield put(successfethcMoreContentHome(artistTracks, contentFeed));
+    else yield put(successGetContentHomePageUser(artistTracks, contentFeed));
   } catch (e) {
     yield put(errorMessage(e.message));
   }
 }
 
-export function* getContentForYouPage({ payload }) {
-  const { pagesForYou } = yield select(getPages);
-  const { artists } = payload;
+export function* getContentForYouPage({ type }) {
   let artistTracks = [];
   let contentFeed = [];
+  let pages = 0;
+  if (type === 'FETCH_MORE_CONTENT_FORYOU_PAGE_USER') pages = yield select(getPagesForYou);
   try {
-    if (artists.length === 0) {
-      yield put(noArtistsUser(true));
-      return;
-    }
     const dataRecs = yield call(getContentForYou);
     if (dataRecs.content_feed.length === 0) {
-      const data = yield call(getContentForYouPageToServer, pagesForYou);
+      const data = yield call(getContentForYouPageToServer, pages);
       artistTracks = data.artist_tracks || [];
       contentFeed = data.content_feed || [];
     } else {
       artistTracks = dataRecs.featured || [];
       contentFeed = dataRecs.content_feed || [];
     }
-    yield put(successGetContentForYouPageUser(artistTracks, contentFeed));
-    yield put(noArtistsUser(false));
+    if (type === 'FETCH_MORE_CONTENT_FORYOU_PAGE_USER') {
+      yield put(successfethcMoreContentForYou(artistTracks, contentFeed));
+    } else {
+      yield put(successGetContentForYouPageUser(artistTracks, contentFeed));
+      yield put(noArtistsUser(false));
+    }
   } catch (e) {
     yield put(errorMessage(e));
   }
@@ -82,10 +88,8 @@ export function* getChuneSupply() {
 }
 
 export function* sagasContent() {
-  yield takeEvery(locationChange('/home'), getContentHomePage);
-  yield takeEvery(locationChange('/for-you'), getContentForYouPage);
-  yield takeEvery(FETCH_MORE_CONTENT_HOME_PAGE_USER, fetchContentHomePage);
-  yield takeEvery(FETCH_MORE_CONTENT_FORYOU_PAGE_USER, fetchContentForYouPage);
-  yield takeEvery(locationChange('/home'), getTopTracks);
-  yield takeEvery(locationChange('/home'), getChuneSupply);
+  yield takeEvery([locationChange('/home'), FETCH_MORE_CONTENT_HOME_PAGE_USER], getContentHomePage);
+  yield takeEvery([locationChange('/for-you'), FETCH_MORE_CONTENT_FORYOU_PAGE_USER], getContentForYouPage);
+  yield takeEvery(SUCCESS_GET_CONTENT_HOME_PAGE_USER, getTopTracks);
+  yield takeEvery(SUCCESS_GET_TOP_TRACKS, getChuneSupply);
 }

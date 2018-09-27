@@ -14,6 +14,7 @@ import { addArtists, deleteArtist } from '../../store/artists';
 import { fetchEventsForMultipleArtists, loadingEvents } from '../../store/events';
 import { EventCardConnect } from './EventCard';
 import { Loading } from '../shared/Loading';
+import { EmptyListConnect } from '../shared/EmptyList';
 
 const styles = () => ({
   root: {
@@ -55,15 +56,50 @@ const styles = () => ({
 
 const Events = ({
   classes, artists, events,
-  eventsLoading, geolocation
+  eventsLoading, geolocation, artistsSuccess
 }) => {
-  if (artists.length > 0) {
+  if (!artistsSuccess) {
     return (
       <div>
         <div className={classes.root}>
-          <MediaQuery minWidth={1024} className={classes.container}>
-            <h3 className={classes.heading}>Events</h3>
-            <GridList cols={3} className={classes.gridList} cellHeight={135}>
+          <Loading />
+        </div>
+      </div>
+    );
+  }
+  if (artists.length === 0) {
+    return (
+      <div>
+        <EmptyListConnect
+          messageOne="You didn't follow any artists yet."
+          messageTwo="Search to find and follow artists."
+        />
+      </div>
+    );
+  }
+  return (
+    <div>
+      <div className={classes.root}>
+        <MediaQuery minWidth={1024} className={classes.container}>
+          <h3 className={classes.heading}>Events</h3>
+          <GridList cols={3} className={classes.gridList} cellHeight={135}>
+            {
+              artists.map(artist => (
+                <GridListTile key={artist.id} className={classes.gridListTile}>
+                  <EventCardConnect
+                    artist={artist}
+                    eventsLoading={eventsLoading}
+                    events={events}
+                    geolocation={geolocation}
+                  />
+                </GridListTile>
+              ))
+            }
+          </GridList>
+        </MediaQuery>
+        <MediaQuery maxWidth={1023}>
+          <div className={classes.gridList}>
+            <GridList cols={1} cellHeight={128}>
               {
                 artists.map(artist => (
                   <GridListTile key={artist.id} className={classes.gridListTile}>
@@ -77,33 +113,8 @@ const Events = ({
                 ))
               }
             </GridList>
-          </MediaQuery>
-          <MediaQuery maxWidth={1023}>
-            <div className={classes.gridList}>
-              <GridList cols={1} cellHeight={128}>
-                {
-                  artists.map(artist => (
-                    <GridListTile key={artist.id} className={classes.gridListTile}>
-                      <EventCardConnect
-                        artist={artist}
-                        eventsLoading={eventsLoading}
-                        events={events}
-                        geolocation={geolocation}
-                      />
-                    </GridListTile>
-                  ))
-                }
-              </GridList>
-            </div>
-          </MediaQuery>
-        </div>
-      </div>
-    );
-  }
-  return (
-    <div>
-      <div className={classes.root}>
-        <Loading />
+          </div>
+        </MediaQuery>
       </div>
     </div>
   );
@@ -111,6 +122,7 @@ const Events = ({
 
 const mapStateToProps = store => ({
   artists: store.dataArtists.artists,
+  artistsSuccess: store.dataArtists.artistsSuccess,
   events: store.events.events,
   eventsLoading: store.events.initialLoading,
   geolocation: store.dataEvents.geolocation
