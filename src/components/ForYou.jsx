@@ -9,7 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import { Tweet } from 'react-twitter-widgets';
 import {
   objectOf, any, arrayOf,
-  func
+  func, bool
 } from 'prop-types';
 
 import { ArticleCardConnect } from './News/Article';
@@ -95,8 +95,19 @@ class ForYou extends React.Component {
 
   render() {
     const {
-      classes, contentFeed, artistTracks
+      classes, contentFeed, artistTracks,
+      flag
     } = this.props;
+    if (flag) {
+      return (
+        <div>
+          <EmptyListConnect
+            messageOne="You didn't follow any artists yet."
+            messageTwo="Search to find and follow artists."
+          />
+        </div>
+      );
+    }
     if (contentFeed.length === 0) return <Loading />;
     if (contentFeed.length) {
       return (
@@ -142,7 +153,8 @@ const mapActionsToProps = dispatch => bindActionCreators({
 const mapStateToProps = store => ({
   contentFeed: store.dataContent.contentFeedForYou,
   artists: store.dataArtists.artists,
-  artistTracks: store.dataContent.artistTracksForYou
+  artistTracks: store.dataContent.artistTracksForYou,
+  flag: store.dataContent.flag
 });
 
 export const ForYouConnect = withStyles(styles)(withRouter(connect(mapStateToProps, mapActionsToProps)(ForYou)));
@@ -151,5 +163,6 @@ ForYou.propTypes = {
   classes: objectOf(any).isRequired,
   contentFeed: arrayOf(any).isRequired,
   artistTracks: arrayOf(any).isRequired,
-  loadMoreItems: func.isRequired
+  loadMoreItems: func.isRequired,
+  flag: bool.isRequired
 };

@@ -12,10 +12,12 @@ export const initState = {
   topChune: [],
   url: '',
   title: '',
-  modal: false
+  modal: false,
+  flag: false
 };
 
 const getContentUser = state => ({ ...state });
+const noArtistsUser = (state, { flag }) => ({ ...state, flag });
 const successGetContentHomePageUser = (state, { artistTracksHome, contentFeedHome }) => {
   const content = state.contentFeedHome.concat(contentFeedHome);
   let pages = state.pagesHome + 1;
@@ -57,6 +59,7 @@ const closeArticleUrl = (state, { modal }) => ({
 
 const handlers = {
   [TYPES.GET_CONTENT_USER]: getContentUser,
+  [TYPES.NO_ARTISTS_USER]: noArtistsUser,
   [TYPES.SUCCESS_GET_CONTENT_HOME_PAGE_USER]: successGetContentHomePageUser,
   [TYPES.SUCCESS_GET_CONTENT_FORYOU_PAGE_USER]: successGetContentForYouPageUser,
   [TYPES.FETCH_MORE_CONTENT_HOME_PAGE_USER]: fethcMoreContentHomePageUser,
