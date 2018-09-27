@@ -14,9 +14,8 @@ import {
   getContentHome, getContentForYou
 } from './utilities/content';
 import { getPages } from './utilities/selectors';
-import { SUCCESS_GET_TOP_TRACKS, FETCH_MORE_CONTENT_FORYOU_PAGE_USER, FETCH_MORE_CONTENT_HOME_PAGE_USER } from './types';
-import { SUCCESS_GET_TOKEN } from '../auth/types';
-import { SUCCESS_GET_USER_ARTISTS } from '../artists/types';
+import { FETCH_MORE_CONTENT_FORYOU_PAGE_USER, FETCH_MORE_CONTENT_HOME_PAGE_USER } from './types';
+import { locationChange } from '../../utilities/patternForSagas';
 
 export function* getContentHomePage() {
   const { pagesHome } = yield select(getPages);
@@ -83,8 +82,10 @@ export function* getChuneSupply() {
 }
 
 export function* sagasContent() {
-  yield takeEvery([SUCCESS_GET_TOKEN, FETCH_MORE_CONTENT_HOME_PAGE_USER], getContentHomePage);
-  yield takeEvery([SUCCESS_GET_USER_ARTISTS, FETCH_MORE_CONTENT_FORYOU_PAGE_USER], getContentForYouPage);
-  yield takeEvery(SUCCESS_GET_USER_ARTISTS, getTopTracks);
-  yield takeEvery(SUCCESS_GET_TOP_TRACKS, getChuneSupply);
+  yield takeEvery(locationChange('/home'), getContentHomePage);
+  yield takeEvery(locationChange('/for-you'), getContentForYouPage);
+  yield takeEvery(FETCH_MORE_CONTENT_HOME_PAGE_USER, fetchContentHomePage);
+  yield takeEvery(FETCH_MORE_CONTENT_FORYOU_PAGE_USER, fetchContentForYouPage);
+  yield takeEvery(locationChange('/home'), getTopTracks);
+  yield takeEvery(locationChange('/home'), getChuneSupply);
 }
