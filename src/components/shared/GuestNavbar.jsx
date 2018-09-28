@@ -347,7 +347,7 @@ class GuestNavbar extends React.Component {
                 </Link>
               </div>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={8}>
               <ul className={alternateColor ? classes.menuListColor : classes.menuList}>
                 <li className={`menuListItem ${activePage === '/privacy' ? 'active' : ''}`}>
                   <Link className="menuLink" to="/privacy">
@@ -366,7 +366,7 @@ class GuestNavbar extends React.Component {
                 </li>
               </ul>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={2}>
               <ul className={alternateColor ? classes.rightMenuListColor : classes.rightMenuList}>
                 <li className="menuListItem">
                   <Link className="rightMenuLink" to="/signup">
