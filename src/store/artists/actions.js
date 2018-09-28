@@ -1,6 +1,7 @@
 import {
   SUCCESS_GET_USER_ARTISTS, SUCCESS_GET_INFO_ARTIST, FOLLOW_ARTIST,
-  SUCCESS_FOLLOW_ARTIST, UNFOLLOW_ARTIST, SUCCESS_UNFOLLOW_ARTIST
+  SUCCESS_FOLLOW_ARTIST, UNFOLLOW_ARTIST, SUCCESS_UNFOLLOW_ARTIST,
+  CLEAR_INFO_ARTIST
 } from './types';
 
 export const successGetUserArtists = (artists, recommended) => ({
@@ -24,4 +25,7 @@ export const unfollowArtist = name => ({
 });
 export const successUnfollowArtist = () => ({
   type: SUCCESS_UNFOLLOW_ARTIST
+});
+export const clearInfoArtist = () => ({
+  type: CLEAR_INFO_ARTIST
 });

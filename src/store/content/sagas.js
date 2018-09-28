@@ -1,13 +1,13 @@
 import {
   put, takeEvery, call,
-  select, take
+  select
 } from 'redux-saga/effects';
 
 import { errorMessage } from '../error/actions';
 import {
   successGetContentHomePageUser, successGetContentForYouPageUser,
-  successGetTopTracks, successGetChuneSupply, noArtistsUser,
-  successfethcMoreContentHome, successfethcMoreContentForYou
+  successGetTopTracks, successGetChuneSupply,
+  successfethcMoreContentHome, successfethcMoreContentForYou, noFollowArtists
 } from './actions';
 import {
   getContentHomePageToServer, getTopTracksToServer,
@@ -20,6 +20,7 @@ import {
   SUCCESS_GET_CONTENT_HOME_PAGE_USER, SUCCESS_GET_TOP_TRACKS
 } from './types';
 import { locationChange } from '../../utilities/patternForSagas';
+import { FOLLOW_ARTIST, UNFOLLOW_ARTIST } from '../artists/types';
 
 export function* getContentHomePage({ type }) {
   let artistTracks = [];
@@ -62,9 +63,9 @@ export function* getContentForYouPage({ type }) {
       yield put(successfethcMoreContentForYou(artistTracks, contentFeed));
     } else {
       yield put(successGetContentForYouPageUser(artistTracks, contentFeed));
-      yield put(noArtistsUser(false));
     }
   } catch (e) {
+    if (e.response.data.Error === 'User does not follow any artists') yield put(noFollowArtists(true));
     yield put(errorMessage(e));
   }
 }
@@ -88,8 +89,8 @@ export function* getChuneSupply() {
 }
 
 export function* sagasContent() {
-  yield takeEvery([locationChange('/home'), FETCH_MORE_CONTENT_HOME_PAGE_USER], getContentHomePage);
-  yield takeEvery([locationChange('/for-you'), FETCH_MORE_CONTENT_FORYOU_PAGE_USER], getContentForYouPage);
+  yield takeEvery([locationChange('/home'), FOLLOW_ARTIST, UNFOLLOW_ARTIST, FETCH_MORE_CONTENT_HOME_PAGE_USER], getContentHomePage);
+  yield takeEvery([locationChange('/for-you'), FOLLOW_ARTIST, UNFOLLOW_ARTIST, FETCH_MORE_CONTENT_FORYOU_PAGE_USER], getContentForYouPage);
   yield takeEvery(SUCCESS_GET_CONTENT_HOME_PAGE_USER, getTopTracks);
   yield takeEvery(SUCCESS_GET_TOP_TRACKS, getChuneSupply);
 }

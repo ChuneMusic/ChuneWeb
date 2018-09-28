@@ -5,7 +5,7 @@ import { SEARCH_ARTISTS, SEARCH_SELECT_ARTIST } from './types';
 import { getListArtistsToServer, getInfoSingleArtist } from './search/search';
 import { successSearchArtists } from './actions';
 import { errorMessage } from '../error/actions';
-import { successGetInfoArtist } from '../artists/actions';
+import { successGetInfoArtist, clearInfoArtist } from '../artists/actions';
 
 function* getListArtists({ payload }) {
   const { value } = payload;
@@ -19,10 +19,11 @@ function* getListArtists({ payload }) {
 
 function* getInfoArtist({ payload }) {
   const { name } = payload;
+  yield put(clearInfoArtist());
+  yield put(push(`/artist/${name}`));
   try {
     const { artist, content = [], tracks = [] } = yield call(getInfoSingleArtist, name);
     yield put(successGetInfoArtist(artist, content, tracks));
-    yield put(push(`/artist/${artist.name}`));
   } catch (e) {
     yield put(errorMessage(e.message));
   }

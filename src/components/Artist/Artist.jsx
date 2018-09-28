@@ -1,16 +1,9 @@
 import React from 'react';
-// import find from 'lodash/find';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Waypoint from 'react-waypoint';
 import { withRouter } from 'react-router-dom';
-import MediaQuery from 'react-responsive';
 import Button from '@material-ui/core/Button';
-import Select from '@material-ui/core/Select';
-import IconButton from '@material-ui/core/IconButton';
-import FilterListIcon from '@material-ui/icons/FilterList';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import {
@@ -21,13 +14,10 @@ import { Tweet } from 'react-twitter-widgets';
 
 import { TopTracksChartConnect } from '../blocks';
 import { followArtist, unfollowArtist } from '../../store/artists/actions';
-// import { fetchCurrentArtist, reloadingArtist, fetchRecentEntriesForCurrentArtist } from '../../store/currentArtist';
-// import { appendArtist, removeArtist } from '../../store/followingArtists';
 import { Loading } from '../shared/Loading';
 import { NoMediaConnect } from '../shared/NoMedia';
 import { VideoCardConnect } from '../Videos/Video';
 import { ArticleCardConnect } from '../News/Article';
-// import { EmptyListConnect } from '../shared/EmptyList';
 
 const styles = () => ({
   root: {
@@ -200,72 +190,6 @@ const styles = () => ({
 });
 
 class Artist extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      filter: 'all',
-      anchorEl: null,
-    };
-  }
-
-  // componentDidMount() {
-  //   const props = this.props;
-  //   props.reloadingArtist();
-  //   props.fetchCurrentArtist(this.props.match.params.artistName);
-  //   props.fetchRecentEntriesForCurrentArtist(this.props.match.params.artistName);
-  // }
-
-  // componentDidUpdate(prevProps) {
-  //   const props = this.props;
-  //   const prevArtist = prevProps.match.params.artistName;
-  //   const currentArtist = props.match.params.artistName;
-  //   if (prevArtist !== currentArtist) {
-  //     props.reloadingArtist();
-  //     props.fetchCurrentArtist(this.props.match.params.artistName);
-  //     props.fetchRecentEntriesForCurrentArtist(this.props.match.params.artistName);
-  //   }
-  // }
-
-  // handleFilterMenuClick = (event) => {
-  //   this.setState({ anchorEl: event.currentTarget });
-  // };
-
-  // handleClose = () => {
-  //   this.setState({ anchorEl: null });
-  // };
-
-  handleFilterMenu = (filter) => {
-    this.setState({
-      filter,
-      anchorEl: null,
-    });
-  }
-
-  // artistAlreadyFollowed = () => find(this.props.artists, (artist) => {
-  //   const normalizeName = name => name.toLowerCase().replace('-', " ");
-  //   return normalizeName(artist.name) === normalizeName(this.props.match.params.artistName);
-  // })
-
-  handleChange = ({ target }) => {
-    this.setState({ filter: target.value });
-  }
-
-  // filterEntries = (entries, filter) => {
-  //   if (filter === 'articles') {
-  //     return entries.filter(entry => !entry.isVideo);
-  //   }
-  //   if (filter === 'videos') {
-  //     return entries.filter(entry => entry.isVideo);
-  //   }
-  //   if (filter === 'events') {
-  //     return [];
-  //   }
-  // }
-
-  // unfollowArtist = () => {
-  //   this.props.removeArtist(this.props.artist, this.props.userId);
-  // }
-
   follow = () => {
     const { artist, followToArtist } = this.props;
     followToArtist(artist.name);
@@ -275,15 +199,6 @@ class Artist extends React.Component {
     const { artist, unfollowToArtist } = this.props;
     unfollowToArtist(artist.name);
   }
-
-  // loadMoreItems = () => {
-  //   const props = this.props;
-  //   props.fetchRecentEntriesForCurrentArtist(this.props.match.params.artistName, props.currentPage + 1);
-  // }
-
-  handleTopTrackPlay = (id, play) => {
-    const playId = play ? id : null;
-  };
 
   renderWaypoint = () => <Waypoint onEnter={this.loadMoreItems} threshold={2.0} />
 
@@ -330,30 +245,18 @@ class Artist extends React.Component {
       classes, content, artists,
       artist, topTracksArtist
     } = this.props;
-    const { filter, value, anchorEl } = this.state;
     if (artist.name === undefined) return <Loading />;
     let followButton = false;
     artists.forEach((e) => {
       if (e.name === artist.name) followButton = true;
     });
-    // if (artistNotFound) {
-    //   return (
-    //     <div>
-    //       <EmptyListConnect
-    //         messageOne={`Sorry, we can't find the artist "${props.match.params.artistName}" in our database.`}
-    //         messageTwo="Try using the search bar to follow another artist. Or go to artists page to follow artists related to your favorite ones."
-    //       />
-    //     </div>
-    //   );
-    // }
-
-    // if (initialLoading) {
-    //   return (
-    //     <div>
-    //       <Loading />
-    //     </div>
-    //   );
-    // }
+    if (artist.name === undefined) {
+      return (
+        <div>
+          <Loading />
+        </div>
+      );
+    }
     let contentArtist = null;
     if (content.length > 0) {
       contentArtist = this.renderItems(content);
@@ -369,82 +272,10 @@ class Artist extends React.Component {
               <p>{artist.name}</p>
             </div>
             <div className={classes.menuActionsContainer}>
-              <MediaQuery minWidth={1024}>
-                <Select
-                  value={value}
-                  onChange={this.handleChange}
-                  native
-                  name="value"
-                  className={classes.mediaSelect}
-                  inputProps={{ className: classes.sInput }}
-                  disableUnderline
-                >
-                  <option value="all">All Media</option>
-                  <option value="articles">Articles</option>
-                  <option value="videos">Videos</option>
-                  <option value="twitter">Twitter</option>
-                </Select>
-              </MediaQuery>
-              <MediaQuery maxWidth={1023}>
-                <IconButton
-                  aria-owns={anchorEl ? 'simple-menu' : null}
-                  aria-haspopup="true"
-                  // onClick={this.handleFilterMenuClick}
-                  classes={{ root: classes.settingsIconButton }}
-                >
-                  <FilterListIcon />
-                </IconButton>
-                <Menu
-                  className={classes.settingsMenu}
-                  id="simple-menu"
-                  anchorEl={anchorEl}
-                  open={Boolean(anchorEl)}
-                  // onClose={this.handleClose}
-                  anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'center',
-                  }}
-                  getContentAnchorEl={null}
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'center',
-                  }}
-                >
-                  <MenuItem
-                    classes={{ selected: classes.menuSelected }}
-                    onClick={() => this.handleFilterMenu('all')}
-                    selected={filter === 'all'}
-                  >
-                    All
-                  </MenuItem>
-                  <MenuItem
-                    classes={{ selected: classes.menuSelected }}
-                    onClick={() => this.handleFilterMenu('articles')}
-                    selected={filter === 'articles'}
-                  >
-                    Articles
-                  </MenuItem>
-                  <MenuItem
-                    classes={{ selected: classes.menuSelected }}
-                    onClick={() => this.handleFilterMenu('videos')}
-                    selected={filter === 'videos'}
-                  >
-                    Videos
-                  </MenuItem>
-                  <MenuItem
-                    classes={{ selected: classes.menuSelected }}
-                    onClick={() => this.handleFilterMenu('twitter')}
-                    selected={filter === 'twitter'}
-                  >
-                    Twitter
-                  </MenuItem>
-                </Menu>
-              </MediaQuery>
               {
                 followButton
                   ? <Button className={classes.unfollowButton} onClick={this.unfollow}>UNFOLLOW</Button>
                   : <Button className={classes.followButton} onClick={this.follow}>FOLLOW</Button>
-
               }
             </div>
           </div>
@@ -486,27 +317,10 @@ export const ArtistConnect = withStyles(styles)(withRouter(connect(mapStateToPro
 
 Artist.propTypes = {
   artist: objectOf(any).isRequired,
+  artists: arrayOf(any).isRequired,
+  topTracksArtist: arrayOf(any).isRequired,
   content: arrayOf(any).isRequired,
   classes: objectOf(any).isRequired,
-  followToArtist: func.isRequired
+  followToArtist: func.isRequired,
+  unfollowToArtist: func.isRequired
 };
-
-// const mapDispatch = dispatch => ({
-//   addArtists: artists => dispatch(addArtists(artists)),
-//   appendArtist: (artist, userId) => dispatch(appendArtist(artist, userId)),
-//   removeArtist: (artist, userId) => dispatch(removeArtist(artist, userId)),
-//   fetchCurrentArtist: name => dispatch(fetchCurrentArtist(name)),
-//   reloadingArtist: () => dispatch(reloadingArtist()),
-//   fetchRecentEntriesForCurrentArtist: (name, page) => dispatch(fetchRecentEntriesForCurrentArtist(name, page)),
-// });
-// const mapState = store => ({
-//   artist: store.currentArtist.artist,
-//   recentEntries: store.currentArtist.recentEntries,
-//   currentPage: store.currentArtist.currentPage,
-//   fetching: store.currentArtist.fetching,
-//   endOfList: store.currentArtist.endOfList,
-//   initialLoading: store.currentArtist.initialLoading,
-//   artistNotFound: store.currentArtist.artistNotFound,
-//   artists: store.followingArtists.artists,
-//   userId: store.user.uid,
-// });

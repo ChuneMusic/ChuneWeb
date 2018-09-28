@@ -13,10 +13,9 @@ export const initState = {
   url: '',
   title: '',
   modal: false,
-  flag: false
+  followArtists: false
 };
 
-const noArtistsUser = (state, { flag }) => ({ ...state, flag });
 const successGetContentHomePageUser = (state, { artistTracksHome, contentFeedHome }) => ({
   ...state,
   artistTracksHome,
@@ -67,9 +66,9 @@ const closeArticleUrl = (state, { modal }) => ({
   title: '',
   modal
 });
+const noFollowArtists = (state, { followArtists }) => ({ ...state, followArtists });
 
 const handlers = {
-  [TYPES.NO_ARTISTS_USER]: noArtistsUser,
   [TYPES.SUCCESS_GET_CONTENT_HOME_PAGE_USER]: successGetContentHomePageUser,
   [TYPES.SUCCESS_GET_CONTENT_FORYOU_PAGE_USER]: successGetContentForYouPageUser,
   [TYPES.FETCH_MORE_CONTENT_HOME_PAGE_USER]: fethcMoreContentHomePageUser,
@@ -79,7 +78,8 @@ const handlers = {
   [TYPES.SUCCESS_GET_TOP_TRACKS]: successGetTopTracks,
   [TYPES.SUCCESS_GET_CHUNE_SUPPLY]: successGetChuneSupply,
   [TYPES.OPEN_ARTICLE_URL]: openArticleUrl,
-  [TYPES.CLOSE_ARTICLE_URL]: closeArticleUrl
+  [TYPES.CLOSE_ARTICLE_URL]: closeArticleUrl,
+  [TYPES.NO_FOLLOW_ARTISTS]: noFollowArtists
 };
 
 export const reducerContent = createReducer(initState, handlers);

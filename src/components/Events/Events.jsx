@@ -142,8 +142,9 @@ Events.propTypes = {
   artists: arrayOf(any).isRequired,
   eventsLoading: bool.isRequired,
   events: arrayOf(any).isRequired,
-  geolocation: objectOf(any)
+  geolocation: objectOf(any),
+  artistsSuccess: bool.isRequired
 };
 Events.defaultProps = {
-  geolocation: null,
+  geolocation: null
 };

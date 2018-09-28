@@ -96,9 +96,9 @@ class ForYou extends React.Component {
   render() {
     const {
       classes, contentFeed, artistTracks,
-      flag
+      followArtists
     } = this.props;
-    if (flag) {
+    if (followArtists) {
       return (
         <div>
           <EmptyListConnect
@@ -154,7 +154,7 @@ const mapStateToProps = store => ({
   contentFeed: store.dataContent.contentFeedForYou,
   artists: store.dataArtists.artists,
   artistTracks: store.dataContent.artistTracksForYou,
-  flag: store.dataContent.flag
+  followArtists: store.dataContent.followArtists
 });
 
 export const ForYouConnect = withStyles(styles)(withRouter(connect(mapStateToProps, mapActionsToProps)(ForYou)));
@@ -164,5 +164,5 @@ ForYou.propTypes = {
   contentFeed: arrayOf(any).isRequired,
   artistTracks: arrayOf(any).isRequired,
   loadMoreItems: func.isRequired,
-  flag: bool.isRequired
+  followArtists: bool.isRequired
 };

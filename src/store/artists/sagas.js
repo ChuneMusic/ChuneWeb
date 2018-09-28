@@ -8,11 +8,14 @@ import {
   SUCCESS_UNFOLLOW_ARTIST
 } from './types';
 import { locationChange } from '../../utilities/patternForSagas';
+import { noFollowArtists } from '../content/actions';
 
 export function* getListArtistsUser() {
   try {
     const { artists, recommended } = yield call(getList);
     yield put(successGetUserArtists(artists, recommended));
+    if (artists.length === 0) yield put(noFollowArtists(true));
+    else yield put(noFollowArtists(false));
   } catch (e) {
     yield put(errorMessage(e.message));
   }
