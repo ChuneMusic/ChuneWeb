@@ -34,7 +34,8 @@ const styles = () => ({
     flexDirection: 'row',
     justifyContent: 'space-between',
     margin: '10px auto',
-    height: 38,
+    height: 50,
+    alignItems: 'center',
     '@media (max-width: 1023px)': {
       width: 344,
       margin: '18px auto',
@@ -72,8 +73,7 @@ const styles = () => ({
     display: 'flex',
     width: 223,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 27,
+    justifyContent: 'space-around',
     '@media (max-width: 1023px)': {
       width: 183,
     }
@@ -92,7 +92,7 @@ const styles = () => ({
     height: 36,
   },
   recommendedArtistHeading: {
-    width: 200,
+    width: 500,
     height: 50,
     fontFamily: 'Roboto',
     fontSize: 24,

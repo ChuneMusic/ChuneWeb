@@ -168,8 +168,9 @@ class SearchForm extends React.Component {
   }
 
   onSuggestionSelected = (event, { suggestion }) => {
-    const { cancelSearch, selectArtist } = this.props;
+    const { cancelSearch, selectArtist, history } = this.props;
     cancelSearch();
+    history.push(`/artist/${suggestion.name}`);
     selectArtist(suggestion.name);
   };
 
