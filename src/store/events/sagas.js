@@ -36,12 +36,8 @@ export function* getEvent({ payload }) {
     name
   } = payload;
   try {
-    const events = yield call(getEventsToServer, id, startDate, endDate);
-    /*
-      TO DO: check data when you submit a backend
-      error: Request failed with status code 500
-    */
-    yield put(successGetEventsArtist(events));
+    const { error_msg } = yield call(getEventsToServer, id, startDate, endDate);
+    yield put(successGetEventsArtist(error_msg));
     yield put(push(`/event/${name}`));
   } catch (e) {
     yield put(errorMessage(e));
