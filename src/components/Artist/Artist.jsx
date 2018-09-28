@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import {
   objectOf, any, func,
-  arrayOf
+  arrayOf, bool
 } from 'prop-types';
 import { Tweet } from 'react-twitter-widgets';
 
@@ -18,6 +18,7 @@ import { Loading } from '../shared/Loading';
 import { NoMediaConnect } from '../shared/NoMedia';
 import { VideoCardConnect } from '../Videos/Video';
 import { ArticleCardConnect } from '../News/Article';
+import { EmptyListConnect } from '../shared/EmptyList';
 
 const styles = () => ({
   root: {
@@ -243,20 +244,21 @@ class Artist extends React.Component {
   render() {
     const {
       classes, content, artists,
-      artist, topTracksArtist
+      artist, topTracksArtist, db
     } = this.props;
+    if (db) {
+      return (
+        <EmptyListConnect
+          messageOne="Sorry, no such artist in our database."
+          messageTwo="Try using the search bar to follow another artist. Or go to artists page to follow artists related to your favorite ones."
+        />
+      );
+    }
     if (artist.name === undefined) return <Loading />;
     let followButton = false;
     artists.forEach((e) => {
       if (e.name === artist.name) followButton = true;
     });
-    if (artist.name === undefined) {
-      return (
-        <div>
-          <Loading />
-        </div>
-      );
-    }
     let contentArtist = null;
     if (content.length > 0) {
       contentArtist = this.renderItems(content);
@@ -305,7 +307,8 @@ const mapStateToProps = store => ({
   artist: store.dataArtists.artist,
   content: store.dataArtists.content,
   artists: store.dataArtists.artists,
-  topTracksArtist: store.dataArtists.tracks
+  topTracksArtist: store.dataArtists.tracks,
+  db: store.dataSearch.db
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
@@ -322,5 +325,6 @@ Artist.propTypes = {
   content: arrayOf(any).isRequired,
   classes: objectOf(any).isRequired,
   followToArtist: func.isRequired,
-  unfollowToArtist: func.isRequired
+  unfollowToArtist: func.isRequired,
+  db: bool.isRequired
 };

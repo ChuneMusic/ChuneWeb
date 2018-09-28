@@ -5,7 +5,7 @@ import {
 
 import { SEARCH_ARTISTS } from './types';
 import { getListArtistsToServer, getInfoSingleArtist } from './search/search';
-import { successSearchArtists } from './actions';
+import { successSearchArtists, noArtistInDB } from './actions';
 import { errorMessage } from '../error/actions';
 import { successGetInfoArtist, clearInfoArtist } from '../artists/actions';
 import { locationChange } from '../../utilities/patternForSagas';
@@ -17,7 +17,7 @@ function* getListArtists({ payload }) {
     const suggestions = yield call(getListArtistsToServer, value);
     yield put(successSearchArtists(suggestions));
   } catch (e) {
-    yield put(errorMessage(e.message));
+    yield put(errorMessage(e));
   }
 }
 
@@ -28,9 +28,11 @@ function* getInfoArtist({ payload }) {
   yield put(clearInfoArtist());
   try {
     const { artist, content = [], tracks = [] } = yield call(getInfoSingleArtist, name);
+    yield put(noArtistInDB(false));
     yield put(successGetInfoArtist(artist, content, tracks));
   } catch (e) {
-    yield put(errorMessage(e.message));
+    if (e.response.data.success === false) yield put(noArtistInDB(true));
+    yield put(errorMessage(e));
   }
 }
 

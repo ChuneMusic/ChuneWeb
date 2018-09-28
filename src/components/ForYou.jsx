@@ -100,12 +100,10 @@ class ForYou extends React.Component {
     } = this.props;
     if (followArtists) {
       return (
-        <div>
-          <EmptyListConnect
-            messageOne="You didn't follow any artists yet."
-            messageTwo="Search to find and follow artists."
-          />
-        </div>
+        <EmptyListConnect
+          messageOne="You didn't follow any artists yet."
+          messageTwo="Search to find and follow artists."
+        />
       );
     }
     if (contentFeed.length === 0) return <Loading />;
@@ -136,12 +134,10 @@ class ForYou extends React.Component {
       );
     }
     return (
-      <div>
-        <EmptyListConnect
-          messageOne="Sorry, no recent media about your artists."
-          messageTwo="Try using the search bar to follow another artist. Or go to artists page to follow artists related to your favorite ones."
-        />
-      </div>
+      <EmptyListConnect
+        messageOne="Sorry, no recent media about your artists."
+        messageTwo="Try using the search bar to follow another artist. Or go to artists page to follow artists related to your favorite ones."
+      />
     );
   }
 }

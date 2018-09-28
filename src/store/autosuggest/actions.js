@@ -1,4 +1,7 @@
-import { SEARCH_ARTISTS, SUCCESS_SEARCH_ARTISTS, CLEAR_LIST_SEARCH } from './types';
+import {
+  SEARCH_ARTISTS, SUCCESS_SEARCH_ARTISTS,
+  CLEAR_LIST_SEARCH, NO_ARTIST_IN_DB
+} from './types';
 
 export const searchArtists = value => ({
   type: SEARCH_ARTISTS,
@@ -10,4 +13,8 @@ export const successSearchArtists = suggestions => ({
 });
 export const clearListSearch = () => ({
   type: CLEAR_LIST_SEARCH
+});
+export const noArtistInDB = db => ({
+  type: NO_ARTIST_IN_DB,
+  payload: { db }
 });
