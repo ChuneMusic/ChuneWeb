@@ -10,7 +10,6 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { createBrowserHistory } from 'history';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
-import { createWhitelistFilter } from 'redux-persist-transform-filter';
 
 import user from './user';
 import artists from './artists';
