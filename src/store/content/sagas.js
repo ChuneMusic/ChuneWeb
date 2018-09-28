@@ -23,7 +23,7 @@ import { locationChange } from '../../utilities/patternForSagas';
 import { FOLLOW_ARTIST, UNFOLLOW_ARTIST } from '../artists/types';
 
 export function* getContentHomePage({ type }) {
-  let artistTracks = [];
+  let featured = [];
   let contentFeed = [];
   let pages = 0;
   if (type === 'FETCH_MORE_CONTENT_HOME_PAGE_USER') pages = yield select(getPagesHome);
@@ -31,16 +31,16 @@ export function* getContentHomePage({ type }) {
     const dataRecs = yield call(getContentHome);
     if (dataRecs.content_feed.length === 0) {
       const data = yield call(getContentHomePageToServer, pages);
-      artistTracks = data.artist_tracks || [];
+      featured = data.featured || [];
       contentFeed = data.content_feed || [];
     } else {
-      artistTracks = dataRecs.featured || [];
+      featured = dataRecs.featured || [];
       contentFeed = dataRecs.content_feed || [];
     }
-    if (type === 'FETCH_MORE_CONTENT_HOME_PAGE_USER') yield put(successfethcMoreContentHome(artistTracks, contentFeed));
-    else yield put(successGetContentHomePageUser(artistTracks, contentFeed));
+    if (type === 'FETCH_MORE_CONTENT_HOME_PAGE_USER') yield put(successfethcMoreContentHome(featured, contentFeed));
+    else yield put(successGetContentHomePageUser(featured, contentFeed));
   } catch (e) {
-    yield put(errorMessage(e.message));
+    yield put(errorMessage(e));
   }
 }
 
@@ -75,7 +75,7 @@ export function* getTopTracks() {
     const topTracks = yield call(getTopTracksToServer);
     yield put(successGetTopTracks(topTracks));
   } catch (e) {
-    yield put(errorMessage(e.message));
+    yield put(errorMessage(e));
   }
 }
 
@@ -84,7 +84,7 @@ export function* getChuneSupply() {
     const topChune = yield call(getChuneSupplyToServer);
     yield put(successGetChuneSupply(topChune));
   } catch (e) {
-    yield put(errorMessage(e.message));
+    yield put(errorMessage(e));
   }
 }
 

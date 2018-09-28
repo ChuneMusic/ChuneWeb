@@ -5,9 +5,9 @@ import {
   SUCCESS_FETCH_CONTENT_HOME, SUCCESS_FETCH_CONTENT_FORYOU, NO_FOLLOW_ARTISTS
 } from './types';
 
-export const successGetContentHomePageUser = (artistTracksHome, contentFeedHome) => ({
+export const successGetContentHomePageUser = (featured, contentFeedHome) => ({
   type: SUCCESS_GET_CONTENT_HOME_PAGE_USER,
-  payload: { artistTracksHome, contentFeedHome }
+  payload: { featured, contentFeedHome }
 });
 export const successGetContentForYouPageUser = (artistTracksForYou, contentFeedForYou) => ({
   type: SUCCESS_GET_CONTENT_FORYOU_PAGE_USER,
@@ -19,9 +19,9 @@ export const fethcMoreContentHomePageUser = () => ({
 export const fethcMoreContentForYouPageUser = () => ({
   type: FETCH_MORE_CONTENT_FORYOU_PAGE_USER
 });
-export const successfethcMoreContentHome = (artistTracksHome, contentFeedHome) => ({
+export const successfethcMoreContentHome = (featured, contentFeedHome) => ({
   type: SUCCESS_FETCH_CONTENT_HOME,
-  payload: { artistTracksHome, contentFeedHome }
+  payload: { featured, contentFeedHome }
 });
 export const successfethcMoreContentForYou = (artistTracksForYou, contentFeedForYou) => ({
   type: SUCCESS_FETCH_CONTENT_FORYOU,

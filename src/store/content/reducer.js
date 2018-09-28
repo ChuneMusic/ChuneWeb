@@ -2,7 +2,7 @@ import { createReducer } from '../../utilities/utility';
 import * as TYPES from './types';
 
 export const initState = {
-  artistTracksHome: [],
+  featured: [],
   contentFeedHome: [],
   artistTracksForYou: [],
   contentFeedForYou: [],
@@ -16,9 +16,9 @@ export const initState = {
   followArtists: false
 };
 
-const successGetContentHomePageUser = (state, { artistTracksHome, contentFeedHome }) => ({
+const successGetContentHomePageUser = (state, { featured, contentFeedHome }) => ({
   ...state,
-  artistTracksHome,
+  featured,
   contentFeedHome,
   pagesHome: 0
 });
@@ -30,13 +30,13 @@ const successGetContentForYouPageUser = (state, { artistTracksForYou, contentFee
 });
 const fethcMoreContentHomePageUser = state => ({ ...state });
 const fethcMoreContentForYouPageUser = state => ({ ...state });
-const successfethcMoreContentHome = (state, { artistTracksHome, contentFeedHome }) => {
+const successfethcMoreContentHome = (state, { featured, contentFeedHome }) => {
   const content = state.contentFeedHome.concat(contentFeedHome);
   let pages = state.pagesHome + 1;
   if (contentFeedHome.length === 0) pages = 0;
   return ({
     ...state,
-    artistTracksHome,
+    featured,
     contentFeedHome: content,
     pagesHome: pages
   });
