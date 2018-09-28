@@ -193,7 +193,7 @@ const ArticleCard = ({
               <MediaQuery minWidth={1024}> · </MediaQuery>
               <MediaQuery maxWidth={1023}><br /></MediaQuery>
               <span>
-                <Link to={`/artist/${encodeURI(article.artist_name)}`} className={classes.artistName}>
+                <Link to={`/artist/${article.artist_name}`} className={classes.artistName}>
                   { article.artist_name }
                 </Link>
               </span>

@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import CloseIcon from '@material-ui/icons/Close';
 
-import { searchArtists, clearListSearch, searchSelectArtist } from '../store/autosuggest/actions';
+import { searchArtists, clearListSearch } from '../store/autosuggest/actions';
 
 const styles = () => ({
   root: {
@@ -168,10 +168,9 @@ class SearchForm extends React.Component {
   }
 
   onSuggestionSelected = (event, { suggestion }) => {
-    const { cancelSearch, selectArtist, history } = this.props;
+    const { cancelSearch, history } = this.props;
     cancelSearch();
     history.push(`/artist/${suggestion.name}`);
-    selectArtist(suggestion.name);
   };
 
   onCloseClick = () => {
@@ -242,8 +241,7 @@ const mapStateToProps = store => ({
 
 const mapActionsToProps = dispatch => bindActionCreators({
   searchListArtists: searchArtists,
-  clearListArtists: clearListSearch,
-  selectArtist: searchSelectArtist
+  clearListArtists: clearListSearch
 }, dispatch);
 
 export const SearchFormConnect = withStyles(styles)(withRouter(connect(mapStateToProps, mapActionsToProps)(SearchForm)));

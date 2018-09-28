@@ -3,7 +3,7 @@ import {
   select
 } from 'redux-saga/effects';
 
-import { SEARCH_ARTISTS, SEARCH_SELECT_ARTIST } from './types';
+import { SEARCH_ARTISTS } from './types';
 import { getListArtistsToServer, getInfoSingleArtist } from './search/search';
 import { successSearchArtists } from './actions';
 import { errorMessage } from '../error/actions';
@@ -36,5 +36,5 @@ function* getInfoArtist({ payload }) {
 
 export function* sagasSearch() {
   yield takeEvery(SEARCH_ARTISTS, getListArtists);
-  yield takeEvery([SEARCH_SELECT_ARTIST, locationChange('/artist/')], getInfoArtist);
+  yield takeEvery(locationChange('/artist/'), getInfoArtist);
 }
