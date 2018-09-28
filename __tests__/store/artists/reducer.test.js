@@ -7,7 +7,13 @@ describe('Artists reducer', () => {
     const recommended = [{ name: 'Drake', genre: 'POP' }, { name: 'Shakira', genre: 'POP' }];
     const action = { type: TYPES.SUCCESS_GET_USER_ARTISTS, payload: { artists, recommended } };
     const nextState = reducer(initState, action);
+    const artistsSuccess = true;
 
-    expect(nextState).toEqual({ ...initState, artists, recommended });
+    expect(nextState).toEqual({
+      ...initState,
+      artists,
+      recommended,
+      artistsSuccess
+    });
   });
 });
