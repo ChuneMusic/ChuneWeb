@@ -9,11 +9,11 @@ import { sagasContent as content } from './content/sagas';
 import { sagasEvents as events } from './events/sagas';
 
 export function* rootSagas() {
+  yield fork(auth);
   yield fork(musicPlayer);
   yield fork(spotify);
-  yield fork(auth);
-  yield fork(artists);
   yield fork(search);
+  yield fork(artists);
   yield fork(content);
   yield fork(events);
 }

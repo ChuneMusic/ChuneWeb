@@ -1,11 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { objectOf, arrayOf, any } from 'prop-types';
+import {
+  objectOf, arrayOf, any,
+  bool
+} from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 import { RelatedArtistsConnect } from './RelatedArtists';
 import { FollowingConnect } from './Following';
 import { EmptyListConnect } from '../shared/EmptyList';
+import { Loading } from '../shared/Loading';
 
 const styles = () => ({
   initialMessage: {
@@ -21,7 +25,11 @@ const styles = () => ({
     }
   }
 });
-const Artists = ({ classes, artists, recommended }) => {
+const Artists = ({
+  classes, artists, recommended,
+  artistsSuccess
+}) => {
+  if (!artistsSuccess) return <Loading />;
   if (artists.length === 0) {
     return (
       <div>
@@ -44,7 +52,8 @@ const Artists = ({ classes, artists, recommended }) => {
 
 const mapStateToProps = store => ({
   artists: store.dataArtists.artists,
-  recommended: store.dataArtists.recommended
+  recommended: store.dataArtists.recommended,
+  artistsSuccess: store.dataArtists.artistsSuccess
 });
 
 export const ArtistsConnect = withStyles(styles)(connect(mapStateToProps, null)(Artists));
@@ -52,5 +61,6 @@ export const ArtistsConnect = withStyles(styles)(connect(mapStateToProps, null)(
 Artists.propTypes = {
   classes: objectOf(any).isRequired,
   artists: arrayOf(any).isRequired,
-  recommended: arrayOf(any).isRequired
+  recommended: arrayOf(any).isRequired,
+  artistsSuccess: bool.isRequired
 };

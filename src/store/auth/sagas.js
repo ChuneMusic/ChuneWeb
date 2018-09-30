@@ -1,5 +1,9 @@
-import { put, takeEvery, call } from 'redux-saga/effects';
+import {
+  put, takeEvery, call,
+  select
+} from 'redux-saga/effects';
 import { REHYDRATE } from 'redux-persist';
+import { push } from 'connected-react-router';
 
 import {
   getTokenToServer, getProfileUserSocial,
@@ -9,6 +13,7 @@ import { CREATE_NEW_USER, LOGIN_USER, SUCCESS_GET_TOKEN } from './types';
 import { successGetToken, successGetProfileSocial, logOutUser } from './actions';
 import { errorMessage, errorMessageSingUp, errorMessageSingIn } from '../error/actions';
 import { setUserToken } from '../../utilities/APIConfig';
+import { getRoute } from './utilities/selectors';
 
 export function* getTokenUser(action) {
   const { email, password, name } = action.payload;
@@ -35,6 +40,8 @@ export function* rehydrateAuth({ payload }) {
         }
         setUserToken(verifyToken);
         yield put(successGetToken(verifyToken));
+        const route = yield select(getRoute);
+        yield put(push(route));
       } catch (e) {
         yield put(logOutUser());
         yield put(errorMessage(e.message));

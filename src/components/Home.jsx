@@ -6,27 +6,22 @@ import {
   any, arrayOf
 } from 'prop-types';
 import { map, findIndex } from 'lodash';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import { Tweet } from 'react-twitter-widgets';
 import SpotifyWebApi from 'spotify-web-api-js';
 import Waypoint from 'react-waypoint';
 
-import {
-  BasicArticleCard, TopTracksChartConnect, ChuneSupplyConnect,
-  BasicSoundPlayer
-} from './blocks';
+import { TopTracksChartConnect, ChuneSupplyConnect, BasicSoundPlayer } from './blocks';
 import { VideoCardConnect } from './Videos/Video';
 import { ArticleCardConnect } from './News/Article';
 import { playMusicPlayer, pauseMusicPlayer } from '../store/musicPlayer/actions';
 import { getAccessTokenSpotify } from '../store/spotify/actions';
 import { fethcMoreContentHomePageUser } from '../store/content/actions';
 import { Loading } from './shared/Loading';
+import { FeaturedArticles } from './HomeArticlesFeatured';
 
 import './Home.css';
+
 
 class Home extends React.Component {
   constructor() {
@@ -122,34 +117,6 @@ class Home extends React.Component {
   render() {
     const { topTrackPlayId, playSupplyId } = this.state;
 
-    const mainArticle = {
-      id: 10,
-      image: 'https://www.billboard.com/files/styles/article_main_image/public/media/shakira-june-2018-billboard-1548.jpg',
-      title: 'Smino Brings Out T-Pain For Epic "Chopped N Skrewed" Performance In Atlanta',
-      source: 'hotnewhiphop',
-    };
-
-    const otherMainArticles = [
-      {
-        id: 1,
-        image: 'https://www.billboard.com/files/styles/1024x577/public/media/Gerard-Pique-of-FC-Barcelona-and-Shakira-2015-billboard-1548.jpg',
-        title: "Shakira Supports Gerard Pique's Retirement With Beautiful Message on Instagram",
-        source: 'Billboard',
-      },
-      {
-        id: 2,
-        image: 'https://www.billboard.com/files/styles/1024x577/public/media/carlos-vives-shakira-La-Bicicleta-2016-billboard-1548.jpg',
-        title: 'The 10 Best Latin Summer Songs Ever',
-        source: 'Billboard',
-      },
-      {
-        id: 3,
-        image: 'https://www.billboard.com/files/styles/1024x577/public/media/Shakira-Maluma-Clandestino-screenshot-2018-billboard-1548.jpg',
-        title: "Shakira and Maluma's 'Clandestino' Hits Hot Latin Songs Chart's Top 10",
-        source: 'Billboard',
-      },
-    ];
-
     // let audioPlayerControllerPlaylist;
     // let selectedRecord;
 
@@ -170,7 +137,7 @@ class Home extends React.Component {
     const {
       location, token, contentFeed,
       getTokenSpotify, history, topTracks,
-      topChune
+      topChune, featured
     } = this.props;
     if (location.search !== '' && token === '') {
       getTokenSpotify(location.search);
@@ -182,59 +149,7 @@ class Home extends React.Component {
       <div>
         {/* <button onClick={this.playMusicSpotify} type="button">Play</button> */}
         <div className="homePageWrapper">
-          <div className="mainArticle">
-            <BasicArticleCard
-              image={mainArticle.image}
-              title={mainArticle.title}
-              source={mainArticle.source}
-            />
-          </div>
-
-          <div className="otherMainArticles">
-            {map(otherMainArticles, article => (
-              <BasicArticleCard
-                key={article.id}
-                image={article.image}
-                title={article.title}
-                source={article.source}
-              />
-            ))}
-          </div>
-
-          <div className="otherMainArticlesMobile">
-            {map(otherMainArticles, article => (
-              <Card className="root" key={article.id}>
-                <CardMedia
-                  className="media"
-                  image={article.image}
-                  title={article.title}
-                />
-                <div className="rightContainer">
-                  <CardContent className="cardBody">
-                    <Typography
-                      className="articleSource"
-                      gutterBottom
-                      variant="headline"
-                      component="p"
-                    >
-                      via
-                      {' '}
-                      {article.source}
-                    </Typography>
-
-                    <Typography
-                      className="headline"
-                      gutterBottom
-                      variant="headline"
-                      component="h2"
-                    >
-                      {article.title}
-                    </Typography>
-                  </CardContent>
-                </div>
-              </Card>
-            ))}
-          </div>
+          <FeaturedArticles featured={featured} />
           <div className="gridWrapper">
             <Grid container spacing={24}>
               <Grid item xs={12} md={8} lg={8}>
@@ -304,6 +219,7 @@ const mapStateToProps = store => ({
   token: store.dataSpotify.token,
   profile: store.dataSpotify.profile,
   deviceID: store.dataSpotify.deviceID,
+  featured: store.dataContent.featured,
   contentFeed: store.dataContent.contentFeedHome,
   topTracks: store.dataContent.topTracks,
   topChune: store.dataContent.topChune
@@ -328,5 +244,6 @@ Home.propTypes = {
   contentFeed: arrayOf(any).isRequired,
   topTracks: arrayOf(any).isRequired,
   topChune: arrayOf(any).isRequired,
-  loadMoreItems: func.isRequired
+  loadMoreItems: func.isRequired,
+  featured: arrayOf(any).isRequired
 };

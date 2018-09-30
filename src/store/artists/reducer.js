@@ -7,17 +7,27 @@ export const initState = {
   artist: {},
   name: '',
   content: [],
-  tracks: []
+  tracks: [],
+  artistsSuccess: false
 };
 
-const successGetUserArtists = (state, { artists, recommended }) => ({ ...state, artists, recommended });
+const successGetUserArtists = (state, { artists, recommended }) => ({
+  ...state,
+  artists,
+  recommended,
+  artistsSuccess: true
+});
 const successGetInfoArtist = (state, { artist, content, tracks }) => ({
-  ...state, artist, content, tracks
+  ...state,
+  artist,
+  content,
+  tracks
 });
 const followArtist = (state, { name }) => ({ ...state, name });
 const successFollowArtist = state => ({ ...state });
 const unfollowArtist = (state, { name }) => ({ ...state, name });
 const successUnfollowArtist = state => ({ ...state });
+const clearInfoArtist = state => ({ ...state, artist: {} });
 
 const handlers = {
   [TYPES.SUCCESS_GET_USER_ARTISTS]: successGetUserArtists,
@@ -25,7 +35,8 @@ const handlers = {
   [TYPES.FOLLOW_ARTIST]: followArtist,
   [TYPES.SUCCESS_FOLLOW_ARTIST]: successFollowArtist,
   [TYPES.UNFOLLOW_ARTIST]: unfollowArtist,
-  [TYPES.SUCCESS_UNFOLLOW_ARTIST]: successUnfollowArtist
+  [TYPES.SUCCESS_UNFOLLOW_ARTIST]: successUnfollowArtist,
+  [TYPES.CLEAR_INFO_ARTIST]: clearInfoArtist
 };
 
 export const reducerArtists = createReducer(initState, handlers);

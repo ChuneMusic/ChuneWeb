@@ -126,7 +126,7 @@ const VideoCard = ({
               <MediaQuery minWidth={1024}> · </MediaQuery>
               <MediaQuery maxWidth={1023}><br /></MediaQuery>
               <span>
-                <Link to={`/Artist/${video.artist_name}`} className={classes.artistName}>
+                <Link to={`/artist/${video.artist_name}`} className={classes.artistName}>
                   { video.artist_name }
                 </Link>
               </span>

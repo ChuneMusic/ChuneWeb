@@ -172,14 +172,14 @@ const ArticleCard = ({
         <MediaQuery minWidth={1024}>
           <CardMedia
             classes={{ root: classes.media }}
-            image={`https://chune-api.herokuapp.com/static/imgs/full/${article.image}` || 'https://placeholder.com/254x254'}
+            image={`https://chunesupply.s3.amazonaws.com/imgs/${article.image}` || 'https://placeholder.com/254x254'}
             title={article.title}
           />
         </MediaQuery>
         <MediaQuery maxWidth={1023}>
           <CardMedia
             classes={{ root: classes.media }}
-            image={`https://chune-api.herokuapp.com/static/imgs/small/${article.image}` || 'https://placeholder.com/344x194'}
+            image={`https://chunesupply.s3.amazonaws.com/imgs/${article.image}` || 'https://placeholder.com/344x194'}
             title={article.title}
           />
         </MediaQuery>
@@ -193,7 +193,7 @@ const ArticleCard = ({
               <MediaQuery minWidth={1024}> · </MediaQuery>
               <MediaQuery maxWidth={1023}><br /></MediaQuery>
               <span>
-                <Link to={`/Artist/${encodeURI(article.artist_name)}`} className={classes.artistName}>
+                <Link to={`/artist/${article.artist_name}`} className={classes.artistName}>
                   { article.artist_name }
                 </Link>
               </span>

@@ -49,8 +49,12 @@ const styles = () => ({
 
 const ArtistEvents = ({
   classes, events, id,
-  artists, geolocation
+  artists, geolocation, history
 }) => {
+  if (artists.length === 0) {
+    history.push('/events');
+    return null;
+  }
   const artist = artists.filter(e => e.id === id);
   if (events.length === 0) {
     return (
@@ -83,5 +87,6 @@ ArtistEvents.propTypes = {
   id: number.isRequired,
   artists: arrayOf(any).isRequired,
   classes: objectOf(any).isRequired,
-  geolocation: objectOf(any).isRequired
+  geolocation: objectOf(any).isRequired,
+  history: objectOf(any).isRequired
 };

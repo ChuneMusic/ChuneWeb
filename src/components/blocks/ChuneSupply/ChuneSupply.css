@@ -1,5 +1,4 @@
 .chuneSupplyWrapper .chuneSupplyPaper {
-  padding: 26px 22px 5px 16px !important;
   font-family: Roboto;
 }
 
@@ -9,6 +8,7 @@
   font-weight: 500;
   letter-spacing: 3px;
   line-height: normal;
+  padding: 10px;
 }
 
 .chuneSupplyWrapper .subtitle {
@@ -17,27 +17,33 @@
   font-size: 14px;
   letter-spacing: 0.2px;
   line-height: normal;
-  margin: 5px 0 22px 0;
+  padding: 10px;
 }
 
 .chuneSupplyWrapper .chuneSupplyPaper .card {
   box-shadow: none;
   display: flex;
-  margin-bottom: 8px;
+  height: 60px;
+  width: 300px;
+  margin: 0 auto;
+  padding: 8px;
 }
 
 .chuneSupplyWrapper .chuneSupplyPaper .cover {
-  width: 62px;
+  width: 60px;
+  height: 60px;
 }
 
 .chuneSupplyWrapper .chuneSupplyPaper .details {
   display: flex;
   flex-direction: column;
+  width: 240px;
 }
 
 .chuneSupplyWrapper .chuneSupplyPaper .content {
-  flex: 1 0 auto;
-  padding-left: 16px;
+  display: flex;
+  flex-direction: column;
+  padding: 5px 0 0 5px;
 }
 
 .chuneSupplyWrapper .chuneSupplyPaper .content .headline {
