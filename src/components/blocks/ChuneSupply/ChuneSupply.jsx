@@ -52,7 +52,7 @@ class ChuneSupply extends React.PureComponent {
                           variant="subheading"
                           color="textSecondary"
                         >
-                          {supply.artist_name || 'None' }
+                          {supply.artist_name || supply.artist }
                         </Typography>
                       </CardContent>
                     </div>

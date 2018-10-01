@@ -7,17 +7,13 @@ import { PlayIcon, PauseIcon } from '../../shared/SocialIcons';
 
 import './TopTracksChart.css';
 
-const TopTracksChart = ({
-  tracks, playing, trackStore,
-  artistName
-}) => (
+const TopTracksChart = ({ tracks, artistName }) => (
   <div className="topTracksChartWrapper">
     <Paper className="topTracksChartPaper">
       <h4 className="title">TOP TRACKS CHART</h4>
       <div className="tracksList">
         {map(tracks, (track, key) => {
-          let isPlaying = false;
-          if (playing === track.id || track.id === trackStore) isPlaying = true;
+          const isPlaying = false;
           return (
             <a href={`https://open.spotify.com/track/${track.spotify_id}`} target="_blank" rel="noopener noreferrer" key={key}>
               <div className={`track ${isPlaying ? 'isActive' : null}`}>

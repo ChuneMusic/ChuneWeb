@@ -31,7 +31,7 @@ function* getInfoArtist({ payload }) {
     yield put(noArtistInDB(false));
     yield put(successGetInfoArtist(artist, content, tracks));
   } catch (e) {
-    if (e.response.data.success === false) yield put(noArtistInDB(true));
+    if (e.response.status === 500) yield put(noArtistInDB(true));
     yield put(errorMessage(e));
   }
 }

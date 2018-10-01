@@ -1,59 +1,30 @@
-/* eslint no-unused-expressions: ["off"] */
-import styled, { injectGlobal } from 'styled-components';
+import styled from 'styled-components';
 
-injectGlobal`
-  html, body {
-    font-family: 'Roboto';
-    margin: 0;
-    padding: 0;
+export const WrapperHomePage = styled.div`
+  display: flex;
+  margin: 0 auto;
+  flex-direction: column;
+  width: 1024px;
+  @media(max-width: 1030px) and (min-width: 850px) {
+    width: 850px;
+  }
+  @media(max-width: 849px) and (min-width: 320px) {
+    width: 310px;
   }
 `;
-
-export const ModalShade = styled.div`
-  background-color: rgba(0,0,0,0.5);
-  position: fixed;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
+export const FeaturedBlock = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-export const Modal = styled.div`
-  display: flex;
+  margin: 0 auto;
+  width: 1024px;
+  padding: 24px 0 0 0;
   flex-direction: column;
-  width: 350px;
-  height: auto;
-  background: #4E4273;
-  border-radius: 5px;
-`;
-export const InviteBlock = styled.div`
-    width: 350px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-`;
-export const InputModal = styled.input`
-  margin: 15px auto;
-  border: 2px solid #ffffff;
-  padding: 0 0 0 10px;
-  width: 320px;
-  height: 48px;
-  font-size: 16px;
-  color: #555555;
-  border-radius: 2px;
-`;
-export const BtnModal = styled.button`
-  margin: 15px auto;
-  width: 320px;
-  height: 48px;
-  color: #000000;
-  font-size: 16px;
-  font-weight: 400;
-  border: 0;
-  border-radius: 2px;
-  cursor: pointer;
+  @media(max-width: 1030px) and (min-width: 850px) {
+    width: 850px;
+  }
+  @media(max-width: 849px) and (min-width: 320px) {
+    padding: 10px 0 0 0;
+    width: 310px;
+    overflow: hidden;
+    flex-direction: row;
+  }
 `;
