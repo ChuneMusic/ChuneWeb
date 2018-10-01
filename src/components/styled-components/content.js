@@ -6,6 +6,7 @@ export const Content = styled.div`
   width: 1024px;
   @media(max-width: 1030px) and (min-width: 850px) {
     width: 850px;
+    justify-content: space-between;
   }
   @media(max-width: 849px) and (min-width: 320px) {
     width: 310px;
@@ -19,6 +20,9 @@ export const LeftBlockContent = styled.div`
 `;
 export const RightBlockContent = styled.div`
   width: 345px;
+  @media(max-width: 1030px) and (min-width: 850px) {
+    width: 320px;
+  }
   @media(max-width: 849px) and (min-width: 320px) {
     display: none;
   }

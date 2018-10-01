@@ -149,5 +149,6 @@ Home.propTypes = {
   topTracks: arrayOf(any).isRequired,
   topChune: arrayOf(any).isRequired,
   loadMoreItems: func.isRequired,
-  featured: arrayOf(any).isRequired
+  featured: arrayOf(any).isRequired,
+  deviceID: string.isRequired
 };
