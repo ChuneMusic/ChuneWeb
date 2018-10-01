@@ -243,6 +243,7 @@ class Navbar extends React.Component {
 
   componentWillMount() {
     const { location } = this.props;
+    if (location.pathname.startsWith('/artist/')) return this.setState({ value: 2 });
     switch (location.pathname) {
       case '/home':
         return this.setState({ value: 0 });
@@ -256,6 +257,13 @@ class Navbar extends React.Component {
         return this.setState({ value: 4 });
       default:
         return null;
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { location } = nextProps;
+    if (location.pathname.startsWith('/artist/')) {
+      this.setState({ value: 2 });
     }
   }
 
