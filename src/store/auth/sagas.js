@@ -14,6 +14,7 @@ import { successGetToken, successGetProfileSocial, logOutUser } from './actions'
 import { errorMessage, errorMessageSingUp, errorMessageSingIn } from '../error/actions';
 import { setUserToken } from '../../utilities/APIConfig';
 import { getRoute } from './utilities/selectors';
+import { PersistGate } from 'redux-persist/lib/integration/react';
 
 export function* getTokenUser(action) {
   const { email, password, name } = action.payload;
@@ -40,8 +41,6 @@ export function* rehydrateAuth({ payload }) {
         }
         setUserToken(verifyToken);
         yield put(successGetToken(verifyToken));
-        const route = yield select(getRoute);
-        yield put(push(route));
       } catch (e) {
         yield put(logOutUser());
         yield put(errorMessage(e.message));

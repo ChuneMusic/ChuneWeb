@@ -1,6 +1,6 @@
 import {
   put, takeEvery, call,
-  select
+  select, take
 } from 'redux-saga/effects';
 
 import { errorMessage } from '../error/actions';
@@ -14,23 +14,26 @@ import {
   getChuneSupplyToServer, getContentForYouPageToServer,
   getContentHome, getContentForYou
 } from './utilities/content';
-import { getPagesHome, getPagesForYou } from './utilities/selectors';
+import { getQuantityHome, getQuantityForYou, getAuth } from './utilities/selectors';
 import {
   FETCH_MORE_CONTENT_FORYOU_PAGE_USER, FETCH_MORE_CONTENT_HOME_PAGE_USER,
   SUCCESS_GET_CONTENT_HOME_PAGE_USER, SUCCESS_GET_TOP_TRACKS
 } from './types';
 import { locationChange } from '../../utilities/patternForSagas';
 import { FOLLOW_ARTIST, UNFOLLOW_ARTIST } from '../artists/types';
+import { SUCCESS_GET_TOKEN } from '../auth/types';
 
 export function* getContentHomePage({ type }) {
   let featured = [];
   let contentFeed = [];
-  let pages = 0;
-  if (type === 'FETCH_MORE_CONTENT_HOME_PAGE_USER') pages = yield select(getPagesHome);
+  let quantity = 0;
+  if (type === 'FETCH_MORE_CONTENT_HOME_PAGE_USER') quantity = yield select(getQuantityHome);
+  const auth = yield select(getAuth);
+  if (auth === false || auth === undefined) yield take(SUCCESS_GET_TOKEN);
   try {
     const dataRecs = yield call(getContentHome);
     if (dataRecs.content_feed.length === 0) {
-      const data = yield call(getContentHomePageToServer, pages);
+      const data = yield call(getContentHomePageToServer, quantity);
       featured = data.featured || [];
       contentFeed = data.content_feed || [];
     } else {
@@ -47,12 +50,14 @@ export function* getContentHomePage({ type }) {
 export function* getContentForYouPage({ type }) {
   let artistTracks = [];
   let contentFeed = [];
-  let pages = 0;
-  if (type === 'FETCH_MORE_CONTENT_FORYOU_PAGE_USER') pages = yield select(getPagesForYou);
+  let quantity = 0;
+  if (type === 'FETCH_MORE_CONTENT_FORYOU_PAGE_USER') quantity = yield select(getQuantityForYou);
+  const auth = yield select(getAuth);
+  if (auth === false || auth === undefined) yield take(SUCCESS_GET_TOKEN);
   try {
     const dataRecs = yield call(getContentForYou);
     if (dataRecs.content_feed.length === 0) {
-      const data = yield call(getContentForYouPageToServer, pages);
+      const data = yield call(getContentForYouPageToServer, quantity);
       artistTracks = data.artist_tracks || [];
       contentFeed = data.content_feed || [];
     } else {

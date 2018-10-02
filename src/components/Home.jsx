@@ -104,6 +104,7 @@ class Home extends React.Component {
               }
             })}
             {this.renderWaypoint()}
+            <Styled.WaypointBlock />
           </StyledContent.LeftBlockContent>
           <StyledContent.RightBlockContent>
             <TopTracksChartConnect

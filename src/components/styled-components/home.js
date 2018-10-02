@@ -28,3 +28,7 @@ export const FeaturedBlock = styled.div`
     flex-direction: row;
   }
 `;
+export const WaypointBlock = styled.div`
+  width: 100%;
+  height: 20px;
+`;
