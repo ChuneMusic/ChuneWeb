@@ -15,18 +15,18 @@ const ArticleCard = ({ article, openNews }) => {
       <StyledArticle.ArticleImages images={`https://chunesupply.s3.amazonaws.com/imgs/${article.image}` || 'https://placeholder.com/344x194'} />
       <StyledArticle.ArticleContainer>
         <StyledArticle.ArticleInfo>
-          { `via ${article.source_name} · `}
-          { `${formattedDate}`}
+          { 'via ' }
+          <StyledArticle.ArticleButton onClick={() => openNews(article.url, article.title, true)}>
+            {article.source_name}
+          </StyledArticle.ArticleButton>
+          { ` · ${formattedDate} · ` }
           <StyledArticle.ArticleLink to={`/artist/${article.artist_name}`}>
-            { ` · ${article.artist_name}` }
+            {article.artist_name}
           </StyledArticle.ArticleLink>
         </StyledArticle.ArticleInfo>
         <StyledArticle.ArticleTitle>
-          { truncateWithEllipses(article.title, 55) }
+          { truncateWithEllipses(article.title, 100) }
         </StyledArticle.ArticleTitle>
-        <StyledArticle.ArticleButton onClick={() => openNews(article.url, article.title, true)}>
-          Read More
-        </StyledArticle.ArticleButton>
       </StyledArticle.ArticleContainer>
     </StyledArticle.Article>
   );

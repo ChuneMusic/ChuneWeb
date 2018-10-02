@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const MusicBlock = styled.div`
-  padding: 26px 32px 5px 16px;
+  padding: 25px 25px 5px 25px;
   font-family: 'Roboto';
   border: solid 1px rgba(0, 0, 0, 0.12);
   background: #ffffff;

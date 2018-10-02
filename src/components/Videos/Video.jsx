@@ -2,7 +2,6 @@ import React from 'react';
 import { objectOf, any } from 'prop-types';
 
 import { Player } from './Player';
-import { truncateWithEllipses } from '../../helpers/eventHelpers';
 import { timestampToDate } from '../../helpers/populateArticles';
 import * as StyledVideo from '../styled-components/video';
 
@@ -19,7 +18,7 @@ const VideoCard = ({ video }) => {
           </StyledVideo.VideoLink>
         </StyledVideo.VideoInfo>
         <StyledVideo.VideoTitle>
-          { truncateWithEllipses(video.title, 45) }
+          {video.title}
         </StyledVideo.VideoTitle>
       </StyledVideo.VideoDescriptionBlock>
       <StyledVideo.Video>

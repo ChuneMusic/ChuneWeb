@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 export const VideoBlock = styled.div`
-  width: 500px;
-  height: 400px;
+  width: 530px;
+  height: 360px;
   display: flex;
   flex-direction: column;
   background: #ffffff;
@@ -17,7 +17,7 @@ export const VideoBlock = styled.div`
   }
 `;
 export const VideoDescriptionBlock = styled.div`
-  width: 500px;
+  width: 530px;
   height: 65px;
   display: flex;
   flex-direction: column;
@@ -58,14 +58,19 @@ export const VideoTitle = styled.h2`
   font-weight: 500;
   letter-spacing: 0.3px;
   padding: 0 10px 10px 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 510px;
   @media(max-width: 849px) and (min-width: 320px) {
     padding: 5px;
     font-size: 12px;
+    width: 300px;
   }
 `;
 export const Video = styled.div`
-  width: 500px;
-  height: 320px;
+  width: 530px;
+  height: 300px;
   @media(max-width: 849px) and (min-width: 320px) {
     width: 310px;
     height: 260px;

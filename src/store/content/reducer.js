@@ -20,19 +20,19 @@ const successGetContentHomePageUser = (state, { featured, contentFeedHome }) => 
   ...state,
   featured,
   contentFeedHome,
-  quantityHome: 20
+  quantityHome: 10
 });
 const successGetContentForYouPageUser = (state, { artistTracksForYou, contentFeedForYou }) => ({
   ...state,
   artistTracksForYou,
   contentFeedForYou,
-  quantityForYou: 20
+  quantityForYou: 10
 });
 const fethcMoreContentHomePageUser = state => ({ ...state });
 const fethcMoreContentForYouPageUser = state => ({ ...state });
 const successfethcMoreContentHome = (state, { featured, contentFeedHome }) => {
   const content = state.contentFeedHome.concat(contentFeedHome);
-  const quantity = state.quantityHome + 20;
+  const quantity = state.quantityHome + 10;
   return ({
     ...state,
     featured,
@@ -42,7 +42,7 @@ const successfethcMoreContentHome = (state, { featured, contentFeedHome }) => {
 };
 const successfethcMoreContentForYou = (state, { artistTracksForYou, contentFeedForYou }) => {
   const content = state.contentFeedForYou.concat(contentFeedForYou);
-  const quantity = state.quantityForYou + 20;
+  const quantity = state.quantityForYou + 10;
   return ({
     ...state,
     artistTracksForYou,

@@ -4,7 +4,7 @@ export const WrapperHomePage = styled.div`
   display: flex;
   margin: 0 auto;
   flex-direction: column;
-  width: 1024px;
+  width: 960px;
   @media(max-width: 1030px) and (min-width: 850px) {
     width: 850px;
   }
@@ -15,7 +15,7 @@ export const WrapperHomePage = styled.div`
 export const FeaturedBlock = styled.div`
   display: flex;
   margin: 0 auto;
-  width: 1024px;
+  width: 960px;
   padding: 24px 0 0 0;
   flex-direction: column;
   @media(max-width: 1030px) and (min-width: 850px) {

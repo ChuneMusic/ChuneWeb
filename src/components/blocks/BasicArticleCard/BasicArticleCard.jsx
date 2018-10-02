@@ -1,8 +1,8 @@
 import React from 'react';
 import { arrayOf, any } from 'prop-types';
-import { map } from 'lodash';
 
 import * as Styled from '../../styled-components/featureArticles';
+import { truncateWithEllipses } from '../../../helpers/eventHelpers';
 
 export const BasicArticleCard = ({ featured }) => {
   if (featured.length === 0) {
@@ -32,25 +32,35 @@ export const BasicArticleCard = ({ featured }) => {
         source: 'Billboard',
       },
     ];
+    const featuredArticle = articles.map((e, index) => {
+      let t = e.title;
+      if (index !== 0) t = truncateWithEllipses(e.title, 40);
+      return (
+        <Styled.FeaturedArticle images={e.image} key={`${e.id}-article-featured`}>
+          <h2>{t}</h2>
+          <p> via {e.source}</p>
+        </Styled.FeaturedArticle>
+      );
+    });
     return (
       <Styled.WrapperFeatured>
-        {map(articles, article => (
-          <Styled.FeaturedArticle images={article.image} key={`${article.id}-article-featured`}>
-            <h2>{article.title}</h2>
-            <p> via {article.source}</p>
-          </Styled.FeaturedArticle>
-        ))}
+        { featuredArticle }
       </Styled.WrapperFeatured>
     );
   }
+  const featuredArticle = featured.map((e, index) => {
+    let t = e.title;
+    if (index !== 0) t = truncateWithEllipses(e.title, 40);
+    return (
+      <Styled.FeaturedArticle images={e.image} key={`${e.id}-article-featured`}>
+        <h2>{t}</h2>
+        <p> via {e.source_name}</p>
+      </Styled.FeaturedArticle>
+    );
+  });
   return (
     <Styled.WrapperFeatured>
-      {map(featured, article => (
-        <Styled.FeaturedArticle images={article.image} key={`${article.id}-article-featured`}>
-          <h2>{article.title}</h2>
-          <p> via {article.source_name}</p>
-        </Styled.FeaturedArticle>
-      ))}
+      { featuredArticle }
     </Styled.WrapperFeatured>
   );
 };

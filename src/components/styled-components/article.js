@@ -1,8 +1,14 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-export const Article = styled.div`
+export const ArticleTweet = styled.div`
   width: 500px;
+  @media(max-width: 550px) and (min-width: 320px) {
+    width: 310px;
+  }
+`;
+export const Article = styled.div`
+  width: 530px;
   height: 150px;
   border: solid 1px rgba(0, 0, 0, 0.12);
   margin: 0 auto;
@@ -28,7 +34,7 @@ export const ArticleImages = styled.div`
   }
 `;
 export const ArticleContainer = styled.div`
-  width: 350px;
+  width: 380px;
   height: 150px;
   display: flex;
   flex-direction: column;
@@ -49,7 +55,7 @@ export const ArticleInfo = styled.p`
   padding: 10px;
   @media(max-width: 849px) and (min-width: 320px) {
     font-size: 10px;
-    padding: 10px 5px 5px 5px;
+    padding: 10px 5px 5px 10px;
     letter-spacing: 1px;
   }
 `;
@@ -60,6 +66,9 @@ export const ArticleLink = styled(Link)`
   line-height: 1;
   letter-spacing: 1.5px;
   text-transform: capitalize;
+  &:hover{
+    border-bottom: 2px solid #6200ee;
+  }
   @media(max-width: 849px) and (min-width: 320px) {
     font-size: 10px;
     letter-spacing: 1px;
@@ -70,33 +79,23 @@ export const ArticleTitle = styled.h2`
   font-size: 20px;
   font-family: 'Roboto';
   font-weight: 500;
-  line-height: 1;
+  line-height: 26px;
   letter-spacing: 0.3px;
   padding: 10px;
   @media(max-width: 849px) and (min-width: 320px) {
     font-size: 16px;
-    padding: 5px;
+    line-height: 18px;
+    padding: 5px 5px 0 10px;
   }
 `;
-export const ArticleButton = styled.button`
-  color: #6200ee;
+export const ArticleButton = styled.a`
   border: 0;
   cursor: pointer;
   outline: none;
-  font-size: 14px;
-  text-align: center;
-  font-family: 'Roboto';
-  font-weight: 500;
-  line-height: 1.14;
-  text-transform: uppercase;
-  letter-spacing: 1.3px;
-  left: 10px;
-  bottom: 10px;
-  position: absolute;
   padding: 0;
   margin: 0;
   background: none;
-  @media(max-width: 849px) and (min-width: 320px) {
-    left: 5px;
+  &:hover{
+    border-bottom: 2px solid #6200ee;
   }
 `;

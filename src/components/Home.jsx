@@ -22,6 +22,7 @@ import { fethcMoreContentHomePageUser } from '../store/content/actions';
 import { Loading } from './shared/Loading';
 import * as Styled from './styled-components/home';
 import * as StyledContent from './styled-components/content';
+import * as StyledArticle from './styled-components/article';
 
 import './Home.css';
 
@@ -70,34 +71,31 @@ class Home extends React.Component {
         </Styled.FeaturedBlock>
         <StyledContent.Content>
           <StyledContent.LeftBlockContent>
-            {map(contentFeed, (item) => {
+            {map(contentFeed, (item, key) => {
+              console.log(key, 'key');
               switch (item.type) {
                 case 'video':
                   return (
                     <VideoCardConnect
                       video={item}
                       autoplay={false}
-                      key={`${item.id}-video`}
-                      rootClassName="homePagePlayerWrapper"
-                      videoControlerClass="homePagePlayer"
+                      key={`${item.id}-video-${key}`}
                     />);
                 case 'tweet': {
                   const str = item.embed_url.split('/');
                   return (
-                    <Tweet
-                      tweetId={str[str.length - 1]}
-                      options={{ width: 500 }}
-                      key={`${item.id}-tweet`}
-                    />
+                    <StyledArticle.ArticleTweet key={`${item.id}-tweet-${key}`}>
+                      <Tweet
+                        tweetId={str[str.length - 1]}
+                      />
+                    </StyledArticle.ArticleTweet>
                   );
                 }
                 case 'article':
                   return (
                     <ArticleCardConnect
                       article={item}
-                      key={`${item.id}-article`}
-                      rootClassName="homePageOtherArticleWrapper"
-                      rootCardClass="homePageOtherArticle"
+                      key={`${item.id}-article-${key}`}
                     />);
                 default:
                   return null;

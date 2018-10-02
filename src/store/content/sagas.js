@@ -26,14 +26,16 @@ import { SUCCESS_GET_TOKEN } from '../auth/types';
 export function* getContentHomePage({ type }) {
   let featured = [];
   let contentFeed = [];
-  let quantity = 0;
-  if (type === 'FETCH_MORE_CONTENT_HOME_PAGE_USER') quantity = yield select(getQuantityHome);
+  let start = 0;
+  if (type === 'FETCH_MORE_CONTENT_HOME_PAGE_USER') start = yield select(getQuantityHome);
   const auth = yield select(getAuth);
   if (auth === false || auth === undefined) yield take(SUCCESS_GET_TOKEN);
+  const end = start + 10;
+  console.log('start: ', start, 'end: ', end);
   try {
     const dataRecs = yield call(getContentHome);
     if (dataRecs.content_feed.length === 0) {
-      const data = yield call(getContentHomePageToServer, quantity);
+      const data = yield call(getContentHomePageToServer, start, end);
       featured = data.featured || [];
       contentFeed = data.content_feed || [];
     } else {
@@ -50,14 +52,16 @@ export function* getContentHomePage({ type }) {
 export function* getContentForYouPage({ type }) {
   let artistTracks = [];
   let contentFeed = [];
-  let quantity = 0;
-  if (type === 'FETCH_MORE_CONTENT_FORYOU_PAGE_USER') quantity = yield select(getQuantityForYou);
+  let start = 0;
+  if (type === 'FETCH_MORE_CONTENT_FORYOU_PAGE_USER') start = yield select(getQuantityForYou);
   const auth = yield select(getAuth);
   if (auth === false || auth === undefined) yield take(SUCCESS_GET_TOKEN);
+  const end = start + 10;
+  console.log('start: ', start, 'end: ', end);
   try {
     const dataRecs = yield call(getContentForYou);
     if (dataRecs.content_feed.length === 0) {
-      const data = yield call(getContentForYouPageToServer, quantity);
+      const data = yield call(getContentForYouPageToServer, start, end);
       artistTracks = data.artist_tracks || [];
       contentFeed = data.content_feed || [];
     } else {
