@@ -6,8 +6,8 @@ export const initState = {
   contentFeedHome: [],
   artistTracksForYou: [],
   contentFeedForYou: [],
-  pagesHome: 0,
-  pagesForYou: 0,
+  quantityHome: 0,
+  quantityForYou: 0,
   topTracks: [],
   topChune: [],
   url: '',
@@ -20,36 +20,34 @@ const successGetContentHomePageUser = (state, { featured, contentFeedHome }) => 
   ...state,
   featured,
   contentFeedHome,
-  pagesHome: 0
+  quantityHome: 10
 });
 const successGetContentForYouPageUser = (state, { artistTracksForYou, contentFeedForYou }) => ({
   ...state,
   artistTracksForYou,
   contentFeedForYou,
-  pagesForYou: 0
+  quantityForYou: 10
 });
 const fethcMoreContentHomePageUser = state => ({ ...state });
 const fethcMoreContentForYouPageUser = state => ({ ...state });
 const successfethcMoreContentHome = (state, { featured, contentFeedHome }) => {
   const content = state.contentFeedHome.concat(contentFeedHome);
-  let pages = state.pagesHome + 1;
-  if (contentFeedHome.length === 0) pages = 0;
+  const quantity = state.quantityHome + 10;
   return ({
     ...state,
     featured,
     contentFeedHome: content,
-    pagesHome: pages
+    quantityHome: quantity
   });
 };
 const successfethcMoreContentForYou = (state, { artistTracksForYou, contentFeedForYou }) => {
   const content = state.contentFeedForYou.concat(contentFeedForYou);
-  let pages = state.pagesHome + 1;
-  if (contentFeedForYou.length === 0) pages = 0;
+  const quantity = state.quantityForYou + 10;
   return ({
     ...state,
     artistTracksForYou,
     contentFeedForYou: content,
-    pagesForYou: pages
+    quantityForYou: quantity
   });
 };
 const successGetTopTracks = (state, { topTracks }) => ({ ...state, topTracks });

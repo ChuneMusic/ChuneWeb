@@ -6,10 +6,11 @@ import { createLogger } from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 import { reducer as geolocation } from 'react-redux-geolocation';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { persistStore, persistReducer } from 'redux-persist';
+import { persistStore, persistReducer, createTransform } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { createBrowserHistory } from 'history';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
+import { createWhitelistFilter } from 'redux-persist-transform-filter';
 
 import user from './user';
 import artists from './artists';
@@ -60,7 +61,14 @@ const reducer = combineReducers({
 const userPersistConfig = {
   key: 'root',
   storage,
-  whitelist: ['dataAuth', 'dataSpotify']
+  whitelist: ['dataAuth'],
+  transforms: [
+    createWhitelistFilter('dataAuth', ['token']),
+    createTransform(
+      state => state,
+      state => Object.assign({}, state)
+    ),
+  ]
 };
 
 const persistedReducer = persistReducer(userPersistConfig, reducer);

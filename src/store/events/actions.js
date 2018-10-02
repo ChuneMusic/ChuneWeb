@@ -1,13 +1,8 @@
 import { GET_EVENTS_ARTIST, SUCCESS_GET_EVENTS_ARTIST, SUCCESS_GET_POSITION_USER } from './types';
 
-export const getEventsArtist = (id, startDate, endDate, name) => ({
+export const getEventsArtist = (id, name) => ({
   type: GET_EVENTS_ARTIST,
-  payload: {
-    id,
-    startDate,
-    endDate,
-    name
-  }
+  payload: { id, name }
 });
 export const successGetPositionUser = geolocation => ({
   type: SUCCESS_GET_POSITION_USER,

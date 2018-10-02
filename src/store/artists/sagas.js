@@ -1,4 +1,7 @@
-import { put, takeEvery, call } from 'redux-saga/effects';
+import {
+  put, takeEvery, call,
+  take, select
+} from 'redux-saga/effects';
 
 import { errorMessage } from '../error/actions';
 import { getList, postArtist, deleteArtist } from './utilities/artistsUser';
@@ -9,8 +12,12 @@ import {
 } from './types';
 import { locationChange } from '../../utilities/patternForSagas';
 import { noFollowArtists } from '../content/actions';
+import { getAuth } from '../content/utilities/selectors';
+import { SUCCESS_GET_TOKEN } from '../auth/types';
 
 export function* getListArtistsUser() {
+  const auth = yield select(getAuth);
+  if (auth === false || auth === undefined) yield take(SUCCESS_GET_TOKEN);
   try {
     const { artists, recommended } = yield call(getList);
     yield put(successGetUserArtists(artists, recommended));

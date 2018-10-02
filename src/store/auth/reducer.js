@@ -3,12 +3,18 @@ import * as TYPES from './types';
 
 export const initState = {
   token: '',
-  profile: {}
+  profile: {},
+  authSuccess: false
 };
 
-const successGetToken = (state, { token }) => ({ ...state, token });
+const successGetToken = (state, { token }) => ({ ...state, token, authSuccess: true });
 const successGetProfileSocial = (state, { profile }) => ({ ...state, profile });
-const logOutUser = state => ({ ...state, token: '', profile: {} });
+const logOutUser = state => ({
+  ...state,
+  token: '',
+  profile: {},
+  authSuccess: false
+});
 
 const handlers = {
   [TYPES.SUCCESS_GET_TOKEN]: successGetToken,

@@ -5,91 +5,28 @@ import {
   func, string, objectOf,
   any, arrayOf
 } from 'prop-types';
-import { map, findIndex } from 'lodash';
-import Grid from '@material-ui/core/Grid';
+import { map } from 'lodash';
 import { Tweet } from 'react-twitter-widgets';
 import SpotifyWebApi from 'spotify-web-api-js';
 import Waypoint from 'react-waypoint';
 
-import { TopTracksChartConnect, ChuneSupplyConnect, BasicSoundPlayer } from './blocks';
+import {
+  TopTracksChartConnect, ChuneSupplyConnect, BasicSoundPlayer,
+  BasicArticleCard
+} from './blocks';
 import { VideoCardConnect } from './Videos/Video';
 import { ArticleCardConnect } from './News/Article';
 import { playMusicPlayer, pauseMusicPlayer } from '../store/musicPlayer/actions';
 import { getAccessTokenSpotify } from '../store/spotify/actions';
 import { fethcMoreContentHomePageUser } from '../store/content/actions';
 import { Loading } from './shared/Loading';
-import { FeaturedArticles } from './HomeArticlesFeatured';
+import * as Styled from './styled-components/home';
+import * as StyledContent from './styled-components/content';
+import * as StyledArticle from './styled-components/article';
 
 import './Home.css';
 
-
 class Home extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      topTrackPlayId: null,
-      playSupplyId: null
-    };
-  }
-
-  handleTopTrackPlay = (id, play) => {
-    const playId = play ? id : null;
-    if (playId) {
-      const { playMusic } = this.props;
-      playMusic(playId);
-    } else {
-      const { pauseMusic } = this.props;
-      pauseMusic(playId);
-    }
-    this.setState({
-      topTrackPlayId: playId,
-      playSupplyId: null,
-    });
-  };
-
-  handleSupplyPlay = (id) => {
-    this.setState({
-      playSupplyId: id,
-      topTrackPlayId: null,
-    });
-  };
-
-  handlePrevSupplyMedia = () => {
-    const { playlist, playSupplyId } = this.state;
-    const playSupplyIndex = findIndex(playlist, o => (o.id === playSupplyId));
-    let prevSupply;
-    if (playSupplyIndex === 0) {
-      // get last
-      prevSupply = playlist[playlist.length - 1];
-    } else {
-      // get prev
-      prevSupply = playlist[playSupplyIndex - 1];
-    }
-
-    this.setState({
-      playSupplyId: prevSupply.id,
-      topTrackPlayId: null,
-    });
-  };
-
-  handleNextSupplyMedia = () => {
-    const { playlist, playSupplyId } = this.state;
-    const playSupplyIndex = findIndex(playlist, o => (o.id === playSupplyId));
-    let nextSupply;
-    if (playSupplyIndex === playlist.length - 1) {
-      // get first
-      nextSupply = playlist[0];
-    } else {
-      // get next
-      nextSupply = playlist[playSupplyIndex + 1];
-    }
-
-    this.setState({
-      playSupplyId: nextSupply.id,
-      topTrackPlayId: null
-    });
-  };
-
   renderWaypoint = () => <Waypoint onEnter={this.loadMore} threshold={2.0} />
 
   loadMore = () => {
@@ -115,25 +52,6 @@ class Home extends React.Component {
   }
 
   render() {
-    const { topTrackPlayId, playSupplyId } = this.state;
-
-    // let audioPlayerControllerPlaylist;
-    // let selectedRecord;
-
-    // For large media player with overlay
-    // if (topTrackPlayId) {
-    //   audioPlayerControllerPlaylist = topTracks;
-    //   selectedRecord = find(topTracks, (o) => (o.id === topTrackPlayId) );
-    // } else if (playSupplyId) {
-    //   audioPlayerControllerPlaylist = playlist;
-    //   selectedRecord = find(playlist, (o) => (o.id === playSupplyId) );
-    // }
-
-    // For small media player - BLOCKED WITH null VALUE for now, since large player opening on all media play
-    let playSupply;
-    if (playSupplyId) {
-      // playSupply = find(playlist, (o) => (o.id === playSupplyId) );
-    }
     const {
       location, token, contentFeed,
       getTokenSpotify, history, topTracks,
@@ -145,72 +63,58 @@ class Home extends React.Component {
       history.push('/home');
     }
     if (topChune.length === 0) return <Loading />;
+    /* <button onClick={this.playMusicSpotify} type="button">Play</button> */
     return (
-      <div>
-        {/* <button onClick={this.playMusicSpotify} type="button">Play</button> */}
-        <div className="homePageWrapper">
-          <FeaturedArticles featured={featured} />
-          <div className="gridWrapper">
-            <Grid container spacing={24}>
-              <Grid item xs={12} md={8} lg={8}>
-                {map(contentFeed, (item) => {
-                  switch (item.type) {
-                    case 'video':
-                      return (
-                        <VideoCardConnect
-                          video={item}
-                          autoplay={false}
-                          key={`${item.id}-video`}
-                          rootClassName="homePagePlayerWrapper"
-                          videoControlerClass="homePagePlayer"
-                        />);
-                    case 'tweet': {
-                      const str = item.embed_url.split('/');
-                      return (
-                        <div className="tweet">
-                          <Tweet
-                            tweetId={str[str.length - 1]}
-                            options={{ width: 500 }}
-                            key={`${item.id}-tweet`}
-                          />
-                        </div>
-                      );
-                    }
-                    case 'article':
-                      return (
-                        <ArticleCardConnect
-                          article={item}
-                          key={`${item.id}-article`}
-                          rootClassName="homePageOtherArticleWrapper"
-                          rootCardClass="homePageOtherArticle"
-                        />);
-                    default:
-                      return null;
-                  }
-                })}
-                {this.renderWaypoint()}
-              </Grid>
-              <Grid item xs={12} md={4} lg={4} className="rightGridListWrapper">
-                <TopTracksChartConnect
-                  tracks={topTracks}
-                  playing={topTrackPlayId}
-                />
-
-                <BasicSoundPlayer
-                  source={playSupply ? playSupply.url : null}
-                  onPrev={this.handlePrevSupplyMedia}
-                  onNext={this.handleNextSupplyMedia}
-                />
-
-                <ChuneSupplyConnect
-                  supplies={topChune}
-                  foryou={false}
-                />
-              </Grid>
-            </Grid>
-          </div>
-        </div>
-      </div>
+      <Styled.WrapperHomePage>
+        <Styled.FeaturedBlock>
+          <BasicArticleCard featured={featured} />
+        </Styled.FeaturedBlock>
+        <StyledContent.Content>
+          <StyledContent.LeftBlockContent>
+            {map(contentFeed, (item, key) => {
+              switch (item.type) {
+                case 'video':
+                  return (
+                    <VideoCardConnect
+                      video={item}
+                      autoplay={false}
+                      key={`${item.id}-video-${key}`}
+                    />);
+                case 'tweet': {
+                  const str = item.embed_url.split('/');
+                  return (
+                    <StyledArticle.ArticleTweet key={`${item.id}-tweet-${key}`}>
+                      <Tweet
+                        tweetId={str[str.length - 1]}
+                      />
+                    </StyledArticle.ArticleTweet>
+                  );
+                }
+                case 'article':
+                  return (
+                    <ArticleCardConnect
+                      article={item}
+                      key={`${item.id}-article-${key}`}
+                    />);
+                default:
+                  return null;
+              }
+            })}
+            {this.renderWaypoint()}
+            <Styled.WaypointBlock />
+          </StyledContent.LeftBlockContent>
+          <StyledContent.RightBlockContent>
+            <TopTracksChartConnect
+              tracks={topTracks}
+            />
+            <BasicSoundPlayer />
+            <ChuneSupplyConnect
+              supplies={topChune}
+              foryou={false}
+            />
+          </StyledContent.RightBlockContent>
+        </StyledContent.Content>
+      </Styled.WrapperHomePage>
     );
   }
 }
@@ -235,8 +139,6 @@ const mapActionsToProps = dispatch => bindActionCreators({
 export const HomeConnect = connect(mapStateToProps, mapActionsToProps)(Home);
 
 Home.propTypes = {
-  playMusic: func.isRequired,
-  pauseMusic: func.isRequired,
   getTokenSpotify: func.isRequired,
   token: string.isRequired,
   location: objectOf(any).isRequired,
@@ -245,5 +147,6 @@ Home.propTypes = {
   topTracks: arrayOf(any).isRequired,
   topChune: arrayOf(any).isRequired,
   loadMoreItems: func.isRequired,
-  featured: arrayOf(any).isRequired
+  featured: arrayOf(any).isRequired,
+  deviceID: string.isRequired
 };

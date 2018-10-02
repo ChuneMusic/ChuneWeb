@@ -1,6 +1,6 @@
 import {
   put, takeEvery, call,
-  fork
+  fork, select, take
 } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 
@@ -11,6 +11,8 @@ import { successGetEventsArtist, successGetPositionUser } from './actions';
 import { getList } from '../artists/utilities/artistsUser';
 import { successGetUserArtists } from '../artists/actions';
 import { locationChange } from '../../utilities/patternForSagas';
+import { getAuth } from '../content/utilities/selectors';
+import { SUCCESS_GET_TOKEN } from '../auth/types';
 
 export function* getGeolocation() {
   try {
@@ -22,6 +24,8 @@ export function* getGeolocation() {
 }
 
 export function* getArtists() {
+  const auth = yield select(getAuth);
+  if (auth === false || auth === undefined) yield take(SUCCESS_GET_TOKEN);
   try {
     const { artists, recommended } = yield call(getList);
     yield put(successGetUserArtists(artists, recommended));
@@ -31,10 +35,12 @@ export function* getArtists() {
 }
 
 export function* getEvent({ payload }) {
-  const {
-    id, startDate, endDate,
-    name
-  } = payload;
+  const { id, name } = payload;
+  const current = new Date();
+  const startDate = current.toISOString().substring(0, 10);
+  const d = new Date();
+  d.setDate(d.getDate() + 90);
+  const endDate = d.toISOString().substring(0, 10);
   try {
     const { error_msg } = yield call(getEventsToServer, id, startDate, endDate);
     yield put(successGetEventsArtist(error_msg));

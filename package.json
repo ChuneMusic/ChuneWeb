@@ -53,11 +53,13 @@
     "redux-devtools-extension": "2.13.5",
     "redux-logger": "3.0.6",
     "redux-persist": "5.10.0",
+    "redux-persist-transform-filter": "0.0.18",
     "redux-saga": "0.16.0",
     "redux-thunk": "2.3.0",
     "request": "2.88.0",
     "reselect": "3.0.1",
     "spotify-web-api-js": "^1.1.1",
+    "styled-components": "^3.4.9",
     "video-react": "0.13.0"
   },
   "devDependencies": {
@@ -71,6 +73,7 @@
     "babel-eslint": "9.0.0",
     "babel-jest": "23.6.0",
     "babel-loader": "8.0.2",
+    "babel-plugin-styled-components": "^1.8.0",
     "chalk": "2.4.1",
     "css-loader": "1.0.0",
     "eslint": "5.5.0",
@@ -119,7 +122,8 @@
       "@babel/preset-react"
     ],
     "plugins": [
-      "@babel/plugin-proposal-class-properties"
+      "@babel/plugin-proposal-class-properties",
+      "styled-components"
     ]
   },
   "eslintConfig": {

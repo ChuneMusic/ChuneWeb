@@ -3,27 +3,12 @@ import * as TYPES from './types';
 
 export const initState = {
   id: null,
-  startDate: null,
-  endDate: null,
   name: '',
   events: [],
   geolocation: null
 };
 
-const getEventsArtist = (
-  state, {
-    id,
-    startDate,
-    endDate,
-    name
-  }
-) => ({
-  ...state,
-  id,
-  startDate,
-  endDate,
-  name
-});
+const getEventsArtist = (state, { id, name }) => ({ ...state, id, name });
 const successGetPositionUser = (state, { geolocation }) => ({ ...state, geolocation });
 const successGetEventsArtist = (state, { events }) => ({ ...state, events });
 
