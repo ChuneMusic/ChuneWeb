@@ -35,10 +35,12 @@ export function* getArtists() {
 }
 
 export function* getEvent({ payload }) {
-  const {
-    id, startDate, endDate,
-    name
-  } = payload;
+  const { id, name } = payload;
+  const current = new Date();
+  const startDate = current.toISOString().substring(0, 10);
+  const d = new Date();
+  d.setDate(d.getDate() + 90);
+  const endDate = d.toISOString().substring(0, 10);
   try {
     const { error_msg } = yield call(getEventsToServer, id, startDate, endDate);
     yield put(successGetEventsArtist(error_msg));

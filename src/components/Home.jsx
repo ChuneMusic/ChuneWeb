@@ -72,7 +72,6 @@ class Home extends React.Component {
         <StyledContent.Content>
           <StyledContent.LeftBlockContent>
             {map(contentFeed, (item, key) => {
-              console.log(key, 'key');
               switch (item.type) {
                 case 'video':
                   return (
