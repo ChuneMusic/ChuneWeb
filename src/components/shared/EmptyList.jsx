@@ -1,8 +1,15 @@
 import React from 'react';
-import { objectOf, any, string } from 'prop-types';
+import {
+  objectOf, any, string,
+  func
+} from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { withRouter } from 'react-router-dom';
 
 import SearchSVG from '../../../assets/images/search-ring.svg';
+import { openCloseSearch } from '../../store/autosuggest/actions';
 
 const styles = () => ({
   root: {
@@ -11,7 +18,7 @@ const styles = () => ({
     display: 'flex',
     flexDirection: 'column',
     '@media (max-width: 1023px)': {
-      width: '100vw',
+      width: '310px',
       margin: '80px auto',
     }
   },
@@ -33,15 +40,18 @@ const styles = () => ({
     textAlign: 'center',
     color: 'rgba(0, 0, 0, 0.5)',
     '@media (max-width: 1023px)': {
-      width: 344,
+      width: 310,
       margin: '0px auto',
     }
   },
 });
 
-const EmptyList = ({ classes, messageOne, messageTwo }) => (
+const EmptyList = ({
+  classes, messageOne, messageTwo,
+  showHideSearch
+}) => (
   <div className={classes.root}>
-    <img src={SearchSVG} className={classes.searchRing} title="Search" alt="Search" />
+    <img src={SearchSVG} className={classes.searchRing} title="Search" alt="Search" onClick={showHideSearch} />
     <div className={classes.description}>
       { messageOne }
       <br />
@@ -50,10 +60,15 @@ const EmptyList = ({ classes, messageOne, messageTwo }) => (
   </div>
 );
 
-export const EmptyListConnect = withStyles(styles)(EmptyList);
+const mapActionsToProps = dispatch => bindActionCreators({
+  showHideSearch: openCloseSearch
+}, dispatch);
+
+export const EmptyListConnect = withStyles(styles)(withRouter(connect(null, mapActionsToProps)(EmptyList)));
 
 EmptyList.propTypes = {
   classes: objectOf(any).isRequired,
   messageOne: string.isRequired,
-  messageTwo: string.isRequired
+  messageTwo: string.isRequired,
+  showHideSearch: func.isRequired
 };

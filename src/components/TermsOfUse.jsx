@@ -3,29 +3,27 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { FooterConnect } from './shared/Footer';
 
-const styles = theme => ({
+const styles = () => ({
   contentContainer: {
     width: 716,
     margin: '106px auto',
-    '@media (max-width: 1023px)': {
-      width: 345,
-      marginLeft: 'auto',
-      marginRight: 'auto',
-      marginTop: 40,
+    '@media (max-width: 800px)': {
+      width: 310,
+      margin: '40px auto',
     },
     '& h3': {
       width: 716,
-      fontFamily: "Open Sans",
+      fontFamily: 'Open Sans',
       fontSize: 36,
-      fontWeight: "bold",
-      fontStyle: "normal",
-      fontStretch: "normal",
+      fontWeight: 'bold',
+      fontStyle: 'normal',
+      fontStretch: 'normal',
       lineHeight: 1.22,
-      letterSpacing: "normal",
-      color: "#232323",
+      letterSpacing: 'normal',
+      color: '#232323',
       marginBottom: 30,
-      '@media (max-width: 1023px)': {
-        width: 345,
+      '@media (max-width: 800px)': {
+        width: 310,
         marginLeft: 'auto',
         marginRight: 'auto',
       },
@@ -33,16 +31,16 @@ const styles = theme => ({
     '& .para1': {
       width: 716,
       opacity: 0.81,
-      fontFamily: "Open Sans",
+      fontFamily: 'Open Sans',
       fontSize: 16,
-      fontWeight: "normal",
-      fontStyle: "normal",
-      fontStretch: "normal",
+      fontWeight: 'normal',
+      fontStyle: 'normal',
+      fontStretch: 'normal',
       lineHeight: 1.5,
-      letterSpacing: "normal",
-      color: "#515151",
-      '@media (max-width: 1023px)': {
-        width: 345,
+      letterSpacing: 'normal',
+      color: '#515151',
+      '@media (max-width: 800px)': {
+        width: 310,
         marginLeft: 'auto',
         marginRight: 'auto',
       },
@@ -50,16 +48,16 @@ const styles = theme => ({
     '& .para2': {
       width: 716,
       opacity: 0.81,
-      fontFamily: "Open Sans",
+      fontFamily: 'Open Sans',
       fontSize: 16,
-      fontWeight: "normal",
-      fontStyle: "normal",
-      fontStretch: "normal",
+      fontWeight: 'normal',
+      fontStyle: 'normal',
+      fontStretch: 'normal',
       lineHeight: 1.5,
-      letterSpacing: "normal",
-      color: "#707070",
-      '@media (max-width: 1023px)': {
-        width: 345,
+      letterSpacing: 'normal',
+      color: '#707070',
+      '@media (max-width: 800px)': {
+        width: 310,
         marginLeft: 'auto',
         marginRight: 'auto',
       },
@@ -69,14 +67,14 @@ const styles = theme => ({
       '& li': {
         listStyle: 'disc',
         opacity: 0.81,
-        fontFamily: "Open Sans",
+        fontFamily: 'Open Sans',
         fontSize: 16,
-        fontWeight: "normal",
-        fontStyle: "normal",
-        fontStretch: "normal",
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
         lineHeight: 1.5,
-        letterSpacing: "normal",
-        color: "#515151",
+        letterSpacing: 'normal',
+        color: '#515151',
         '& strong': {
           fontWeight: 'bold',
         }
@@ -85,8 +83,8 @@ const styles = theme => ({
   }
 });
 
-const TermsOfUse = props => {
-  const { classes, user } = props;
+const TermsOfUse = (props) => {
+  const { classes } = props;
 
   return (
     <React.Fragment>
@@ -103,13 +101,13 @@ const TermsOfUse = props => {
           The purpose of chunemusicfeed.com is to keep users up to date with everything that their favorite
           artists are doing. Users will also be able to purchase merchandise from the site.
         </p>
-        <br/>
+        <br />
         <p className="para2">
           <strong>Privacy - </strong>
           Your use of chunemusicfeed.com is subject to Chune's Privacy Policy. Please review our Privacy
           Policy, which also governs the Site and informs users of our data collection practices.
         </p>
-        <br/>
+        <br />
         <p className="para2">
           <strong>Electronic Communications - </strong>
           Visiting chunemusicfeed.com or sending emails to Chune constitutes electronic communications.
@@ -117,7 +115,7 @@ const TermsOfUse = props => {
           disclosures and other communications that we provide to you electronically, via email and on the
           Site, satisfy any legal requirement that such communications be in writing.
         </p>
-        <br/>
+        <br />
         <p className="para2">
           <strong>Your Account - </strong>
           If you use this site, you are responsible for maintaining the confidentiality of your account and
@@ -128,14 +126,14 @@ const TermsOfUse = props => {
           Chune and its associates reserve the right to refuse or cancel service, terminate accounts, or
           remove or edit content in our sole discretion.
         </p>
-        <br/>
+        <br />
         <p className="para2">
           <strong>Children Under Thirteen - </strong>
           Chune does not knowingly collect, either online or offline, personal information from persons under
           the age of thirteen. If you are under 18, you may use chunemusicfeed.com only with permission of
           a parent or guardian.
         </p>
-        <br/>
+        <br />
         <p className="para2">
           <strong>Links to Third Party Sites/Third Party Services - </strong>
           chunemusicfeed.com may contain links to other websites ("Linked Sites"). The Linked Sites are
@@ -151,7 +149,7 @@ const TermsOfUse = props => {
           provide the requested product, service or functionality on behalf of chunemusicfeed.com users and
           customers.
         </p>
-        <br/>
+        <br />
         <p className="para2">
           <strong>No Unlawful or Prohibited Use/Intellectual Property - </strong>
           You are granted a non-exclusive, non-transferable, revocable license to access and use
@@ -176,7 +174,7 @@ const TermsOfUse = props => {
           We do not grant you any licenses, express or implied, to the intellectual property of Chune or our
           licensors except as expressly authorized by these Terms.
         </p>
-        <br/>
+        <br />
         <p className="para2">
           <strong>Third Party Accounts - </strong>
           You will be able to connect your Chune account to third party accounts. By connecting your
@@ -185,7 +183,7 @@ const TermsOfUse = props => {
           on those third party sites). If you do not want information about you to be shared in this manner,
           do not use this feature.
         </p>
-        <br/>
+        <br />
         <p className="para2">
           <strong>International Users - </strong>
           The Service is controlled, operated and administered by Chune from our offices within the USA. If
@@ -193,7 +191,7 @@ const TermsOfUse = props => {
           all local laws. You agree that you will not use the Chune Content accessed through
           chunemusicfeed.com in any country or in any manner prohibited by any applicable laws, restrictions or regulations.
         </p>
-        <br/>
+        <br />
         <p className="para2">
           <strong>Indemnification - </strong>
           You agree to indemnify, defend and hold harmless Chune, its officers, directors, employees, agents
@@ -205,7 +203,7 @@ const TermsOfUse = props => {
           to indemnification by you, in which event you will fully cooperate with Chune in asserting any
           available defenses.
         </p>
-        <br/>
+        <br />
         <p className="para2">
           <strong>Liability Disclaimer - </strong>
           THE INFORMATION, SOFTWARE, PRODUCTS, AND SERVICES INCLUDED IN OR
@@ -247,7 +245,7 @@ const TermsOfUse = props => {
           WITH ANY PORTION OF THE SITE, OR WITH ANY OF THESE TERMS OF USE,
           YOUR SOLE AND EXCLUSIVE REMEDY IS TO DISCONTINUE USING THE SITE.
         </p>
-        <br/>
+        <br />
         <p className="para2">
           <strong>Termination/Access Restriction - </strong>
           Chune reserves the right, in its sole discretion, to terminate your access to the Site and the related
@@ -275,14 +273,14 @@ const TermsOfUse = props => {
           records originally generated and maintained in printed form. It is the express wish to the parties
           that this agreement and all related documents be written in English.
         </p>
-        <br/>
+        <br />
         <p className="para2">
           <strong>Changes to Terms - </strong>
           Chune reserves the right, in its sole discretion, to change the Terms under which
           chunemusicfeed.com is offered. The most current version of the Terms will supersede all previous
           versions. Chune encourages you to periodically review the Terms to stay informed of our updates.
         </p>
-        <br/>
+        <br />
         <p className="para2">
           <strong>Contact Us - </strong>
           Chune welcomes your questions or comments regarding the Terms:
@@ -294,7 +292,7 @@ const TermsOfUse = props => {
           or
           (305) 951-9113
         </p>
-      <br/>
+        <br />
         <p className="para2">
           <strong>Effective as of July 05, 2018</strong>
         </p>
@@ -302,6 +300,6 @@ const TermsOfUse = props => {
       <FooterConnect />
     </React.Fragment>
   );
-}
+};
 
-export default withStyles(styles)(TermsOfUse);
+export const TermsOfUseConnect = withStyles(styles)(TermsOfUse);

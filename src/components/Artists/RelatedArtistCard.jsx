@@ -89,7 +89,7 @@ const RelatedArtistCard = ({ classes, artist, follow }) => {
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
   };
-  let genre = 'POP';
+  let genre = 'None';
   if (artist.genres[0] !== undefined) genre = artist.genres[0].description;
   return (
     <Paper className={classes.root} style={overrideBgStyle}>

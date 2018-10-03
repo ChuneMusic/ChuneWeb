@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 
 export const ArticleTweet = styled.div`
   width: 500px;
+  margin: 0 0 20px 0;
   @media(max-width: 550px) and (min-width: 320px) {
     width: 310px;
+    margin: 0 0 10px 0;
   }
 `;
 export const Article = styled.div`

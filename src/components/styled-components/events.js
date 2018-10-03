@@ -30,8 +30,8 @@ export const EventsTitle = styled.div`
 export const EventsBlockArtist = styled.div`
   display: flex;
   width: 1080px;
-  justify-content: space-between;
-  align-items: flex-start;
+  justify-content: start;
+  align-items: center;
   flex-wrap: wrap;
   @media(max-width: 1080px) and (min-width: 320px) {
     width: 310px;
@@ -47,7 +47,10 @@ export const EventsCard = styled.div`
   border-radius: 6px;
   flex-direction: row;
   background-color: #ffffff;
-  margin: 0 0 20px 0;
+  margin: 0 22px 20px 0;
+  &:nth-child(3n){
+    margin: 0 0 20px 0;
+  }
   @media(max-width: 1080px) and (min-width: 320px) {
     width: 310px;
     height: 130px;

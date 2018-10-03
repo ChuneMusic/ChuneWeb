@@ -39,3 +39,12 @@ export const RightBlockContent = styled.div`
     display: none;
   }
 `;
+export const RightBlockArtistContent = styled.div`
+  width: 345px;
+  @media(max-width: 1030px) and (min-width: 850px) {
+    width: 320px;
+  }
+  @media(max-width: 849px) and (min-width: 320px) {
+    display: none;
+  }
+`;

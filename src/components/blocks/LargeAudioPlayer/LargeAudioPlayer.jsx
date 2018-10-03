@@ -10,7 +10,7 @@ import {
 import { CloseIcon } from '../../shared/InteractionIcons';
 import './LargeAudioPlayer.css';
 
-export default class LargeAudioPlayer extends Component {
+export class LargeAudioPlayer extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {

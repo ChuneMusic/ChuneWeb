@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import Waypoint from 'react-waypoint';
 import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import {
   objectOf, any, func,
@@ -19,6 +18,11 @@ import { NoMediaConnect } from '../shared/NoMedia';
 import { VideoCardConnect } from '../Videos/Video';
 import { ArticleCardConnect } from '../News/Article';
 import { EmptyListConnect } from '../shared/EmptyList';
+import * as Styled from '../styled-components/home';
+import * as StyledContent from '../styled-components/content';
+import * as StyledArticle from '../styled-components/article';
+import * as StyledArtist from '../styled-components/artistSingle';
+import { EventCardConnect } from '../Events/EventCard';
 
 const styles = () => ({
   root: {
@@ -203,44 +207,6 @@ class Artist extends React.Component {
 
   renderWaypoint = () => <Waypoint onEnter={this.loadMoreItems} threshold={2.0} />
 
-  renderItems = (content) => {
-    const { classes } = this.props;
-    return (
-      <div className={classes.cardlists}>
-        <ul className={classes.gridList}>
-          {
-            content.map((item) => {
-              switch (item.type) {
-                case 'video':
-                  return (
-                    <li className={classes.gridRow} key={item.id}>
-                      <VideoCardConnect video={item} autoplay={false} />
-                    </li>);
-                case 'tweet': {
-                  const str = item.embed_url.split('/');
-                  return (
-                    <li className={classes.gridRow} key={item.id}>
-                      <div className="tweet">
-                        <Tweet tweetId={str[str.length - 1]} options={{ width: 500 }} />
-                      </div>
-                    </li>);
-                }
-                case 'article':
-                  return (
-                    <li className={classes.gridRow} key={item.id}>
-                      <ArticleCardConnect article={item} />
-                    </li>);
-                default:
-                  return null;
-              }
-            })
-          }
-          { this.renderWaypoint() }
-        </ul>
-      </div>
-    );
-  }
-
   render() {
     const {
       classes, content, artists,
@@ -261,44 +227,69 @@ class Artist extends React.Component {
     });
     let contentArtist = null;
     if (content.length > 0) {
-      contentArtist = this.renderItems(content);
+      contentArtist = content.map((item, index) => {
+        const keyIndex = index + 5;
+        switch (item.type) {
+          case 'video':
+            return (
+              <VideoCardConnect
+                video={item}
+                autoplay={false}
+                key={`${item.id}-video-${keyIndex}`}
+              />);
+          case 'tweet': {
+            const str = item.embed_url.split('/');
+            return (
+              <StyledArticle.ArticleTweet key={`${item.id}-tweet-${keyIndex}`}>
+                <Tweet
+                  tweetId={str[str.length - 1]}
+                />
+              </StyledArticle.ArticleTweet>
+            );
+          }
+          case 'article':
+            return (
+              <ArticleCardConnect
+                article={item}
+                key={`${item.id}-article-${keyIndex}`}
+              />);
+          default:
+            return null;
+        }
+      });
     } else {
       contentArtist = <NoMediaConnect />;
     }
     return (
-      <div>
-        <div className={classes.root}>
-          <div className={classes.subMenuContainer}>
-            <div className={classes.recommendedArtistHeading}>
-              <img src={artist.image_url} alt={artist.name} title={artist.name} className={classes.imagesArtist} />
-              <p>{artist.name}</p>
-            </div>
-            <div className={classes.menuActionsContainer}>
-              {
-                followButton
-                  ? <Button className={classes.unfollowButton} onClick={this.unfollow}>UNFOLLOW</Button>
-                  : <Button className={classes.followButton} onClick={this.follow}>FOLLOW</Button>
-              }
-            </div>
-          </div>
-          <div className="foryou">
-            <Grid container spacing={24} className="foryou-container">
-              <Grid item xs={12} md={8} lg={8}>
-                {contentArtist}
-              </Grid>
-              <Grid item xs={12} md={4} lg={4} className="rightGridListWrapper">
-                <div className="chuneSupply">
-                  <TopTracksChartConnect
-                    tracks={topTracksArtist}
-                    playing={0}
-                    artistName={artist.name}
-                  />
-                </div>
-              </Grid>
-            </Grid>
-          </div>
-        </div>
-      </div>
+      <StyledArtist.WrapperArtist>
+        <StyledArtist.ArtistHeader>
+          <StyledContent.LeftBlockContent>
+            <StyledArtist.ArtistImage image={artist.image_url} />
+            <StyledArtist.ArtistName>{artist.name}</StyledArtist.ArtistName>
+          </StyledContent.LeftBlockContent>
+          <StyledArtist.RightBlockButton>
+            {
+              followButton
+                ? <Button className={classes.unfollowButton} onClick={this.unfollow}>UNFOLLOW</Button>
+                : <Button className={classes.followButton} onClick={this.follow}>FOLLOW</Button>
+            }
+          </StyledArtist.RightBlockButton>
+        </StyledArtist.ArtistHeader>
+        <StyledContent.Content>
+          <StyledContent.LeftBlockContent>
+            {contentArtist}
+            {this.renderWaypoint()}
+            <Styled.WaypointBlock />
+          </StyledContent.LeftBlockContent>
+          <StyledContent.RightBlockArtistContent>
+            <EventCardConnect artist={artist} />
+            <TopTracksChartConnect
+              tracks={topTracksArtist}
+              artistName={artist.name}
+            />
+          </StyledContent.RightBlockArtistContent>
+        </StyledContent.Content>
+      </StyledArtist.WrapperArtist>
     );
   }
 }

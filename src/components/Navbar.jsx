@@ -4,7 +4,10 @@ import { bindActionCreators } from 'redux';
 import { matchPath } from 'react-router';
 import MediaQuery from 'react-responsive';
 import { Link, NavLink, withRouter } from 'react-router-dom';
-import { objectOf, any, func } from 'prop-types';
+import {
+  objectOf, any, func,
+  bool
+} from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -25,6 +28,7 @@ import { SpotifyIcon } from './shared/SocialIcons';
 import LogoSVG from '../../assets/images/Chune_Supply_Logotype_White.svg';
 import { logOutUser } from '../store/auth/actions';
 import * as StyledNavBar from './styled-components/navbar';
+import { openCloseSearch } from '../store/autosuggest/actions';
 
 const styles = () => ({
   navContainer: {
@@ -234,7 +238,6 @@ class Navbar extends React.Component {
     super(props);
     this.state = {
       value: 0,
-      searching: false,
       anchorEl: null,
       drawerOpen: false,
     };
@@ -264,6 +267,23 @@ class Navbar extends React.Component {
     if (location.pathname.startsWith('/artist/')) {
       this.setState({ value: 2 });
     }
+    if (location.pathname.startsWith('/event/')) {
+      this.setState({ value: 3 });
+    }
+    switch (location.pathname) {
+      case '/home':
+        return this.setState({ value: 0 });
+      case '/for-you':
+        return this.setState({ value: 1 });
+      case '/artists':
+        return this.setState({ value: 2 });
+      case '/events':
+        return this.setState({ value: 3 });
+      case '/blog':
+        return this.setState({ value: 4 });
+      default:
+        return null;
+    }
   }
 
   getTitle = () => {
@@ -280,8 +300,15 @@ class Navbar extends React.Component {
       case '/blog':
         return 'Blog';
       default:
-        return null;
+        break;
     }
+    if (history.location.pathname.startsWith('/artist/')) {
+      return 'Artists';
+    }
+    if (history.location.pathname.startsWith('/event/')) {
+      return 'Events';
+    }
+    return null;
   }
 
   matchPath = (targetPath) => {
@@ -314,8 +341,8 @@ class Navbar extends React.Component {
   };
 
   toggleSearch = () => {
-    const { searching } = this.state;
-    this.setState({ searching: !searching });
+    const { showHideSearch } = this.props;
+    showHideSearch();
   }
 
   handleChange = (event, value) => {
@@ -324,8 +351,11 @@ class Navbar extends React.Component {
 
   render() {
     const { drawerOpen } = this.state;
-    const { classes, logOut, profile } = this.props;
-    const { value, searching, anchorEl } = this.state;
+    const {
+      classes, logOut, profile,
+      searching
+    } = this.props;
+    const { value, anchorEl } = this.state;
     const spotify = profile.display_name ? profile.display_name : (
       <a href="http://localhost:4001/auth/spotify">
         Spotify
@@ -520,11 +550,13 @@ class Navbar extends React.Component {
 
 const mapStateToProps = store => ({
   userID: store.user,
-  profile: store.dataSpotify.profile
+  profile: store.dataSpotify.profile,
+  searching: store.dataSearch.inputSearch
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
-  logOut: logOutUser
+  logOut: logOutUser,
+  showHideSearch: openCloseSearch
 }, dispatch);
 
 export const NavBarConnect = withStyles(styles)(withRouter(connect(mapStateToProps, mapActionsToProps)(Navbar)));
@@ -534,5 +566,7 @@ Navbar.propTypes = {
   profile: objectOf(any).isRequired,
   history: objectOf(any).isRequired,
   location: objectOf(any).isRequired,
-  logOut: func.isRequired
+  logOut: func.isRequired,
+  showHideSearch: func.isRequired,
+  searching: bool.isRequired
 };
