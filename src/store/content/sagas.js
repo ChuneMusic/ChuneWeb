@@ -98,8 +98,8 @@ export function* getChuneSupply() {
 }
 
 export function* sagasContent() {
-  yield takeEvery([locationChange('/home'), FOLLOW_ARTIST, UNFOLLOW_ARTIST, FETCH_MORE_CONTENT_HOME_PAGE_USER], getContentHomePage);
-  yield takeEvery([locationChange('/for-you'), FOLLOW_ARTIST, UNFOLLOW_ARTIST, FETCH_MORE_CONTENT_FORYOU_PAGE_USER], getContentForYouPage);
+  yield takeEvery([locationChange('/home'), FETCH_MORE_CONTENT_HOME_PAGE_USER], getContentHomePage);
+  yield takeEvery([locationChange('/for-you'), FETCH_MORE_CONTENT_FORYOU_PAGE_USER], getContentForYouPage);
   yield takeEvery(SUCCESS_GET_CONTENT_HOME_PAGE_USER, getTopTracks);
   yield takeEvery(SUCCESS_GET_TOP_TRACKS, getChuneSupply);
 }

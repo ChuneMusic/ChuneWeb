@@ -25,96 +25,6 @@ import * as StyledArtist from '../styled-components/artistSingle';
 import { EventCardConnect } from '../Events/EventCard';
 
 const styles = () => ({
-  root: {
-    width: 1080,
-    margin: '39px auto',
-    '@media (max-width: 1023px)': {
-      width: '100vw',
-      margin: '24px auto',
-    }
-  },
-  subMenuContainer: {
-    width: 716,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    margin: '10px auto',
-    height: 50,
-    alignItems: 'center',
-    '@media (max-width: 1023px)': {
-      width: 344,
-      margin: '18px auto',
-    }
-  },
-  settingsIconButton: {
-    width: 38,
-    height: 38,
-    fontSize: 24,
-    backgroundColor: 'transparent',
-    color: 'black',
-    '&:hover': {
-      backgroundColor: 'transparent',
-      // Reset on touch devices, it doesn't add specificity
-      '@media (hover: none)': {
-        backgroundColor: 'transparent',
-      },
-    },
-    '&:focus': {
-      backgroundColor: 'transparent',
-    },
-    borderRadius: '50%',
-    '@media (max-width: 1023px)': {
-      width: 24,
-      height: 24,
-      fontSize: 24,
-      paddingTop: 6,
-    }
-  },
-  menuSelected: {
-    backgroundImage: 'linear-gradient(262deg, #9c05cd, #552e89)',
-    color: 'white',
-  },
-  menuActionsContainer: {
-    display: 'flex',
-    width: 223,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    '@media (max-width: 1023px)': {
-      width: 183,
-    }
-  },
-  formControl: {
-    width: 128,
-  },
-  sInput: {
-    paddingTop: 0,
-    height: 36,
-    '&:focus': {
-      backgroundColor: '#eceff1',
-    }
-  },
-  mediaSelect: {
-    height: 36,
-  },
-  recommendedArtistHeading: {
-    width: 500,
-    height: 50,
-    fontFamily: 'Roboto',
-    fontSize: 24,
-    fontWeight: 'normal',
-    fontStyle: 'normal',
-    fontStretch: 'normal',
-    lineHeight: '36px',
-    letterSpacing: 0.3,
-    paddingLeft: 5,
-    color: '#000000',
-    display: 'flex',
-    alignItems: 'center',
-    '@media (max-width: 1023px)': {
-      fontSize: 18,
-      width: 244,
-    }
-  },
   followButton: {
     width: 104,
     height: 36,
@@ -157,40 +67,6 @@ const styles = () => ({
       backgroundColor: 'rgba(98, 2, 238, 0)',
 
     },
-  },
-  cardlist: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    overflow: 'hidden',
-    '@media (max-width: 1023px)': {
-      width: '100vw',
-    }
-  },
-  gridList: {
-    width: 716,
-    borderRadius: 4,
-    '@media (max-width: 1023px)': {
-      width: 344,
-      margin: '0px auto',
-    }
-  },
-  gridRow: {
-    listStyle: 'none',
-    height: 'auto',
-    marginBottom: 24,
-    width: '100%'
-  },
-  container: {
-    backgroundColor: '#fafafa',
-    width: '100%',
-    paddingTop: 24,
-  },
-  imagesArtist: {
-    width: 50,
-    height: 50,
-    borderRadius: 50,
-    margin: '0 10px 0 0'
   }
 });
 

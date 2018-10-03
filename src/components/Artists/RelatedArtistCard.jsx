@@ -11,14 +11,15 @@ import { followArtist } from '../../store/artists/actions';
 
 const styles = () => ({
   root: {
-    width: 343,
+    width: 345,
     height: 258,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-end',
-    borderRadius: 4,
-    '@media (max-width: 1023px)': {
-      width: 249,
+    borderRadius: 6,
+    '@media (max-width: 600px)': {
+      width: 250,
+      height: 250
     }
   },
   artistName: {

@@ -9,7 +9,7 @@ import {
 import { EventCardConnect } from './EventCard';
 import { Loading } from '../shared/Loading';
 import { EmptyListConnect } from '../shared/EmptyList';
-import * as StyledEvents from '../styled-components/events';
+import * as StyledArtists from '../styled-components/artistsBlock';
 
 const Events = ({ artists, geolocation, artistsSuccess }) => {
   if (!artistsSuccess) return <Loading />;
@@ -22,11 +22,11 @@ const Events = ({ artists, geolocation, artistsSuccess }) => {
     );
   }
   return (
-    <StyledEvents.WrapperEvents>
-      <StyledEvents.EventsTitle>
+    <StyledArtists.WrapperArtists>
+      <StyledArtists.ArtistsTitle>
         Events
-      </StyledEvents.EventsTitle>
-      <StyledEvents.EventsBlockArtist>
+      </StyledArtists.ArtistsTitle>
+      <StyledArtists.ArtistsBlock>
         {
           artists.map(artist => (
             <EventCardConnect
@@ -37,8 +37,8 @@ const Events = ({ artists, geolocation, artistsSuccess }) => {
             />
           ))
         }
-      </StyledEvents.EventsBlockArtist>
-    </StyledEvents.WrapperEvents>
+      </StyledArtists.ArtistsBlock>
+    </StyledArtists.WrapperArtists>
   );
 };
 
