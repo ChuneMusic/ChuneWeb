@@ -181,6 +181,7 @@ const styles = () => ({
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: '0px 19px',
+    position: 'absolute'
   },
   mobileTopbarContainerColor: {
     width: '100vw',
@@ -220,6 +221,10 @@ const styles = () => ({
     height: '100%',
     backgroundColor: 'white',
     color: '#0f0f0f',
+  },
+  drawerMenu: {
+    padding: 0,
+    margin: '60px 0 0 0'
   },
   listItem: {
     width: 200,
@@ -341,7 +346,7 @@ class GuestNavbar extends React.Component {
             justify="center"
             className={alternateColor ? classes.topBarContainer : classes.topBarContainerAbsolute}
           >
-            <Grid item xs={2}>
+            <Grid item xs={1}>
               <div className={classes.logoContainer}>
                 <Link to="/">
                   <img src={alternateColor ? LogotypeColorSVG : LogotypeSVG} height={30} title="Logo" alt="Logo" />
@@ -368,7 +373,7 @@ class GuestNavbar extends React.Component {
                 </li>
               </ul>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={3}>
               <ul className={alternateColor ? classes.rightMenuListColor : classes.rightMenuList}>
                 <li className="menuListItem">
                   <Link className="rightMenuLink" to="/signup">

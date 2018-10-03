@@ -34,6 +34,7 @@ const styles = () => ({
     alignItems: 'center',
     '@media (max-width: 1023px)': {
       width: '100vw',
+      alignItems: 'flex-start'
     }
   },
   contentContainer: {
@@ -47,7 +48,9 @@ const styles = () => ({
     backgroundImage: 'linear-gradient(#ffffff, #ffffff), linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1) 5%, rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, 0))',
     display: 'flex',
     '@media (max-width: 1023px)': {
-      marginTop: 24,
+      margin: '60px auto 0 auto',
+      width: 300,
+      height: 510,
     }
   },
   headingContainer: {
@@ -55,6 +58,9 @@ const styles = () => ({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 36,
+    '@media (max-width: 1023px)': {
+      marginTop: 20,
+    }
   },
   iconListContainer: {
     display: 'flex',
@@ -62,6 +68,9 @@ const styles = () => ({
     alignItems: 'center',
     marginTop: 34,
     height: 18,
+    '@media (max-width: 1023px)': {
+      marginTop: 20,
+    }
   },
   paragraphContainer: {
     display: 'flex',
@@ -69,12 +78,14 @@ const styles = () => ({
     alignItems: 'center',
     marginTop: 34,
     height: 15,
+    '@media (max-width: 1023px)': {
+      marginTop: 20,
+    }
   },
   formContainer: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    width: 342,
     marginTop: 14,
   },
   footerContainer: {
@@ -83,6 +94,10 @@ const styles = () => ({
     alignItems: 'center',
     marginTop: 34,
     marginBottom: 38,
+    '@media (max-width: 1023px)': {
+      marginTop: 20,
+      marginBottom: 0,
+    }
   },
   signupForm: {
     display: 'flex',
