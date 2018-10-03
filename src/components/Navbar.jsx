@@ -24,8 +24,9 @@ import ListItem from '@material-ui/core/ListItem';
 
 import { SearchFormConnect } from './SearchForm';
 import { SpotifyIcon } from './shared/SocialIcons';
-import LogoSVG from '../../assets/images/logotype.svg';
+import LogoSVG from '../../assets/images/Chune_Supply_Logotype_White.svg';
 import { logOutUser } from '../store/auth/actions';
+import * as StyledNavBar from './styled-components/navbar';
 
 const styles = () => ({
   navContainer: {
@@ -68,7 +69,7 @@ const styles = () => ({
   logoContainer: {
     height: 74,
     width: 95,
-    paddingLeft: 25,
+    paddingLeft: 95,
     paddingTop: 22,
     display: 'flex',
     justifyContent: 'center',
@@ -334,51 +335,128 @@ class Navbar extends React.Component {
     );
     const searchForm = <SearchFormConnect cancelSearch={this.toggleSearch} />;
     const normalMenu = (
-      <div style={{ height: 74 }}>
-        <MediaQuery maxDeviceWidth={1023}>
-          <AppBar position="fixed" className={classes.root}>
-            <Toolbar className={classes.mobileToolbar}>
-              <div className={classes.mobileToolbarLeftSection}>
-                <IconButton className={classes.menuButton} color="inherit" aria-label="Menu" onClick={this.toggleDrawer(true)}>
-                  <MenuIcon />
-                </IconButton>
-                <Typography variant="title" color="inherit" className={classes.mobileTitle}>
-                  {this.getTitle()}
-                </Typography>
-                <Drawer open={drawerOpen} onClose={this.toggleDrawer(false)}>
-                  <div className={classes.drawerContainer}>
-                    <List component="section" className={classes.drawerMenu}>
-                      <ListItem button className={this.matchPath('/home') ? classes.activeListItem : classes.listItem}>
-                        <NavLink exact to="/home" activeClassName={classes.navLinkActive} className={classes.navLink}>
-                          Home
-                        </NavLink>
-                      </ListItem>
-                      <ListItem button className={this.matchPath('/for-you') ? classes.activeListItem : classes.listItem}>
-                        <NavLink exact to="/for-you" activeClassName={classes.navLinkActive} className={classes.navLink}>
-                          For You
-                        </NavLink>
-                      </ListItem>
-                      <ListItem button className={this.matchPath('/artists') ? classes.activeListItem : classes.listItem}>
-                        <NavLink exact to="/artists" activeClassName={classes.navLinkActive} className={classes.navLink}>
-                          Artists
-                        </NavLink>
-                      </ListItem>
-                      <ListItem button className={this.matchPath('/events') ? classes.activeListItem : classes.listItem}>
-                        <NavLink exact to="/events" activeClassName={classes.navLinkActive} className={classes.navLink}>
-                          Events
-                        </NavLink>
-                      </ListItem>
-                      <ListItem button className={this.matchPath('/blog') ? classes.activeListItem : classes.listItem}>
-                        <NavLink exact to="/blog" activeClassName={classes.navLinkActive} className={classes.navLink}>
-                          Blog
-                        </NavLink>
-                      </ListItem>
-                    </List>
+      <header>
+        <MediaQuery maxDeviceWidth={1059}>
+          <div style={{ height: 56 }}>
+            <StyledNavBar.NavBarMobile>
+              <Toolbar className={classes.mobileToolbar}>
+                <div className={classes.mobileToolbarLeftSection}>
+                  <IconButton className={classes.menuButton} color="inherit" aria-label="Menu" onClick={this.toggleDrawer(true)}>
+                    <MenuIcon />
+                  </IconButton>
+                  <Typography variant="title" color="inherit" className={classes.mobileTitle}>
+                    {this.getTitle()}
+                  </Typography>
+                  <Drawer open={drawerOpen} onClose={this.toggleDrawer(false)}>
+                    <div className={classes.drawerContainer}>
+                      <List component="section" className={classes.drawerMenu}>
+                        <ListItem button className={this.matchPath('/home') ? classes.activeListItem : classes.listItem}>
+                          <NavLink exact to="/home" activeClassName={classes.navLinkActive} className={classes.navLink}>
+                            Home
+                          </NavLink>
+                        </ListItem>
+                        <ListItem button className={this.matchPath('/for-you') ? classes.activeListItem : classes.listItem}>
+                          <NavLink exact to="/for-you" activeClassName={classes.navLinkActive} className={classes.navLink}>
+                            For You
+                          </NavLink>
+                        </ListItem>
+                        <ListItem button className={this.matchPath('/artists') ? classes.activeListItem : classes.listItem}>
+                          <NavLink exact to="/artists" activeClassName={classes.navLinkActive} className={classes.navLink}>
+                            Artists
+                          </NavLink>
+                        </ListItem>
+                        <ListItem button className={this.matchPath('/events') ? classes.activeListItem : classes.listItem}>
+                          <NavLink exact to="/events" activeClassName={classes.navLinkActive} className={classes.navLink}>
+                            Events
+                          </NavLink>
+                        </ListItem>
+                        <ListItem button className={this.matchPath('/blog') ? classes.activeListItem : classes.listItem}>
+                          <NavLink exact to="/blog" activeClassName={classes.navLinkActive} className={classes.navLink}>
+                            Blog
+                          </NavLink>
+                        </ListItem>
+                      </List>
+                    </div>
+                  </Drawer>
+                </div>
+                <div className={classes.mobileToolbarRightSection}>
+                  <div className={classes.avatarContainer}>
+                    <IconButton
+                      aria-owns={anchorEl ? 'simple-menu' : null}
+                      aria-haspopup="true"
+                      onClick={this.handleClick}
+                      classes={{ root: classes.settingsIconButton }}
+                    >
+                      <SettingsIcon />
+                    </IconButton>
+                    <Menu
+                      className={classes.settingsMenu}
+                      id="simple-menu"
+                      anchorEl={anchorEl}
+                      open={Boolean(anchorEl)}
+                      onClose={this.handleClose}
+                      anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right',
+                      }}
+                      getContentAnchorEl={null}
+                      transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                      }}
+                    >
+                      <MenuItem onClick={() => this.goToRoute('/privacy')}>
+                        Privacy Policy
+                      </MenuItem>
+                      <MenuItem onClick={() => this.goToRoute('/terms-of-use')}>
+                        Terms of Use
+                      </MenuItem>
+                      <MenuItem onClick={() => this.goToRoute('/faq')}>
+                        FAQ
+                      </MenuItem>
+                      <MenuItem>
+                        <SpotifyIcon width="30px" height="30px" />
+                        &nbsp;
+                        {spotify}
+                      </MenuItem>
+                      <MenuItem onClick={this.sendPasswordResetEmail}>
+                        Reset Password
+                      </MenuItem>
+                      <MenuItem onClick={() => logOut()}>
+                        Logout
+                      </MenuItem>
+                    </Menu>
                   </div>
-                </Drawer>
-              </div>
-              <div className={classes.mobileToolbarRightSection}>
-                <div className={classes.avatarContainer}>
+                  <button type="button" className={classes.avatarContainer} onClick={this.toggleSearch}>
+                    <IconButton classes={{ root: classes.settingsIconButton }}>
+                      <SearchIcon />
+                    </IconButton>
+                  </button>
+                </div>
+              </Toolbar>
+            </StyledNavBar.NavBarMobile>
+          </div>
+        </MediaQuery>
+        <MediaQuery minDeviceWidth={1060}>
+          <div style={{ height: 74 }}>
+            <StyledNavBar.NavBar>
+              <StyledNavBar.NavBarLogoBlock>
+                <StyledNavBar.NavBarLogo to="/home">
+                  <img src={LogoSVG} height={30} title="Chune Supply Beta" alt="Chune Supply Beta" />
+                  <sub>beta</sub>
+                </StyledNavBar.NavBarLogo>
+              </StyledNavBar.NavBarLogoBlock>
+              <StyledNavBar.NavBarMenu>
+                <StyledNavBar.NavBarMenuBlock>
+                  <Tabs value={value} onChange={this.handleChange} fullWidth classes={{ root: classes.tabContainer, indicator: classes.indicator }}>
+                    <Tab label={(<span className={classes.tabLabel}>Home</span>)} component={Link} to="/home" className={classes.thetab} />
+                    <Tab label={(<span className={classes.tabLabel}>For You</span>)} component={Link} to="/for-you" className={classes.thetab} />
+                    <Tab label={(<span className={classes.tabLabel}>Artists</span>)} component={Link} to="/artists" className={classes.thetab} />
+                    <Tab label={(<span className={classes.tabLabel}>Events</span>)} component={Link} to="/events" className={classes.thetab} />
+                    <Tab label={(<span className={classes.tabLabel}>Blog</span>)} component={Link} to="/blog" className={classes.thetab} />
+                  </Tabs>
+                </StyledNavBar.NavBarMenuBlock>
+                <StyledNavBar.NavBarSubMenu>
                   <IconButton
                     aria-owns={anchorEl ? 'simple-menu' : null}
                     aria-haspopup="true"
@@ -424,173 +502,16 @@ class Navbar extends React.Component {
                       Logout
                     </MenuItem>
                   </Menu>
-                </div>
-                <button type="button" className={classes.avatarContainer} onClick={this.toggleSearch}>
-                  <IconButton classes={{ root: classes.settingsIconButton }}>
-                    <SearchIcon />
-                  </IconButton>
-                </button>
-              </div>
-            </Toolbar>
-          </AppBar>
+                </StyledNavBar.NavBarSubMenu>
+                <StyledNavBar.NavBarSearchBlock onClick={this.toggleSearch}>
+                  <SearchIcon />
+                </StyledNavBar.NavBarSearchBlock>
+              </StyledNavBar.NavBarMenu>
+            </StyledNavBar.NavBar>
+          </div>
         </MediaQuery>
-
-        <MediaQuery minDeviceWidth={1024}>
-          <AppBar position="fixed" className={classes.root}>
-            <div className={classes.appBar}>
-              <Grid
-                container
-                alignItems="flex-end"
-                alignContent="flex-end"
-                direction="row"
-                justify="center"
-                className={classes.gridContainer}
-              >
-                <Grid item xs={1}>
-                  <div className={classes.logoContainer}>
-                    <Link to="/home">
-                      <img src={LogoSVG} width={115} height={30} title="Logo" alt="Logo" />
-                    </Link>
-                  </div>
-                </Grid>
-
-                <Grid item xs={11}>
-                  <Grid
-                    container
-                    justify="space-between"
-                  >
-                    <Grid item xs={1} />
-                    <Grid
-                      item
-                      xs={9}
-                    >
-                      <Tabs
-                        value={value}
-                        onChange={this.handleChange}
-                        fullWidth
-                        classes={{ root: classes.tabContainer, indicator: classes.indicator }}
-                      >
-                        <Tab
-                          label={(
-                            <span className={classes.tabLabel}>
-                              Home
-                            </span>
-                          )}
-                          component={Link}
-                          to="/home"
-                          className={classes.thetab}
-                        />
-                        <Tab
-                          label={(
-                            <span className={classes.tabLabel}>
-                              For You
-                            </span>
-                          )}
-                          component={Link}
-                          to="/for-you"
-                          className={classes.thetab}
-                        />
-                        <Tab
-                          label={(
-                            <span className={classes.tabLabel}>
-                              Artists
-                            </span>
-                          )}
-                          component={Link}
-                          to="/artists"
-                          className={classes.thetab}
-                        />
-                        <Tab
-                          label={(
-                            <span className={classes.tabLabel}>
-                              Events
-                            </span>
-                          )}
-                          component={Link}
-                          to="/events"
-                          className={classes.thetab}
-                        />
-                        <Tab
-                          label={(
-                            <span className={classes.tabLabel}>
-                              Blog
-                            </span>
-                          )}
-                          component={Link}
-                          to="/blog"
-                          className={classes.thetab}
-                        />
-                      </Tabs>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={1}
-                    >
-                      <div className={classes.avatarContainer}>
-                        <IconButton
-                          aria-owns={anchorEl ? 'simple-menu' : null}
-                          aria-haspopup="true"
-                          onClick={this.handleClick}
-                          classes={{ root: classes.settingsIconButton }}
-                        >
-                          <SettingsIcon />
-                        </IconButton>
-                        <Menu
-                          className={classes.settingsMenu}
-                          id="simple-menu"
-                          anchorEl={anchorEl}
-                          open={Boolean(anchorEl)}
-                          onClose={this.handleClose}
-                          anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'right',
-                          }}
-                          getContentAnchorEl={null}
-                          transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                          }}
-                        >
-                          <MenuItem onClick={() => this.goToRoute('/privacy')}>
-                            Privacy Policy
-                          </MenuItem>
-                          <MenuItem onClick={() => this.goToRoute('/terms-of-use')}>
-                            Terms of Use
-                          </MenuItem>
-                          <MenuItem onClick={() => this.goToRoute('/faq')}>
-                            FAQ
-                          </MenuItem>
-                          <MenuItem>
-                            <SpotifyIcon width="30px" height="30px" />
-                            &nbsp;
-                            {spotify}
-                          </MenuItem>
-                          <MenuItem onClick={this.sendPasswordResetEmail}>
-                            Reset Password
-                          </MenuItem>
-                          <MenuItem onClick={() => logOut()}>
-                            Logout
-                          </MenuItem>
-                        </Menu>
-                      </div>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={1}
-                    >
-                      <button type="button" className={classes.avatarContainer} onClick={this.toggleSearch}>
-                        <SearchIcon />
-                      </button>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </div>
-          </AppBar>
-        </MediaQuery>
-      </div>
+      </header>
     );
-
     return (
       <div>
         {searching ? searchForm : normalMenu}

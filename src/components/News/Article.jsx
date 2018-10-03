@@ -24,7 +24,7 @@ const ArticleCard = ({ article, openNews }) => {
             {article.artist_name}
           </StyledArticle.ArticleLink>
         </StyledArticle.ArticleInfo>
-        <StyledArticle.ArticleTitle>
+        <StyledArticle.ArticleTitle onClick={() => openNews(article.url, article.title, true)}>
           { truncateWithEllipses(article.title, 100) }
         </StyledArticle.ArticleTitle>
       </StyledArticle.ArticleContainer>

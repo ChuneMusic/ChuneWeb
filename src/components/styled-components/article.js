@@ -82,6 +82,7 @@ export const ArticleTitle = styled.h2`
   line-height: 26px;
   letter-spacing: 0.3px;
   padding: 10px;
+  cursor: pointer;
   @media(max-width: 849px) and (min-width: 320px) {
     font-size: 16px;
     line-height: 18px;

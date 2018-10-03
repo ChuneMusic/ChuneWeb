@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 import Autosuggest from 'react-autosuggest';
-import { withStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import {
   func, objectOf, any,
@@ -13,31 +12,6 @@ import {
 import { searchArtists, clearListSearch } from '../store/autosuggest/actions';
 
 import '../styles/autosuggestion.css';
-
-const styles = () => ({
-  root: {
-    position: 'relative',
-    height: 74,
-    boxSizing: 'border-box',
-    backgroundColor: 'white',
-    opacity: 1,
-  },
-  container: {
-    height: '100%',
-    '@media (max-width: 1023px)': {
-      height: '100%',
-    }
-  },
-  closeIcon: {
-    position: 'absolute',
-    top: 17,
-    right: 25,
-    color: '#757575',
-    cursor: 'pointer',
-    width: 35,
-    height: 35,
-  }
-});
 
 class SearchForm extends React.Component {
   constructor(props) {
@@ -97,10 +71,10 @@ class SearchForm extends React.Component {
   timer;
 
   render() {
-    const { suggestions, classes } = this.props;
+    const { suggestions } = this.props;
     const { value } = this.state;
     const inputProps = {
-      placeholder: 'Search artists',
+      placeholder: 'Search to find and follow artists',
       value,
       style: {
         backgroundColor: 'white'
@@ -109,20 +83,18 @@ class SearchForm extends React.Component {
       id: 'search-input',
     };
     return (
-      <div className={classes.root}>
-        <div>
-          <Autosuggest
-            id="search-bar"
-            suggestions={suggestions}
-            onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-            onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-            onSuggestionSelected={this.onSuggestionSelected}
-            getSuggestionValue={this.getSuggestionValue}
-            renderSuggestion={this.renderSuggestion}
-            inputProps={inputProps}
-          />
-          <CloseIcon className={classes.closeIcon} onClick={this.onCloseClick} />
-        </div>
+      <div>
+        <Autosuggest
+          id="search-bar"
+          suggestions={suggestions}
+          onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+          onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+          onSuggestionSelected={this.onSuggestionSelected}
+          getSuggestionValue={this.getSuggestionValue}
+          renderSuggestion={this.renderSuggestion}
+          inputProps={inputProps}
+        />
+        <CloseIcon className="closeIcon" onClick={this.onCloseClick} />
       </div>
     );
   }
@@ -137,11 +109,10 @@ const mapActionsToProps = dispatch => bindActionCreators({
   clearListArtists: clearListSearch
 }, dispatch);
 
-export const SearchFormConnect = withStyles(styles)(withRouter(connect(mapStateToProps, mapActionsToProps)(SearchForm)));
+export const SearchFormConnect = withRouter(connect(mapStateToProps, mapActionsToProps)(SearchForm));
 
 SearchForm.propTypes = {
   suggestions: arrayOf(any).isRequired,
-  classes: objectOf(any).isRequired,
   clearListArtists: func.isRequired,
   searchListArtists: func.isRequired,
   cancelSearch: func.isRequired,
