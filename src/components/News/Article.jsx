@@ -33,7 +33,7 @@ const ArticleCard = ({ article, openNews }) => {
         <StyledArticle.ArticleTitle onClick={() => openNews(article.url, article.title, true)}>
           { truncateWithEllipses(article.title, 100) }
         </StyledArticle.ArticleTitle>
-        <img src={logoNews(article.source_name)} alt={article.source_name} title={article.source_name} height={10} />
+        <img src={logoNews(article.source_name)} alt={article.source_name} title={article.source_name} height={30} />
       </StyledArticle.ArticleContainer>
     </StyledArticle.Article>
   );
