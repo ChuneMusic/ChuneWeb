@@ -33,7 +33,7 @@ export function* getContentHomePage({ type }) {
   const end = start + 10;
   console.log('start: ', start, 'end: ', end);
   try {
-    const dataRecs = yield call(getContentHome);
+    const dataRecs = yield call(getContentHome, start, end);
     if (dataRecs.content_feed.length === 0) {
       const data = yield call(getContentHomePageToServer, start, end);
       featured = data.featured || [];
@@ -59,7 +59,7 @@ export function* getContentForYouPage({ type }) {
   const end = start + 10;
   console.log('start: ', start, 'end: ', end);
   try {
-    const dataRecs = yield call(getContentForYou);
+    const dataRecs = yield call(getContentForYou, start, end);
     if (dataRecs.content_feed.length === 0) {
       const data = yield call(getContentForYouPageToServer, start, end);
       artistTracks = data.artist_tracks || [];

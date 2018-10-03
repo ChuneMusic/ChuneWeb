@@ -14,7 +14,7 @@ import { store, persistor, history } from './store';
 import {
   ArtistsConnect, ArtistConnect, HomeConnect,
   LandingConnect, TermsOfUse, PrivacyPolicy, FAQ,
-  SignUpConnect, SignInConnect, ForgotPassword,
+  SignUpConnect, SignInConnect,
   EventsConnect, ArtistEventsConnect, NavBarConnect,
   GuestNavbarConnect, ForYouConnect, blogiFrame
 } from './components';
@@ -91,7 +91,6 @@ class App extends React.PureComponent {
           <PublicRoute exact path="/" token={token} component={LandingConnect} />
           <PublicRoute exact path="/signup" token={token} component={SignUpConnect} />
           <PublicRoute exact path="/login" token={token} component={SignInConnect} />
-          <PublicRoute exact path="/reset-password" token={token} component={ForgotPassword} />
           <Route exact path="/terms-of-use" token={token} render={props => (<TermsOfUse token={token} {...props} />)} />
           <Route exact path="/privacy" token={token} render={props => (<PrivacyPolicy token={token} {...props} />)} />
           <Route exact path="/faq" token={token} render={props => (<FAQ token={token} {...props} />)} />

@@ -23,7 +23,7 @@ export const Article = styled.div`
   }
 `;
 export const ArticleImages = styled.div`
-  border-radius: 6px 0 0 6px;
+  border-radius: 6px;
   background: url(${props => props.images}) center no-repeat; 
   background-size: cover;
   width: 150px;

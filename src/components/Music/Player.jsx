@@ -1,4 +1,5 @@
 import React from 'react';
+import { string } from 'prop-types';
 
 export const Player = ({ trackId }) => (
   <iframe
@@ -12,3 +13,7 @@ export const Player = ({ trackId }) => (
     theme="black"
   />
 );
+
+Player.propTypes = {
+  trackId: string.isRequired
+};
