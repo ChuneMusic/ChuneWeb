@@ -17,9 +17,13 @@ const styles = () => ({
     flexDirection: 'column',
     justifyContent: 'flex-end',
     borderRadius: 6,
-    '@media (max-width: 600px)': {
-      width: 250,
-      height: 250
+    '@media(max-width: 1080px) and (min-width: 960px)': {
+      height: '250px',
+      width: '310px',
+    },
+    '@media(max-width: 959px) and (min-width: 320px)': {
+      height: '250px',
+      width: '250px',
     }
   },
   artistName: {

@@ -27,6 +27,7 @@ export const ArtistsHeader = styled.div`
   @media(max-width: 1080px) and (min-width: 600px) {
     width: 98%;
     justify-content: center;
+    align-items: center;
   }
   @media(max-width: 600px) and (min-width: 320px) {
     width: 100%;
@@ -36,10 +37,10 @@ export const ArtistsHeader = styled.div`
 `;
 export const ArtistsTitle = styled.p`
   color: #000000;
-  height: 36px;
   font-size: 24px;
   font-family: 'Roboto';
   letter-spacing: 0.3px;
+  padding: 0 40px 0 0;
   @media(max-width: 600px) and (min-width: 320px) {
     padding: 0 0 0 10px;
   }

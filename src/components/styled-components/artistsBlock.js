@@ -9,10 +9,7 @@ export const WrapperArtists = styled.div`
   @media(max-width: 1080px) and (min-width: 960px) {
     width: 960px;
   }
-  @media(max-width: 959px) and (min-width: 630px) {
-    width: 630px;
-  }
-  @media(max-width: 629px) and (min-width: 320px) {
+  @media(max-width: 959px) and (min-width: 320px) {
     width: 310px;
     padding: 10px 0 0 0;
   }
@@ -40,7 +37,10 @@ export const ArtistsBlock = styled.div`
   justify-content: start;
   align-items: center;
   flex-wrap: wrap;
-  @media(max-width: 1080px) and (min-width: 320px) {
+  @media(max-width: 1080px) and (min-width: 960px) {
+    width: 960px;
+  }
+  @media(max-width: 959px) and (min-width: 320px) {
     width: 310px;
     justify-content: center;
     flex-direction: column;

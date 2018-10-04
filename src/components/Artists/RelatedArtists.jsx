@@ -26,7 +26,13 @@ const styles = () => ({
     width: '345px !important',
     padding: '0 !important',
     margin: '0 22px 0 0',
-    '@media (max-width: 600px)': {
+    '@media(max-width: 1080px) and (min-width: 960px)': {
+      height: '250px !important',
+      width: '310px !important',
+      padding: '0 !important',
+      margin: '0 10px 0 0'
+    },
+    '@media(max-width: 959px) and (min-width: 320px)': {
       height: '250px !important',
       width: '250px !important',
       padding: '0 !important',

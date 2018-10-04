@@ -52,15 +52,15 @@ export const BasicArticleCard = ({ featured, openNews }) => {
   }
   const featuredArticle = featured.map((e, index) => {
     let t = e.title;
-    if (window.innerWidth > 600) {
+    if (window.innerWidth >= 960) {
       if (index === 0) t = truncateWithEllipses(e.title, 95);
-      if (index !== 0) t = truncateWithEllipses(e.title, 35);
+      if (index !== 0) t = truncateWithEllipses(e.title, 45);
     } else {
-      t = truncateWithEllipses(e.title, 35);
+      t = truncateWithEllipses(e.title, 40);
     }
     return (
       <Styled.FeaturedArticle images={`http://api-stage.chunesupply.com/static/imgs/full/${e.image}`} key={`${e.id}-article-featured`}>
-        <h2 onClick={() => openNews(e.url, e.title, true)}>{t}</h2>
+        <Styled.FeaturedArticleTitle onClick={() => openNews(e.url, e.title, true)}>{t}</Styled.FeaturedArticleTitle>
       </Styled.FeaturedArticle>
     );
   });

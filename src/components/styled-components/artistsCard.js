@@ -13,7 +13,15 @@ export const ArtistCard = styled.div`
   &:nth-child(3n){
     margin: 0 0 20px 0;
   }
-  @media(max-width: 1080px) and (min-width: 320px) {
+  @media(max-width: 1080px) and (min-width: 960px) {
+    margin: 0 10px 10px 0;
+    width: 310px;
+    height: 130px;
+    &:nth-child(3n){
+    margin: 0 0 10px 0;
+  }
+  }
+  @media(max-width: 959px) and (min-width: 320px) {
     width: 310px;
     height: 130px;
     margin: 0 0 10px 0;

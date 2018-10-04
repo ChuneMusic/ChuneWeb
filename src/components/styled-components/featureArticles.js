@@ -13,12 +13,7 @@ export const FeaturedArticle = styled.div`
   height: 180px;
   position: relative;
   margin: 110px 0 90px 0;
-  @media(max-width: 1030px) and (min-width: 850px) {
-    width: 280px;
-    height: 150px;
-    margin: 90px 0 75px 0;
-  }
-  @media(max-width: 849px) and (min-width: 320px) {
+  @media(max-width: 959px) and (min-width: 320px) {
     width: 310px;
     height: 150px;
     margin: 60px 0 10px 0;
@@ -38,11 +33,7 @@ export const FeaturedArticle = styled.div`
     width: 960px;
     height: 390px;
     margin: 0 0 20px 0;
-    @media(max-width: 1030px) and (min-width: 850px) {
-      width: 850px;
-      height: 400px;
-    }
-    @media(max-width: 849px) and (min-width: 320px) {
+    @media(max-width: 959px) and (min-width: 320px) {
       width: 310px;
       height: 150px;
     }
@@ -57,14 +48,7 @@ export const FeaturedArticle = styled.div`
       letter-spacing: 0.3px;
       padding: 0 10px;
       width: 940px;
-      @media(max-width: 1030px) and (min-width: 850px) {
-        padding: 0 10px;
-        width: 830px;
-        bottom: -90px;
-        font-size: 36px;
-        letter-spacing: 0.2px;
-      }
-      @media(max-width: 849px) and (min-width: 320px) {
+      @media(max-width: 959px) and (min-width: 320px) {
         padding: 0 10px;
         bottom: -60px;
         font-size: 24px;
@@ -73,48 +57,41 @@ export const FeaturedArticle = styled.div`
       }
     }
   }
-  & h2{
-    padding: 0 10px;
-    font-family: 'Roboto';
-    color: rgba(255, 255, 255, 0.9);
-    text-align: justify;
-    position: absolute;
-    bottom: -63px;
-    letter-spacing: 0.2px;
-    font-size: 24px;
-    line-height: 1.4;
-    width: 280px;
-    font-weight: bold;
-    display: block;
-    background: linear-gradient(262deg,#9c05cd,#552e89) #552e89;
-    border-radius: 0 0 6px 6px;
-    &:hover{
-      text-decoration: underline;
-    }
-    cursor: pointer;
-    @media(max-width: 1030px) and (min-width: 850px) {
-      padding: 0 10px;
-      bottom: -60px;
-      font-size: 24px;
-      letter-spacing: 0.2px;
-      width: 260px;
-    }
-    @media(max-width: 849px) and (min-width: 320px) {
-      padding: 0 10px;
-      bottom: -60px;
-      font-size: 24px;
-      letter-spacing: 0.2px;
-      width: 290px;
-    }
-  }
   &:nth-child(2){
-    @media(max-width: 849px) and (min-width: 320px) {
+    @media(max-width: 959px) and (min-width: 320px) {
       margin: 50px 0 10px 0;
     }
   }
   &:nth-child(4){
-    @media(max-width: 849px) and (min-width: 320px) {
+    @media(max-width: 959px) and (min-width: 320px) {
       margin: 60px 0 70px 0;
     }
+  }
+`;
+export const FeaturedArticleTitle = styled.h2`
+  padding: 0 10px;
+  font-family: 'Roboto';
+  color: rgba(255, 255, 255, 0.9);
+  text-align: justify;
+  position: absolute;
+  bottom: -63px;
+  letter-spacing: 0.2px;
+  font-size: 24px;
+  line-height: 1.4;
+  width: 280px;
+  font-weight: bold;
+  display: block;
+  background: linear-gradient(262deg,#9c05cd,#552e89) #552e89;
+  border-radius: 0 0 6px 6px;
+  cursor: pointer;
+  &:hover{
+    text-decoration: underline;
+  }
+  @media(max-width: 959px) and (min-width: 320px) {
+    padding: 0 10px;
+    bottom: -60px;
+    font-size: 24px;
+    letter-spacing: 0.2px;
+    width: 290px;
   }
 `;
