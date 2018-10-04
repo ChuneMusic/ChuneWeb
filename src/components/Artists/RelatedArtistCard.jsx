@@ -8,6 +8,7 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 
 import { followArtist } from '../../store/artists/actions';
+import { followFromRecommendBlock } from '../../store/learningMachine/actions';
 
 const styles = () => ({
   root: {
@@ -88,32 +89,42 @@ const styles = () => ({
   }
 });
 
-const RelatedArtistCard = ({ classes, artist, follow }) => {
-  const overrideBgStyle = {
-    backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)), url(${artist.image_url})`,
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat',
-  };
-  let genre = 'None';
-  if (artist.genres[0] !== undefined) genre = artist.genres[0].description;
-  return (
-    <Paper className={classes.root} style={overrideBgStyle}>
-      <div className={classes.genre}>
-        { genre }
-      </div>
-      <div>
-        <h3 className={classes.artistName}>{artist.name}</h3>
-      </div>
-      <div className={classes.actionsContainer}>
-        <Button component={Link} to={`/artist/${artist.name}`} className={classes.actionButton}>See More</Button>
-        <Button className={classes.actionButton} onClick={() => follow(artist.name)}>Follow</Button>
-      </div>
-    </Paper>
-  );
-};
+class RelatedArtistCard extends React.Component {
+  follow = () => {
+    const { artist, followTorecommend, sendDataRecommendArtist } = this.props;
+    followTorecommend(artist.name);
+    sendDataRecommendArtist(artist.id);
+  }
+
+  render() {
+    const { classes, artist } = this.props;
+    const overrideBgStyle = {
+      backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)), url(${artist.image_url})`,
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+    };
+    let genre = 'None';
+    if (artist.genres[0] !== undefined) genre = artist.genres[0].description;
+    return (
+      <Paper className={classes.root} style={overrideBgStyle}>
+        <div className={classes.genre}>
+          { genre }
+        </div>
+        <div>
+          <h3 className={classes.artistName}>{artist.name}</h3>
+        </div>
+        <div className={classes.actionsContainer}>
+          <Button component={Link} to={`/artist/${artist.name}`} className={classes.actionButton}>See More</Button>
+          <Button className={classes.actionButton} onClick={this.follow}>Follow</Button>
+        </div>
+      </Paper>
+    );
+  }
+}
 
 const mapActionsToProps = dispatch => bindActionCreators({
-  follow: followArtist
+  followTorecommend: followArtist,
+  sendDataRecommendArtist: followFromRecommendBlock
 }, dispatch);
 
 export const RelatedArtistCardConnect = withStyles(styles)(connect(null, mapActionsToProps)(RelatedArtistCard));
@@ -121,5 +132,6 @@ export const RelatedArtistCardConnect = withStyles(styles)(connect(null, mapActi
 RelatedArtistCard.propTypes = {
   classes: objectOf(any).isRequired,
   artist: objectOf(any).isRequired,
-  follow: func.isRequired
+  followTorecommend: func.isRequired,
+  sendDataRecommendArtist: func.isRequired
 };
