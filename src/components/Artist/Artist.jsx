@@ -162,6 +162,7 @@ class Artist extends React.Component {
             <TopTracksChartConnect
               tracks={topTracksArtist}
               artistName={artist.name}
+              single
             />
           </StyledContent.RightBlockArtistContent>
         </StyledContent.Content>

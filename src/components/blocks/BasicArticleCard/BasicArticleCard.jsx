@@ -1,10 +1,13 @@
 import React from 'react';
-import { arrayOf, any } from 'prop-types';
+import { arrayOf, any, func } from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import * as Styled from '../../styled-components/featureArticles';
 import { truncateWithEllipses } from '../../../helpers/eventHelpers';
+import { openArticleUrl } from '../../../store/content/actions';
 
-export const BasicArticleCard = ({ featured }) => {
+export const BasicArticleCard = ({ featured, openNews }) => {
   if (featured.length === 0) {
     const articles = [
       {
@@ -38,7 +41,6 @@ export const BasicArticleCard = ({ featured }) => {
       return (
         <Styled.FeaturedArticle images={e.image} key={`${e.id}-article-featured`}>
           <h2>{t}</h2>
-          <p> via {e.source}</p>
         </Styled.FeaturedArticle>
       );
     });
@@ -50,11 +52,14 @@ export const BasicArticleCard = ({ featured }) => {
   }
   const featuredArticle = featured.map((e, index) => {
     let t = e.title;
-    if (index !== 0) t = truncateWithEllipses(e.title, 40);
+    if (window.innerWidth > 600) {
+      if (index !== 0) t = truncateWithEllipses(e.title, 35);
+    } else {
+      t = truncateWithEllipses(e.title, 35);
+    }
     return (
-      <Styled.FeaturedArticle images={e.image} key={`${e.id}-article-featured`}>
-        <h2>{t}</h2>
-        <p> via {e.source_name}</p>
+      <Styled.FeaturedArticle images={`http://api-stage.chunesupply.com/static/imgs/full/${e.image}`} key={`${e.id}-article-featured`}>
+        <h2 onClick={() => openNews(e.url, e.title, true)}>{t}</h2>
       </Styled.FeaturedArticle>
     );
   });
@@ -65,6 +70,13 @@ export const BasicArticleCard = ({ featured }) => {
   );
 };
 
+const mapActionsToProps = dispatch => bindActionCreators({
+  openNews: openArticleUrl,
+}, dispatch);
+
+export const BasicArticleCardConnect = connect(null, mapActionsToProps)(BasicArticleCard);
+
 BasicArticleCard.propTypes = {
-  featured: arrayOf(any).isRequired
+  featured: arrayOf(any).isRequired,
+  openNews: func.isRequired
 };

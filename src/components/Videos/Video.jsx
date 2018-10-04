@@ -1,9 +1,11 @@
 import React from 'react';
 import { objectOf, any } from 'prop-types';
+import MediaQuery from 'react-responsive';
 
 import { Player } from './Player';
 import { timestampToDate } from '../../helpers/populateArticles';
 import * as StyledVideo from '../styled-components/video';
+import { truncateWithEllipses } from '../../helpers/eventHelpers';
 
 const VideoCard = ({ video }) => {
   const formattedDate = video.published_on ? timestampToDate(video.published_on) : '';
@@ -11,11 +13,13 @@ const VideoCard = ({ video }) => {
     <StyledVideo.VideoBlock>
       <StyledVideo.VideoDescriptionBlock>
         <StyledVideo.VideoInfo>
-          { `via ${video.channel_name} · `}
+          <MediaQuery maxDeviceWidth={799}>
+            { `via ${truncateWithEllipses(video.channel_name, 20)} · `}
+          </MediaQuery>
+          <MediaQuery minDeviceWidth={800}>
+            { `via ${truncateWithEllipses(video.channel_name, 40)} · `}
+          </MediaQuery>
           { `${formattedDate}`}
-          <StyledVideo.VideoLink to={`/artist/${video.artist_name}`}>
-            { ` · ${video.artist_name}` }
-          </StyledVideo.VideoLink>
         </StyledVideo.VideoInfo>
         <StyledVideo.VideoTitle>
           {video.title}

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
   func, string, objectOf,
-  any, arrayOf
+  any, arrayOf, bool
 } from 'prop-types';
 import { map } from 'lodash';
 import { Tweet } from 'react-twitter-widgets';
@@ -12,7 +12,7 @@ import Waypoint from 'react-waypoint';
 
 import {
   TopTracksChartConnect, ChuneSupplyConnect, BasicSoundPlayer,
-  BasicArticleCard
+  BasicArticleCardConnect
 } from './blocks';
 import { VideoCardConnect } from './Videos/Video';
 import { ArticleCardConnect } from './News/Article';
@@ -55,7 +55,7 @@ class Home extends React.Component {
     const {
       location, token, contentFeed,
       getTokenSpotify, history, topTracks,
-      topChune, featured
+      topChune, featured, fetchDataHome
     } = this.props;
     if (location.search !== '' && token === '') {
       getTokenSpotify(location.search);
@@ -67,7 +67,7 @@ class Home extends React.Component {
     return (
       <Styled.WrapperHomePage>
         <Styled.FeaturedBlock>
-          <BasicArticleCard featured={featured} />
+          <BasicArticleCardConnect featured={featured} />
         </Styled.FeaturedBlock>
         <StyledContent.Content>
           <StyledContent.LeftBlockContent>
@@ -101,11 +101,12 @@ class Home extends React.Component {
               }
             })}
             {this.renderWaypoint()}
-            <Styled.WaypointBlock />
+            {fetchDataHome ? (<Loading />) : (<Styled.WaypointBlock />)}
           </StyledContent.LeftBlockContent>
           <StyledContent.RightBlockContent>
             <TopTracksChartConnect
               tracks={topTracks}
+              single={false}
             />
             <BasicSoundPlayer />
             <ChuneSupplyConnect
@@ -126,7 +127,8 @@ const mapStateToProps = store => ({
   featured: store.dataContent.featured,
   contentFeed: store.dataContent.contentFeedHome,
   topTracks: store.dataContent.topTracks,
-  topChune: store.dataContent.topChune
+  topChune: store.dataContent.topChune,
+  fetchDataHome: store.dataContent.fetchDataHome
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
@@ -148,5 +150,6 @@ Home.propTypes = {
   topChune: arrayOf(any).isRequired,
   loadMoreItems: func.isRequired,
   featured: arrayOf(any).isRequired,
-  deviceID: string.isRequired
+  deviceID: string.isRequired,
+  fetchDataHome: bool.isRequired
 };

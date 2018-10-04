@@ -263,6 +263,7 @@ class Navbar extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    window.scrollTo(0, 0);
     const { location } = nextProps;
     if (location.pathname.startsWith('/artist/')) {
       this.setState({ value: 2 });

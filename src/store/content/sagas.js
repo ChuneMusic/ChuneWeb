@@ -20,7 +20,6 @@ import {
   SUCCESS_GET_CONTENT_HOME_PAGE_USER, SUCCESS_GET_TOP_TRACKS
 } from './types';
 import { locationChange } from '../../utilities/patternForSagas';
-import { FOLLOW_ARTIST, UNFOLLOW_ARTIST } from '../artists/types';
 import { SUCCESS_GET_TOKEN } from '../auth/types';
 
 export function* getContentHomePage({ type }) {
@@ -31,7 +30,6 @@ export function* getContentHomePage({ type }) {
   const auth = yield select(getAuth);
   if (auth === false || auth === undefined) yield take(SUCCESS_GET_TOKEN);
   const end = start + 10;
-  console.log('start: ', start, 'end: ', end);
   try {
     const dataRecs = yield call(getContentHome, start, end);
     if (dataRecs.content_feed.length === 0) {
@@ -57,7 +55,6 @@ export function* getContentForYouPage({ type }) {
   const auth = yield select(getAuth);
   if (auth === false || auth === undefined) yield take(SUCCESS_GET_TOKEN);
   const end = start + 10;
-  console.log('start: ', start, 'end: ', end);
   try {
     const dataRecs = yield call(getContentForYou, start, end);
     if (dataRecs.content_feed.length === 0) {

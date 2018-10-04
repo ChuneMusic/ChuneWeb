@@ -69,7 +69,7 @@ export const ArticleLink = styled(Link)`
   letter-spacing: 1.5px;
   text-transform: capitalize;
   &:hover{
-    border-bottom: 2px solid #6200ee;
+    text-decoration: underline;
   }
   @media(max-width: 849px) and (min-width: 320px) {
     font-size: 10px;
@@ -83,8 +83,11 @@ export const ArticleTitle = styled.h2`
   font-weight: 500;
   line-height: 26px;
   letter-spacing: 0.3px;
-  padding: 10px;
+  padding: 5px 10px;
   cursor: pointer;
+  &:hover{
+    text-decoration: underline;
+  }
   @media(max-width: 849px) and (min-width: 320px) {
     font-size: 16px;
     line-height: 18px;
@@ -101,4 +104,13 @@ export const ArticleButton = styled.a`
   &:hover{
     border-bottom: 2px solid #6200ee;
   }
+`;
+export const ArticleLogoSource = styled.img`
+  height: 20px;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  cursor: pointer;
 `;

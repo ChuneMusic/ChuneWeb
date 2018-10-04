@@ -47,6 +47,7 @@ export const ArtistName = styled.p`
   font-weight: 500;
   letter-spacing: 0.3px;
   padding: 5px 0;
+  text-transform: uppercase;
 `;
 export const RightBlockButton = styled.div`
   width: 345px;

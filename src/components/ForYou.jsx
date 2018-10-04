@@ -59,7 +59,10 @@ class ForYou extends React.Component {
   }
 
   render() {
-    const { contentFeed, artistTracks, followArtists } = this.props;
+    const {
+      contentFeed, artistTracks, followArtists,
+      fetchDataForYou
+    } = this.props;
     if (followArtists) {
       return (
         <EmptyListConnect
@@ -76,7 +79,7 @@ class ForYou extends React.Component {
             <StyledContent.LeftBlockContent>
               {this.renderItems(contentFeed)}
               {this.renderWaypoint()}
-              <Styled.WaypointBlock />
+              {fetchDataForYou ? (<Loading />) : (<Styled.WaypointBlock />)}
             </StyledContent.LeftBlockContent>
             <StyledContent.RightBlockContent>
               <ChuneSupplyConnect
@@ -105,7 +108,8 @@ const mapStateToProps = store => ({
   contentFeed: store.dataContent.contentFeedForYou,
   artists: store.dataArtists.artists,
   artistTracks: store.dataContent.artistTracksForYou,
-  followArtists: store.dataContent.followArtists
+  followArtists: store.dataContent.followArtists,
+  fetchDataForYou: store.dataContent.fetchDataForYou
 });
 
 export const ForYouConnect = withRouter(connect(mapStateToProps, mapActionsToProps)(ForYou));
@@ -114,5 +118,6 @@ ForYou.propTypes = {
   contentFeed: arrayOf(any).isRequired,
   artistTracks: arrayOf(any).isRequired,
   loadMoreItems: func.isRequired,
-  followArtists: bool.isRequired
+  followArtists: bool.isRequired,
+  fetchDataForYou: bool.isRequired
 };
