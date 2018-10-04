@@ -53,6 +53,7 @@ export const BasicArticleCard = ({ featured, openNews }) => {
   const featuredArticle = featured.map((e, index) => {
     let t = e.title;
     if (window.innerWidth > 600) {
+      if (index === 0) t = truncateWithEllipses(e.title, 95);
       if (index !== 0) t = truncateWithEllipses(e.title, 35);
     } else {
       t = truncateWithEllipses(e.title, 35);
