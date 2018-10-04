@@ -20,7 +20,6 @@ import {
   SUCCESS_GET_CONTENT_HOME_PAGE_USER, SUCCESS_GET_TOP_TRACKS
 } from './types';
 import { locationChange } from '../../utilities/patternForSagas';
-import { FOLLOW_ARTIST, UNFOLLOW_ARTIST } from '../artists/types';
 import { SUCCESS_GET_TOKEN } from '../auth/types';
 
 export function* getContentHomePage({ type }) {
@@ -31,9 +30,8 @@ export function* getContentHomePage({ type }) {
   const auth = yield select(getAuth);
   if (auth === false || auth === undefined) yield take(SUCCESS_GET_TOKEN);
   const end = start + 10;
-  console.log('start: ', start, 'end: ', end);
   try {
-    const dataRecs = yield call(getContentHome);
+    const dataRecs = yield call(getContentHome, start, end);
     if (dataRecs.content_feed.length === 0) {
       const data = yield call(getContentHomePageToServer, start, end);
       featured = data.featured || [];
@@ -57,9 +55,8 @@ export function* getContentForYouPage({ type }) {
   const auth = yield select(getAuth);
   if (auth === false || auth === undefined) yield take(SUCCESS_GET_TOKEN);
   const end = start + 10;
-  console.log('start: ', start, 'end: ', end);
   try {
-    const dataRecs = yield call(getContentForYou);
+    const dataRecs = yield call(getContentForYou, start, end);
     if (dataRecs.content_feed.length === 0) {
       const data = yield call(getContentForYouPageToServer, start, end);
       artistTracks = data.artist_tracks || [];
@@ -98,8 +95,8 @@ export function* getChuneSupply() {
 }
 
 export function* sagasContent() {
-  yield takeEvery([locationChange('/home'), FOLLOW_ARTIST, UNFOLLOW_ARTIST, FETCH_MORE_CONTENT_HOME_PAGE_USER], getContentHomePage);
-  yield takeEvery([locationChange('/for-you'), FOLLOW_ARTIST, UNFOLLOW_ARTIST, FETCH_MORE_CONTENT_FORYOU_PAGE_USER], getContentForYouPage);
+  yield takeEvery([locationChange('/home'), FETCH_MORE_CONTENT_HOME_PAGE_USER], getContentHomePage);
+  yield takeEvery([locationChange('/for-you'), FETCH_MORE_CONTENT_FORYOU_PAGE_USER], getContentForYouPage);
   yield takeEvery(SUCCESS_GET_CONTENT_HOME_PAGE_USER, getTopTracks);
   yield takeEvery(SUCCESS_GET_TOP_TRACKS, getChuneSupply);
 }

@@ -7,11 +7,21 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { arrayOf, any, bool } from 'prop-types';
 
+import * as StyledMusic from '../../styled-components/music';
+import Up from '../../../../assets/images/chevron-arrow-up.svg';
+import Down from '../../../../assets/images/chevron-arrow-down.svg';
 import './ChuneSupply.css';
 
 class ChuneSupply extends React.PureComponent {
+  state = {
+    openList: false
+  }
+
+  openPlaylist = () => this.setState({ openList: !this.state.openList })
+
   render() {
     const { supplies, foryou } = this.props;
+    const { openList } = this.state;
     let textHeader = (
       <div>
         <h4 className="title">CHUNE SUPPLY</h4>
@@ -24,9 +34,10 @@ class ChuneSupply extends React.PureComponent {
         <Paper className="chuneSupplyPaper">
           {textHeader}
           <div className="tracksList">
-            {map(supplies, (supply) => {
+            {map(supplies, (supply, key) => {
               let images = supply.image;
               if (~images.indexOf('.jpg')) images = 'https://via.placeholder.com/100x150';
+              if (key > 9 && openList === false) return null;
               return (
                 <a href={`https://open.spotify.com/track/${supply.spotify_id}`} target="_blank" rel="noopener noreferrer" key={supply.id}>
                   <Card
@@ -60,6 +71,7 @@ class ChuneSupply extends React.PureComponent {
                 </a>
               );
             })}
+            <StyledMusic.MusicArrow onClick={this.openPlaylist} src={openList ? Up : Down} />
           </div>
         </Paper>
       </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import LargeAudioPlayer from './LargeAudioPlayer';
+import { LargeAudioPlayer } from './LargeAudioPlayer';
 
 const domNode = document.createElement('div');
 const modalRoot = document.getElementById('root');

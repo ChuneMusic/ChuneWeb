@@ -4,13 +4,14 @@ import { bindActionCreators } from 'redux';
 import { matchPath } from 'react-router';
 import MediaQuery from 'react-responsive';
 import { Link, NavLink, withRouter } from 'react-router-dom';
-import { objectOf, any, func } from 'prop-types';
+import {
+  objectOf, any, func,
+  bool
+} from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -24,8 +25,10 @@ import ListItem from '@material-ui/core/ListItem';
 
 import { SearchFormConnect } from './SearchForm';
 import { SpotifyIcon } from './shared/SocialIcons';
-import LogoSVG from '../../assets/images/logotype.svg';
+import LogoSVG from '../../assets/images/Chune_Supply_Logotype_White.svg';
 import { logOutUser } from '../store/auth/actions';
+import * as StyledNavBar from './styled-components/navbar';
+import { openCloseSearch } from '../store/autosuggest/actions';
 
 const styles = () => ({
   navContainer: {
@@ -68,7 +71,7 @@ const styles = () => ({
   logoContainer: {
     height: 74,
     width: 95,
-    paddingLeft: 25,
+    paddingLeft: 95,
     paddingTop: 22,
     display: 'flex',
     justifyContent: 'center',
@@ -235,7 +238,6 @@ class Navbar extends React.Component {
     super(props);
     this.state = {
       value: 0,
-      searching: false,
       anchorEl: null,
       drawerOpen: false,
     };
@@ -261,9 +263,27 @@ class Navbar extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    window.scrollTo(0, 0);
     const { location } = nextProps;
     if (location.pathname.startsWith('/artist/')) {
       this.setState({ value: 2 });
+    }
+    if (location.pathname.startsWith('/event/')) {
+      this.setState({ value: 3 });
+    }
+    switch (location.pathname) {
+      case '/home':
+        return this.setState({ value: 0 });
+      case '/for-you':
+        return this.setState({ value: 1 });
+      case '/artists':
+        return this.setState({ value: 2 });
+      case '/events':
+        return this.setState({ value: 3 });
+      case '/blog':
+        return this.setState({ value: 4 });
+      default:
+        return null;
     }
   }
 
@@ -281,8 +301,15 @@ class Navbar extends React.Component {
       case '/blog':
         return 'Blog';
       default:
-        return null;
+        break;
     }
+    if (history.location.pathname.startsWith('/artist/')) {
+      return 'Artists';
+    }
+    if (history.location.pathname.startsWith('/event/')) {
+      return 'Events';
+    }
+    return null;
   }
 
   matchPath = (targetPath) => {
@@ -315,8 +342,8 @@ class Navbar extends React.Component {
   };
 
   toggleSearch = () => {
-    const { searching } = this.state;
-    this.setState({ searching: !searching });
+    const { showHideSearch } = this.props;
+    showHideSearch();
   }
 
   handleChange = (event, value) => {
@@ -325,8 +352,11 @@ class Navbar extends React.Component {
 
   render() {
     const { drawerOpen } = this.state;
-    const { classes, logOut, profile } = this.props;
-    const { value, searching, anchorEl } = this.state;
+    const {
+      classes, logOut, profile,
+      searching
+    } = this.props;
+    const { value, anchorEl } = this.state;
     const spotify = profile.display_name ? profile.display_name : (
       <a href="http://localhost:4001/auth/spotify">
         Spotify
@@ -334,51 +364,128 @@ class Navbar extends React.Component {
     );
     const searchForm = <SearchFormConnect cancelSearch={this.toggleSearch} />;
     const normalMenu = (
-      <div style={{ height: 74 }}>
-        <MediaQuery maxDeviceWidth={1023}>
-          <AppBar position="fixed" className={classes.root}>
-            <Toolbar className={classes.mobileToolbar}>
-              <div className={classes.mobileToolbarLeftSection}>
-                <IconButton className={classes.menuButton} color="inherit" aria-label="Menu" onClick={this.toggleDrawer(true)}>
-                  <MenuIcon />
-                </IconButton>
-                <Typography variant="title" color="inherit" className={classes.mobileTitle}>
-                  {this.getTitle()}
-                </Typography>
-                <Drawer open={drawerOpen} onClose={this.toggleDrawer(false)}>
-                  <div className={classes.drawerContainer}>
-                    <List component="section" className={classes.drawerMenu}>
-                      <ListItem button className={this.matchPath('/home') ? classes.activeListItem : classes.listItem}>
-                        <NavLink exact to="/home" activeClassName={classes.navLinkActive} className={classes.navLink}>
-                          Home
-                        </NavLink>
-                      </ListItem>
-                      <ListItem button className={this.matchPath('/for-you') ? classes.activeListItem : classes.listItem}>
-                        <NavLink exact to="/for-you" activeClassName={classes.navLinkActive} className={classes.navLink}>
-                          For You
-                        </NavLink>
-                      </ListItem>
-                      <ListItem button className={this.matchPath('/artists') ? classes.activeListItem : classes.listItem}>
-                        <NavLink exact to="/artists" activeClassName={classes.navLinkActive} className={classes.navLink}>
-                          Artists
-                        </NavLink>
-                      </ListItem>
-                      <ListItem button className={this.matchPath('/events') ? classes.activeListItem : classes.listItem}>
-                        <NavLink exact to="/events" activeClassName={classes.navLinkActive} className={classes.navLink}>
-                          Events
-                        </NavLink>
-                      </ListItem>
-                      <ListItem button className={this.matchPath('/blog') ? classes.activeListItem : classes.listItem}>
-                        <NavLink exact to="/blog" activeClassName={classes.navLinkActive} className={classes.navLink}>
-                          Blog
-                        </NavLink>
-                      </ListItem>
-                    </List>
+      <header>
+        <MediaQuery maxDeviceWidth={1059}>
+          <div style={{ height: 56 }}>
+            <StyledNavBar.NavBarMobile>
+              <Toolbar className={classes.mobileToolbar}>
+                <div className={classes.mobileToolbarLeftSection}>
+                  <IconButton className={classes.menuButton} color="inherit" aria-label="Menu" onClick={this.toggleDrawer(true)}>
+                    <MenuIcon />
+                  </IconButton>
+                  <Typography variant="title" color="inherit" className={classes.mobileTitle}>
+                    {this.getTitle()}
+                  </Typography>
+                  <Drawer open={drawerOpen} onClose={this.toggleDrawer(false)}>
+                    <div className={classes.drawerContainer}>
+                      <List component="section" className={classes.drawerMenu}>
+                        <ListItem button className={this.matchPath('/home') ? classes.activeListItem : classes.listItem}>
+                          <NavLink exact to="/home" activeClassName={classes.navLinkActive} className={classes.navLink}>
+                            Home
+                          </NavLink>
+                        </ListItem>
+                        <ListItem button className={this.matchPath('/for-you') ? classes.activeListItem : classes.listItem}>
+                          <NavLink exact to="/for-you" activeClassName={classes.navLinkActive} className={classes.navLink}>
+                            For You
+                          </NavLink>
+                        </ListItem>
+                        <ListItem button className={this.matchPath('/artists') ? classes.activeListItem : classes.listItem}>
+                          <NavLink exact to="/artists" activeClassName={classes.navLinkActive} className={classes.navLink}>
+                            Artists
+                          </NavLink>
+                        </ListItem>
+                        <ListItem button className={this.matchPath('/events') ? classes.activeListItem : classes.listItem}>
+                          <NavLink exact to="/events" activeClassName={classes.navLinkActive} className={classes.navLink}>
+                            Events
+                          </NavLink>
+                        </ListItem>
+                        <ListItem button className={this.matchPath('/blog') ? classes.activeListItem : classes.listItem}>
+                          <NavLink exact to="/blog" activeClassName={classes.navLinkActive} className={classes.navLink}>
+                            Blog
+                          </NavLink>
+                        </ListItem>
+                      </List>
+                    </div>
+                  </Drawer>
+                </div>
+                <div className={classes.mobileToolbarRightSection}>
+                  <div className={classes.avatarContainer}>
+                    <IconButton
+                      aria-owns={anchorEl ? 'simple-menu' : null}
+                      aria-haspopup="true"
+                      onClick={this.handleClick}
+                      classes={{ root: classes.settingsIconButton }}
+                    >
+                      <SettingsIcon />
+                    </IconButton>
+                    <Menu
+                      className={classes.settingsMenu}
+                      id="simple-menu"
+                      anchorEl={anchorEl}
+                      open={Boolean(anchorEl)}
+                      onClose={this.handleClose}
+                      anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right',
+                      }}
+                      getContentAnchorEl={null}
+                      transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                      }}
+                    >
+                      <MenuItem onClick={() => this.goToRoute('/privacy')}>
+                        Privacy Policy
+                      </MenuItem>
+                      <MenuItem onClick={() => this.goToRoute('/terms-of-use')}>
+                        Terms of Use
+                      </MenuItem>
+                      <MenuItem onClick={() => this.goToRoute('/faq')}>
+                        FAQ
+                      </MenuItem>
+                      <MenuItem>
+                        <SpotifyIcon width="30px" height="30px" />
+                        &nbsp;
+                        {spotify}
+                      </MenuItem>
+                      <MenuItem onClick={this.sendPasswordResetEmail}>
+                        Reset Password
+                      </MenuItem>
+                      <MenuItem onClick={() => logOut()}>
+                        Logout
+                      </MenuItem>
+                    </Menu>
                   </div>
-                </Drawer>
-              </div>
-              <div className={classes.mobileToolbarRightSection}>
-                <div className={classes.avatarContainer}>
+                  <button type="button" className={classes.avatarContainer} onClick={this.toggleSearch}>
+                    <IconButton classes={{ root: classes.settingsIconButton }}>
+                      <SearchIcon />
+                    </IconButton>
+                  </button>
+                </div>
+              </Toolbar>
+            </StyledNavBar.NavBarMobile>
+          </div>
+        </MediaQuery>
+        <MediaQuery minDeviceWidth={1060}>
+          <div style={{ height: 74 }}>
+            <StyledNavBar.NavBar>
+              <StyledNavBar.NavBarLogoBlock>
+                <StyledNavBar.NavBarLogo to="/home">
+                  <img src={LogoSVG} height={30} title="Chune Supply Beta" alt="Chune Supply Beta" />
+                  <sub>beta</sub>
+                </StyledNavBar.NavBarLogo>
+              </StyledNavBar.NavBarLogoBlock>
+              <StyledNavBar.NavBarMenu>
+                <StyledNavBar.NavBarMenuBlock>
+                  <Tabs value={value} onChange={this.handleChange} fullWidth classes={{ root: classes.tabContainer, indicator: classes.indicator }}>
+                    <Tab label={(<span className={classes.tabLabel}>Home</span>)} component={Link} to="/home" className={classes.thetab} />
+                    <Tab label={(<span className={classes.tabLabel}>For You</span>)} component={Link} to="/for-you" className={classes.thetab} />
+                    <Tab label={(<span className={classes.tabLabel}>Artists</span>)} component={Link} to="/artists" className={classes.thetab} />
+                    <Tab label={(<span className={classes.tabLabel}>Events</span>)} component={Link} to="/events" className={classes.thetab} />
+                    <Tab label={(<span className={classes.tabLabel}>Blog</span>)} component={Link} to="/blog" className={classes.thetab} />
+                  </Tabs>
+                </StyledNavBar.NavBarMenuBlock>
+                <StyledNavBar.NavBarSubMenu>
                   <IconButton
                     aria-owns={anchorEl ? 'simple-menu' : null}
                     aria-haspopup="true"
@@ -424,173 +531,16 @@ class Navbar extends React.Component {
                       Logout
                     </MenuItem>
                   </Menu>
-                </div>
-                <button type="button" className={classes.avatarContainer} onClick={this.toggleSearch}>
-                  <IconButton classes={{ root: classes.settingsIconButton }}>
-                    <SearchIcon />
-                  </IconButton>
-                </button>
-              </div>
-            </Toolbar>
-          </AppBar>
+                </StyledNavBar.NavBarSubMenu>
+                <StyledNavBar.NavBarSearchBlock onClick={this.toggleSearch}>
+                  <SearchIcon />
+                </StyledNavBar.NavBarSearchBlock>
+              </StyledNavBar.NavBarMenu>
+            </StyledNavBar.NavBar>
+          </div>
         </MediaQuery>
-
-        <MediaQuery minDeviceWidth={1024}>
-          <AppBar position="fixed" className={classes.root}>
-            <div className={classes.appBar}>
-              <Grid
-                container
-                alignItems="flex-end"
-                alignContent="flex-end"
-                direction="row"
-                justify="center"
-                className={classes.gridContainer}
-              >
-                <Grid item xs={1}>
-                  <div className={classes.logoContainer}>
-                    <Link to="/home">
-                      <img src={LogoSVG} width={115} height={30} title="Logo" alt="Logo" />
-                    </Link>
-                  </div>
-                </Grid>
-
-                <Grid item xs={11}>
-                  <Grid
-                    container
-                    justify="space-between"
-                  >
-                    <Grid item xs={1} />
-                    <Grid
-                      item
-                      xs={9}
-                    >
-                      <Tabs
-                        value={value}
-                        onChange={this.handleChange}
-                        fullWidth
-                        classes={{ root: classes.tabContainer, indicator: classes.indicator }}
-                      >
-                        <Tab
-                          label={(
-                            <span className={classes.tabLabel}>
-                              Home
-                            </span>
-                          )}
-                          component={Link}
-                          to="/home"
-                          className={classes.thetab}
-                        />
-                        <Tab
-                          label={(
-                            <span className={classes.tabLabel}>
-                              For You
-                            </span>
-                          )}
-                          component={Link}
-                          to="/for-you"
-                          className={classes.thetab}
-                        />
-                        <Tab
-                          label={(
-                            <span className={classes.tabLabel}>
-                              Artists
-                            </span>
-                          )}
-                          component={Link}
-                          to="/artists"
-                          className={classes.thetab}
-                        />
-                        <Tab
-                          label={(
-                            <span className={classes.tabLabel}>
-                              Events
-                            </span>
-                          )}
-                          component={Link}
-                          to="/events"
-                          className={classes.thetab}
-                        />
-                        <Tab
-                          label={(
-                            <span className={classes.tabLabel}>
-                              Blog
-                            </span>
-                          )}
-                          component={Link}
-                          to="/blog"
-                          className={classes.thetab}
-                        />
-                      </Tabs>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={1}
-                    >
-                      <div className={classes.avatarContainer}>
-                        <IconButton
-                          aria-owns={anchorEl ? 'simple-menu' : null}
-                          aria-haspopup="true"
-                          onClick={this.handleClick}
-                          classes={{ root: classes.settingsIconButton }}
-                        >
-                          <SettingsIcon />
-                        </IconButton>
-                        <Menu
-                          className={classes.settingsMenu}
-                          id="simple-menu"
-                          anchorEl={anchorEl}
-                          open={Boolean(anchorEl)}
-                          onClose={this.handleClose}
-                          anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'right',
-                          }}
-                          getContentAnchorEl={null}
-                          transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                          }}
-                        >
-                          <MenuItem onClick={() => this.goToRoute('/privacy')}>
-                            Privacy Policy
-                          </MenuItem>
-                          <MenuItem onClick={() => this.goToRoute('/terms-of-use')}>
-                            Terms of Use
-                          </MenuItem>
-                          <MenuItem onClick={() => this.goToRoute('/faq')}>
-                            FAQ
-                          </MenuItem>
-                          <MenuItem>
-                            <SpotifyIcon width="30px" height="30px" />
-                            &nbsp;
-                            {spotify}
-                          </MenuItem>
-                          <MenuItem onClick={this.sendPasswordResetEmail}>
-                            Reset Password
-                          </MenuItem>
-                          <MenuItem onClick={() => logOut()}>
-                            Logout
-                          </MenuItem>
-                        </Menu>
-                      </div>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={1}
-                    >
-                      <button type="button" className={classes.avatarContainer} onClick={this.toggleSearch}>
-                        <SearchIcon />
-                      </button>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </div>
-          </AppBar>
-        </MediaQuery>
-      </div>
+      </header>
     );
-
     return (
       <div>
         {searching ? searchForm : normalMenu}
@@ -601,11 +551,13 @@ class Navbar extends React.Component {
 
 const mapStateToProps = store => ({
   userID: store.user,
-  profile: store.dataSpotify.profile
+  profile: store.dataSpotify.profile,
+  searching: store.dataSearch.inputSearch
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
-  logOut: logOutUser
+  logOut: logOutUser,
+  showHideSearch: openCloseSearch
 }, dispatch);
 
 export const NavBarConnect = withStyles(styles)(withRouter(connect(mapStateToProps, mapActionsToProps)(Navbar)));
@@ -615,5 +567,7 @@ Navbar.propTypes = {
   profile: objectOf(any).isRequired,
   history: objectOf(any).isRequired,
   location: objectOf(any).isRequired,
-  logOut: func.isRequired
+  logOut: func.isRequired,
+  showHideSearch: func.isRequired,
+  searching: bool.isRequired
 };

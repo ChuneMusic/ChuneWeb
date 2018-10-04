@@ -36,7 +36,7 @@ const styles = () => ({
     minWidth: 716,
     '@media (max-width: 1023px)': {
       width: '100vw',
-      minWidth: 345,
+      minWidth: 320,
     }
   },
   active: {

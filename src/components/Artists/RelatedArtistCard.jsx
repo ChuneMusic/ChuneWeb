@@ -11,14 +11,19 @@ import { followArtist } from '../../store/artists/actions';
 
 const styles = () => ({
   root: {
-    width: 343,
+    width: 345,
     height: 258,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-end',
-    borderRadius: 4,
-    '@media (max-width: 1023px)': {
-      width: 249,
+    borderRadius: 6,
+    '@media(max-width: 1080px) and (min-width: 960px)': {
+      height: '250px',
+      width: '310px',
+    },
+    '@media(max-width: 959px) and (min-width: 320px)': {
+      height: '250px',
+      width: '250px',
     }
   },
   artistName: {
@@ -89,7 +94,7 @@ const RelatedArtistCard = ({ classes, artist, follow }) => {
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
   };
-  let genre = 'POP';
+  let genre = 'None';
   if (artist.genres[0] !== undefined) genre = artist.genres[0].description;
   return (
     <Paper className={classes.root} style={overrideBgStyle}>

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export const VideoBlock = styled.div`
   width: 530px;
-  height: 360px;
+  height: 369px;
   display: flex;
   flex-direction: column;
   background: #ffffff;
@@ -12,13 +12,13 @@ export const VideoBlock = styled.div`
   margin: 0 0 20px 0;
   @media(max-width: 849px) and (min-width: 320px) {
     width: 310px;
-    height: 310px;
+    height: 210px;
     margin: 0 0 10px 0;
   }
 `;
 export const VideoDescriptionBlock = styled.div`
   width: 530px;
-  height: 65px;
+  height: 70px;
   display: flex;
   flex-direction: column;
   @media(max-width: 849px) and (min-width: 320px) {
@@ -70,9 +70,9 @@ export const VideoTitle = styled.h2`
 `;
 export const Video = styled.div`
   width: 530px;
-  height: 300px;
+  height: 299px;
   @media(max-width: 849px) and (min-width: 320px) {
     width: 310px;
-    height: 260px;
+    height: 170px;
   }
 `;

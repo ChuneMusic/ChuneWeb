@@ -6,6 +6,10 @@ export const MusicBlock = styled.div`
   border: solid 1px rgba(0, 0, 0, 0.12);
   background: #ffffff;
   border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 export const MusicTitle = styled.h2`
   color: rgba(0, 0, 0, 0.87);
@@ -14,6 +18,7 @@ export const MusicTitle = styled.h2`
   letter-spacing: 3px;
   line-height: 1;
   padding: 0 0 30px 0;
+  text-transform: uppercase;
 `;
 export const MusicTrack = styled.div`
   display: flex;
@@ -47,4 +52,9 @@ export const MusicSoundArtist = styled.p`
 `;
 export const MusicIcon = styled.div`
   width: 30px;
+`;
+export const MusicArrow = styled.img`
+  width: 20px;
+  height: 20px;
+  margin: 10px;
 `;

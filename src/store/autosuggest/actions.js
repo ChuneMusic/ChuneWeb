@@ -1,6 +1,7 @@
 import {
   SEARCH_ARTISTS, SUCCESS_SEARCH_ARTISTS,
-  CLEAR_LIST_SEARCH, NO_ARTIST_IN_DB
+  CLEAR_LIST_SEARCH, NO_ARTIST_IN_DB,
+  OPEN_CLOSE_SEARCH
 } from './types';
 
 export const searchArtists = value => ({
@@ -17,4 +18,7 @@ export const clearListSearch = () => ({
 export const noArtistInDB = db => ({
   type: NO_ARTIST_IN_DB,
   payload: { db }
+});
+export const openCloseSearch = () => ({
+  type: OPEN_CLOSE_SEARCH
 });

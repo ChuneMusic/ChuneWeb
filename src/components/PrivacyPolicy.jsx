@@ -3,29 +3,29 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { FooterConnect } from './shared/Footer';
 
-const styles = theme => ({
+const styles = () => ({
   contentContainer: {
     width: 716,
     margin: '106px auto',
-    '@media (max-width: 1023px)': {
-      width: 345,
+    '@media (max-width: 800px)': {
+      width: 310,
       marginLeft: 'auto',
       marginRight: 'auto',
       marginTop: 40,
     },
     '& h3': {
       width: 716,
-      fontFamily: "Open Sans",
+      fontFamily: 'Open Sans',
       fontSize: 36,
-      fontWeight: "bold",
-      fontStyle: "normal",
-      fontStretch: "normal",
+      fontWeight: 'bold',
+      fontStyle: 'normal',
+      fontStretch: 'normal',
       lineHeight: 1.22,
-      letterSpacing: "normal",
-      color: "#232323",
+      letterSpacing: 'normal',
+      color: '#232323',
       marginBottom: 30,
-      '@media (max-width: 1023px)': {
-        width: 345,
+      '@media (max-width: 800px)': {
+        width: 310,
         marginLeft: 'auto',
         marginRight: 'auto',
       },
@@ -33,16 +33,16 @@ const styles = theme => ({
     '& .para1': {
       width: 716,
       opacity: 0.81,
-      fontFamily: "Open Sans",
+      fontFamily: 'Open Sans',
       fontSize: 16,
-      fontWeight: "normal",
-      fontStyle: "normal",
-      fontStretch: "normal",
+      fontWeight: 'normal',
+      fontStyle: 'normal',
+      fontStretch: 'normal',
       lineHeight: 1.5,
-      letterSpacing: "normal",
-      color: "#515151",
-      '@media (max-width: 1023px)': {
-        width: 345,
+      letterSpacing: 'normal',
+      color: '#515151',
+      '@media (max-width: 800px)': {
+        width: 310,
         marginLeft: 'auto',
         marginRight: 'auto',
       },
@@ -50,16 +50,16 @@ const styles = theme => ({
     '& .para2': {
       width: 716,
       opacity: 0.81,
-      fontFamily: "Open Sans",
+      fontFamily: 'Open Sans',
       fontSize: 16,
-      fontWeight: "normal",
-      fontStyle: "normal",
-      fontStretch: "normal",
+      fontWeight: 'normal',
+      fontStyle: 'normal',
+      fontStretch: 'normal',
       lineHeight: 1.5,
-      letterSpacing: "normal",
-      color: "#707070",
-      '@media (max-width: 1023px)': {
-        width: 345,
+      letterSpacing: 'normal',
+      color: '#707070',
+      '@media (max-width: 800px)': {
+        width: 310,
         marginLeft: 'auto',
         marginRight: 'auto',
       },
@@ -69,14 +69,14 @@ const styles = theme => ({
       '& li': {
         listStyle: 'disc',
         opacity: 0.81,
-        fontFamily: "Open Sans",
+        fontFamily: 'Open Sans',
         fontSize: 16,
-        fontWeight: "normal",
-        fontStyle: "normal",
-        fontStretch: "normal",
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
         lineHeight: 1.5,
-        letterSpacing: "normal",
-        color: "#515151",
+        letterSpacing: 'normal',
+        color: '#515151',
         '& strong': {
           fontWeight: 'bold',
         }
@@ -85,9 +85,8 @@ const styles = theme => ({
   }
 });
 
-const PrivacyPolicy = props => {
-  const { classes, user } = props;
- 
+const PrivacyPolicy = (props) => {
+  const { classes } = props;
   return (
     <React.Fragment>
       <div className={classes.contentContainer}>
@@ -99,7 +98,7 @@ const PrivacyPolicy = props => {
           include chunemusicfeed.com and Chune. The Chune website is a news and information site. By
           using the Chune website, you consent to the data practices described in this statement.
         </p>
-        <br/>
+        <br />
         <ul>
           <li>
             <strong>Collection of your Personal Information - </strong>
@@ -157,12 +156,12 @@ const PrivacyPolicy = props => {
             maintain quality of the service, and to provide general statistics regarding use of the Chune website.
           </li>
           <li>
-          <strong>Links - </strong>
+            <strong>Links - </strong>
           This website contains links to other sites. Please be aware that we are not responsible for the
           content or privacy practices of such other sites. We encourage our users to be aware when they
           leave our site and to read the privacy statements of any other site that collects personally
           identifiable information.
-        </li>
+          </li>
           <li>
             <strong>Children Under Thirteen - </strong>
             Chune does not knowingly collect  personally identifiable information from children under the age of
@@ -211,6 +210,6 @@ const PrivacyPolicy = props => {
       <FooterConnect />
     </React.Fragment>
   );
-}
+};
 
-export default withStyles(styles)(PrivacyPolicy);
+export const PrivacyPolicyConnect = withStyles(styles)(PrivacyPolicy);

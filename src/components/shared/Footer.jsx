@@ -11,7 +11,7 @@ const styles = () => ({
     width: '100%',
     height: 193,
     backgroundColor: '#552e89',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 800px)': {
       height: 412,
     },
     '& .footerContainer': {
@@ -21,8 +21,8 @@ const styles = () => ({
       flexDirection: 'row',
       justifyContent: 'space-between',
       padding: '54px 98px',
-      '@media (max-width: 1023px)': {
-        width: 375,
+      '@media (max-width: 800px)': {
+        width: 310,
         margin: '0px auto',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -32,7 +32,7 @@ const styles = () => ({
     },
     '& .leftSection': {
       paddingTop: 21,
-      '@media (max-width: 1023px)': {
+      '@media (max-width: 800px)': {
         margin: '0px auto',
         display: 'flex',
         alignItems: 'center',
@@ -43,7 +43,7 @@ const styles = () => ({
     '& .rightSection': {
       paddingTop: 21,
       '& .navContainer': {
-        '@media (max-width: 1023px)': {
+        '@media (max-width: 800px)': {
           width: 98,
           margin: '0px auto',
           display: 'flex',
@@ -64,7 +64,7 @@ const styles = () => ({
       textAlign: 'right',
       color: '#ffffff',
       marginLeft: 32,
-      '@media (max-width: 1023px)': {
+      '@media (max-width: 800px)': {
         textAlign: 'center',
         marginLeft: 0,
         marginTop: 30,
@@ -80,10 +80,10 @@ const Footer = (props) => {
     <footer className={classes.footer}>
       <div className="footerContainer">
         <div className="leftSection">
-          <MediaQuery minWidth={1024}>
+          <MediaQuery minWidth={1060}>
             <img src={FooterLogotypePNG} title="Chune Inc Logo" alt="Chune Inc Logo" />
           </MediaQuery>
-          <MediaQuery maxWidth={1023}>
+          <MediaQuery maxWidth={1059}>
             <img src={FooterLogotypeMobilePNG} title="Chune Inc Logo" alt="Chune Inc Logo" />
           </MediaQuery>
         </div>

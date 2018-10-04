@@ -1,116 +1,43 @@
 import React from 'react';
 import MediaQuery from 'react-responsive';
-import { Row, Col, ProgressBar } from 'react-materialize';
 import chunk from 'lodash/chunk';
 import isEqual from 'lodash/isEqual';
 import { objectOf, arrayOf, any } from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
-import Button from '@material-ui/core/Button';
 
 import { RelatedArtistCardConnect } from './RelatedArtistCard';
+import * as StyledArtists from '../styled-components/relatedArtists';
 
 const styles = () => ({
-  root: {
-    width: 1080,
-    height: 350,
-    margin: '0 auto',
-    '@media (max-width: 1023px)': {
-      width: '100vw',
-      margin: 0,
-    }
-  },
-  subMenuContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 27,
-    '@media (max-width: 1023px)': {
-      width: 348,
-      margin: '24px auto',
-    }
-  },
-  recommendedArtistHeading: {
-    width: 244,
-    height: 36,
-    paddingTop: 3,
-    paddingLeft: 4,
-    fontFamily: 'Roboto',
-    fontSize: 24,
-    fontWeight: 'normal',
-    fontStyle: 'normal',
-    fontStretch: 'normal',
-    lineHeight: 'normal',
-    letterSpacing: 0.3,
-    color: '#000000',
-    '@media (max-width: 1023px)': {
-      width: 124,
-    }
-  },
-  moreButton: {
-    width: 104,
-    height: 36,
-    backgroundColor: 'rgba(98, 2, 238, 0)',
-    border: 'solid 1px rgba(0, 0, 0, 0.12)',
-    fontFamily: 'Roboto',
-    fontSize: 14,
-    fontWeight: 500,
-    fontStyle: 'normal',
-    fontStretch: 'normal',
-    lineHeight: 1.14,
-    letterSpacing: 1.3,
-    textAlign: 'center',
-    color: '#6200ee',
-    '&:hover': {
-      backgroundColor: 'rgba(98, 2, 238, 0)',
-    },
-    '&:focus': {
-      backgroundColor: 'rgba(98, 2, 238, 0)',
-    },
-    '@media (max-width: 1023px)': {
-      width: 72,
-      border: 'none',
-      paddingRight: 0,
-      textAlign: 'right',
-    }
-  },
-  heading: {
-    width: 283,
-    height: 28,
-    fontFamily: 'Roboto',
-    fontSize: 24,
-    fontWeight: 'normal',
-    fontStyle: 'normal',
-    fontStretch: 'normal',
-    lineHeight: 'normal',
-    letterSpacing: 0.3,
-    color: '#000000',
-  },
-  mobileListContainer: {
-    '@media (max-width: 1023px)': {
-      width: 357,
-      margin: '18px 0px 18px 16px',
-    }
-  },
   gridList: {
-    '@media (max-width: 1023px)': {
-      width: 357,
-      marginRight: 0,
+    margin: '0 !important',
+    flexWrap: 'nowrap !important',
+    '@media (max-width: 600px)': {
+      width: '100vw',
       flexWrap: 'nowrap',
       transform: 'translateZ(0)',
+      padding: '0 0 0 10px'
     }
   },
   gridListTile: {
-    height: 260,
-    '@media (max-width: 1023px)': {
-      width: 249,
+    height: '258px !important',
+    width: '345px !important',
+    padding: '0 !important',
+    margin: '0 22px 0 0',
+    '@media(max-width: 1080px) and (min-width: 960px)': {
+      height: '250px !important',
+      width: '310px !important',
+      padding: '0 !important',
+      margin: '0 10px 0 0'
+    },
+    '@media(max-width: 959px) and (min-width: 320px)': {
+      height: '250px !important',
+      width: '250px !important',
+      padding: '0 !important',
+      margin: '0 5px 0 0'
     }
-  },
-  container: {
-    backgroundColor: '#fafafa',
-    width: '100%',
-    paddingTop: 24,
   }
 });
 
@@ -146,9 +73,8 @@ class RelatedArtists extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, relatedArtists } = this.props;
     const { pages, currentPage, totalPages } = this.state;
-
     if (totalPages > 0) {
       const activeArtists = pages[currentPage];
       const newArray = activeArtists.map(e => (
@@ -157,38 +83,33 @@ class RelatedArtists extends React.Component {
         </GridListTile>
       ));
       return (
-        <div className={classes.root}>
-          <div className={classes.subMenuContainer}>
-            <div className={classes.recommendedArtistHeading}>Recommended Artists</div>
-            <Button className={classes.moreButton} onClick={this.incrementPage}>MORE</Button>
-          </div>
-          <MediaQuery minWidth={1024}>
-            <GridList cols={3} className={classes.gridList} cellHeight={260} spacing={29}>
+        <StyledArtists.WrapperArtists>
+          <StyledArtists.ArtistsHeader>
+            <StyledArtists.ArtistsTitle>
+              Recommended Artists
+            </StyledArtists.ArtistsTitle>
+            <StyledArtists.ArtistsButton onClick={this.incrementPage}>
+              MORE
+            </StyledArtists.ArtistsButton>
+          </StyledArtists.ArtistsHeader>
+          <MediaQuery minWidth={601}>
+            <GridList cols={3} className={classes.gridList} cellHeight={258} spacing={30}>
               {newArray}
             </GridList>
           </MediaQuery>
-          <MediaQuery maxWidth={1023}>
-            <div className={classes.mobileListContainer}>
-              <GridList cols={1.37} className={classes.gridList} cellHeight={260} spacing={16} style={{ marginRight: 0 }}>
-                {newArray}
-              </GridList>
-            </div>
+          <MediaQuery maxWidth={600}>
+            <GridList cols={1.25} className={classes.gridList} cellHeight={250} spacing={15}>
+              {relatedArtists.map(e => (
+                <GridListTile key={e.id} className={classes.gridListTile}>
+                  <RelatedArtistCardConnect artist={e} />
+                </GridListTile>
+              ))}
+            </GridList>
           </MediaQuery>
-        </div>
+        </StyledArtists.WrapperArtists>
       );
     }
-    return (
-      <div>
-        <div className="chune-feed-container">
-          <h3 className={classes.heading}>Recommended Artists</h3>
-          <Row>
-            <Col s={12}>
-              <ProgressBar className="chune-progressbar" color="cyan" />
-            </Col>
-          </Row>
-        </div>
-      </div>
-    );
+    return null;
   }
 }
 

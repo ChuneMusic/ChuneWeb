@@ -52,3 +52,17 @@
   width: 100%;
   height: 92vh;
 }
+.betaLogo{
+  color: #ffffff;
+  font-family: 'Roboto';
+  float: right;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+.betaLogoColor{
+  color: #552e89;
+  font-family: 'Roboto';
+  float: right;
+  font-size: 12px;
+  text-transform: uppercase;
+}

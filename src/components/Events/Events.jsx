@@ -6,17 +6,12 @@ import {
   bool
 } from 'prop-types';
 
-import { addArtists, deleteArtist } from '../../store/artists';
-import { fetchEventsForMultipleArtists, loadingEvents } from '../../store/events';
 import { EventCardConnect } from './EventCard';
 import { Loading } from '../shared/Loading';
 import { EmptyListConnect } from '../shared/EmptyList';
-import * as StyledEvents from '../styled-components/events';
+import * as StyledArtists from '../styled-components/artistsBlock';
 
-const Events = ({
-  artists, events,
-  eventsLoading, geolocation, artistsSuccess
-}) => {
+const Events = ({ artists, geolocation, artistsSuccess }) => {
   if (!artistsSuccess) return <Loading />;
   if (artists.length === 0) {
     return (
@@ -27,48 +22,36 @@ const Events = ({
     );
   }
   return (
-    <StyledEvents.WrapperEvents>
-      <StyledEvents.EventsTitle>
+    <StyledArtists.WrapperArtists>
+      <StyledArtists.ArtistsTitle>
         Events
-      </StyledEvents.EventsTitle>
-      <StyledEvents.EventsBlockArtist>
+      </StyledArtists.ArtistsTitle>
+      <StyledArtists.ArtistsBlock>
         {
           artists.map(artist => (
             <EventCardConnect
               artist={artist}
-              eventsLoading={eventsLoading}
-              events={events}
+              eventsLoading={false}
               geolocation={geolocation}
               key={artist.id}
             />
           ))
         }
-      </StyledEvents.EventsBlockArtist>
-    </StyledEvents.WrapperEvents>
+      </StyledArtists.ArtistsBlock>
+    </StyledArtists.WrapperArtists>
   );
 };
 
 const mapStateToProps = store => ({
   artists: store.dataArtists.artists,
   artistsSuccess: store.dataArtists.artistsSuccess,
-  events: store.events.events,
-  eventsLoading: store.events.initialLoading,
   geolocation: store.dataEvents.geolocation
 });
 
-const mapDispatch = dispatch => ({
-  fetchEventsForMultipleArtists: artists => dispatch(fetchEventsForMultipleArtists(artists)),
-  loadingEvents: () => dispatch(loadingEvents()),
-  addArtists: artists => dispatch(addArtists(artists)),
-  deleteArtist: artist => dispatch(deleteArtist(artist)),
-});
-
-export const EventsConnect = withRouter(connect(mapStateToProps, mapDispatch)(Events));
+export const EventsConnect = withRouter(connect(mapStateToProps, null)(Events));
 
 Events.propTypes = {
   artists: arrayOf(any).isRequired,
-  eventsLoading: bool.isRequired,
-  events: arrayOf(any).isRequired,
   geolocation: objectOf(any),
   artistsSuccess: bool.isRequired
 };

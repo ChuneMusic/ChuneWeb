@@ -10,8 +10,8 @@ const styles = () => ({
     margin: '178px auto',
     display: 'flex',
     flexDirection: 'column',
-    '@media (max-width: 1023px)': {
-      width: '100vw',
+    '@media (max-width: 420px)': {
+      width: '310px',
     }
   },
   musicTune: {
@@ -32,8 +32,8 @@ const styles = () => ({
     letterSpacing: 0.3,
     textAlign: 'center',
     color: 'rgba(0, 0, 0, 0.5)',
-    '@media (max-width: 1023px)': {
-      width: 344,
+    '@media (max-width: 420px)': {
+      width: 310,
       margin: '0px auto',
     }
   },

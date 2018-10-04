@@ -13,8 +13,8 @@ import { ConnectedRouter } from 'connected-react-router';
 import { store, persistor, history } from './store';
 import {
   ArtistsConnect, ArtistConnect, HomeConnect,
-  LandingConnect, TermsOfUse, PrivacyPolicy, FAQ,
-  SignUpConnect, SignInConnect, ForgotPassword,
+  LandingConnect, TermsOfUseConnect, PrivacyPolicyConnect, FAQConnect,
+  SignUpConnect, SignInConnect,
   EventsConnect, ArtistEventsConnect, NavBarConnect,
   GuestNavbarConnect, ForYouConnect, blogiFrame
 } from './components';
@@ -91,10 +91,9 @@ class App extends React.PureComponent {
           <PublicRoute exact path="/" token={token} component={LandingConnect} />
           <PublicRoute exact path="/signup" token={token} component={SignUpConnect} />
           <PublicRoute exact path="/login" token={token} component={SignInConnect} />
-          <PublicRoute exact path="/reset-password" token={token} component={ForgotPassword} />
-          <Route exact path="/terms-of-use" token={token} render={props => (<TermsOfUse token={token} {...props} />)} />
-          <Route exact path="/privacy" token={token} render={props => (<PrivacyPolicy token={token} {...props} />)} />
-          <Route exact path="/faq" token={token} render={props => (<FAQ token={token} {...props} />)} />
+          <Route exact path="/terms-of-use" token={token} render={props => (<TermsOfUseConnect token={token} {...props} />)} />
+          <Route exact path="/privacy" token={token} render={props => (<PrivacyPolicyConnect token={token} {...props} />)} />
+          <Route exact path="/faq" token={token} render={props => (<FAQConnect token={token} {...props} />)} />
           <PrivateRoute exact path="/home" token={token} component={HomeConnect} />
           <PrivateRoute exact path="/for-you" token={token} component={ForYouConnect} />
           <PrivateRoute exact path="/artists" token={token} component={ArtistsConnect} />

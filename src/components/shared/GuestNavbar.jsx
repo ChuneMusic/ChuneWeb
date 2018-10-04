@@ -13,8 +13,8 @@ import ListItem from '@material-ui/core/ListItem';
 
 import MobileLogoSVG from '../../../assets/images/mobile-logo.svg';
 import MobileLogoColorSVG from '../../../assets/images/mobile-logo-color.svg';
-import LogotypeColorSVG from '../../../assets/images/logotype-color.svg';
-import LogotypeSVG from '../../../assets/images/logotype.svg';
+import LogotypeColorSVG from '../../../assets/images/Chune_Supply_Logotype_Color.svg';
+import LogotypeSVG from '../../../assets/images/Chune_Supply_Logotype_White.svg';
 
 const styles = () => ({
   root: {
@@ -49,6 +49,7 @@ const styles = () => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    padding: '0 0 0 80px'
   },
   menuList: {
     display: 'flex',
@@ -180,6 +181,7 @@ const styles = () => ({
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: '0px 19px',
+    position: 'absolute'
   },
   mobileTopbarContainerColor: {
     width: '100vw',
@@ -219,6 +221,10 @@ const styles = () => ({
     height: '100%',
     backgroundColor: 'white',
     color: '#0f0f0f',
+  },
+  drawerMenu: {
+    padding: 0,
+    margin: '60px 0 0 0'
   },
   listItem: {
     width: 200,
@@ -340,10 +346,11 @@ class GuestNavbar extends React.Component {
             justify="center"
             className={alternateColor ? classes.topBarContainer : classes.topBarContainerAbsolute}
           >
-            <Grid item xs={2}>
+            <Grid item xs={1}>
               <div className={classes.logoContainer}>
                 <Link to="/">
-                  <img src={alternateColor ? LogotypeColorSVG : LogotypeSVG} width={115} height={30} title="Logo" alt="Logo" />
+                  <img src={alternateColor ? LogotypeColorSVG : LogotypeSVG} height={30} title="Logo" alt="Logo" />
+                  <sub className={alternateColor ? 'betaLogoColor' : 'betaLogo'}>beta</sub>
                 </Link>
               </div>
             </Grid>
@@ -366,7 +373,7 @@ class GuestNavbar extends React.Component {
                 </li>
               </ul>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={3}>
               <ul className={alternateColor ? classes.rightMenuListColor : classes.rightMenuList}>
                 <li className="menuListItem">
                   <Link className="rightMenuLink" to="/signup">
