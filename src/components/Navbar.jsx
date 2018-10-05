@@ -443,14 +443,14 @@ class Navbar extends React.Component {
                       <MenuItem onClick={() => this.goToRoute('/faq')}>
                         FAQ
                       </MenuItem>
-                      <MenuItem>
+                      {/* <MenuItem>
                         <SpotifyIcon width="30px" height="30px" />
                         &nbsp;
                         {spotify}
                       </MenuItem>
                       <MenuItem onClick={this.sendPasswordResetEmail}>
                         Reset Password
-                      </MenuItem>
+                      </MenuItem> */}
                       <MenuItem onClick={() => logOut()}>
                         Logout
                       </MenuItem>
@@ -519,14 +519,14 @@ class Navbar extends React.Component {
                     <MenuItem onClick={() => this.goToRoute('/faq')}>
                       FAQ
                     </MenuItem>
-                    <MenuItem>
+                    {/* <MenuItem>
                       <SpotifyIcon width="30px" height="30px" />
                       &nbsp;
                       {spotify}
                     </MenuItem>
                     <MenuItem onClick={this.sendPasswordResetEmail}>
                       Reset Password
-                    </MenuItem>
+                    </MenuItem> */}
                     <MenuItem onClick={() => logOut()}>
                       Logout
                     </MenuItem>
