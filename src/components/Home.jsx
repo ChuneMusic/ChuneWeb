@@ -9,6 +9,7 @@ import { map } from 'lodash';
 import { Tweet } from 'react-twitter-widgets';
 import SpotifyWebApi from 'spotify-web-api-js';
 import Waypoint from 'react-waypoint';
+import Slider from '@material-ui/lab/Slider';
 
 import {
   TopTracksChartConnect, ChuneSupplyConnect, BasicSoundPlayer,
@@ -23,15 +24,31 @@ import { Loading } from './shared/Loading';
 import * as Styled from './styled-components/home';
 import * as StyledContent from './styled-components/content';
 import * as StyledArticle from './styled-components/article';
+import * as StyledSpotify from './styled-components/spotifyPlayer';
+
+import Prev from '../../assets/images/control/rewind-button.svg';
+import Play from '../../assets/images/control/music-player-play.svg';
+import Next from '../../assets/images/control/fast-forward-arrows.svg';
+import Shuffle from '../../assets/images/control/couple-of-arrows-changing-places.svg';
+import Repeat from '../../assets/images/control/repeat.svg';
+import VolumeOn from '../../assets/images/control/reduced-volume.svg';
 
 import './Home.css';
 
 class Home extends React.Component {
+  state={
+    volume: 5
+  }
+
   renderWaypoint = () => <Waypoint onEnter={this.loadMore} threshold={2.0} />
 
   loadMore = () => {
     const { loadMoreItems } = this.props;
     loadMoreItems();
+  }
+
+  handleChangeVolume = (event, value) => {
+    this.setState({ volume: value });
   }
 
   playMusicSpotify = () => {
@@ -57,6 +74,7 @@ class Home extends React.Component {
       getTokenSpotify, history, topTracks,
       topChune, featured, fetchDataHome
     } = this.props;
+    const { volume } = this.state;
     if (location.search !== '' && token === '') {
       getTokenSpotify(location.search);
       location.search = '';
@@ -66,6 +84,45 @@ class Home extends React.Component {
     /* <button onClick={this.playMusicSpotify} type="button">Play</button> */
     return (
       <Styled.WrapperHomePage>
+        <StyledSpotify.SpotifyPlayer>
+          <StyledSpotify.SpotifyLeftBlock>
+            <StyledSpotify.SpotifyImageTrack src="https://i.scdn.co/image/1685533969d5b68cbc630f991e873bd6467f1814" title="LP" alt="LP" />
+            <StyledSpotify.SpotifyBlockTrackInfo>
+              <StyledSpotify.SpotifyTrackName>
+                Nubm
+              </StyledSpotify.SpotifyTrackName>
+              <StyledSpotify.SpotifyTrackArtist>
+                Linkin Park
+              </StyledSpotify.SpotifyTrackArtist>
+            </StyledSpotify.SpotifyBlockTrackInfo>
+          </StyledSpotify.SpotifyLeftBlock>
+          <StyledSpotify.SpotifyCenterBlock>
+            <StyledSpotify.SpotyfiControlBar>
+              <StyledSpotify.SpotifyControlButton src={Shuffle} />
+              <StyledSpotify.SpotifyControlButton src={Prev} />
+              <StyledSpotify.SpotifyControlButton src={Play} />
+              <StyledSpotify.SpotifyControlButton src={Next} />
+              <StyledSpotify.SpotifyControlButton src={Repeat} />
+            </StyledSpotify.SpotyfiControlBar>
+          </StyledSpotify.SpotifyCenterBlock>
+          <StyledSpotify.SpotifyRightBlock>
+            <StyledSpotify.SpotifyControlButton src={VolumeOn} />
+            <Slider
+              value={volume}
+              aria-labelledby="label"
+              min={0}
+              max={10}
+              step={1}
+              onChange={this.handleChangeVolume}
+              classes={{
+                root: 'root',
+                thumb: 'thumb',
+                trackBefore: 'trackBefore',
+                trackAfter: 'trackAfter'
+              }}
+            />
+          </StyledSpotify.SpotifyRightBlock>
+        </StyledSpotify.SpotifyPlayer>
         <Styled.FeaturedBlock>
           <BasicArticleCardConnect featured={featured} />
         </Styled.FeaturedBlock>
