@@ -6,24 +6,29 @@ import { bindActionCreators } from 'redux';
 import { Loading } from '../shared/Loading';
 import { CloseIcon } from '../shared/InteractionIcons';
 import { closeArticleUrl } from '../../store/content/actions';
+import * as StyledArticle from '../styled-components/article';
 
 const ArticleiFrame = ({ url, title, closeModalArticle }) => {
   if (url.length === 0) return <Loading />;
+  const str = navigator.userAgent;
+  let scrl = 'auto';
+  if (~str.indexOf('iPhone')) scrl = 'no';
+  console.log(scrl);
   return (
-    <div className="background_news" onClick={() => closeModalArticle(false)}>
-      <div className="modal_news">
-        <div className="header_news_color">
-          <button className="close_iframe" type="button" onClick={() => closeModalArticle(false)}>
+    <StyledArticle.ArticleBackGround onClick={() => closeModalArticle(false)}>
+      <StyledArticle.ArticleModal>
+        <StyledArticle.ArticleModalBackGroundTitle>
+          <StyledArticle.ArticleButtonCloseModal onClick={() => closeModalArticle(false)}>
             <CloseIcon />
-          </button>
-        </div>
-        <iframe
+          </StyledArticle.ArticleButtonCloseModal>
+        </StyledArticle.ArticleModalBackGroundTitle>
+        <StyledArticle.AticleIFrame
           title={title}
           src={url}
-          className="iframe_news"
+          scrolling={scrl}
         />
-      </div>
-    </div>
+      </StyledArticle.ArticleModal>
+    </StyledArticle.ArticleBackGround>
   );
 };
 
