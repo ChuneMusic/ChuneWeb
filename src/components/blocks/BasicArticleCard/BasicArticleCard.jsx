@@ -54,7 +54,7 @@ export const BasicArticleCard = ({ featured, openNews }) => {
     let t = e.title;
     if (window.innerWidth >= 960) {
       if (index === 0) t = truncateWithEllipses(e.title, 95);
-      if (index !== 0) t = truncateWithEllipses(e.title, 45);
+      if (index !== 0) t = truncateWithEllipses(e.title, 43);
     } else {
       t = truncateWithEllipses(e.title, 40);
     }

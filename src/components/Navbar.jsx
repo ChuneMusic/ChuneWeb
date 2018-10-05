@@ -377,7 +377,7 @@ class Navbar extends React.Component {
                     {this.getTitle()}
                   </Typography>
                   <Drawer open={drawerOpen} onClose={this.toggleDrawer(false)}>
-                    <div className={classes.drawerContainer}>
+                    <div className={classes.drawerContainer} role="button" onClick={this.toggleDrawer(false)}>
                       <List component="section" className={classes.drawerMenu}>
                         <ListItem button className={this.matchPath('/home') ? classes.activeListItem : classes.listItem}>
                           <NavLink exact to="/home" activeClassName={classes.navLinkActive} className={classes.navLink}>
