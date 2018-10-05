@@ -114,3 +114,77 @@ export const ArticleLogoSource = styled.img`
   left: 10px;
   cursor: pointer;
 `;
+export const ArticleBackGround = styled.div`
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+`;
+export const ArticleModal = styled.div`
+  width: 80%;
+  padding: 10px 0 0 0;
+  margin: 0 auto;
+  height: calc(100vh - 74px);
+  @media(max-width: 849px) and (min-width: 320px) {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    -webkit-transform: translate3d(0,0,0);
+  }
+`;
+export const ArticleModalBackGroundTitle = styled.div`
+  width: 100%;
+  height: 60px;
+  background: linear-gradient(262deg, #9c05cd, #552e89) #552e89;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  @media(max-width: 849px) and (min-width: 320px) {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 40px;
+  }
+`;
+export const ArticleButtonCloseModal = styled.button`
+  background: none;
+  border: none;
+  color: #fff;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  width: 60px;
+  height: 60px;
+  & svg{
+    font-size: 60px;
+  }
+  @media(max-width: 849px) and (min-width: 320px) {
+    width: 40px;
+    height: 40px;
+    & svg{
+      font-size: 40px;
+    }
+  }
+`;
+export const AticleIFrame = styled.iframe`
+  width: 1px;
+  height: 100%;
+  background: #ffffff;
+  min-width: 100%;
+  @media(max-width: 849px) and (min-width: 320px) {
+    margin: 40px 0 0 0;
+    height: calc(100% - 60px);
+    -webkit-transform: translate3d(0,0,0);
+  }
+`;

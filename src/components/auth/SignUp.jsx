@@ -39,7 +39,7 @@ const styles = () => ({
   },
   contentContainer: {
     width: 342,
-    height: 543,
+    height: 500,
     margin: '0 auto',
     flexDirection: 'column',
     borderRadius: 8,
@@ -50,7 +50,7 @@ const styles = () => ({
     '@media (max-width: 1023px)': {
       margin: '60px auto 0 auto',
       width: 300,
-      height: 510,
+      height: 450,
     }
   },
   headingContainer: {
@@ -278,7 +278,7 @@ class SignUp extends React.Component {
               Sign Up
             </h3>
           </div>
-          <div className={classes.iconListContainer}>
+          {/* <div className={classes.iconListContainer}>
             <ul className={classes.iconList}>
               <li className={classes.iconListItem}>
                 <a href="https://chune-api.herokuapp.com/api/v1/users/social/login/twitter">
@@ -301,7 +301,7 @@ class SignUp extends React.Component {
             <p className={classes.para}>
               Or use email instead
             </p>
-          </div>
+          </div> */}
           <div className={classes.errorMessage}>
             {messageSingUp ? 'This email is already in use' : null}
           </div>

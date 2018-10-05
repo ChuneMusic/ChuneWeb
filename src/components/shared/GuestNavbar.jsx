@@ -294,7 +294,7 @@ class GuestNavbar extends React.Component {
                 <MenuIcon />
               </IconButton>
               <Drawer open={drawerOpen} onClose={this.toggleDrawer(false)}>
-                <div className={classes.drawerContainer}>
+                <div className={classes.drawerContainer} onClick={this.toggleDrawer(false)}>
                   <div className={classes.mobileTopbarContainer}>
                     <div className={classes.mobileToolbarLeftSection}>
                       <img src={MobileLogoColorSVG} width={27} height={30} title="Logo" alt="Logo" />

@@ -12,10 +12,10 @@ export const WrapperHomePage = styled.div`
 export const FeaturedBlock = styled.div`
   display: flex;
   margin: 0 auto;
-  width: 960px;
+  width: 980px;
   padding: 24px 0 0 0;
   flex-direction: column;
-  @media(max-width: 959) and (min-width: 320px) {
+  @media(max-width: 959px) and (min-width: 320px) {
     padding: 10px 0 0 0;
     width: 310px;
     overflow: hidden;

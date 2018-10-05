@@ -54,12 +54,12 @@ export const BasicArticleCard = ({ featured, openNews }) => {
     let t = e.title;
     if (window.innerWidth >= 960) {
       if (index === 0) t = truncateWithEllipses(e.title, 95);
-      if (index !== 0) t = truncateWithEllipses(e.title, 45);
+      if (index !== 0) t = truncateWithEllipses(e.title, 43);
     } else {
       t = truncateWithEllipses(e.title, 40);
     }
     return (
-      <Styled.FeaturedArticle images={`http://api-stage.chunesupply.com/static/imgs/full/${e.image}`} key={`${e.id}-article-featured`}>
+      <Styled.FeaturedArticle images={`http://api-stage.chunesupply.com/static/imgs/full/${e.image}`} key={`${e.id}-article-featured`} onClick={() => openNews(e.url, e.title, true)}>
         <Styled.FeaturedArticleTitle onClick={() => openNews(e.url, e.title, true)}>{t}</Styled.FeaturedArticleTitle>
       </Styled.FeaturedArticle>
     );

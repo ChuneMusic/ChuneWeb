@@ -23,6 +23,7 @@ import * as StyledContent from '../styled-components/content';
 import * as StyledArticle from '../styled-components/article';
 import * as StyledArtist from '../styled-components/artistSingle';
 import { EventCardConnect } from '../Events/EventCard';
+import { followFromArtistPage } from '../../store/learningMachine/actions';
 
 const styles = () => ({
   followButton: {
@@ -72,8 +73,9 @@ const styles = () => ({
 
 class Artist extends React.Component {
   follow = () => {
-    const { artist, followToArtist } = this.props;
+    const { artist, followToArtist, sendDataArtist } = this.props;
     followToArtist(artist.name);
+    sendDataArtist(artist.id);
   }
 
   unfollow = () => {
@@ -181,7 +183,8 @@ const mapStateToProps = store => ({
 
 const mapActionsToProps = dispatch => bindActionCreators({
   followToArtist: followArtist,
-  unfollowToArtist: unfollowArtist
+  unfollowToArtist: unfollowArtist,
+  sendDataArtist: followFromArtistPage
 }, dispatch);
 
 export const ArtistConnect = withStyles(styles)(withRouter(connect(mapStateToProps, mapActionsToProps)(Artist)));
@@ -194,5 +197,6 @@ Artist.propTypes = {
   classes: objectOf(any).isRequired,
   followToArtist: func.isRequired,
   unfollowToArtist: func.isRequired,
-  db: bool.isRequired
+  db: bool.isRequired,
+  sendDataArtist: func.isRequired
 };
