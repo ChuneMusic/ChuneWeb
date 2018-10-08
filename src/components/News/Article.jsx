@@ -41,7 +41,7 @@ const ArticleCard = ({ article, openNews }) => {
             { truncateWithEllipses(article.title, 40) }
           </MediaQuery>
           <MediaQuery minDeviceWidth={800}>
-            { truncateWithEllipses(article.title, 60) }
+            { truncateWithEllipses(article.title, 65) }
           </MediaQuery>
         </StyledArticle.ArticleTitle>
         <StyledArticle.ArticleLogoSource

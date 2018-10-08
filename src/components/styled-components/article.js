@@ -84,6 +84,7 @@ export const ArticleTitle = styled.h2`
   line-height: 26px;
   letter-spacing: 0.3px;
   padding: 5px 10px;
+  text-align: justify;
   cursor: pointer;
   &:hover{
     text-decoration: underline;
