@@ -1,7 +1,7 @@
 import React from 'react';
 import { string } from 'prop-types';
 
-export const Player = ({ url, title }) => (
+export const Player = ({ url, title, refer }) => (
   <iframe
     title={title}
     width="100%"
@@ -12,6 +12,7 @@ export const Player = ({ url, title }) => (
     frameBorder="0"
     allowFullScreen="1"
     rel="0"
+    ref={refer}
   />
 );
 

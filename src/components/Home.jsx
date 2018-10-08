@@ -23,8 +23,10 @@ import { Loading } from './shared/Loading';
 import * as Styled from './styled-components/home';
 import * as StyledContent from './styled-components/content';
 import * as StyledArticle from './styled-components/article';
+import { clickTwitterPost } from '../store/learningMachine/actions';
 
 import './Home.css';
+
 
 class Home extends React.Component {
   renderWaypoint = () => <Waypoint onEnter={this.loadMore} threshold={2.0} />
@@ -49,6 +51,11 @@ class Home extends React.Component {
         spotifyApi.play(dataPlay);
       });
     });
+  }
+
+  sendIdTweet = (id) => {
+    const { sendTweet } = this.props;
+    sendTweet(id);
   }
 
   render() {
@@ -83,7 +90,7 @@ class Home extends React.Component {
                 case 'tweet': {
                   const str = item.embed_url.split('/');
                   return (
-                    <StyledArticle.ArticleTweet key={`${item.id}-tweet-${key}`}>
+                    <StyledArticle.ArticleTweet key={`${item.id}-tweet-${key}`} onClick={() => this.sendIdTweet(item.id)}>
                       <Tweet
                         tweetId={str[str.length - 1]}
                       />
@@ -135,7 +142,8 @@ const mapActionsToProps = dispatch => bindActionCreators({
   playMusic: playMusicPlayer,
   pauseMusic: pauseMusicPlayer,
   getTokenSpotify: getAccessTokenSpotify,
-  loadMoreItems: fethcMoreContentHomePageUser
+  loadMoreItems: fethcMoreContentHomePageUser,
+  sendTweet: clickTwitterPost
 }, dispatch);
 
 export const HomeConnect = connect(mapStateToProps, mapActionsToProps)(Home);
@@ -151,5 +159,6 @@ Home.propTypes = {
   loadMoreItems: func.isRequired,
   featured: arrayOf(any).isRequired,
   deviceID: string.isRequired,
-  fetchDataHome: bool.isRequired
+  fetchDataHome: bool.isRequired,
+  sendTweet: func.isRequired
 };

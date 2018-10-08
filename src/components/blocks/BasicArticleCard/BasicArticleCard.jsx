@@ -59,7 +59,7 @@ export const BasicArticleCard = ({ featured, openNews }) => {
       t = truncateWithEllipses(e.title, 40);
     }
     return (
-      <Styled.FeaturedArticle images={`http://api-stage.chunesupply.com/static/imgs/full/${e.image}`} key={`${e.id}-article-featured`} onClick={() => openNews(e.url, e.title, true)}>
+      <Styled.FeaturedArticle images={`http://api-stage.chunesupply.com/static/imgs/full/${e.image}`} key={`${e.id}-article-featured`} onClick={() => openNews(e.id, e.url, e.title, true)}>
         <Styled.FeaturedArticleTitle onClick={() => openNews(e.url, e.title, true)}>{t}</Styled.FeaturedArticleTitle>
       </Styled.FeaturedArticle>
     );

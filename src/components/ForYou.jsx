@@ -18,9 +18,15 @@ import { Loading } from './shared/Loading';
 import * as Styled from './styled-components/home';
 import * as StyledContent from './styled-components/content';
 import * as StyledArticle from './styled-components/article';
+import { clickTwitterPost } from '../store/learningMachine/actions';
 
 class ForYou extends React.Component {
   renderWaypoint = () => <Waypoint onEnter={this.loadMore} threshold={2.0} />
+
+  sendIdTweet = (id) => {
+    const { sendTweet } = this.props;
+    sendTweet(id);
+  }
 
   renderItems = contentFeed => contentFeed.map((item, index) => {
     const keyIndex = index + 1;
@@ -35,7 +41,7 @@ class ForYou extends React.Component {
       case 'tweet': {
         const str = item.embed_url.split('/');
         return (
-          <StyledArticle.ArticleTweet key={`${item.id}-tweet-${keyIndex}`}>
+          <StyledArticle.ArticleTweet key={`${item.id}-tweet-${keyIndex}`} onClick={() => this.sendIdTweet(item.id)}>
             <Tweet
               tweetId={str[str.length - 1]}
             />
@@ -101,7 +107,8 @@ class ForYou extends React.Component {
 }
 
 const mapActionsToProps = dispatch => bindActionCreators({
-  loadMoreItems: fethcMoreContentForYouPageUser
+  loadMoreItems: fethcMoreContentForYouPageUser,
+  sendTweet: clickTwitterPost
 }, dispatch);
 
 const mapStateToProps = store => ({
@@ -119,5 +126,6 @@ ForYou.propTypes = {
   artistTracks: arrayOf(any).isRequired,
   loadMoreItems: func.isRequired,
   followArtists: bool.isRequired,
-  fetchDataForYou: bool.isRequired
+  fetchDataForYou: bool.isRequired,
+  sendTweet: func.isRequired
 };
