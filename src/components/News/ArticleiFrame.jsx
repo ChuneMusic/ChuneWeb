@@ -7,14 +7,14 @@ import { Loading } from '../shared/Loading';
 import { CloseIcon } from '../shared/InteractionIcons';
 import { closeArticleUrl } from '../../store/content/actions';
 import * as StyledArticle from '../styled-components/article';
-import { closeArticle } from '../../store/learningMachine/actions';
+import { closeArticleUser } from '../../store/learningMachine/actions';
 
 class ArticleiFrame extends React.Component {
   closeModal = () => {
     const { closeModalArticle, idNews, sendCloseArticle } = this.props;
     const endDate = new Date();
-    sendCloseArticle(idNews, endDate);
     closeModalArticle(false);
+    sendCloseArticle(idNews, endDate);
   }
 
   render() {
@@ -24,7 +24,7 @@ class ArticleiFrame extends React.Component {
     let scrl = 'auto';
     if (~str.indexOf('iPhone')) scrl = 'no';
     return (
-      <StyledArticle.ArticleBackGround onClick={this.closeModal}>
+      <StyledArticle.ArticleBackGround>
         <StyledArticle.ArticleModal>
           <StyledArticle.ArticleModalBackGroundTitle>
             <StyledArticle.ArticleButtonCloseModal onClick={this.closeModal}>
@@ -50,7 +50,7 @@ const mapStateToProps = store => ({
 
 const mapActionsToProps = dispatch => bindActionCreators({
   closeModalArticle: closeArticleUrl,
-  sendCloseArticle: closeArticle
+  sendCloseArticle: closeArticleUser
 }, dispatch);
 
 export const ArticleiFrameConnect = connect(mapStateToProps, mapActionsToProps)(ArticleiFrame);
@@ -58,5 +58,7 @@ export const ArticleiFrameConnect = connect(mapStateToProps, mapActionsToProps)(
 ArticleiFrame.propTypes = {
   url: string.isRequired,
   title: string.isRequired,
-  closeModalArticle: func.isRequired
+  closeModalArticle: func.isRequired,
+  idNews: string.isRequired,
+  sendCloseArticle: func.isRequired
 };

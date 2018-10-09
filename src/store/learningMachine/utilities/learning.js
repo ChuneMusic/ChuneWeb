@@ -8,7 +8,7 @@ export const sendArtist = (id, today) => {
     timestamp: today,
     event: 'ekvbyN5'
   });
-  return API.post('events/log', data).then(response => response);
+  API.post('events/log', data);
 };
 export const sendRecommendArtist = (id, today) => {
   const data = JSON.stringify({
@@ -16,7 +16,7 @@ export const sendRecommendArtist = (id, today) => {
     timestamp: today,
     event: 'jVK6ZKm'
   });
-  return API.post('events/log', data).then(response => response);
+  API.post('events/log', data);
 };
 export const sendTopTrack = (id, today) => {
   const data = JSON.stringify({
@@ -24,7 +24,7 @@ export const sendTopTrack = (id, today) => {
     timestamp: today,
     event: 'Zbqygvj'
   });
-  return API.post('events/log', data).then(response => response);
+  API.post('events/log', data);
 };
 export const sendChuneSupply = (id, today) => {
   const data = JSON.stringify({
@@ -32,15 +32,25 @@ export const sendChuneSupply = (id, today) => {
     timestamp: today,
     event: 'e6NprKE'
   });
-  return API.post('events/log', data).then(response => response);
+  API.post('events/log', data);
 };
 export const sendYouTube = (id, today) => {
   const data = JSON.stringify({
     contentid: id,
     timestamp: today,
-    event: '6AvzVvR'
+    event: 'pJK5AKj'
   });
-  return API.post('events/log', data).then(response => response);
+  API.post('events/log', data);
+};
+export const sendStopYouTube = (id, today, timeVideo, timeUser) => {
+  const data = JSON.stringify({
+    contentid: id,
+    timestamp: today,
+    event: '6AvzVvR',
+    duration: timeVideo,
+    currenttime: timeUser
+  });
+  API.post('events/log', data);
 };
 export const sendTweet = (id, today) => {
   const data = JSON.stringify({
@@ -48,7 +58,7 @@ export const sendTweet = (id, today) => {
     timestamp: today,
     event: 'nEqkGqR'
   });
-  return API.post('events/log', data).then(response => response);
+  API.post('events/log', data);
 };
 export const sendSuggestions = (id, today) => {
   const data = JSON.stringify({
@@ -56,7 +66,7 @@ export const sendSuggestions = (id, today) => {
     timestamp: today,
     event: 'nEqkGqR'
   });
-  return API.post('events/log', data).then(response => response);
+  API.post('events/log', data);
 };
 export const sendAboutArtistInfo = (id, today) => {
   const data = JSON.stringify({
@@ -64,7 +74,7 @@ export const sendAboutArtistInfo = (id, today) => {
     timestamp: today,
     event: 'AXKD7vJ'
   });
-  return API.post('events/log', data).then(response => response);
+  API.post('events/log', data);
 };
 export const sendEventsArtist = (id, today) => {
   const data = JSON.stringify({
@@ -72,22 +82,38 @@ export const sendEventsArtist = (id, today) => {
     timestamp: today,
     event: 'PbK7lqE'
   });
-  return API.post('events/log', data).then(response => response);
+  API.post('events/log', data);
 };
-export const openArticle = (id, today) => {
+export const sendOpenArticleToServer = (id, today) => {
   const data = JSON.stringify({
     contentid: id,
     timestamp: today,
     event: '6DKdrNp'
   });
-  return API.post('events/log', data).then(response => response);
+  API.post('events/log', data);
 };
-export const closeArticle = (id, today, time) => {
+export const sendCloseArticleToServer = (id, today, time) => {
   const data = JSON.stringify({
     contentid: id,
     timestamp: today,
     event: '6Gq2wNb',
     readtime: time
   });
-  return API.post('events/log', data).then(response => response);
+  API.post('events/log', data);
+};
+export const sendOpenFeaturedArticleToServer = (id, today) => {
+  const data = JSON.stringify({
+    contentid: id,
+    timestamp: today,
+    event: 'V9q3VKW'
+  });
+  API.post('events/log', data);
+};
+export const sendRecentReleases = (id, today) => {
+  const data = JSON.stringify({
+    contentid: id,
+    timestamp: today,
+    event: 'wXqPQNo'
+  });
+  API.post('events/log', data);
 };

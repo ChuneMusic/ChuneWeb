@@ -13,7 +13,7 @@ import BillBoard from '../../../assets/images/news/billboard.svg';
 import YouRedm from '../../../assets/images/news/yourEdm.svg';
 import PitchFork from '../../../assets/images/news/pitchfork.svg';
 import ThisSongIsSick from '../../../assets/images/news/tsis.svg';
-import { openArticle } from '../../store/learningMachine/actions';
+import { openArticleUser } from '../../store/learningMachine/actions';
 
 class ArticleCard extends React.Component {
   logoNews = (name) => {
@@ -27,11 +27,10 @@ class ArticleCard extends React.Component {
   };
 
   eventsArticle = (id, url, title) => {
-    const { openNews, openArticleUser } = this.props;
+    const { openNews, openArticle } = this.props;
     openNews(id, url, title, true);
     const openDate = new Date();
-    console.log('hello', id, openDate);
-    openArticleUser(id, openDate);
+    openArticle(id, openDate);
   }
 
 
@@ -75,7 +74,7 @@ class ArticleCard extends React.Component {
 
 const mapActionsToProps = dispatch => bindActionCreators({
   openNews: openArticleUrl,
-  openArticleUser: openArticle
+  openArticle: openArticleUser
 }, dispatch);
 
 export const ArticleCardConnect = connect(null, mapActionsToProps)(ArticleCard);
@@ -83,5 +82,5 @@ export const ArticleCardConnect = connect(null, mapActionsToProps)(ArticleCard);
 ArticleCard.propTypes = {
   article: objectOf(any).isRequired,
   openNews: func.isRequired,
-  openArticleUser: func.isRequired
+  openArticle: func.isRequired
 };

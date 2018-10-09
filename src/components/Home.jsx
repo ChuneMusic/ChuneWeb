@@ -84,7 +84,6 @@ class Home extends React.Component {
                   return (
                     <VideoCardConnect
                       video={item}
-                      autoplay={false}
                       key={`${item.id}-video-${key}`}
                     />);
                 case 'tweet': {

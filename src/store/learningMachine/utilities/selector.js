@@ -1,1 +1,1 @@
-export const getDateOpenArticle = state => state.dataMachine.dateOpenArticle;
+export const getDateOpenArticle = state => state.dataMachine;

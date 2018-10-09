@@ -8,8 +8,10 @@ import {
   FOLLOW_FROM_ARTIST_PAGE, FOLLOW_FROM_RECOMMEND_BLOCK,
   PLAY_MUSIC_OF_TOP_TRACK, PLAY_MUSIC_OF_CHUNE_SUPPLY,
   PLAY_YOUTUBE_VIDEO, CLICK_TWITTER_POST, SUGGESTIONS_ARTIST,
-  MORE_INFO_ABOUT_ARTIST, VIEWS_EVENTS_ARTIST, OPEN_ARTICLE,
-  CLOSE_ARTICLE,
+  MORE_INFO_ABOUT_ARTIST, VIEWS_EVENTS_ARTIST,
+  OPEN_ARTICLE_USER, CLOSE_ARTICLE_USER,
+  OPEN_FEATURED_ARTICLE_USER, PLAY_MUSIC_RECENT_RELEASES,
+  STOP_YOUTUBE_VIDEO
 } from './types';
 import { getDate } from './utilities/date';
 import {
@@ -17,14 +19,16 @@ import {
   sendTopTrack, sendChuneSupply,
   sendYouTube, sendTweet, sendSuggestions,
   sendAboutArtistInfo, sendEventsArtist,
+  sendCloseArticleToServer, sendOpenArticleToServer,
+  sendOpenFeaturedArticleToServer, sendRecentReleases,
+  sendStopYouTube
 } from './utilities/learning';
-import { openArticle, closeArticle } from './actions';
 import { getDateOpenArticle } from './utilities/selector';
+import { clearArticleData } from './actions';
 
 export function* sendDataArtist({ payload }) {
   const { id } = payload;
   const today = getDate();
-  console.log(today, id, 'learning artist follow');
   try {
     yield call(sendArtist, id, today);
   } catch (e) {
@@ -34,7 +38,6 @@ export function* sendDataArtist({ payload }) {
 export function* sendDataRecommendArtist({ payload }) {
   const { id } = payload;
   const today = getDate();
-  console.log(today, id, 'learning artist recommended follow');
   try {
     yield call(sendRecommendArtist, id, today);
   } catch (e) {
@@ -44,7 +47,6 @@ export function* sendDataRecommendArtist({ payload }) {
 export function* sendDataMusicOfToptrack({ payload }) {
   const { id } = payload;
   const today = getDate();
-  console.log(today, id, 'learning music top track');
   try {
     yield call(sendTopTrack, id, today);
   } catch (e) {
@@ -54,19 +56,26 @@ export function* sendDataMusicOfToptrack({ payload }) {
 export function* sendDataMusicOfChuneSupply({ payload }) {
   const { id } = payload;
   const today = getDate();
-  console.log(today, id, 'learning music chune supply');
   try {
     yield call(sendChuneSupply, id, today);
   } catch (e) {
     yield put(errorMessage(e));
   }
 }
-export function* sendDataYouTubeVideo({ payload }) {
-  const { id } = payload;
+export function* sendDataPlayYouTubeVideo({ payload }) {
+  const { idYouTubePlay } = payload;
   const today = getDate();
-  console.log(today, id, 'learning youtube id');
   try {
-    yield call(sendYouTube, id, today);
+    yield call(sendYouTube, idYouTubePlay, today);
+  } catch (e) {
+    yield put(errorMessage(e));
+  }
+}
+export function* sendDataStopYouTubeVideo({ payload }) {
+  const { idYouTubeStop, durationYouTubeVideo, currentTimeYouTubeVideo } = payload;
+  const today = getDate();
+  try {
+    yield call(sendStopYouTube, idYouTubeStop, today, durationYouTubeVideo, currentTimeYouTubeVideo);
   } catch (e) {
     yield put(errorMessage(e));
   }
@@ -74,7 +83,6 @@ export function* sendDataYouTubeVideo({ payload }) {
 export function* sendDataTweetId({ payload }) {
   const { id } = payload;
   const today = getDate();
-  console.log(today, id, 'learning tweet id');
   try {
     yield call(sendTweet, id, today);
   } catch (e) {
@@ -84,7 +92,6 @@ export function* sendDataTweetId({ payload }) {
 export function* sendDataSuggestionsArtist({ payload }) {
   const { id } = payload;
   const today = getDate();
-  console.log(today, id, 'learning suggestions id');
   try {
     yield call(sendSuggestions, id, today);
   } catch (e) {
@@ -94,7 +101,6 @@ export function* sendDataSuggestionsArtist({ payload }) {
 export function* sendDataAboutArtistInfo({ payload }) {
   const { id } = payload;
   const today = getDate();
-  console.log(today, id, 'learning more info');
   try {
     yield call(sendAboutArtistInfo, id, today);
   } catch (e) {
@@ -104,31 +110,48 @@ export function* sendDataAboutArtistInfo({ payload }) {
 export function* sendDataEventsArtist({ payload }) {
   const { id } = payload;
   const today = getDate();
-  console.log(today, id, 'learning events artist');
   try {
     yield call(sendEventsArtist, id, today);
   } catch (e) {
     yield put(errorMessage(e));
   }
 }
-export function* sendOpenArticle({ payload }) {
+export function* sendOpenArticleUser({ payload }) {
   const { idOpenArticle } = payload;
   const today = getDate();
-  console.log(today, idOpenArticle, 'learning open article');
   try {
-    yield call(openArticle, idOpenArticle, today);
+    yield call(sendOpenArticleToServer, idOpenArticle, today);
   } catch (e) {
     yield put(errorMessage(e));
   }
 }
-export function* sendCloseArticle({ payload }) {
+export function* sendCloseArticleUser({ payload }) {
   const { idCloseArticle, dateCloseArticle } = payload;
-  const dateOpenArticle = yield select(getDateOpenArticle);
+  const { dateOpenArticle, featuredArticle } = yield select(getDateOpenArticle);
+  if (featuredArticle) return;
   const readTime = dateCloseArticle - dateOpenArticle;
   const today = getDate();
-  console.log(today, idCloseArticle, dateCloseArticle, readTime, 'learning close article');
+  yield put(clearArticleData());
   try {
-    yield call(closeArticle, idCloseArticle, today, readTime);
+    yield call(sendCloseArticleToServer, idCloseArticle, today, readTime);
+  } catch (e) {
+    yield put(errorMessage(e));
+  }
+}
+export function* sendOpenFeaturedArticleUser({ payload }) {
+  const { idOpenFeaturedArticle } = payload;
+  const today = getDate();
+  try {
+    yield call(sendOpenFeaturedArticleToServer, idOpenFeaturedArticle, today);
+  } catch (e) {
+    yield put(errorMessage(e));
+  }
+}
+export function* sendDataMusicOfRecentReleases({ payload }) {
+  const { id } = payload;
+  const today = getDate();
+  try {
+    yield call(sendRecentReleases, id, today);
   } catch (e) {
     yield put(errorMessage(e));
   }
@@ -139,11 +162,14 @@ export function* sagasLearningMachine() {
   yield takeEvery(FOLLOW_FROM_RECOMMEND_BLOCK, sendDataRecommendArtist);
   yield takeEvery(PLAY_MUSIC_OF_TOP_TRACK, sendDataMusicOfToptrack);
   yield takeEvery(PLAY_MUSIC_OF_CHUNE_SUPPLY, sendDataMusicOfChuneSupply);
-  yield takeEvery(PLAY_YOUTUBE_VIDEO, sendDataYouTubeVideo);
+  yield takeEvery(PLAY_YOUTUBE_VIDEO, sendDataPlayYouTubeVideo);
+  yield takeEvery(STOP_YOUTUBE_VIDEO, sendDataStopYouTubeVideo);
   yield takeEvery(CLICK_TWITTER_POST, sendDataTweetId);
   yield takeEvery(SUGGESTIONS_ARTIST, sendDataSuggestionsArtist);
   yield takeEvery(MORE_INFO_ABOUT_ARTIST, sendDataAboutArtistInfo);
   yield takeEvery(VIEWS_EVENTS_ARTIST, sendDataEventsArtist);
-  yield takeEvery(OPEN_ARTICLE, sendOpenArticle);
-  yield takeEvery(CLOSE_ARTICLE, sendCloseArticle);
+  yield takeEvery(OPEN_ARTICLE_USER, sendOpenArticleUser);
+  yield takeEvery(CLOSE_ARTICLE_USER, sendCloseArticleUser);
+  yield takeEvery(OPEN_FEATURED_ARTICLE_USER, sendOpenFeaturedArticleUser);
+  yield takeEvery(PLAY_MUSIC_RECENT_RELEASES, sendDataMusicOfRecentReleases);
 }

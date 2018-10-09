@@ -6,20 +6,54 @@ export const initState = {
   idOpenArticle: null,
   idCloseArticle: null,
   dateOpenArticle: null,
-  dateCloseArticle: null
+  dateCloseArticle: null,
+  idOpenFeaturedArticle: null,
+  dateOpenFeaturedArticle: null,
+  featuredArticle: false,
+  idYouTubePlay: null,
+  idYouTubeStop: null,
+  durationYouTubeVideo: null,
+  currentTimeYouTubeVideo: null
 };
 
 const followFromArtistPage = (state, { id }) => ({ ...state, id });
 const followFromRecommendBlock = (state, { id }) => ({ ...state, id });
 const playMusicOfTopTrack = (state, { id }) => ({ ...state, id });
 const playMusicOfChuneSupply = (state, { id }) => ({ ...state, id });
-const playYouTubeVideo = (state, { id }) => ({ ...state, id });
+const playYouTubeVideo = (state, { idYouTubePlay }) => ({ ...state, idYouTubePlay });
+const stopYouTubeVideo = (state, { idYouTubeStop, durationYouTubeVideo, currentTimeYouTubeVideo }) => ({
+  ...state,
+  idYouTubeStop,
+  durationYouTubeVideo,
+  currentTimeYouTubeVideo
+});
 const clickTwitterPost = (state, { id }) => ({ ...state, id });
 const suggestionsArtist = (state, { id }) => ({ ...state, id });
 const moreInfoAboutArtist = (state, { id }) => ({ ...state, id });
 const viewsEventsArtist = (state, { id }) => ({ ...state, id });
-const openArticle = (state, { idOpenArticle, dateOpenArticle }) => ({ ...state, idOpenArticle, dateOpenArticle });
-const closeArticle = (state, { idCloseArticle, dateCloseArticle }) => ({ ...state, idCloseArticle, dateCloseArticle });
+const openArticleUser = (state, { idOpenArticle, dateOpenArticle }) => ({
+  ...state,
+  idOpenArticle,
+  dateOpenArticle,
+  featuredArticle: false
+});
+const closeArticleUser = (state, { idCloseArticle, dateCloseArticle }) => ({ ...state, idCloseArticle, dateCloseArticle });
+const openFeaturedArticleUser = (state, { idOpenFeaturedArticle, dateOpenFeaturedArticle }) => ({
+  ...state,
+  idOpenFeaturedArticle,
+  dateOpenFeaturedArticle,
+  featuredArticle: true
+});
+const playMusicOfRecentReleases = (state, { id }) => ({ ...state, id });
+const clearArticleDate = state => ({
+  ...state,
+  idOpenArticle: null,
+  idCloseArticle: null,
+  dateOpenArticle: null,
+  dateCloseArticle: null,
+  idOpenFeaturedArticle: null,
+  dateOpenFeaturedArticle: null
+});
 
 const handlers = {
   [TYPES.FOLLOW_FROM_ARTIST_PAGE]: followFromArtistPage,
@@ -31,8 +65,12 @@ const handlers = {
   [TYPES.SUGGESTIONS_ARTIST]: suggestionsArtist,
   [TYPES.MORE_INFO_ABOUT_ARTIST]: moreInfoAboutArtist,
   [TYPES.VIEWS_EVENTS_ARTIST]: viewsEventsArtist,
-  [TYPES.OPEN_ARTICLE]: openArticle,
-  [TYPES.CLOSE_ARTICLE]: closeArticle
+  [TYPES.OPEN_ARTICLE_USER]: openArticleUser,
+  [TYPES.CLOSE_ARTICLE_USER]: closeArticleUser,
+  [TYPES.OPEN_FEATURED_ARTICLE_USER]: openFeaturedArticleUser,
+  [TYPES.PLAY_MUSIC_RECENT_RELEASES]: playMusicOfRecentReleases,
+  [TYPES.CLEAR_ARTICLE_DATA]: clearArticleDate,
+  [TYPES.STOP_YOUTUBE_VIDEO]: stopYouTubeVideo
 };
 
 export const reducerLearningMachine = createReducer(initState, handlers);
