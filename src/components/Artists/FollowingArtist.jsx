@@ -6,8 +6,9 @@ import { objectOf, any, func } from 'prop-types';
 
 import { unfollowArtist } from '../../store/artists/actions';
 import * as StyledCard from '../styled-components/artistsCard';
+import { moreInfoAboutArtist } from '../../store/learningMachine/actions';
 
-const FollowingArtist = ({ artist, unfollowToArtist }) => {
+const FollowingArtist = ({ artist, unfollowToArtist, sendMore }) => {
   let genre = 'None';
   if (artist.genres[0] !== undefined) genre = artist.genres[0].description;
   return (
@@ -20,7 +21,7 @@ const FollowingArtist = ({ artist, unfollowToArtist }) => {
         <StyledCard.ArtistCardName>
           { artist.name }
         </StyledCard.ArtistCardName>
-        <StyledCard.ArtistCardLink to={`/artist/${artist.name}`}>
+        <StyledCard.ArtistCardLink to={`/artist/${artist.name}`} onClick={() => sendMore(artist.id)}>
           More
         </StyledCard.ArtistCardLink>
         <StyledCard.ArtistCardUnffolow onClick={() => unfollowToArtist(artist.name)}>
@@ -32,12 +33,14 @@ const FollowingArtist = ({ artist, unfollowToArtist }) => {
 };
 
 const mapActionsToProps = dispatch => bindActionCreators({
-  unfollowToArtist: unfollowArtist
+  unfollowToArtist: unfollowArtist,
+  sendMore: moreInfoAboutArtist
 }, dispatch);
 
 export const FollowingArtistConnect = withRouter(connect(null, mapActionsToProps)(FollowingArtist));
 
 FollowingArtist.propTypes = {
   artist: objectOf(any).isRequired,
-  unfollowToArtist: func.isRequired
+  unfollowToArtist: func.isRequired,
+  sendMore: func.isRequired
 };

@@ -35,9 +35,14 @@ export const successGetChuneSupply = topChune => ({
   type: SUCCESS_GET_CHUNE_SUPPLY,
   payload: { topChune }
 });
-export const openArticleUrl = (url, title, modal) => ({
+export const openArticleUrl = (idNews, url, title, modal) => ({
   type: OPEN_ARTICLE_URL,
-  payload: { url, title, modal }
+  payload: {
+    idNews,
+    url,
+    title,
+    modal
+  }
 });
 export const closeArticleUrl = modal => ({
   type: CLOSE_ARTICLE_URL,

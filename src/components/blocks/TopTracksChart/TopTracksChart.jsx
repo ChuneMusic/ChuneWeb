@@ -1,15 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { map } from 'lodash';
+import { bindActionCreators } from 'redux';
 import {
   string, any, arrayOf,
-  bool
+  bool, func
 } from 'prop-types';
 
 import { PlayIcon, PauseIcon } from '../../shared/SocialIcons';
 import * as StyledMusic from '../../styled-components/music';
 import Up from '../../../../assets/images/chevron-arrow-up.svg';
 import Down from '../../../../assets/images/chevron-arrow-down.svg';
+import { playMusicOfTopTrack } from '../../../store/learningMachine/actions';
 
 class TopTracksChart extends React.Component {
   state = {
@@ -17,6 +18,14 @@ class TopTracksChart extends React.Component {
   }
 
   openPlaylist = () => this.setState({ openList: !this.state.openList })
+
+  track = (id) => {
+    const { single, sendHomeTrack } = this.props;
+    if (single) {
+      return null;
+    }
+    return sendHomeTrack(id);
+  }
 
   render() {
     const { tracks, artistName, single } = this.props;
@@ -26,13 +35,19 @@ class TopTracksChart extends React.Component {
         <StyledMusic.MusicTitle>
           {single ? 'Recent Releases' : 'TOP TRACKS CHART'}
         </StyledMusic.MusicTitle>
-        {map(tracks, (track, key) => {
+        {tracks.map((track, index) => {
           const isPlaying = false;
-          if (key > 9 && openList === false) return null;
+          if (index > 9 && openList === false) return null;
           return (
-            <a href={`https://open.spotify.com/track/${track.spotify_id}`} target="_blank" rel="noopener noreferrer" key={key}>
+            <a
+              href={`https://open.spotify.com/track/${track.spotify_id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              key={`track-${track.id}`}
+              onClick={() => this.track(track.id)}
+            >
               <StyledMusic.MusicTrack isPlaying={isPlaying}>
-                <StyledMusic.MusicNumber>{key + 1}</StyledMusic.MusicNumber>
+                <StyledMusic.MusicNumber>{index + 1}</StyledMusic.MusicNumber>
                 <StyledMusic.MusicSoundTitle>
                   <StyledMusic.MusicSoundName>
                     {track.title}
@@ -57,13 +72,17 @@ class TopTracksChart extends React.Component {
 const mapStateToProps = store => ({
   trackStore: store.dataMusicPlayer.track
 });
+const mapActionsToProps = dispatch => bindActionCreators({
+  sendHomeTrack: playMusicOfTopTrack
+}, dispatch);
 
-export const TopTracksChartConnect = connect(mapStateToProps)(TopTracksChart);
+export const TopTracksChartConnect = connect(mapStateToProps, mapActionsToProps)(TopTracksChart);
 
 TopTracksChart.propTypes = {
   tracks: arrayOf(any).isRequired,
   artistName: string,
-  single: bool.isRequired
+  single: bool.isRequired,
+  sendHomeTrack: func.isRequired
 };
 TopTracksChart.defaultProps = {
   artistName: undefined

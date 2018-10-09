@@ -13,6 +13,10 @@ export const FeaturedArticle = styled.div`
   height: 180px;
   position: relative;
   margin: 110px 0 90px 0;
+  cursor: pointer;
+  &:hover h2{
+    text-decoration: underline;
+  }
   @media(max-width: 959px) and (min-width: 320px) {
     width: 310px;
     height: 150px;

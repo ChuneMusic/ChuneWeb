@@ -8,7 +8,7 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 
 import { followArtist } from '../../store/artists/actions';
-import { followFromRecommendBlock } from '../../store/learningMachine/actions';
+import { followFromRecommendBlock, moreInfoAboutArtist } from '../../store/learningMachine/actions';
 
 const styles = () => ({
   root: {
@@ -96,6 +96,11 @@ class RelatedArtistCard extends React.Component {
     sendDataRecommendArtist(artist.id);
   }
 
+  moreInfoAboutArtist = () => {
+    const { sendMore, artist } = this.props;
+    sendMore(artist.id);
+  }
+
   render() {
     const { classes, artist } = this.props;
     const overrideBgStyle = {
@@ -114,7 +119,7 @@ class RelatedArtistCard extends React.Component {
           <h3 className={classes.artistName}>{artist.name}</h3>
         </div>
         <div className={classes.actionsContainer}>
-          <Button component={Link} to={`/artist/${artist.name}`} className={classes.actionButton}>See More</Button>
+          <Button component={Link} to={`/artist/${artist.name}`} className={classes.actionButton} onClick={this.moreInfoAboutArtist}>See More</Button>
           <Button className={classes.actionButton} onClick={this.follow}>Follow</Button>
         </div>
       </Paper>
@@ -124,7 +129,8 @@ class RelatedArtistCard extends React.Component {
 
 const mapActionsToProps = dispatch => bindActionCreators({
   followTorecommend: followArtist,
-  sendDataRecommendArtist: followFromRecommendBlock
+  sendDataRecommendArtist: followFromRecommendBlock,
+  sendMore: moreInfoAboutArtist
 }, dispatch);
 
 export const RelatedArtistCardConnect = withStyles(styles)(connect(null, mapActionsToProps)(RelatedArtistCard));
@@ -133,5 +139,6 @@ RelatedArtistCard.propTypes = {
   classes: objectOf(any).isRequired,
   artist: objectOf(any).isRequired,
   followTorecommend: func.isRequired,
-  sendDataRecommendArtist: func.isRequired
+  sendDataRecommendArtist: func.isRequired,
+  sendMore: func.isRequired
 };

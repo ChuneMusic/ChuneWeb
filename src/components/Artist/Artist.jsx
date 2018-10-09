@@ -23,7 +23,7 @@ import * as StyledContent from '../styled-components/content';
 import * as StyledArticle from '../styled-components/article';
 import * as StyledArtist from '../styled-components/artistSingle';
 import { EventCardConnect } from '../Events/EventCard';
-import { followFromArtistPage } from '../../store/learningMachine/actions';
+import { followFromArtistPage, clickTwitterPost } from '../../store/learningMachine/actions';
 
 const styles = () => ({
   followButton: {
@@ -85,6 +85,11 @@ class Artist extends React.Component {
 
   renderWaypoint = () => <Waypoint onEnter={this.loadMoreItems} threshold={2.0} />
 
+  sendIdTweet = (id) => {
+    const { sendTweet } = this.props;
+    sendTweet(id);
+  }
+
   render() {
     const {
       classes, content, artists,
@@ -118,7 +123,7 @@ class Artist extends React.Component {
           case 'tweet': {
             const str = item.embed_url.split('/');
             return (
-              <StyledArticle.ArticleTweet key={`${item.id}-tweet-${keyIndex}`}>
+              <StyledArticle.ArticleTweet key={`${item.id}-tweet-${keyIndex}`} onClick={() => this.sendIdTweet(item.id)}>
                 <Tweet
                   tweetId={str[str.length - 1]}
                 />
@@ -184,7 +189,8 @@ const mapStateToProps = store => ({
 const mapActionsToProps = dispatch => bindActionCreators({
   followToArtist: followArtist,
   unfollowToArtist: unfollowArtist,
-  sendDataArtist: followFromArtistPage
+  sendDataArtist: followFromArtistPage,
+  sendTweet: clickTwitterPost
 }, dispatch);
 
 export const ArtistConnect = withStyles(styles)(withRouter(connect(mapStateToProps, mapActionsToProps)(Artist)));
@@ -198,5 +204,6 @@ Artist.propTypes = {
   followToArtist: func.isRequired,
   unfollowToArtist: func.isRequired,
   db: bool.isRequired,
-  sendDataArtist: func.isRequired
+  sendDataArtist: func.isRequired,
+  sendTweet: func.isRequired
 };

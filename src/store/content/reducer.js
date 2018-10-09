@@ -15,7 +15,8 @@ export const initState = {
   modal: false,
   followArtists: false,
   fetchDataHome: false,
-  fetchDataForYou: false
+  fetchDataForYou: false,
+  idNews: null
 };
 
 const successGetContentHomePageUser = (state, { featured, contentFeedHome }) => ({
@@ -56,14 +57,16 @@ const successfethcMoreContentForYou = (state, { artistTracksForYou, contentFeedF
 };
 const successGetTopTracks = (state, { topTracks }) => ({ ...state, topTracks });
 const successGetChuneSupply = (state, { topChune }) => ({ ...state, topChune });
-const openArticleUrl = (state, { url, title, modal }) => ({
+const openArticleUrl = (state, { idNews, url, title, modal }) => ({
   ...state,
+  idNews,
   url,
   title,
   modal
 });
 const closeArticleUrl = (state, { modal }) => ({
   ...state,
+  idNews: null,
   url: '',
   title: '',
   modal

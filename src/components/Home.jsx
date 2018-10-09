@@ -25,7 +25,7 @@ import * as Styled from './styled-components/home';
 import * as StyledContent from './styled-components/content';
 import * as StyledArticle from './styled-components/article';
 import * as StyledSpotify from './styled-components/spotifyPlayer';
-
+import { clickTwitterPost } from '../store/learningMachine/actions';
 import Prev from '../../assets/images/control/rewind-button.svg';
 import Play from '../../assets/images/control/music-player-play.svg';
 import Next from '../../assets/images/control/fast-forward-arrows.svg';
@@ -34,6 +34,7 @@ import Repeat from '../../assets/images/control/repeat.svg';
 import VolumeOn from '../../assets/images/control/reduced-volume.svg';
 
 import './Home.css';
+
 
 class Home extends React.Component {
   state={
@@ -66,6 +67,11 @@ class Home extends React.Component {
         spotifyApi.play(dataPlay);
       });
     });
+  }
+
+  sendIdTweet = (id) => {
+    const { sendTweet } = this.props;
+    sendTweet(id);
   }
 
   render() {
@@ -134,13 +140,12 @@ class Home extends React.Component {
                   return (
                     <VideoCardConnect
                       video={item}
-                      autoplay={false}
                       key={`${item.id}-video-${key}`}
                     />);
                 case 'tweet': {
                   const str = item.embed_url.split('/');
                   return (
-                    <StyledArticle.ArticleTweet key={`${item.id}-tweet-${key}`}>
+                    <StyledArticle.ArticleTweet key={`${item.id}-tweet-${key}`} onClick={() => this.sendIdTweet(item.id)}>
                       <Tweet
                         tweetId={str[str.length - 1]}
                       />
@@ -192,7 +197,8 @@ const mapActionsToProps = dispatch => bindActionCreators({
   playMusic: playMusicPlayer,
   pauseMusic: pauseMusicPlayer,
   getTokenSpotify: getAccessTokenSpotify,
-  loadMoreItems: fethcMoreContentHomePageUser
+  loadMoreItems: fethcMoreContentHomePageUser,
+  sendTweet: clickTwitterPost
 }, dispatch);
 
 export const HomeConnect = connect(mapStateToProps, mapActionsToProps)(Home);
@@ -208,5 +214,6 @@ Home.propTypes = {
   loadMoreItems: func.isRequired,
   featured: arrayOf(any).isRequired,
   deviceID: string.isRequired,
-  fetchDataHome: bool.isRequired
+  fetchDataHome: bool.isRequired,
+  sendTweet: func.isRequired
 };

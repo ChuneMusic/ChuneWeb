@@ -5,31 +5,42 @@ import { objectOf, any, func } from 'prop-types';
 
 import { getEventsArtist } from '../../store/events/actions';
 import * as StyledCard from '../styled-components/artistsCard';
+import { viewsEventsArtist } from '../../store/learningMachine/actions';
 
-const EventCard = (props) => {
-  const { artist, getEvents } = props;
-  return (
-    <StyledCard.ArtistCard>
-      <StyledCard.ArtistCardImages image={artist.image_url || 'https://via.placeholder.com/254x254'} />
-      <StyledCard.ArtistCardContainer>
-        <StyledCard.ArtistCardName>
-          { artist.name }
-        </StyledCard.ArtistCardName>
-        <StyledCard.ArtistCardButton onClick={() => getEvents(artist.id, artist.name)}>
-          SEE EVENTS
-        </StyledCard.ArtistCardButton>
-      </StyledCard.ArtistCardContainer>
-    </StyledCard.ArtistCard>
-  );
-};
+class EventCard extends React.Component {
+  artistEvents = (id, name) => {
+    const { getEvents, sendEvents } = this.props;
+    getEvents(id, name);
+    sendEvents(id);
+  }
+
+  render() {
+    const { artist } = this.props;
+    return (
+      <StyledCard.ArtistCard>
+        <StyledCard.ArtistCardImages image={artist.image_url || 'https://via.placeholder.com/254x254'} />
+        <StyledCard.ArtistCardContainer>
+          <StyledCard.ArtistCardName>
+            { artist.name }
+          </StyledCard.ArtistCardName>
+          <StyledCard.ArtistCardButton onClick={() => this.artistEvents(artist.id, artist.name)}>
+            SEE EVENTS
+          </StyledCard.ArtistCardButton>
+        </StyledCard.ArtistCardContainer>
+      </StyledCard.ArtistCard>
+    );
+  }
+}
 
 const mapActionsToProps = dispatch => bindActionCreators({
-  getEvents: getEventsArtist
+  getEvents: getEventsArtist,
+  sendEvents: viewsEventsArtist
 }, dispatch);
 
 export const EventCardConnect = connect(null, mapActionsToProps)(EventCard);
 
 EventCard.propTypes = {
   artist: objectOf(any).isRequired,
-  getEvents: func.isRequired
+  getEvents: func.isRequired,
+  sendEvents: func.isRequired
 };
