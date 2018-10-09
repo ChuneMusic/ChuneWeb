@@ -1,5 +1,15 @@
 import styled from 'styled-components';
 
+export const SpotifyWrapper = styled.div`
+  width: 100vw;
+  background-color: #282828;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  height: 90px;
+  position: fixed;
+  bottom: 0;
+`;
 export const SpotifyPlayer = styled.div`
   width: 960px;
   background-color: #282828;

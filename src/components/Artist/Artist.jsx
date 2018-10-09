@@ -11,7 +11,6 @@ import {
 } from 'prop-types';
 import { Tweet } from 'react-twitter-widgets';
 
-import { TopTracksChartConnect } from '../blocks';
 import { followArtist, unfollowArtist } from '../../store/artists/actions';
 import { Loading } from '../shared/Loading';
 import { NoMediaConnect } from '../shared/NoMedia';
@@ -24,6 +23,7 @@ import * as StyledArticle from '../styled-components/article';
 import * as StyledArtist from '../styled-components/artistSingle';
 import { EventCardConnect } from '../Events/EventCard';
 import { followFromArtistPage, clickTwitterPost } from '../../store/learningMachine/actions';
+import { TopTracksChartConnect } from '../blocks/TopTracksChart/TopTracksChart';
 
 const styles = () => ({
   followButton: {

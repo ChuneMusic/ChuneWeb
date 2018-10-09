@@ -18,9 +18,8 @@ import {
   EventsConnect, ArtistEventsConnect, NavBarConnect,
   GuestNavbarConnect, ForYouConnect, blogiFrame
 } from './components';
-import { ModalBlockConnect } from './components/blocks/LargeAudioPlayer/modalAudioPlayer';
+import { ModalBlockConnect } from './components/Music/modalAudioPlayer';
 import { ModalNewsConnect } from './components/News/modalNews';
-import { topTracks } from './store/musicPlayer/topTracks/topTracks';
 
 import './styles/reset.css';
 import './styles/global.css';
@@ -73,19 +72,19 @@ class App extends React.PureComponent {
       playMusic, modalNews
     } = this.props;
     const newsModal = modalNews ? <ModalNewsConnect /> : null;
-    const musicPlayer = modal ? (
-      <ModalBlockConnect
-        playlist={topTracks}
-        selectedRecordId={track}
-        playPause={playMusic}
-      />
-    ) : null;
+    // const musicPlayer = modal ? (
+    //   <ModalBlockConnect
+    //     playlist={topTracks}
+    //     selectedRecordId={track}
+    //     playPause={playMusic}
+    //   />
+    // ) : null;
     let navbar = false;
     if (token) navbar = true;
     return (
       <div>
         {newsModal}
-        {musicPlayer}
+        <ModalBlockConnect />
         { navbar ? <NavBarConnect /> : <GuestNavbarConnect />}
         <Switch>
           <PublicRoute exact path="/" token={token} component={LandingConnect} />

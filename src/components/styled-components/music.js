@@ -52,6 +52,7 @@ export const MusicSoundArtist = styled.p`
 `;
 export const MusicIcon = styled.div`
   width: 30px;
+  cursor: pointer;
 `;
 export const MusicArrow = styled.img`
   width: 20px;
