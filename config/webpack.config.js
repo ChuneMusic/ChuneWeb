@@ -21,7 +21,7 @@ module.exports = (mode) => {
       strictExportPresence: true,
       rules: [
         {
-          test: [/\.jpe?g$/, /\.gif$/, /\.png$/, /\.svg$/],
+          test: [/\.jpe?g$/, /\.gif$/, /\.png$/],
           loader: require.resolve('url-loader'),
           options: {
             limit: 10000,
@@ -29,7 +29,7 @@ module.exports = (mode) => {
           },
         },
         {
-          test: [/\.ico$/],
+          test: [/\.ico$/, /\.svg$/],
           loader: require.resolve('file-loader'),
           options: {
             name: 'assets/[name].[hash:10].[ext]',

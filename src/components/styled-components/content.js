@@ -1,5 +1,12 @@
 import styled from 'styled-components';
 
+export const Wrapper = styled.div`
+  overflow-y: auto;
+  height: calc(100vh - 74px);
+  @media(max-width: 1059px){
+    height: calc(100vh - 56px);
+  }
+`;
 export const Content = styled.div`
   display: flex;
   justify-content: space-between;

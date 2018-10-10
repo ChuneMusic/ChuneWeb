@@ -2,6 +2,9 @@ import axios from 'axios';
 
 export const API = axios.create({
   baseURL: 'http://api-stage.chunesupply.com/api/v1/',
+  headers: {
+    'Content-Type': 'application/json'
+  }
 });
 
 export const setUserToken = (token) => {

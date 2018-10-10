@@ -29,6 +29,11 @@ import './Home.css';
 
 
 class Home extends React.Component {
+  componentWillMount() {
+    const htmlBlock = document.getElementsByTagName('html');
+    htmlBlock[0].style.overflow = 'hidden';
+  }
+
   renderWaypoint = () => <Waypoint onEnter={this.loadMore} threshold={2.0} />
 
   loadMore = () => {
@@ -58,6 +63,11 @@ class Home extends React.Component {
     sendTweet(id);
   }
 
+
+  scrollDiv = () => {
+    console.log('hello');
+  }
+
   render() {
     const {
       location, token, contentFeed,
@@ -72,56 +82,58 @@ class Home extends React.Component {
     if (topChune.length === 0) return <Loading />;
     /* <button onClick={this.playMusicSpotify} type="button">Play</button> */
     return (
-      <Styled.WrapperHomePage>
-        <Styled.FeaturedBlock>
-          <BasicArticleCardConnect featured={featured} />
-        </Styled.FeaturedBlock>
-        <StyledContent.Content>
-          <StyledContent.LeftBlockContent>
-            {map(contentFeed, (item, key) => {
-              switch (item.type) {
-                case 'video':
-                  return (
-                    <VideoCardConnect
-                      video={item}
-                      key={`${item.id}-video-${key}`}
-                    />);
-                case 'tweet': {
-                  const str = item.embed_url.split('/');
-                  return (
-                    <StyledArticle.ArticleTweet key={`${item.id}-tweet-${key}`} onClick={() => this.sendIdTweet(item.id)}>
-                      <Tweet
-                        tweetId={str[str.length - 1]}
-                      />
-                    </StyledArticle.ArticleTweet>
-                  );
+      <StyledContent.Wrapper onScroll={this.scrollDiv} >
+        <Styled.WrapperHomePage>
+          <Styled.FeaturedBlock>
+            <BasicArticleCardConnect featured={featured} />
+          </Styled.FeaturedBlock>
+          <StyledContent.Content>
+            <StyledContent.LeftBlockContent>
+              {map(contentFeed, (item, key) => {
+                switch (item.type) {
+                  case 'video':
+                    return (
+                      <VideoCardConnect
+                        video={item}
+                        key={`${item.id}-video-${key}`}
+                      />);
+                  case 'tweet': {
+                    const str = item.embed_url.split('/');
+                    return (
+                      <StyledArticle.ArticleTweet key={`${item.id}-tweet-${key}`} onClick={() => this.sendIdTweet(item.id)}>
+                        <Tweet
+                          tweetId={str[str.length - 1]}
+                        />
+                      </StyledArticle.ArticleTweet>
+                    );
+                  }
+                  case 'article':
+                    return (
+                      <ArticleCardConnect
+                        article={item}
+                        key={`${item.id}-article-${key}`}
+                      />);
+                  default:
+                    return null;
                 }
-                case 'article':
-                  return (
-                    <ArticleCardConnect
-                      article={item}
-                      key={`${item.id}-article-${key}`}
-                    />);
-                default:
-                  return null;
-              }
-            })}
-            {this.renderWaypoint()}
-            {fetchDataHome ? (<Loading />) : (<Styled.WaypointBlock />)}
-          </StyledContent.LeftBlockContent>
-          <StyledContent.RightBlockContent>
-            <TopTracksChartConnect
-              tracks={topTracks}
-              single={false}
-            />
-            <BasicSoundPlayer />
-            <ChuneSupplyConnect
-              supplies={topChune}
-              foryou={false}
-            />
-          </StyledContent.RightBlockContent>
-        </StyledContent.Content>
-      </Styled.WrapperHomePage>
+              })}
+              {this.renderWaypoint()}
+              {fetchDataHome ? (<Loading />) : (<Styled.WaypointBlock />)}
+            </StyledContent.LeftBlockContent>
+            <StyledContent.RightBlockContent>
+              <TopTracksChartConnect
+                tracks={topTracks}
+                single={false}
+              />
+              <BasicSoundPlayer />
+              <ChuneSupplyConnect
+                supplies={topChune}
+                foryou={false}
+              />
+            </StyledContent.RightBlockContent>
+          </StyledContent.Content>
+        </Styled.WrapperHomePage>
+      </StyledContent.Wrapper>
     );
   }
 }

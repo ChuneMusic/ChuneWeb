@@ -10,9 +10,8 @@ import {
 } from 'prop-types';
 
 import { searchArtists, clearListSearch } from '../store/autosuggest/actions';
-
-import '../styles/autosuggestion.css';
 import { suggestionsArtist } from '../store/learningMachine/actions';
+import '../styles/autosuggestion.css';
 
 class SearchForm extends React.Component {
   constructor(props) {

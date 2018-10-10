@@ -33,7 +33,7 @@ class TopTracksChart extends React.Component {
     return (
       <StyledMusic.MusicBlock>
         <StyledMusic.MusicTitle>
-          {single ? 'Recent Releases' : 'TOP TRACKS CHART'}
+          {single ? 'Top Tracks' : 'TOP TRACKS CHART'}
         </StyledMusic.MusicTitle>
         {tracks.map((track, index) => {
           const isPlaying = false;

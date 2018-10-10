@@ -72,6 +72,11 @@ const styles = () => ({
 });
 
 class Artist extends React.Component {
+  componentWillMount() {
+    const htmlBlock = document.getElementsByTagName('html');
+    htmlBlock[0].style.overflow = 'hidden';
+  }
+
   follow = () => {
     const { artist, followToArtist, sendDataArtist } = this.props;
     followToArtist(artist.name);
@@ -144,36 +149,38 @@ class Artist extends React.Component {
       contentArtist = <NoMediaConnect />;
     }
     return (
-      <StyledArtist.WrapperArtist>
-        <StyledArtist.ArtistHeader>
-          <StyledContent.LeftBlockContent>
-            <StyledArtist.ArtistImage image={artist.image_url} />
-            <StyledArtist.ArtistName>{artist.name}</StyledArtist.ArtistName>
-          </StyledContent.LeftBlockContent>
-          <StyledArtist.RightBlockButton>
-            {
-              followButton
-                ? <Button className={classes.unfollowButton} onClick={this.unfollow}>UNFOLLOW</Button>
-                : <Button className={classes.followButton} onClick={this.follow}>FOLLOW</Button>
-            }
-          </StyledArtist.RightBlockButton>
-        </StyledArtist.ArtistHeader>
-        <StyledContent.Content>
-          <StyledContent.LeftBlockContent>
-            {contentArtist}
-            {this.renderWaypoint()}
-            <Styled.WaypointBlock />
-          </StyledContent.LeftBlockContent>
-          <StyledContent.RightBlockArtistContent>
-            <EventCardConnect artist={artist} />
-            <TopTracksChartConnect
-              tracks={topTracksArtist}
-              artistName={artist.name}
-              single
-            />
-          </StyledContent.RightBlockArtistContent>
-        </StyledContent.Content>
-      </StyledArtist.WrapperArtist>
+      <StyledContent.Wrapper>
+        <StyledArtist.WrapperArtist>
+          <StyledArtist.ArtistHeader>
+            <StyledContent.LeftBlockContent>
+              <StyledArtist.ArtistImage image={artist.image_url} />
+              <StyledArtist.ArtistName>{artist.name}</StyledArtist.ArtistName>
+            </StyledContent.LeftBlockContent>
+            <StyledArtist.RightBlockButton>
+              {
+                followButton
+                  ? <Button className={classes.unfollowButton} onClick={this.unfollow}>UNFOLLOW</Button>
+                  : <Button className={classes.followButton} onClick={this.follow}>FOLLOW</Button>
+              }
+            </StyledArtist.RightBlockButton>
+          </StyledArtist.ArtistHeader>
+          <StyledContent.Content>
+            <StyledContent.LeftBlockContent>
+              {contentArtist}
+              {this.renderWaypoint()}
+              <Styled.WaypointBlock />
+            </StyledContent.LeftBlockContent>
+            <StyledContent.RightBlockArtistContent>
+              <EventCardConnect artist={artist} />
+              <TopTracksChartConnect
+                tracks={topTracksArtist}
+                artistName={artist.name}
+                single
+              />
+            </StyledContent.RightBlockArtistContent>
+          </StyledContent.Content>
+        </StyledArtist.WrapperArtist>
+      </StyledContent.Wrapper>
     );
   }
 }

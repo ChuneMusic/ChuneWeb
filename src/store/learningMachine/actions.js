@@ -28,9 +28,9 @@ export const playYouTubeVideo = idYouTubePlay => ({
   type: PLAY_YOUTUBE_VIDEO,
   payload: { idYouTubePlay }
 });
-export const stopYouTubeVideo = (idYouTubeStop, durationYouTubeVideo, currentTimeYouTubeVideo) => ({
+export const stopYouTubeVideo = idYouTubeStop => ({
   type: STOP_YOUTUBE_VIDEO,
-  payload: { idYouTubeStop, durationYouTubeVideo, currentTimeYouTubeVideo }
+  payload: { idYouTubeStop }
 });
 export const clickTwitterPost = id => ({
   type: CLICK_TWITTER_POST,
@@ -48,17 +48,17 @@ export const viewsEventsArtist = id => ({
   type: VIEWS_EVENTS_ARTIST,
   payload: { id }
 });
-export const openArticleUser = (idOpenArticle, dateOpenArticle) => ({
+export const openArticleUser = idOpenArticle => ({
   type: OPEN_ARTICLE_USER,
-  payload: { idOpenArticle, dateOpenArticle }
+  payload: { idOpenArticle }
 });
-export const closeArticleUser = (idCloseArticle, dateCloseArticle) => ({
+export const closeArticleUser = idCloseArticle => ({
   type: CLOSE_ARTICLE_USER,
-  payload: { idCloseArticle, dateCloseArticle }
+  payload: { idCloseArticle }
 });
-export const openFeaturedArticleUser = (idOpenFeaturedArticle, dateOpenFeaturedArticle) => ({
+export const openFeaturedArticleUser = idOpenFeaturedArticle => ({
   type: OPEN_FEATURED_ARTICLE_USER,
-  payload: { idOpenFeaturedArticle, dateOpenFeaturedArticle }
+  payload: { idOpenFeaturedArticle }
 });
 export const playMusicOfRecentReleases = id => ({
   type: PLAY_MUSIC_RECENT_RELEASES,

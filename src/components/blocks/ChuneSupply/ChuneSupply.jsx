@@ -40,7 +40,7 @@ class ChuneSupply extends React.PureComponent {
         <p className="subtitle">Updated every Wednesday, CHUNE SUPPLY is weekly supplying you with weekly fire.</p>
       </div>
     );
-    if (foryou) textHeader = <h4 className="title padding_recent">RECENT RELEASES</h4>;
+    if (foryou) textHeader = <h4 className="title padding_recent">Top Tracks</h4>;
     return (
       <div className="chuneSupplyWrapper">
         <Paper className="chuneSupplyPaper">

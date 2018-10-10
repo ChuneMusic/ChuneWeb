@@ -9,6 +9,7 @@ import {
 import { EventsTableConnect } from './EventsTable';
 import { ArtistWallpaperConnect } from './ArtistWallpaper';
 import { EmptyListConnect } from '../shared/EmptyList';
+import * as StyledContent from '../styled-components/content';
 
 
 const styles = () => ({
@@ -47,30 +48,40 @@ const styles = () => ({
   }
 });
 
-const ArtistEvents = ({
-  classes, events, id,
-  artists, geolocation, history
-}) => {
-  if (artists.length === 0) {
-    history.push('/events');
-    return null;
+class ArtistEvents extends React.Component {
+  componentWillMount() {
+    const htmlBlock = document.getElementsByTagName('html');
+    htmlBlock[0].style.overflow = 'hidden';
   }
-  const artist = artists.filter(e => e.id === id);
-  if (events.length === 0) {
+
+  render() {
+    const {
+      classes, events, id,
+      artists, geolocation, history
+    } = this.props;
+    if (artists.length === 0) {
+      history.push('/events');
+      return null;
+    }
+    const artist = artists.filter(e => e.id === id);
+    if (events.length === 0) {
+      return (
+        <EmptyListConnect
+          messageOne={`Sorry, no recent events for ${artist[0].name}`}
+          messageTwo="Click on the search bar to find and follow another artist."
+        />
+      );
+    }
     return (
-      <EmptyListConnect
-        messageOne={`Sorry, no recent events for ${artist[0].name}`}
-        messageTwo="Click on the search bar to find and follow another artist."
-      />
+      <StyledContent.Wrapper>
+        <div className={classes.root}>
+          <ArtistWallpaperConnect artist={artist[0]} />
+          <EventsTableConnect events={events} geolocation={geolocation} />
+        </div>
+      </StyledContent.Wrapper>
     );
   }
-  return (
-    <div className={classes.root}>
-      <ArtistWallpaperConnect artist={artist[0]} />
-      <EventsTableConnect events={events} geolocation={geolocation} />
-    </div>
-  );
-};
+}
 
 
 const mapStateToProps = store => ({

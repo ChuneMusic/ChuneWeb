@@ -21,6 +21,11 @@ import * as StyledArticle from './styled-components/article';
 import { clickTwitterPost } from '../store/learningMachine/actions';
 
 class ForYou extends React.Component {
+  componentWillMount() {
+    const htmlBlock = document.getElementsByTagName('html');
+    htmlBlock[0].style.overflow = 'hidden';
+  }
+
   renderWaypoint = () => <Waypoint onEnter={this.loadMore} threshold={2.0} />
 
   sendIdTweet = (id) => {
@@ -80,21 +85,23 @@ class ForYou extends React.Component {
     if (contentFeed.length === 0) return <Loading />;
     if (contentFeed.length) {
       return (
-        <StyledContent.ForYouPadding>
-          <StyledContent.Content>
-            <StyledContent.LeftBlockContent>
-              {this.renderItems(contentFeed)}
-              {this.renderWaypoint()}
-              {fetchDataForYou ? (<Loading />) : (<Styled.WaypointBlock />)}
-            </StyledContent.LeftBlockContent>
-            <StyledContent.RightBlockContent>
-              <ChuneSupplyConnect
-                supplies={artistTracks}
-                foryou
-              />
-            </StyledContent.RightBlockContent>
-          </StyledContent.Content>
-        </StyledContent.ForYouPadding>
+        <StyledContent.Wrapper>
+          <StyledContent.ForYouPadding>
+            <StyledContent.Content>
+              <StyledContent.LeftBlockContent>
+                {this.renderItems(contentFeed)}
+                {this.renderWaypoint()}
+                {fetchDataForYou ? (<Loading />) : (<Styled.WaypointBlock />)}
+              </StyledContent.LeftBlockContent>
+              <StyledContent.RightBlockContent>
+                <ChuneSupplyConnect
+                  supplies={artistTracks}
+                  foryou
+                />
+              </StyledContent.RightBlockContent>
+            </StyledContent.Content>
+          </StyledContent.ForYouPadding>
+        </StyledContent.Wrapper>
       );
     }
     return (
