@@ -5,13 +5,16 @@ import Slider from '@material-ui/lab/Slider';
 import { string } from 'prop-types';
 
 import * as StyledSpotify from '../styled-components/spotifyPlayer';
-import Prev from '../../../assets/images/control/rewind-button.svg';
-import Play from '../../../assets/images/control/music-player-play.svg';
-import Next from '../../../assets/images/control/fast-forward-arrows.svg';
-import Shuffle from '../../../assets/images/control/couple-of-arrows-changing-places.svg';
-import Repeat from '../../../assets/images/control/repeat.svg';
-import VolumeOn from '../../../assets/images/control/reduced-volume.svg';
-import Pause from '../../../assets/images/control/pause-button.svg';
+// import Prev from '../../../assets/images/control/rewind-button.svg';
+// import Play from '../../../assets/images/control/music-player-play.svg';
+// import Next from '../../../assets/images/control/fast-forward-arrows.svg';
+// import Shuffle from '../../../assets/images/control/couple-of-arrows-changing-places.svg';
+// import Repeat from '../../../assets/images/control/repeat.svg';
+// import VolumeOn from '../../../assets/images/control/reduced-volume.svg';
+// import Pause from '../../../assets/images/control/pause-button.svg';
+import Shuffle from '../../../assets/images/control/shuffle.svg';
+import Play from '../../../assets/images/control/play.svg';
+import Next from '../../../assets/images/control/next.svg';
 
 class Player extends React.Component {
   state={
@@ -57,15 +60,24 @@ class Player extends React.Component {
           </StyledSpotify.SpotifyLeftBlock>
           <StyledSpotify.SpotifyCenterBlock>
             <StyledSpotify.SpotyfiControlBar>
-              <StyledSpotify.SpotifyControlButton src={Shuffle} />
+              <StyledSpotify.SpotifySVG viewBox="0 0 512 512">
+                <use xlinkHref={`${Shuffle}#Shuffle`} />
+              </StyledSpotify.SpotifySVG>
+              <StyledSpotify.SpotifySVG viewBox="0 0 512 512">
+                <use xlinkHref={`${Play}#Play`} />
+              </StyledSpotify.SpotifySVG>
+              <StyledSpotify.SpotifySVG viewBox="0 0 512 512">
+                <use xlinkHref={`${Next}#Next`} />
+              </StyledSpotify.SpotifySVG>
+              {/* <StyledSpotify.SpotifyControlButton src={Shuffle} />
               <StyledSpotify.SpotifyControlButton src={Prev} />
               <StyledSpotify.SpotifyControlButton src={Play} onClick={this.playMusicSpotify} />
               <StyledSpotify.SpotifyControlButton src={Next} />
-              <StyledSpotify.SpotifyControlButton src={Repeat} />
+              <StyledSpotify.SpotifyControlButton src={Repeat} /> */}
             </StyledSpotify.SpotyfiControlBar>
           </StyledSpotify.SpotifyCenterBlock>
           <StyledSpotify.SpotifyRightBlock>
-            <StyledSpotify.SpotifyControlButton src={VolumeOn} />
+            {/* <StyledSpotify.SpotifyControlButton src={VolumeOn} /> */}
             <Slider
               value={volume}
               aria-labelledby="label"

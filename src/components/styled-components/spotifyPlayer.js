@@ -1,4 +1,12 @@
-import styled from 'styled-components';
+/* eslint no-unused-expressions: "off" */
+import styled, { injectGlobal } from 'styled-components';
+
+injectGlobal`
+  path {
+    fill:inherit;
+    stroke:inherit;
+  }
+`;
 
 export const SpotifyWrapper = styled.div`
   width: 100vw;
@@ -92,4 +100,10 @@ export const SpotifyRightBlock = styled.div`
   flex-direction: row;
   justify-content: flex-end;
   margin: 0 10px 0 0;
+`;
+export const SpotifySVG = styled.svg`
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+  fill: #ffffff;
 `;
