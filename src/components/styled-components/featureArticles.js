@@ -71,6 +71,11 @@ export const FeaturedArticle = styled.div`
       margin: 60px 0 70px 0;
     }
   }
+  &:last-child{
+    @media(max-width: 959px) and (min-width: 320px) {
+      margin: 60px 0 70px 0;
+    }
+  }
 `;
 export const FeaturedArticleTitle = styled.h2`
   padding: 0 10px;
