@@ -187,7 +187,7 @@ const StyledFAQItem = withStyles(styles)(FAQItem);
 const FAQ = ({ classes }) => {
   const faqs = [
     {
-      question: 'Are there going to more features when the site releases?',
+      question: 'Are there going to be more features when the site releases?',
       answer: 'The main feature we plan on adding for the release of the site is the integration of '
             + 'Spotify and Apple Music. When one of your favorite artists releases a new song or album, it will '
             + 'show up on your feed and you will be able to play that music straight from the feed.\n',
