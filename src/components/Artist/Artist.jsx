@@ -100,15 +100,15 @@ class Artist extends React.Component {
   }
 
   scrollDiv = () => {
-    const block = document.getElementById('blockDiv');
-    const right = document.getElementById('right');
-    console.log(block.scrollTop, right.offsetHeight, right.offsetTop - 74);
-    if (block.scrollTop >= right.offsetHeight - 730) {
-      const pxTop = block.scrollTop - right.offsetHeight + 74 + 650;
-      console.log(pxTop, 'px');
-      this.setState({ position: pxTop });
-    } else {
-      this.setState({ position: 0 });
+    if (window.innerHeight === 970) {
+      const block = document.getElementById('blockDiv');
+      const right = document.getElementById('right');
+      if (block.scrollTop >= right.offsetHeight - 730) {
+        const pxTop = block.scrollTop - right.offsetHeight + 74 + 650;
+        this.setState({ position: pxTop });
+      } else {
+        this.setState({ position: 0 });
+      }
     }
   }
 
