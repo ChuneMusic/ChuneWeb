@@ -4,10 +4,11 @@ import * as TYPES from '../../../src/store/auth/types';
 describe('Auth reducer', () => {
   it('should success get token', () => {
     const token = 'token';
-    const action = { type: TYPES.SUCCESS_GET_TOKEN, payload: { token } };
+    const authSuccess = true;
+    const action = { type: TYPES.SUCCESS_GET_TOKEN, payload: { token, authSuccess } };
     const nextState = reducer(initState, action);
 
-    expect(nextState).toEqual({ ...initState, token });
+    expect(nextState).toEqual({ ...initState, token, authSuccess });
   });
   it('should success get social profile', () => {
     const profile = [{ name: 'Drake', age: 23 }];
