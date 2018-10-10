@@ -14,7 +14,9 @@ class ModalNews extends React.Component {
     bodyBlock[0].style.overflow = 'hidden';
     const str = navigator.userAgent;
     if (~str.indexOf('iPhone')) {
+      const divBlock = document.getElementById('blockDiv');
       bodyBlock[0].style.height = '100vh';
+      divBlock.style.height = '100vh';
     }
     modalRoot.appendChild(domNode);
   }
@@ -26,7 +28,9 @@ class ModalNews extends React.Component {
     bodyBlock[0].style.overflow = 'auto';
     const str = navigator.userAgent;
     if (~str.indexOf('iPhone')) {
+      const divBlock = document.getElementById('blockDiv');
       bodyBlock[0].style.height = 'auto';
+      divBlock.style.height = 'auto';
     }
     modalRoot.removeChild(domNode);
   }

@@ -2,12 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
-  func, string, objectOf,
-  any, arrayOf, bool
+  func, any,
+  arrayOf, bool
 } from 'prop-types';
 import { map } from 'lodash';
 import { Tweet } from 'react-twitter-widgets';
-import SpotifyWebApi from 'spotify-web-api-js';
 import Waypoint from 'react-waypoint';
 
 import {
@@ -17,7 +16,7 @@ import {
 import { VideoCardConnect } from './Videos/Video';
 import { ArticleCardConnect } from './News/Article';
 import { playMusicPlayer, pauseMusicPlayer } from '../store/musicPlayer/actions';
-import { getAccessTokenSpotify } from '../store/spotify/actions';
+// import { getAccessTokenSpotify } from '../store/spotify/actions';
 import { fethcMoreContentHomePageUser } from '../store/content/actions';
 import { Loading } from './shared/Loading';
 import * as Styled from './styled-components/home';
@@ -29,6 +28,10 @@ import './Home.css';
 
 
 class Home extends React.Component {
+  state = {
+    position: 0
+  }
+
   componentWillMount() {
     const htmlBlock = document.getElementsByTagName('html');
     htmlBlock[0].style.overflow = 'hidden';
@@ -41,23 +44,6 @@ class Home extends React.Component {
     loadMoreItems();
   }
 
-  playMusicSpotify = () => {
-    const { token, deviceID } = this.props;
-    const spotifyApi = new SpotifyWebApi();
-    spotifyApi.setAccessToken(token);
-    spotifyApi.getMyDevices().then(() => {
-      const data = [deviceID];
-      const play = { play: true };
-      spotifyApi.transferMyPlayback(data, play).then(() => {
-        const dataPlay = {
-          device_id: deviceID,
-          uris: ['spotify:track:4S8d14HvHb70ImctNgVzQQ', 'spotify:track:2xLMifQCjDGFmkHkpNLD9h']
-        };
-        spotifyApi.play(dataPlay);
-      });
-    });
-  }
-
   sendIdTweet = (id) => {
     const { sendTweet } = this.props;
     sendTweet(id);
@@ -65,24 +51,32 @@ class Home extends React.Component {
 
 
   scrollDiv = () => {
-    console.log('hello');
+    const block = document.getElementById('blockDiv');
+    const right = document.getElementById('right');
+    if (block.scrollTop >= right.offsetHeight - 74) {
+      const pxTop = block.scrollTop - right.offsetHeight + 74;
+      this.setState({ position: pxTop });
+    } else {
+      this.setState({ position: 0 });
+    }
   }
 
   render() {
     const {
-      location, token, contentFeed,
-      getTokenSpotify, history, topTracks,
+      // location, history,
+      topTracks, contentFeed,
+      // getTokenSpotify, token,
       topChune, featured, fetchDataHome
     } = this.props;
-    if (location.search !== '' && token === '') {
-      getTokenSpotify(location.search);
-      location.search = '';
-      history.push('/home');
-    }
+    const { position } = this.state;
+    // if (location.search !== '' && token === '') {
+    //   getTokenSpotify(location.search);
+    //   location.search = '';
+    //   history.push('/home');
+    // }
     if (topChune.length === 0) return <Loading />;
-    /* <button onClick={this.playMusicSpotify} type="button">Play</button> */
     return (
-      <StyledContent.Wrapper onScroll={this.scrollDiv} >
+      <StyledContent.Wrapper onScroll={this.scrollDiv} id="blockDiv">
         <Styled.WrapperHomePage>
           <Styled.FeaturedBlock>
             <BasicArticleCardConnect featured={featured} />
@@ -120,7 +114,7 @@ class Home extends React.Component {
               {this.renderWaypoint()}
               {fetchDataHome ? (<Loading />) : (<Styled.WaypointBlock />)}
             </StyledContent.LeftBlockContent>
-            <StyledContent.RightBlockContent>
+            <StyledContent.RightBlockContent id="right" pos={position}>
               <TopTracksChartConnect
                 tracks={topTracks}
                 single={false}
@@ -139,9 +133,8 @@ class Home extends React.Component {
 }
 
 const mapStateToProps = store => ({
-  token: store.dataSpotify.token,
-  profile: store.dataSpotify.profile,
-  deviceID: store.dataSpotify.deviceID,
+  // token: store.dataSpotify.token,
+  // profile: store.dataSpotify.profile,
   featured: store.dataContent.featured,
   contentFeed: store.dataContent.contentFeedHome,
   topTracks: store.dataContent.topTracks,
@@ -152,7 +145,7 @@ const mapStateToProps = store => ({
 const mapActionsToProps = dispatch => bindActionCreators({
   playMusic: playMusicPlayer,
   pauseMusic: pauseMusicPlayer,
-  getTokenSpotify: getAccessTokenSpotify,
+  // getTokenSpotify: getAccessTokenSpotify,
   loadMoreItems: fethcMoreContentHomePageUser,
   sendTweet: clickTwitterPost
 }, dispatch);
@@ -160,16 +153,15 @@ const mapActionsToProps = dispatch => bindActionCreators({
 export const HomeConnect = connect(mapStateToProps, mapActionsToProps)(Home);
 
 Home.propTypes = {
-  getTokenSpotify: func.isRequired,
-  token: string.isRequired,
-  location: objectOf(any).isRequired,
-  history: objectOf(any).isRequired,
+  // getTokenSpotify: func.isRequired,
+  // token: string.isRequired,
+  // location: objectOf(any).isRequired,
+  // history: objectOf(any).isRequired,
   contentFeed: arrayOf(any).isRequired,
   topTracks: arrayOf(any).isRequired,
   topChune: arrayOf(any).isRequired,
   loadMoreItems: func.isRequired,
   featured: arrayOf(any).isRequired,
-  deviceID: string.isRequired,
   fetchDataHome: bool.isRequired,
   sendTweet: func.isRequired
 };

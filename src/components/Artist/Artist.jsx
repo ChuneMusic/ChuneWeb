@@ -72,6 +72,10 @@ const styles = () => ({
 });
 
 class Artist extends React.Component {
+  state = {
+    position: 0
+  }
+
   componentWillMount() {
     const htmlBlock = document.getElementsByTagName('html');
     htmlBlock[0].style.overflow = 'hidden';
@@ -95,11 +99,25 @@ class Artist extends React.Component {
     sendTweet(id);
   }
 
+  scrollDiv = () => {
+    const block = document.getElementById('blockDiv');
+    const right = document.getElementById('right');
+    console.log(block.scrollTop, right.offsetHeight, right.offsetTop - 74);
+    if (block.scrollTop >= right.offsetHeight - 730) {
+      const pxTop = block.scrollTop - right.offsetHeight + 74 + 650;
+      console.log(pxTop, 'px');
+      this.setState({ position: pxTop });
+    } else {
+      this.setState({ position: 0 });
+    }
+  }
+
   render() {
     const {
       classes, content, artists,
       artist, topTracksArtist, db
     } = this.props;
+    const { position } = this.state;
     if (db) {
       return (
         <EmptyListConnect
@@ -149,7 +167,7 @@ class Artist extends React.Component {
       contentArtist = <NoMediaConnect />;
     }
     return (
-      <StyledContent.Wrapper>
+      <StyledContent.Wrapper onScroll={this.scrollDiv} id="blockDiv">
         <StyledArtist.WrapperArtist>
           <StyledArtist.ArtistHeader>
             <StyledContent.LeftBlockContent>
@@ -170,7 +188,7 @@ class Artist extends React.Component {
               {this.renderWaypoint()}
               <Styled.WaypointBlock />
             </StyledContent.LeftBlockContent>
-            <StyledContent.RightBlockArtistContent>
+            <StyledContent.RightBlockArtistContent id="right" pos={position}>
               <EventCardConnect artist={artist} />
               <TopTracksChartConnect
                 tracks={topTracksArtist}

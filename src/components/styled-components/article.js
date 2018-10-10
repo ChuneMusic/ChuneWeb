@@ -185,7 +185,6 @@ export const AticleIFrame = styled.iframe`
   min-width: 100%;
   @media(max-width: 849px) and (min-width: 320px) {
     margin: 40px 0 0 0;
-    height: calc(100% - 60px);
     -webkit-transform: translate3d(0,0,0);
   }
 `;

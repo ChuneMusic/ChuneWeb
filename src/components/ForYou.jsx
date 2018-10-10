@@ -21,6 +21,10 @@ import * as StyledArticle from './styled-components/article';
 import { clickTwitterPost } from '../store/learningMachine/actions';
 
 class ForYou extends React.Component {
+  state = {
+    position: 0
+  }
+
   componentWillMount() {
     const htmlBlock = document.getElementsByTagName('html');
     htmlBlock[0].style.overflow = 'hidden';
@@ -69,11 +73,23 @@ class ForYou extends React.Component {
     loadMoreItems();
   }
 
+  scrollDiv = () => {
+    const block = document.getElementById('blockDiv');
+    const right = document.getElementById('right');
+    if (block.scrollTop >= right.offsetHeight - 835) {
+      const pxTop = block.scrollTop - right.offsetHeight + 74 + 770;
+      this.setState({ position: pxTop });
+    } else {
+      this.setState({ position: 0 });
+    }
+  }
+
   render() {
     const {
       contentFeed, artistTracks, followArtists,
       fetchDataForYou
     } = this.props;
+    const { position } = this.state;
     if (followArtists) {
       return (
         <EmptyListConnect
@@ -85,7 +101,7 @@ class ForYou extends React.Component {
     if (contentFeed.length === 0) return <Loading />;
     if (contentFeed.length) {
       return (
-        <StyledContent.Wrapper>
+        <StyledContent.Wrapper onScroll={this.scrollDiv} id="blockDiv">
           <StyledContent.ForYouPadding>
             <StyledContent.Content>
               <StyledContent.LeftBlockContent>
@@ -93,7 +109,7 @@ class ForYou extends React.Component {
                 {this.renderWaypoint()}
                 {fetchDataForYou ? (<Loading />) : (<Styled.WaypointBlock />)}
               </StyledContent.LeftBlockContent>
-              <StyledContent.RightBlockContent>
+              <StyledContent.RightBlockContent id="right" pos={position}>
                 <ChuneSupplyConnect
                   supplies={artistTracks}
                   foryou
