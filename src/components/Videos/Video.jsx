@@ -21,14 +21,14 @@ class VideoCard extends React.Component {
     playVideo(video.id);
   }
 
-  onPause = ({ target }) => {
+  onPause = () => {
     const { stopVideo, video } = this.props;
-    stopVideo(video.id, target.j.duration, target.j.currentTime);
+    stopVideo(video.id);
   }
 
-  onEnd = ({ target }) => {
+  onEnd = () => {
     const { stopVideo, video } = this.props;
-    stopVideo(video.id, target.j.duration, target.j.currentTime);
+    stopVideo(video.id);
   }
 
   render() {

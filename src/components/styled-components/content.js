@@ -1,5 +1,13 @@
 import styled from 'styled-components';
 
+export const Wrapper = styled.div`
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  height: calc(100vh - 74px);
+  @media(max-width: 1059px){
+    height: calc(100vh - 56px);
+  }
+`;
 export const Content = styled.div`
   display: flex;
   justify-content: space-between;
@@ -28,12 +36,14 @@ export const LeftBlockContent = styled.div`
 `;
 export const RightBlockContent = styled.div`
   width: 365px;
+  margin-top: ${props => props.pos}px;
   @media(max-width: 959px) and (min-width: 320px) {
     display: none;
   }
 `;
 export const RightBlockArtistContent = styled.div`
   width: 345px;
+  margin-top: ${props => props.pos}px;
   @media(max-width: 959px) and (min-width: 320px) {
     display: none;
   }

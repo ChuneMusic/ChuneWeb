@@ -12,9 +12,8 @@ import { closeArticleUser } from '../../store/learningMachine/actions';
 class ArticleiFrame extends React.Component {
   closeModal = () => {
     const { closeModalArticle, idNews, sendCloseArticle } = this.props;
-    const endDate = new Date();
     closeModalArticle(false);
-    sendCloseArticle(idNews, endDate);
+    sendCloseArticle(idNews);
   }
 
   render() {

@@ -5,15 +5,9 @@ export const initState = {
   id: null,
   idOpenArticle: null,
   idCloseArticle: null,
-  dateOpenArticle: null,
-  dateCloseArticle: null,
   idOpenFeaturedArticle: null,
-  dateOpenFeaturedArticle: null,
-  featuredArticle: false,
   idYouTubePlay: null,
   idYouTubeStop: null,
-  durationYouTubeVideo: null,
-  currentTimeYouTubeVideo: null
 };
 
 const followFromArtistPage = (state, { id }) => ({ ...state, id });
@@ -21,38 +15,20 @@ const followFromRecommendBlock = (state, { id }) => ({ ...state, id });
 const playMusicOfTopTrack = (state, { id }) => ({ ...state, id });
 const playMusicOfChuneSupply = (state, { id }) => ({ ...state, id });
 const playYouTubeVideo = (state, { idYouTubePlay }) => ({ ...state, idYouTubePlay });
-const stopYouTubeVideo = (state, { idYouTubeStop, durationYouTubeVideo, currentTimeYouTubeVideo }) => ({
-  ...state,
-  idYouTubeStop,
-  durationYouTubeVideo,
-  currentTimeYouTubeVideo
-});
+const stopYouTubeVideo = (state, { idYouTubeStop }) => ({ ...state, idYouTubeStop });
 const clickTwitterPost = (state, { id }) => ({ ...state, id });
 const suggestionsArtist = (state, { id }) => ({ ...state, id });
 const moreInfoAboutArtist = (state, { id }) => ({ ...state, id });
 const viewsEventsArtist = (state, { id }) => ({ ...state, id });
-const openArticleUser = (state, { idOpenArticle, dateOpenArticle }) => ({
-  ...state,
-  idOpenArticle,
-  dateOpenArticle,
-  featuredArticle: false
-});
+const openArticleUser = (state, { idOpenArticle }) => ({ ...state, idOpenArticle });
 const closeArticleUser = (state, { idCloseArticle, dateCloseArticle }) => ({ ...state, idCloseArticle, dateCloseArticle });
-const openFeaturedArticleUser = (state, { idOpenFeaturedArticle, dateOpenFeaturedArticle }) => ({
-  ...state,
-  idOpenFeaturedArticle,
-  dateOpenFeaturedArticle,
-  featuredArticle: true
-});
+const openFeaturedArticleUser = (state, { idOpenFeaturedArticle }) => ({ ...state, idOpenFeaturedArticle });
 const playMusicOfRecentReleases = (state, { id }) => ({ ...state, id });
 const clearArticleDate = state => ({
   ...state,
   idOpenArticle: null,
   idCloseArticle: null,
-  dateOpenArticle: null,
-  dateCloseArticle: null,
   idOpenFeaturedArticle: null,
-  dateOpenFeaturedArticle: null
 });
 
 const handlers = {

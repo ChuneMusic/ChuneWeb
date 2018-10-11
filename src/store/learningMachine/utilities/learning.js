@@ -1,7 +1,5 @@
 import { API } from '../../../utilities/APIConfig';
 
-API.defaults.headers.post['Content-Type'] = 'application/json';
-
 export const sendArtist = (id, today) => {
   const data = JSON.stringify({
     contentid: id,
@@ -42,13 +40,11 @@ export const sendYouTube = (id, today) => {
   });
   API.post('events/log', data);
 };
-export const sendStopYouTube = (id, today, timeVideo, timeUser) => {
+export const sendStopYouTube = (id, today) => {
   const data = JSON.stringify({
     contentid: id,
     timestamp: today,
-    event: '6AvzVvR',
-    duration: timeVideo,
-    currenttime: timeUser
+    event: '6AvzVvR'
   });
   API.post('events/log', data);
 };
@@ -92,12 +88,11 @@ export const sendOpenArticleToServer = (id, today) => {
   });
   API.post('events/log', data);
 };
-export const sendCloseArticleToServer = (id, today, time) => {
+export const sendCloseArticleToServer = (id, today) => {
   const data = JSON.stringify({
     contentid: id,
     timestamp: today,
-    event: '6Gq2wNb',
-    readtime: time
+    event: '6Gq2wNb'
   });
   API.post('events/log', data);
 };

@@ -1,8 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-
-import { StyledFAQItem } from './FAQItem';
-import { FooterConnect } from './shared/Footer';
+import Collapse from '@material-ui/core/Collapse';
 
 const styles = () => ({
   contentContainer: {
@@ -149,57 +147,37 @@ const styles = () => ({
   },
 });
 
-class FAQ extends React.PureComponent {
-  componentWillMount() {
-    const htmlBlock = document.getElementsByTagName('html');
-    htmlBlock[0].style.overflow = 'auto';
+class FAQItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+    };
+  }
+
+  handleClick = () => {
+    const { open } = this.state;
+    this.setState({
+      open: !open,
+    });
   }
 
   render() {
-    const faqs = [
-      {
-        question: 'Are there going to more features when the site releases?',
-        answer: 'The main feature we plan on adding for the release of the site is the integration of '
-              + 'Spotify and Apple Music. When one of your favorite artists releases a new song or album, it will '
-              + 'show up on your feed and you will be able to play that music straight from the feed.\n',
-      },
-      {
-        question: 'Which YouTube channels do you pull from?',
-        answer: 'We’ve selected  approximately 50 Youtube channels with the highest quality content like Complex, '
-              + 'TheNeedleDrop, The Breakfast Club, and more. These are channels that artists are featured on regularly, '
-              + 'so you can get all the latest relevant videos about your favorite artists. If you think we missed a channel, let us know!',
-      },
-      {
-        question: 'How do I get my YouTube channel featured on Chune?',
-        answer: 'Contact us!',
-      },
-      {
-        question: 'Which sites do you pull articles from?',
-        answer: 'We pull articles from the best music news sites on the internet: Billboard, HotNewHipHop, Pitchfork, and Thissongissick. ',
-      },
-      {
-        question: 'How many artists should I follow?',
-        answer: 'For the best experience, users should follow around 30 of their favorite artists.',
-      }
-    ];
-    const { classes } = this.props;
+    const { classes, question, answer } = this.props;
+    const { open } = this.state;
     return (
-      <React.Fragment>
-        <div className={classes.contentContainer}>
-          <h3>FAQ</h3>
-          <p className="para1">Browse through the most frequently asked questions.</p>
-        </div>
-        <div className={classes.faqContainer}>
-          <ul className={classes.faqList}>
-            {
-              faqs.map((faq, index) => <StyledFAQItem question={faq.question} answer={faq.answer} key={index} />)
-            }
-          </ul>
-        </div>
-        <FooterConnect />
-      </React.Fragment>
+      <li className={open ? classes.activeQuestionItem : classes.questionItem}>
+        <h5 onClick={this.handleClick}>
+          { question }
+        </h5>
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <p className={classes.answer}>
+            {answer}
+          </p>
+        </Collapse>
+      </li>
     );
   }
 }
 
-export const FAQConnect = withStyles(styles)(FAQ);
+export const StyledFAQItem = withStyles(styles)(FAQItem);

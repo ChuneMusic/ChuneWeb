@@ -9,9 +9,16 @@
 .chuneSupply{
   padding: 26px 0 0 0;
 }
+.containerBlog{
+  -webkit-overflow-scrolling: touch;
+  overflow-y: hidden;
+  height: calc(100vh - 74px);
+}
 .iframe_blog{
-  width: 100%;
-  height: 92vh;
+  width: 1px;
+  height: 100%;
+  background: #ffffff;
+  min-width: 100%;
 }
 .betaLogo{
   color: #ffffff;
@@ -39,4 +46,20 @@
 }
 .trackAfter{
   background-color: rgba(255, 255, 255, .7) !important;
+}
+
+@media(max-width: 1059px){
+  .containerBlog{
+    height: calc(100vh - 56px);
+    position: fixed;
+    top: 56px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    width: 100vw;
+    padding: 0;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    -webkit-transform: translate3d(0,0,0);
+  }
 }

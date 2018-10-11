@@ -28,7 +28,7 @@ class TopTracksChart extends React.Component {
     return (
       <StyledMusic.MusicBlock>
         <StyledMusic.MusicTitle>
-          {single ? 'Recent Releases' : 'TOP TRACKS CHART'}
+          {single ? 'Top Tracks' : 'TOP TRACKS CHART'}
         </StyledMusic.MusicTitle>
         {tracksSpotify}
         <StyledMusic.MusicArrow onClick={this.openPlaylist} src={openList ? Up : Down} />

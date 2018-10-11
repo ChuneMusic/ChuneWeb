@@ -1,12 +1,9 @@
 import React from 'react';
 import MediaQuery from 'react-responsive';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { objectOf, any, func } from 'prop-types';
+import { objectOf, any } from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 import { FooterConnect } from './shared/Footer';
-import { successGetToken } from '../store/auth/actions';
 import BackgroundPNG from '../../assets/images/background.jpg';
 import ArtistOnePNG from '../../assets/images/landing/artist1.png';
 import ArtistTwoPNG from '../../assets/images/landing/artist2.png';
@@ -386,140 +383,136 @@ const styles = () => ({
   },
 });
 
-const Landing = ({
-  classes, history, receivedSocialToken
-}) => {
-  if (history.location.search) {
-    receivedSocialToken(history.location.search);
-    history.push('/home');
+class Landing extends React.Component {
+  componentWillMount() {
+    const htmlBlock = document.getElementsByTagName('html');
+    htmlBlock[0].style.overflow = 'auto';
   }
-  return (
-    <React.Fragment>
-      <div className={classes.heroSectionContainer}>
-        <div className="heroUnit">
-          <h3 className="heading">
-            Follow your favorite artists to receive a personalized music culture news feed
-          </h3>
-          <p className="subHeading">
-            Read the latest news, watch the latest videos, listen to the latest albums, discover when your favorite artist is coming in town.
+
+  render() {
+    const { classes } = this.props;
+    return (
+      <React.Fragment>
+        <div className={classes.heroSectionContainer}>
+          <div className="heroUnit">
+            <h3 className="heading">
+              Follow your favorite artists to receive a personalized music culture news feed
+            </h3>
+            <p className="subHeading">
+              Read the latest news, watch the latest videos, listen to the latest albums, discover when your favorite artist is coming in town.
+            </p>
+            <div className="ctaContainer">
+              <a className={classes.cta} href="/signup">
+                Chune In
+              </a>
+            </div>
+          </div>
+        </div>
+        <div className={classes.whiteSection}>
+          <h4 className={classes.headingStyle1}>
+            Artists
+          </h4>
+          <p className={classes.descriptionStyle1}>
+            Follow your favorite artists.
           </p>
+          <MediaQuery minWidth={1024}>
+            <div className="artistCardsContainer">
+              <img src={ArtistOnePNG} title="Dermot Kennedy" alt="Dermot Kennedy" />
+              <img src={ArtistTwoPNG} title="Rejjie Snow" alt="Rejjie Snow" className="artistCardImage" />
+            </div>
+          </MediaQuery>
+          <MediaQuery maxWidth={1023}>
+            <div className="artistCardsContainerMobile">
+              <img src={ArtistOneMobilePNG} title="Dermot Kennedy" alt="Dermot Kennedy" />
+              <img src={ArtistTwoMobilePNG} title="Rejjie Snow" alt="Rejjie Snow" className="artistCardImage" />
+            </div>
+          </MediaQuery>
+        </div>
+        <div className={classes.purpleSection}>
+          <h4 className={classes.headingStyle2}>
+            Articles
+          </h4>
+          <p className={classes.descriptionStyle2}>
+            Get the latest articles about your favorite artists.
+          </p>
+          <MediaQuery minWidth={1024}>
+            <div className="articleCardsContainer">
+              <img src={ArticlePNG} title="Articles" alt="Articles" />
+            </div>
+          </MediaQuery>
+          <MediaQuery maxWidth={1023}>
+            <div className="articleCardsContainer">
+              <img src={ArticleMobilePNG} title="Articles" alt="Articles" />
+            </div>
+          </MediaQuery>
+        </div>
+        <div className={classes.videosSection}>
+          <h4 className={classes.headingStyle1}>
+            Videos
+          </h4>
+          <p className={classes.descriptionStyle1}>
+            Get the latest videos about your favorite artists.
+          </p>
+          <MediaQuery minWidth={1024}>
+            <div className="videoCardContainer">
+              <img src={VideoPNG} title="Videos" alt="Videos" />
+            </div>
+          </MediaQuery>
+          <MediaQuery maxWidth={1023}>
+            <div className="videoCardContainer">
+              <img src={VideoMobilePNG} title="Videos" alt="Videos" />
+            </div>
+          </MediaQuery>
+        </div>
+        <div className={classes.albumSection}>
+          <h4 className={classes.headingStyle2}>
+            Releases
+          </h4>
+          <p className={classes.descriptionStyle2}>
+            Get the latest releases by your favorite artists.
+          </p>
+          <MediaQuery minWidth={1024}>
+            <div className="albumCardContainer">
+              <img src={AlbumPNG} title="Album" alt="Album" />
+            </div>
+          </MediaQuery>
+          <MediaQuery maxWidth={1023}>
+            <div className="albumCardContainer">
+              <img src={AlbumMobilePNG} title="Album" alt="Album" />
+            </div>
+          </MediaQuery>
+        </div>
+        <div className={classes.eventsSection}>
+          <h4 className={classes.headingStyle1}>
+            Events
+          </h4>
+          <p className={classes.descriptionStyle1}>
+            Know when your favorite artists are in town.
+          </p>
+          <MediaQuery minWidth={1024}>
+            <div className="eventsCardContainer">
+              <img src={EventCardPNG} title="Events" alt="Events" />
+            </div>
+          </MediaQuery>
+          <MediaQuery maxWidth={1023}>
+            <div className="eventsCardContainer">
+              <img src={EventCardMobilePNG} title="Events" alt="Events" />
+            </div>
+          </MediaQuery>
           <div className="ctaContainer">
-            <a className={classes.cta} href="/signup">
+            <a className={classes.ctaPurple} href="/signup">
               Chune In
             </a>
           </div>
         </div>
-      </div>
-      <div className={classes.whiteSection}>
-        <h4 className={classes.headingStyle1}>
-          Artists
-        </h4>
-        <p className={classes.descriptionStyle1}>
-          Follow your favorite artists.
-        </p>
-        <MediaQuery minWidth={1024}>
-          <div className="artistCardsContainer">
-            <img src={ArtistOnePNG} title="Dermot Kennedy" alt="Dermot Kennedy" />
-            <img src={ArtistTwoPNG} title="Rejjie Snow" alt="Rejjie Snow" className="artistCardImage" />
-          </div>
-        </MediaQuery>
-        <MediaQuery maxWidth={1023}>
-          <div className="artistCardsContainerMobile">
-            <img src={ArtistOneMobilePNG} title="Dermot Kennedy" alt="Dermot Kennedy" />
-            <img src={ArtistTwoMobilePNG} title="Rejjie Snow" alt="Rejjie Snow" className="artistCardImage" />
-          </div>
-        </MediaQuery>
-      </div>
-      <div className={classes.purpleSection}>
-        <h4 className={classes.headingStyle2}>
-          Articles
-        </h4>
-        <p className={classes.descriptionStyle2}>
-          Get the latest articles about your favorite artists.
-        </p>
-        <MediaQuery minWidth={1024}>
-          <div className="articleCardsContainer">
-            <img src={ArticlePNG} title="Articles" alt="Articles" />
-          </div>
-        </MediaQuery>
-        <MediaQuery maxWidth={1023}>
-          <div className="articleCardsContainer">
-            <img src={ArticleMobilePNG} title="Articles" alt="Articles" />
-          </div>
-        </MediaQuery>
-      </div>
-      <div className={classes.videosSection}>
-        <h4 className={classes.headingStyle1}>
-          Videos
-        </h4>
-        <p className={classes.descriptionStyle1}>
-          Get the latest videos about your favorite artists.
-        </p>
-        <MediaQuery minWidth={1024}>
-          <div className="videoCardContainer">
-            <img src={VideoPNG} title="Videos" alt="Videos" />
-          </div>
-        </MediaQuery>
-        <MediaQuery maxWidth={1023}>
-          <div className="videoCardContainer">
-            <img src={VideoMobilePNG} title="Videos" alt="Videos" />
-          </div>
-        </MediaQuery>
-      </div>
-      <div className={classes.albumSection}>
-        <h4 className={classes.headingStyle2}>
-          Releases
-        </h4>
-        <p className={classes.descriptionStyle2}>
-          Get the latest releases by your favorite artists.
-        </p>
-        <MediaQuery minWidth={1024}>
-          <div className="albumCardContainer">
-            <img src={AlbumPNG} title="Album" alt="Album" />
-          </div>
-        </MediaQuery>
-        <MediaQuery maxWidth={1023}>
-          <div className="albumCardContainer">
-            <img src={AlbumMobilePNG} title="Album" alt="Album" />
-          </div>
-        </MediaQuery>
-      </div>
-      <div className={classes.eventsSection}>
-        <h4 className={classes.headingStyle1}>
-          Events
-        </h4>
-        <p className={classes.descriptionStyle1}>
-          Know when your favorite artists are in town.
-        </p>
-        <MediaQuery minWidth={1024}>
-          <div className="eventsCardContainer">
-            <img src={EventCardPNG} title="Events" alt="Events" />
-          </div>
-        </MediaQuery>
-        <MediaQuery maxWidth={1023}>
-          <div className="eventsCardContainer">
-            <img src={EventCardMobilePNG} title="Events" alt="Events" />
-          </div>
-        </MediaQuery>
-        <div className="ctaContainer">
-          <a className={classes.ctaPurple} href="/signup">
-            Chune In
-          </a>
-        </div>
-      </div>
-      <FooterConnect />
-    </React.Fragment>
-  );
-};
+        <FooterConnect />
+      </React.Fragment>
+    );
+  }
+}
 
-const mapActionsToProps = dispatch => bindActionCreators({
-  receivedSocialToken: successGetToken
-}, dispatch);
-
-export const LandingConnect = withStyles(styles)(connect(null, mapActionsToProps)(Landing));
+export const LandingConnect = withStyles(styles)(Landing);
 
 Landing.propTypes = {
-  classes: objectOf(any).isRequired,
-  history: objectOf(any).isRequired,
-  receivedSocialToken: func.isRequired
+  classes: objectOf(any).isRequired
 };

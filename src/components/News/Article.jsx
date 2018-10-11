@@ -16,21 +16,25 @@ import ThisSongIsSick from '../../../assets/images/news/tsis.svg';
 import { openArticleUser } from '../../store/learningMachine/actions';
 
 class ArticleCard extends React.Component {
+  componentWillMount() {
+    const htmlBlock = document.getElementsByTagName('html');
+    htmlBlock[0].style.overflow = 'hidden';
+  }
+
   logoNews = (name) => {
     const str = name.toLowerCase();
     if (~str.indexOf('hiphop')) return HipHop;
     if (~str.indexOf('bill')) return BillBoard;
     if (~str.indexOf('redm')) return YouRedm;
     if (~str.indexOf('pitch')) return PitchFork;
-    if (~str.indexOf('songis')) return ThisSongIsSick;
+    if (~str.indexOf('song')) return ThisSongIsSick;
     return 'https://placeholder.com/344x194';
   };
 
   eventsArticle = (id, url, title) => {
     const { openNews, openArticle } = this.props;
     openNews(id, url, title, true);
-    const openDate = new Date();
-    openArticle(id, openDate);
+    openArticle(id);
   }
 
 

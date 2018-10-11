@@ -72,10 +72,10 @@ export function* sendDataPlayYouTubeVideo({ payload }) {
   }
 }
 export function* sendDataStopYouTubeVideo({ payload }) {
-  const { idYouTubeStop, durationYouTubeVideo, currentTimeYouTubeVideo } = payload;
+  const { idYouTubeStop } = payload;
   const today = getDate();
   try {
-    yield call(sendStopYouTube, idYouTubeStop, today, durationYouTubeVideo, currentTimeYouTubeVideo);
+    yield call(sendStopYouTube, idYouTubeStop, today);
   } catch (e) {
     yield put(errorMessage(e));
   }
@@ -126,14 +126,11 @@ export function* sendOpenArticleUser({ payload }) {
   }
 }
 export function* sendCloseArticleUser({ payload }) {
-  const { idCloseArticle, dateCloseArticle } = payload;
-  const { dateOpenArticle, featuredArticle } = yield select(getDateOpenArticle);
-  if (featuredArticle) return;
-  const readTime = dateCloseArticle - dateOpenArticle;
+  const { idCloseArticle } = payload;
   const today = getDate();
   yield put(clearArticleData());
   try {
-    yield call(sendCloseArticleToServer, idCloseArticle, today, readTime);
+    yield call(sendCloseArticleToServer, idCloseArticle, today);
   } catch (e) {
     yield put(errorMessage(e));
   }
