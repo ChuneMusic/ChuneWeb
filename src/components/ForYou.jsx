@@ -74,12 +74,14 @@ class ForYou extends React.Component {
   }
 
   scrollDiv = () => {
-    if (window.innerHeight === 970) {
-      const block = document.getElementById('blockDiv');
-      const right = document.getElementById('right');
-      if (block.scrollTop >= right.offsetHeight - 835) {
-        const pxTop = block.scrollTop - right.offsetHeight + 74 + 770;
-        this.setState({ position: pxTop });
+    const block = document.getElementById('blockDiv');
+    const right = document.getElementById('right');
+    if (block.offsetHeight > right.offsetHeight) {
+      this.setState({ position: block.scrollTop });
+    } else {
+      const diff = block.scrollTop + block.offsetHeight - right.offsetHeight - 60;
+      if (diff > 0) {
+        this.setState({ position: diff });
       } else {
         this.setState({ position: 0 });
       }
