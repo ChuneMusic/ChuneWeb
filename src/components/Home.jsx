@@ -51,15 +51,18 @@ class Home extends React.Component {
 
 
   scrollDiv = () => {
-    if (window.innerHeight === 970) {
-      const block = document.getElementById('blockDiv');
-      const right = document.getElementById('right');
-      if (block.scrollTop >= right.offsetHeight - 74) {
-        const pxTop = block.scrollTop - right.offsetHeight + 74;
-        this.setState({ position: pxTop });
-      } else {
-        this.setState({ position: 0 });
-      }
+    const block = document.getElementById('blockDiv');
+    const right = document.getElementById('right');
+    console.log(block.scrollTop, ' scroll  block px');
+    // console.log(right.scrollTop, ' scroll right');
+    // console.log(right.offsetHeight, ' offsetHeight right px');
+    // console.log(right.offsetTop, ' offsetTop right px');
+    if (block.scrollTop >= right.offsetHeight - block.offsetTop) {
+      const pxTop = block.scrollTop - right.offsetHeight + block.offsetTop;
+      console.log(pxTop);
+      this.setState({ position: pxTop });
+    } else {
+      this.setState({ position: 0 });
     }
   }
 
