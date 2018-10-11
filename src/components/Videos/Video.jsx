@@ -56,7 +56,7 @@ class VideoCard extends React.Component {
         </StyledVideo.VideoDescriptionBlock>
         <StyledVideo.Video>
           <YouTube
-            videoId="M7lc1UVf-VE"
+            videoId={video.youtube_id}
             opts={opts}
             onPlay={this.onPlay}
             onPause={this.onPause}
