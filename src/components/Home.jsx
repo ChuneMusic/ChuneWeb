@@ -53,14 +53,10 @@ class Home extends React.Component {
   scrollDiv = () => {
     const block = document.getElementById('blockDiv');
     const right = document.getElementById('right');
-    console.log(block.scrollTop, ' scroll  block px');
-    // console.log(right.scrollTop, ' scroll right');
-    // console.log(right.offsetHeight, ' offsetHeight right px');
-    // console.log(right.offsetTop, ' offsetTop right px');
-    if (block.scrollTop >= right.offsetHeight - block.offsetTop) {
-      const pxTop = block.scrollTop - right.offsetHeight + block.offsetTop;
-      console.log(pxTop);
-      this.setState({ position: pxTop });
+    const featured = document.getElementById('featured');
+    const diff = block.scrollTop - featured.offsetHeight + block.offsetHeight - right.offsetHeight - 15;
+    if (diff > 0) {
+      this.setState({ position: diff });
     } else {
       this.setState({ position: 0 });
     }
@@ -83,7 +79,7 @@ class Home extends React.Component {
     return (
       <StyledContent.Wrapper onScroll={this.scrollDiv} id="blockDiv">
         <Styled.WrapperHomePage>
-          <Styled.FeaturedBlock>
+          <Styled.FeaturedBlock id="featured">
             <BasicArticleCardConnect featured={featured} />
           </Styled.FeaturedBlock>
           <StyledContent.Content>
