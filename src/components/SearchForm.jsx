@@ -10,7 +10,7 @@ import {
 } from 'prop-types';
 
 import { searchArtists, clearListSearch } from '../store/autosuggest/actions';
-
+import { suggestionsArtist } from '../store/learningMachine/actions';
 import '../styles/autosuggestion.css';
 
 class SearchForm extends React.Component {
@@ -35,8 +35,9 @@ class SearchForm extends React.Component {
   )
 
   onSuggestionSelected = (event, { suggestion }) => {
-    const { cancelSearch, history } = this.props;
+    const { cancelSearch, history, sendSuggestions } = this.props;
     cancelSearch();
+    sendSuggestions(suggestion.name);
     history.push(`/artist/${suggestion.name}`);
   };
 
@@ -106,7 +107,8 @@ const mapStateToProps = store => ({
 
 const mapActionsToProps = dispatch => bindActionCreators({
   searchListArtists: searchArtists,
-  clearListArtists: clearListSearch
+  clearListArtists: clearListSearch,
+  sendSuggestions: suggestionsArtist,
 }, dispatch);
 
 export const SearchFormConnect = withRouter(connect(mapStateToProps, mapActionsToProps)(SearchForm));
@@ -116,5 +118,6 @@ SearchForm.propTypes = {
   clearListArtists: func.isRequired,
   searchListArtists: func.isRequired,
   cancelSearch: func.isRequired,
-  history: objectOf(any).isRequired
+  history: objectOf(any).isRequired,
+  sendSuggestions: func.isRequired
 };

@@ -51,8 +51,13 @@ export const ArtistCardName = styled.p`
   font-weight: 500;
   letter-spacing: 0.3px;
   padding: 20px 5px 0 20px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 188px;
+  height: 40px;
   @media(max-width: 1080px) and (min-width: 320px) {
-    width: 180px;
+    width: 155px;
   }
 `;
 export const ArtistCardButton = styled.button`

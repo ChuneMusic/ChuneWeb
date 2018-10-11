@@ -10,6 +10,7 @@ import { RelatedArtistsConnect } from './RelatedArtists';
 import { FollowingConnect } from './Following';
 import { EmptyListConnect } from '../shared/EmptyList';
 import { Loading } from '../shared/Loading';
+import * as StyledContent from '../styled-components/content';
 
 const styles = () => ({
   initialMessage: {
@@ -25,30 +26,38 @@ const styles = () => ({
     }
   }
 });
-const Artists = ({
-  classes, artists, recommended,
-  artistsSuccess
-}) => {
-  if (!artistsSuccess) return <Loading />;
-  if (artists.length === 0) {
+class Artists extends React.Component {
+  componentWillMount() {
+    const htmlBlock = document.getElementsByTagName('html');
+    htmlBlock[0].style.overflow = 'hidden';
+  }
+
+  render() {
+    const {
+      classes, artists, recommended,
+      artistsSuccess
+    } = this.props;
+    if (!artistsSuccess) return <Loading />;
+    if (artists.length === 0) {
+      return (
+        <div>
+          <EmptyListConnect
+            messageOne="You didn't follow any artists yet."
+            messageTwo="Search to find and follow artists."
+          />
+        </div>
+      );
+    }
     return (
-      <div>
-        <EmptyListConnect
-          messageOne="You didn't follow any artists yet."
-          messageTwo="Search to find and follow artists."
-        />
-      </div>
+      <StyledContent.Wrapper>
+        <div className={classes.container}>
+          <RelatedArtistsConnect relatedArtists={recommended} />
+          <FollowingConnect artists={artists} />
+        </div>
+      </StyledContent.Wrapper>
     );
   }
-  return (
-    <div>
-      <div className={classes.container}>
-        <RelatedArtistsConnect relatedArtists={recommended} />
-        <FollowingConnect artists={artists} />
-      </div>
-    </div>
-  );
-};
+}
 
 const mapStateToProps = store => ({
   artists: store.dataArtists.artists,

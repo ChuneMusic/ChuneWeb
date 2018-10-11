@@ -18,7 +18,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
-import { GoogleIcon, FacebookIcon, TwitterIcon } from '../shared/SocialIcons';
+// import { GoogleIcon, FacebookIcon, TwitterIcon } from '../shared/SocialIcons';
 import { loginUser } from '../../store/auth/actions';
 import BackgroundPNG from '../../../assets/images/background.jpg';
 
@@ -346,12 +346,13 @@ class SignIn extends React.Component {
               <Link to="/signup" style={{ color: '#6200ee', fontWeight: 500 }}>
                 Sign Up
               </Link>
-                . Or
+              .
+              {/* . Or
               {' '}
               <Link to="/reset-password" style={{ color: '#6200ee', fontWeight: 500 }}>
                 Forgot Password
               </Link>
-                ?
+                ? */}
             </p>
           </div>
         </Paper>

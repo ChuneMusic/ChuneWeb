@@ -24,7 +24,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 
 import { SearchFormConnect } from './SearchForm';
-import { SpotifyIcon } from './shared/SocialIcons';
+// import { SpotifyIcon } from './shared/SocialIcons';
 import LogoSVG from '../../assets/images/Chune_Supply_Logotype_White.svg';
 import { logOutUser } from '../store/auth/actions';
 import * as StyledNavBar from './styled-components/navbar';
@@ -353,15 +353,15 @@ class Navbar extends React.Component {
   render() {
     const { drawerOpen } = this.state;
     const {
-      classes, logOut, profile,
-      searching
+      classes, logOut, searching,
+      // profile
     } = this.props;
     const { value, anchorEl } = this.state;
-    const spotify = profile.display_name ? profile.display_name : (
-      <a href="http://localhost:4001/auth/spotify">
-        Spotify
-      </a>
-    );
+    // const spotify = profile.display_name ? profile.display_name : (
+    //   <a href="http://localhost:4001/auth/spotify">
+    //     Spotify
+    //   </a>
+    // );
     const searchForm = <SearchFormConnect cancelSearch={this.toggleSearch} />;
     const normalMenu = (
       <header>
@@ -379,31 +379,31 @@ class Navbar extends React.Component {
                   <Drawer open={drawerOpen} onClose={this.toggleDrawer(false)}>
                     <div className={classes.drawerContainer} role="button" onClick={this.toggleDrawer(false)}>
                       <List component="section" className={classes.drawerMenu}>
-                        <ListItem button className={this.matchPath('/home') ? classes.activeListItem : classes.listItem}>
-                          <NavLink exact to="/home" activeClassName={classes.navLinkActive} className={classes.navLink}>
-                            Home
-                          </NavLink>
-                        </ListItem>
-                        <ListItem button className={this.matchPath('/for-you') ? classes.activeListItem : classes.listItem}>
-                          <NavLink exact to="/for-you" activeClassName={classes.navLinkActive} className={classes.navLink}>
-                            For You
-                          </NavLink>
-                        </ListItem>
-                        <ListItem button className={this.matchPath('/artists') ? classes.activeListItem : classes.listItem}>
-                          <NavLink exact to="/artists" activeClassName={classes.navLinkActive} className={classes.navLink}>
-                            Artists
-                          </NavLink>
-                        </ListItem>
-                        <ListItem button className={this.matchPath('/events') ? classes.activeListItem : classes.listItem}>
-                          <NavLink exact to="/events" activeClassName={classes.navLinkActive} className={classes.navLink}>
-                            Events
-                          </NavLink>
-                        </ListItem>
-                        <ListItem button className={this.matchPath('/blog') ? classes.activeListItem : classes.listItem}>
-                          <NavLink exact to="/blog" activeClassName={classes.navLinkActive} className={classes.navLink}>
-                            Blog
-                          </NavLink>
-                        </ListItem>
+                        <NavLink exact to="/home" activeClassName={classes.navLinkActive} className={classes.navLink}>
+                          <ListItem button className={this.matchPath('/home') ? classes.activeListItem : classes.listItem}>
+                              Home
+                          </ListItem>
+                        </NavLink>
+                        <NavLink exact to="/for-you" activeClassName={classes.navLinkActive} className={classes.navLink}>
+                          <ListItem button className={this.matchPath('/for-you') ? classes.activeListItem : classes.listItem}>
+                              For You
+                          </ListItem>
+                        </NavLink>
+                        <NavLink exact to="/artists" activeClassName={classes.navLinkActive} className={classes.navLink}>
+                          <ListItem button className={this.matchPath('/artists') ? classes.activeListItem : classes.listItem}>
+                              Artists
+                          </ListItem>
+                        </NavLink>
+                        <NavLink exact to="/events" activeClassName={classes.navLinkActive} className={classes.navLink}>
+                          <ListItem button className={this.matchPath('/events') ? classes.activeListItem : classes.listItem}>
+                              Events
+                          </ListItem>
+                        </NavLink>
+                        <NavLink exact to="/blog" activeClassName={classes.navLinkActive} className={classes.navLink}>
+                          <ListItem button className={this.matchPath('/blog') ? classes.activeListItem : classes.listItem}>
+                              Blog
+                          </ListItem>
+                        </NavLink>
                       </List>
                     </div>
                   </Drawer>

@@ -18,9 +18,24 @@ import { Loading } from './shared/Loading';
 import * as Styled from './styled-components/home';
 import * as StyledContent from './styled-components/content';
 import * as StyledArticle from './styled-components/article';
+import { clickTwitterPost } from '../store/learningMachine/actions';
 
 class ForYou extends React.Component {
+  state = {
+    position: 0
+  }
+
+  componentWillMount() {
+    const htmlBlock = document.getElementsByTagName('html');
+    htmlBlock[0].style.overflow = 'hidden';
+  }
+
   renderWaypoint = () => <Waypoint onEnter={this.loadMore} threshold={2.0} />
+
+  sendIdTweet = (id) => {
+    const { sendTweet } = this.props;
+    sendTweet(id);
+  }
 
   renderItems = contentFeed => contentFeed.map((item, index) => {
     const keyIndex = index + 1;
@@ -35,7 +50,7 @@ class ForYou extends React.Component {
       case 'tweet': {
         const str = item.embed_url.split('/');
         return (
-          <StyledArticle.ArticleTweet key={`${item.id}-tweet-${keyIndex}`}>
+          <StyledArticle.ArticleTweet key={`${item.id}-tweet-${keyIndex}`} onClick={() => this.sendIdTweet(item.id)}>
             <Tweet
               tweetId={str[str.length - 1]}
             />
@@ -58,11 +73,25 @@ class ForYou extends React.Component {
     loadMoreItems();
   }
 
+  scrollDiv = () => {
+    if (window.innerHeight === 970) {
+      const block = document.getElementById('blockDiv');
+      const right = document.getElementById('right');
+      if (block.scrollTop >= right.offsetHeight - 835) {
+        const pxTop = block.scrollTop - right.offsetHeight + 74 + 770;
+        this.setState({ position: pxTop });
+      } else {
+        this.setState({ position: 0 });
+      }
+    }
+  }
+
   render() {
     const {
       contentFeed, artistTracks, followArtists,
       fetchDataForYou
     } = this.props;
+    const { position } = this.state;
     if (followArtists) {
       return (
         <EmptyListConnect
@@ -74,21 +103,23 @@ class ForYou extends React.Component {
     if (contentFeed.length === 0) return <Loading />;
     if (contentFeed.length) {
       return (
-        <StyledContent.ForYouPadding>
-          <StyledContent.Content>
-            <StyledContent.LeftBlockContent>
-              {this.renderItems(contentFeed)}
-              {this.renderWaypoint()}
-              {fetchDataForYou ? (<Loading />) : (<Styled.WaypointBlock />)}
-            </StyledContent.LeftBlockContent>
-            <StyledContent.RightBlockContent>
-              <ChuneSupplyConnect
-                supplies={artistTracks}
-                foryou
-              />
-            </StyledContent.RightBlockContent>
-          </StyledContent.Content>
-        </StyledContent.ForYouPadding>
+        <StyledContent.Wrapper onScroll={this.scrollDiv} id="blockDiv">
+          <StyledContent.ForYouPadding>
+            <StyledContent.Content>
+              <StyledContent.LeftBlockContent>
+                {this.renderItems(contentFeed)}
+                {this.renderWaypoint()}
+                {fetchDataForYou ? (<Loading />) : (<Styled.WaypointBlock />)}
+              </StyledContent.LeftBlockContent>
+              <StyledContent.RightBlockContent id="right" pos={position}>
+                <ChuneSupplyConnect
+                  supplies={artistTracks}
+                  foryou
+                />
+              </StyledContent.RightBlockContent>
+            </StyledContent.Content>
+          </StyledContent.ForYouPadding>
+        </StyledContent.Wrapper>
       );
     }
     return (
@@ -101,7 +132,8 @@ class ForYou extends React.Component {
 }
 
 const mapActionsToProps = dispatch => bindActionCreators({
-  loadMoreItems: fethcMoreContentForYouPageUser
+  loadMoreItems: fethcMoreContentForYouPageUser,
+  sendTweet: clickTwitterPost
 }, dispatch);
 
 const mapStateToProps = store => ({
@@ -119,5 +151,6 @@ ForYou.propTypes = {
   artistTracks: arrayOf(any).isRequired,
   loadMoreItems: func.isRequired,
   followArtists: bool.isRequired,
-  fetchDataForYou: bool.isRequired
+  fetchDataForYou: bool.isRequired,
+  sendTweet: func.isRequired
 };
