@@ -396,7 +396,7 @@ class Landing extends React.Component {
         <div className={classes.heroSectionContainer}>
           <div className="heroUnit">
             <h3 className="heading">
-              Follow your favorite artists to receive a personalized music culture news feed
+              Follow your favorite artists and get a personalized music news feed
             </h3>
             <p className="subHeading">
               Read the latest news, watch the latest videos, listen to the latest albums, discover when your favorite artist is coming in town.
@@ -458,7 +458,8 @@ class Landing extends React.Component {
               <img src={VideoPNG} title="Videos" alt="Videos" />
             </div>
           </MediaQuery>
-          <MediaQuery maxWidth={1023}>
+          <MediaQu
+            Fery maxWidth={1023}>
             <div className="videoCardContainer">
               <img src={VideoMobilePNG} title="Videos" alt="Videos" />
             </div>

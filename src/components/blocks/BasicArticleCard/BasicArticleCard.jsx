@@ -71,7 +71,7 @@ class BasicArticleCard extends React.Component {
       }
       return (
         <Styled.FeaturedArticle
-          images={`http://api-stage.chunesupply.com/static/imgs/full/${e.image}`}
+          images={`https://api-stage.chunesupply.com/static/imgs/full/${e.image}`}
           key={`${e.id}-article-featured`}
           onClick={() => this.openFeaturedArticle(e.id, e.url, e.title)}
         >

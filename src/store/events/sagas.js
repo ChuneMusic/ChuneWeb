@@ -42,7 +42,7 @@ export function* getEvent({ payload }) {
   d.setDate(d.getDate() + 90);
   const endDate = d.toISOString().substring(0, 10);
   try {
-    const { error_msg } = yield call(getEventsToServer, id, startDate, endDate);
+    const { data } = yield call(getEventsToServer, id, startDate, endDate);
     yield put(successGetEventsArtist(data));
     yield put(push(`/event/${name}`));
   } catch (e) {
