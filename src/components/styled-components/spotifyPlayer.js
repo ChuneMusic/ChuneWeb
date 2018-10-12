@@ -22,10 +22,8 @@ export const SpotifyPlayer = styled.div`
 `;
 /* Left block */
 export const SpotifyLeftBlock = styled.div`
-  width: 30%;
-  min-width: 180px;
+  width: 280px;
   display: flex;
-  margin: 0 0 0 10px;
 `;
 export const SpotifyImageTrack = styled.img`
   width: 56px;
@@ -48,6 +46,7 @@ export const SpotifyTrackName = styled.h3`
   white-space: nowrap;
   font-family: 'Roboto';
   font-weight: bold;
+  width: 209px;
 `;
 export const SpotifyTrackArtist = styled.h4`
   font-size: 11px;
@@ -59,11 +58,11 @@ export const SpotifyTrackArtist = styled.h4`
   color: rgba(255, 255, 255, 0.6);
   font-family: 'Roboto';
   font-weight: 500;
+  width: 209px;
 `;
 /* Center block */
 export const SpotifyCenterBlock = styled.div`
-  width: 40%;
-  max-width: 722px;
+  width: 380px;
 `;
 export const SpotyfiControlBar = styled.div`
   display: flex;
@@ -81,12 +80,11 @@ export const SpotifyProgressBlock = styled.div`
 `;
 /* Right block */
 export const SpotifyRightBlock = styled.div`
-  width: 30%;
+  width: 280px;
   min-width: 180px;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  margin: 0 10px 0 0;
 `;
 export const SpotifySVG = styled.svg`
   width: 15px;
