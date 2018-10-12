@@ -59,16 +59,13 @@ class Tracks extends React.Component {
   }
 }
 
-const mapStateToProps = store => ({
-  trackStore: store.dataMusicPlayer.track
-});
 const mapActionsToProps = dispatch => bindActionCreators({
   sendHomeTrack: playMusicOfTopTrack,
   playTrackToSpotifyPlayer: playTrack,
   pauseTrackToSpotifyPlayer: pauseTrack
 }, dispatch);
 
-export const TracksConnect = connect(mapStateToProps, mapActionsToProps)(Tracks);
+export const TracksConnect = connect(null, mapActionsToProps)(Tracks);
 
 Tracks.propTypes = {
   track: objectOf(any).isRequired,

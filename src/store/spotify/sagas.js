@@ -15,7 +15,7 @@ import {
 import { successGetUserProfileSpotify, successGetDeviceID } from './actions';
 import { errorMessage } from '../error/actions';
 import { setUserTokenSpotify } from '../../utilities/APIConfig';
-import { getDataPlayer } from './helpers/selector';
+import { getDataPlayer, getArrayTracks } from './helpers/selector';
 
 export function* getUserProfile({ payload }) {
   const { token } = payload;
@@ -41,9 +41,11 @@ export function* getDeviceIDUser({ payload }) {
 export function* playTrackToSpotify({ payload }) {
   const { track } = payload;
   const { idTrack, timeStop } = yield select(getDataPlayer);
+  const { topTracks } = yield select(getArrayTracks);
+  const arrayTracks = topTracks.map(e => `spotify:track:${e.spotify_id}`);
   let time = 0;
   if (idTrack === track) time = timeStop;
-  yield call(spotifyPlayTrack, track, time);
+  yield call(spotifyPlayTrack, arrayTracks, track, time);
 }
 export function* pauseTrackToSpotify() {
   yield call(spotifyPauseTrack);

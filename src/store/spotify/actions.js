@@ -1,6 +1,7 @@
 import {
   GET_ACCESS_TOKEN_SPOTIFY, SUCCESS_GET_USER_PROFILE_SPOTIFY,
-  SUCCESS_GET_DEVICE_ID, PLAY_TRACK, PAUSE_TRACK, DATA_TRACK_FROM_SPOTIFY_SDK
+  SUCCESS_GET_DEVICE_ID, PLAY_TRACK, PAUSE_TRACK, DATA_TRACK_FROM_SPOTIFY_SDK,
+  DATA_STOP_TRACK_FROM_SPOTIFY_SDK
 } from './types';
 
 export const getAccessTokenSpotify = token => ({
@@ -22,7 +23,16 @@ export const playTrack = track => ({
 export const pauseTrack = () => ({
   type: PAUSE_TRACK
 });
-export const dataTrackFromSpotifySDK = (idTrack, timeStop) => ({
-  type: DATA_TRACK_FROM_SPOTIFY_SDK,
+export const dataStopTrackFromSpotifySDK = (idTrack, timeStop) => ({
+  type: DATA_STOP_TRACK_FROM_SPOTIFY_SDK,
   payload: { idTrack, timeStop }
+});
+export const dataTrackFromSpotifySDK = (artistsTrack, durationTrack, nameTrack, imageTrack) => ({
+  type: DATA_TRACK_FROM_SPOTIFY_SDK,
+  payload: {
+    artistsTrack,
+    durationTrack,
+    nameTrack,
+    imageTrack
+  }
 });

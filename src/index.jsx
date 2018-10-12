@@ -68,23 +68,21 @@ function PublicRoute({ component: Component, token, ...rest }) {
 class App extends React.PureComponent {
   render() {
     const {
-      token, modal, track,
-      playMusic, modalNews
+      token, modal,
+      modalNews, topTracks
     } = this.props;
     const newsModal = modalNews ? <ModalNewsConnect /> : null;
-    // const musicPlayer = modal ? (
-    //   <ModalBlockConnect
-    //     playlist={topTracks}
-    //     selectedRecordId={track}
-    //     playPause={playMusic}
-    //   />
-    // ) : null;
+    const musicPlayer = modal ? (
+      <ModalBlockConnect
+        playlist={topTracks}
+      />
+    ) : null;
     let navbar = false;
     if (token) navbar = true;
     return (
       <div>
         {newsModal}
-        <ModalBlockConnect />
+        {musicPlayer}
         { navbar ? <NavBarConnect /> : <GuestNavbarConnect />}
         <Switch>
           <PublicRoute exact path="/" token={token} component={LandingConnect} />
@@ -108,12 +106,10 @@ class App extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
+  topTracks: state.dataContent.topTracks,
   token: state.dataAuth.token,
-  modal: state.dataMusicPlayer.modal,
-  playlist: state.dataMusicPlayer.playlist,
-  track: state.dataMusicPlayer.track,
-  playMusic: state.dataMusicPlayer.playMusic,
-  modalNews: state.dataContent.modal
+  modalNews: state.dataContent.modal,
+  modal: state.dataSpotify.modal
 });
 
 const ChuneApp = withRouter(connect(mapStateToProps, null)(App));

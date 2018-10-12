@@ -37,13 +37,10 @@ class TopTracksChart extends React.Component {
   }
 }
 
-const mapStateToProps = store => ({
-  trackStore: store.dataMusicPlayer.track
-});
 const mapActionsToProps = dispatch => bindActionCreators({
 }, dispatch);
 
-export const TopTracksChartConnect = connect(mapStateToProps, mapActionsToProps)(TopTracksChart);
+export const TopTracksChartConnect = connect(null, mapActionsToProps)(TopTracksChart);
 
 TopTracksChart.propTypes = {
   tracks: arrayOf(any).isRequired,

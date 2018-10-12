@@ -3,7 +3,7 @@ import SpotifyWebApi from 'spotify-web-api-js';
 
 import { spotifyAPI } from '../../../utilities/APIConfig';
 import { store } from '../../index';
-import { dataTrackFromSpotifySDK } from '../actions';
+import { dataStopTrackFromSpotifySDK, dataTrackFromSpotifySDK } from '../actions';
 
 const spotifySDKPlaybackAPI = new SpotifyWebApi();
 export const spotyfiDevice = (token, deviceID) => {
@@ -13,9 +13,12 @@ export const spotyfiDevice = (token, deviceID) => {
   spotifySDKPlaybackAPI.setAccessToken(token);
   spotifySDKPlaybackAPI.transferMyPlayback(data, play);
 };
-export const spotifyPlayTrack = (track, time) => {
+export const spotifyPlayTrack = (arrayTracks, track, time) => {
   const dataPlay = {
-    uris: [`spotify:track:${track}`],
+    uris: arrayTracks,
+    offset: {
+      uri: `spotify:track:${track}`
+    },
     position_ms: time
   };
   spotifySDKPlaybackAPI.play(dataPlay);
@@ -36,7 +39,14 @@ export const getDeviceID = token => new Promise((resolve) => {
     player.addListener('account_error', ({ message }) => { console.error(message); });
     player.addListener('playback_error', ({ message }) => { console.error(message); });
     player.addListener('player_state_changed', (state) => {
-      if (state.paused) store.dispatch(dataTrackFromSpotifySDK(state.track_window.current_track.id, state.position));
+      const idTrack = state.track_window.current_track.id;
+      const positionTrack = state.position;
+      const artistsTrack = state.track_window.current_track.artists;
+      const duration = state.track_window.current_track.duration_ms;
+      const imageTrack = state.track_window.current_track.album.images[0];
+      const nameTrack = state.track_window.current_track.name;
+      if (state.paused === false) store.dispatch(dataTrackFromSpotifySDK(artistsTrack, duration, nameTrack, imageTrack));
+      if (state.paused) store.dispatch(dataStopTrackFromSpotifySDK(idTrack, positionTrack));
       console.log(state, 'hello');
     });
     player.addListener('ready', (data) => {

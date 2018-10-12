@@ -37,9 +37,13 @@
 .root{
   width: 150px !important;
   padding: 8px !important;
+  margin: 0 0 0 10px !important;
 }
 .thumb{
   background-color: #ffffff !important;
+}
+.thumb:active{
+  background-color: #bebebe !important;
 }
 .trackBefore{
   background-color: #ffffff !important;
@@ -47,6 +51,15 @@
 .trackAfter{
   background-color: rgba(255, 255, 255, .7) !important;
 }
+.rootProgressBar{
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 20px 0 0 0 !important;
+}
+.thumbProgressBar{
+  display: none !important;
+}
+
 
 @media(max-width: 1059px){
   .containerBlog{

@@ -1,12 +1,4 @@
-/* eslint no-unused-expressions: "off" */
-import styled, { injectGlobal } from 'styled-components';
-
-injectGlobal`
-  path {
-    fill:inherit;
-    stroke:inherit;
-  }
-`;
+import styled from 'styled-components';
 
 export const SpotifyWrapper = styled.div`
   width: 100vw;
@@ -80,11 +72,6 @@ export const SpotyfiControlBar = styled.div`
   width: 300px;
   margin: 0 auto;
 `;
-export const SpotifyControlButton = styled.img`
-  width: 15px;
-  height: 15px;
-  cursor: pointer;
-`;
 export const SpotifyProgressBlock = styled.div`
   display: flex;
   justify-content: space-between;
@@ -106,4 +93,7 @@ export const SpotifySVG = styled.svg`
   height: 15px;
   cursor: pointer;
   fill: #ffffff;
+  &:active{
+    fill: #bebebe;
+  }
 `;
