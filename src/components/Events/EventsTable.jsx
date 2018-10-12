@@ -11,7 +11,6 @@ import TableRow from '@material-ui/core/TableRow';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
 import { isNearByEvent } from '../../helpers/eventHelpers';
-import * as StyledContent from '../styled-components/content';
 
 const styles = () => ({
   root: {
@@ -170,41 +169,39 @@ class EventsTable extends React.Component {
       return venueStr;
     };
     return (
-      <StyledContent.Wrapper>
-        <Paper className={classes.tableContainer}>
-          <Table className={classes.table}>
-            <TableBody className={classes.tbody}>
-              {events.map(event => (
-                <TableRow key={event.id} className={isNearByEvent(event.venue, geolocation) ? classes.active : classes.normal}>
-                  <TableCell className={classes.eventDateCell}>
-                    <MediaQuery minWidth={1024}>
-                      { moment(event.datetime).format('dddd, MMMM Do, YYYY') }
-                    </MediaQuery>
-                    <MediaQuery maxWidth={1023}>
-                      { moment(event.datetime).format('MMM D, YYYY') }
-                    </MediaQuery>
-                  </TableCell>
-                  <TableCell className={classes.eventVenueCell}>
-                    <MediaQuery minWidth={1024}>
-                      {formatEventVenue(event.venue)}
-                    </MediaQuery>
-                    <MediaQuery maxWidth={1023}>
-                      {formatEventVenue(event.venue)}
-                    </MediaQuery>
-                  </TableCell>
-                  <TableCell className={classes.ticketCell}>
-                    {
-                      event.offers && event.offers[0]
-                        ? renderTicketLink(classes, event)
-                        : ''
-                    }
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Paper>
-      </StyledContent.Wrapper>
+      <Paper className={classes.tableContainer}>
+        <Table className={classes.table}>
+          <TableBody className={classes.tbody}>
+            {events.map(event => (
+              <TableRow key={event.id} className={isNearByEvent(event.venue, geolocation) ? classes.active : classes.normal}>
+                <TableCell className={classes.eventDateCell}>
+                  <MediaQuery minWidth={1024}>
+                    { moment(event.datetime).format('dddd, MMMM Do, YYYY') }
+                  </MediaQuery>
+                  <MediaQuery maxWidth={1023}>
+                    { moment(event.datetime).format('MMM D, YYYY') }
+                  </MediaQuery>
+                </TableCell>
+                <TableCell className={classes.eventVenueCell}>
+                  <MediaQuery minWidth={1024}>
+                    {formatEventVenue(event.venue)}
+                  </MediaQuery>
+                  <MediaQuery maxWidth={1023}>
+                    {formatEventVenue(event.venue)}
+                  </MediaQuery>
+                </TableCell>
+                <TableCell className={classes.ticketCell}>
+                  {
+                    event.offers && event.offers[0]
+                      ? renderTicketLink(classes, event)
+                      : ''
+                  }
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Paper>
     );
   }
 }
