@@ -37,7 +37,7 @@ class ChuneSupply extends React.PureComponent {
     let textHeader = (
       <div>
         <h4 className="title">CHUNE SUPPLY</h4>
-        <p className="subtitle">Updated every Wednesday, CHUNE SUPPLY is weekly supplying you with weekly fire.</p>
+        <p className="subtitle">Updated every Wednesday, CHUNE SUPPLY is our weekly playlist giving you the best new music across all genres</p>
       </div>
     );
     if (foryou) textHeader = <h4 className="title padding_recent">Top Tracks</h4>;

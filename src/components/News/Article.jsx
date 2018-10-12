@@ -43,7 +43,7 @@ class ArticleCard extends React.Component {
     const formattedDate = article.published_on ? timestampToDate(article.published_on) : '';
     return (
       <StyledArticle.Article>
-        <StyledArticle.ArticleImages images={`http://api-stage.chunesupply.com/static/imgs/thumbs/medium/${article.image}` || 'https://placeholder.com/344x194'} />
+        <StyledArticle.ArticleImages images={`https://api-stage.chunesupply.com/static/imgs/thumbs/medium/${article.image}` || 'https://placeholder.com/344x194'} />
         <StyledArticle.ArticleContainer>
           <StyledArticle.ArticleInfo>
             { `${formattedDate} · ` }
