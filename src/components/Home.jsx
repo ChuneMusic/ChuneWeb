@@ -117,12 +117,12 @@ class Home extends React.Component {
             <StyledContent.RightBlockContent id="right" pos={position}>
               <TopTracksChartConnect
                 tracks={topTracks}
-                single={false}
+                chunesupply="homeTopTracks"
               />
               <BasicSoundPlayer />
               <ChuneSupplyConnect
                 supplies={topChune}
-                foryou={false}
+                chunesupply="homeChuneSupply"
               />
             </StyledContent.RightBlockContent>
           </StyledContent.Content>

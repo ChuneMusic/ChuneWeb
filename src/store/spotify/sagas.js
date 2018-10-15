@@ -45,12 +45,30 @@ export function* playTrackToSpotify({ payload }) {
   const { track, chunesupply } = payload;
   const { idTrack, timeStop, deviceID } = yield select(getDataPlayer);
   let tracks = [];
-  if (chunesupply) {
-    const { topChune } = yield select(getArrayTracks);
-    tracks = topChune;
-  } else {
-    const { topTracks } = yield select(getArrayTracks);
-    tracks = topTracks;
+  switch (chunesupply) {
+    case 'homeTopTracks': {
+      const { topTracks } = yield select(getArrayTracks);
+      tracks = topTracks;
+      break;
+    }
+    case 'homeChuneSupply': {
+      const { topChune } = yield select(getArrayTracks);
+      tracks = topChune;
+      break;
+    }
+    case 'forYouTopTracks': {
+      const { topTracksForYou } = yield select(getArrayTracks);
+      tracks = topTracksForYou;
+      break;
+    }
+    case 'artistTopTracks': {
+      const { topTracksArtist } = yield select(getArrayTracks);
+      tracks = topTracksArtist;
+      break;
+    }
+    default:
+      tracks = [];
+      break;
   }
   const arrayTracks = tracks.map(e => `spotify:track:${e.spotify_id}`);
   let time = 0;

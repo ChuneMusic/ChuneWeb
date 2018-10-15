@@ -116,7 +116,7 @@ class ForYou extends React.Component {
               <StyledContent.RightBlockContent id="right" pos={position}>
                 <ChuneSupplyConnect
                   supplies={artistTracks}
-                  foryou
+                  chunesupply="forYouTopTracks"
                 />
               </StyledContent.RightBlockContent>
             </StyledContent.Content>
@@ -141,7 +141,7 @@ const mapActionsToProps = dispatch => bindActionCreators({
 const mapStateToProps = store => ({
   contentFeed: store.dataContent.contentFeedForYou,
   artists: store.dataArtists.artists,
-  artistTracks: store.dataContent.topChune,
+  artistTracks: store.dataContent.topTracksForYou,
   followArtists: store.dataContent.followArtists,
   fetchDataForYou: store.dataContent.fetchDataForYou
 });

@@ -196,7 +196,7 @@ class Artist extends React.Component {
               <TopTracksChartConnect
                 tracks={topTracksArtist}
                 artistName={artist.name}
-                single
+                chunesupply="artistTopTracks"
               />
             </StyledContent.RightBlockArtistContent>
           </StyledContent.Content>
@@ -210,7 +210,7 @@ const mapStateToProps = store => ({
   artist: store.dataArtists.artist,
   content: store.dataArtists.content,
   artists: store.dataArtists.artists,
-  topTracksArtist: store.dataContent.topTracks,
+  topTracksArtist: store.dataContent.topTracksArtist,
   db: store.dataSearch.db
 });
 

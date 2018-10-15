@@ -1,10 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {
-  any, arrayOf, bool,
-  string
-} from 'prop-types';
+import { any, arrayOf, string } from 'prop-types';
 
 import * as StyledMusic from '../../styled-components/music';
 import Up from '../../../../assets/images/chevron-arrow-up.svg';
@@ -19,7 +16,7 @@ class TopTracksChart extends React.Component {
   openPlaylist = () => this.setState({ openList: !this.state.openList })
 
   render() {
-    const { tracks, single, artistName } = this.props;
+    const { tracks, chunesupply, artistName } = this.props;
     const { openList } = this.state;
     const tracksSpotify = tracks.map((e, index) => {
       if (index > 9 && openList === false) return null;
@@ -28,16 +25,15 @@ class TopTracksChart extends React.Component {
           track={e}
           key={e.id}
           index={index}
-          single={single}
+          chunesupply={chunesupply}
           artistName={artistName}
-          chunesupply={false} // false - indicates that the playlist is playing top tracks, but not chune supply
         />
       );
     });
     return (
       <StyledMusic.MusicBlock>
         <StyledMusic.MusicTitle>
-          {single ? 'Top Tracks' : 'Top Tracks Chart'}
+          {chunesupply === 'homeTopTracks' ? 'Top Tracks' : 'Top Tracks Chart'}
         </StyledMusic.MusicTitle>
         {tracksSpotify}
         <StyledMusic.MusicArrow onClick={this.openPlaylist} src={openList ? Up : Down} />
@@ -53,7 +49,7 @@ export const TopTracksChartConnect = connect(null, mapActionsToProps)(TopTracksC
 
 TopTracksChart.propTypes = {
   tracks: arrayOf(any).isRequired,
-  single: bool.isRequired,
+  chunesupply: string.isRequired,
   artistName: string,
 };
 

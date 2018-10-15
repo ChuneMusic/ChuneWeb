@@ -36,13 +36,10 @@ class Tracks extends React.Component {
   }
 
   play = (id, track) => {
-    const {
-      single, sendHomeTrack, playTrackToSpotifyPlayer,
-      chunesupply
-    } = this.props;
+    const { sendHomeTrack, playTrackToSpotifyPlayer, chunesupply } = this.props;
     playTrackToSpotifyPlayer(track, chunesupply);
     this.setState({ isPlaying: true });
-    if (single) {
+    if (chunesupply === 'artistTopTracks') {
       return null;
     }
     return sendHomeTrack(id);
@@ -99,11 +96,10 @@ Tracks.propTypes = {
   track: objectOf(any).isRequired,
   sendHomeTrack: func.isRequired,
   index: number.isRequired,
-  single: bool.isRequired,
+  chunesupply: string.isRequired,
   playTrackToSpotifyPlayer: func.isRequired,
   pauseTrackToSpotifyPlayer: func.isRequired,
   artistName: string,
-  chunesupply: bool.isRequired,
   idTrack: string.isRequired,
   pausedTrack: bool.isRequired
 };

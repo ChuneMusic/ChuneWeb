@@ -40,7 +40,6 @@ class Player extends React.Component {
     this.setState({ intervalID });
   }
 
-
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.durationTrack !== prevState.duration) {
       return { duration: nextProps.durationTrack, positionsMs: nextProps.timeStop };
@@ -57,13 +56,14 @@ class Player extends React.Component {
     const { durationTrack } = this.props;
     const { positionsMs } = this.state;
     const pos = positionsMs + 1000;
+    console.log(pos, 'ms');
     if (pos <= durationTrack) this.setState({ positionsMs: pos });
   }
 
-  playPauseTrack = (pausedTrack) => {
+  playPauseTrack = () => {
     const {
       setPlayTrack, setPauseTrack, idTrack,
-      chunesupply
+      chunesupply, pausedTrack
     } = this.props;
     if (pausedTrack) {
       setPlayTrack(idTrack, chunesupply);
@@ -148,7 +148,7 @@ class Player extends React.Component {
                   <use xlinkHref={`${Prev}#Prev`} />
                 </StyledSpotify.SpotifySVG>
               </StyledSpotify.SpotifyButton>
-              <StyledSpotify.SpotifyButton onClick={() => this.playPauseTrack(pausedTrack)}>
+              <StyledSpotify.SpotifyButton onClick={this.playPauseTrack}>
                 <StyledSpotify.SpotifySVG viewBox="0 0 512 512">
                   <use xlinkHref={pausedTrack ? `${Play}#Play` : `${Pause}#Pause`} />
                 </StyledSpotify.SpotifySVG>
@@ -244,5 +244,5 @@ Player.propTypes = {
   setPlayTrack: func.isRequired,
   setPauseTrack: func.isRequired,
   idTrack: string.isRequired,
-  chunesupply: bool.isRequired
+  chunesupply: string.isRequired
 };

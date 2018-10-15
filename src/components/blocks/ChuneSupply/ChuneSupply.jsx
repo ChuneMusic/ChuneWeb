@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Paper from '@material-ui/core/Paper';
-import { arrayOf, any, bool } from 'prop-types';
+import { arrayOf, any, string } from 'prop-types';
 
 import * as StyledMusic from '../../styled-components/music';
 import Up from '../../../../assets/images/chevron-arrow-up.svg';
@@ -18,11 +18,11 @@ class ChuneSupply extends React.PureComponent {
   openPlaylist = () => this.setState({ openList: !this.state.openList })
 
   render() {
-    const { supplies, foryou } = this.props;
+    const { supplies, chunesupply } = this.props;
     const { openList } = this.state;
     const chunes = supplies.map((e, index) => {
       if (index > 9 && openList === false) return null;
-      return <ChuneConnect supply={e} key={e.id} foryou={foryou} />;
+      return <ChuneConnect supply={e} key={e.id} chunesupply={chunesupply} />;
     });
     let textHeader = (
       <div>
@@ -30,7 +30,7 @@ class ChuneSupply extends React.PureComponent {
         <p className="subtitle">Updated every Wednesday, CHUNE SUPPLY is weekly supplying you with weekly fire.</p>
       </div>
     );
-    if (foryou) textHeader = <h4 className="title padding_recent">Top Tracks</h4>;
+    if (chunesupply) textHeader = <h4 className="title padding_recent">Top Tracks</h4>;
     return (
       <div className="chuneSupplyWrapper">
         <Paper className="chuneSupplyPaper">
@@ -51,6 +51,6 @@ const mapActionsToProps = dispatch => bindActionCreators({
 export const ChuneSupplyConnect = connect(null, mapActionsToProps)(ChuneSupply);
 
 ChuneSupply.propTypes = {
-  foryou: bool.isRequired,
+  chunesupply: string.isRequired,
   supplies: arrayOf(any).isRequired
 };

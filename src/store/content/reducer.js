@@ -9,6 +9,8 @@ export const initState = {
   quantityForYou: 0,
   topTracks: [],
   topChune: [],
+  topTracksForYou: [],
+  topTracksArtist: [],
   url: '',
   title: '',
   modal: false,
@@ -26,7 +28,7 @@ const successGetContentHomePageUser = (state, { featured, contentFeedHome }) => 
 });
 const successGetContentForYouPageUser = (state, { artistTracksForYou, contentFeedForYou }) => ({
   ...state,
-  topChune: artistTracksForYou,
+  topTracksForYou: artistTracksForYou,
   contentFeedForYou,
   quantityForYou: 10
 });
@@ -48,7 +50,7 @@ const successfethcMoreContentForYou = (state, { artistTracksForYou, contentFeedF
   const quantity = state.quantityForYou + 10;
   return ({
     ...state,
-    artistTracksForYou,
+    topTracksForYou: artistTracksForYou,
     contentFeedForYou: content,
     quantityForYou: quantity,
     fetchDataForYou: false
@@ -76,7 +78,7 @@ const closeArticleUrl = (state, { modal }) => ({
   modal
 });
 const noFollowArtists = (state, { followArtists }) => ({ ...state, followArtists });
-const successGetTracksArtist = (state, { tracks }) => ({ ...state, topTracks: tracks });
+const successGetTracksArtist = (state, { tracks }) => ({ ...state, topTracksArtist: tracks });
 
 const handlers = {
   [TYPES.SUCCESS_GET_CONTENT_HOME_PAGE_USER]: successGetContentHomePageUser,
