@@ -29,7 +29,7 @@ export const MusicTrack = styled.div`
 `;
 export const MusicNumber = styled.p`
   font-size: 16px;
-  color: rgba(0, 0, 0, 0.54);
+  color: ${props => (props.isPlaying ? '#6200ee' : 'rgba(0, 0, 0, 0.54)')};
   width: 20px;
 `;
 export const MusicSoundTitle = styled.div`

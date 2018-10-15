@@ -8,9 +8,9 @@ export const successGetUserArtists = (artists, recommended) => ({
   type: SUCCESS_GET_USER_ARTISTS,
   payload: { artists, recommended }
 });
-export const successGetInfoArtist = (artist, content, tracks) => ({
+export const successGetInfoArtist = (artist, content) => ({
   type: SUCCESS_GET_INFO_ARTIST,
-  payload: { artist, content, tracks }
+  payload: { artist, content }
 });
 export const followArtist = name => ({
   type: FOLLOW_ARTIST,

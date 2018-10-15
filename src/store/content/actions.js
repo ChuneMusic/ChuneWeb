@@ -2,7 +2,8 @@ import {
   SUCCESS_GET_CONTENT_HOME_PAGE_USER, FETCH_MORE_CONTENT_HOME_PAGE_USER,
   SUCCESS_GET_TOP_TRACKS, SUCCESS_GET_CHUNE_SUPPLY, OPEN_ARTICLE_URL,
   SUCCESS_GET_CONTENT_FORYOU_PAGE_USER, FETCH_MORE_CONTENT_FORYOU_PAGE_USER, CLOSE_ARTICLE_URL,
-  SUCCESS_FETCH_CONTENT_HOME, SUCCESS_FETCH_CONTENT_FORYOU, NO_FOLLOW_ARTISTS
+  SUCCESS_FETCH_CONTENT_HOME, SUCCESS_FETCH_CONTENT_FORYOU, NO_FOLLOW_ARTISTS,
+  SUCCESS_GET_TRACKS_ARTIST
 } from './types';
 
 export const successGetContentHomePageUser = (featured, contentFeedHome) => ({
@@ -51,4 +52,8 @@ export const closeArticleUrl = modal => ({
 export const noFollowArtists = followArtists => ({
   type: NO_FOLLOW_ARTISTS,
   payload: { followArtists }
+});
+export const successGetTracksArtist = tracks => ({
+  type: SUCCESS_GET_TRACKS_ARTIST,
+  payload: { tracks }
 });

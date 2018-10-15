@@ -210,7 +210,7 @@ const mapStateToProps = store => ({
   artist: store.dataArtists.artist,
   content: store.dataArtists.content,
   artists: store.dataArtists.artists,
-  topTracksArtist: store.dataArtists.tracks,
+  topTracksArtist: store.dataContent.topTracks,
   db: store.dataSearch.db
 });
 

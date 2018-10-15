@@ -16,14 +16,20 @@ export const initState = {
   pausedTrack: true,
   volume: 50,
   repeat: false,
-  shuffle: false
+  shuffle: false,
+  chunesupply: false
 };
 
 const getAccessTokenSpotify = (state, { token }) => ({ ...state, token });
 const successGetUserProfileSpotify = (state, { profile, token }) => ({ ...state, profile, token });
 const successGetDeviceID = (state, { deviceID }) => ({ ...state, deviceID });
 
-const playTrack = (state, { track }) => ({ ...state, track, modal: true });
+const playTrack = (state, { track, chunesupply }) => ({
+  ...state,
+  track,
+  modal: true,
+  chunesupply
+});
 const pauseTrack = state => ({ ...state });
 const dataStopTrackFromSpotifySDK = (state, { idTrack, timeStop, pausedTrack }) => ({
   ...state,

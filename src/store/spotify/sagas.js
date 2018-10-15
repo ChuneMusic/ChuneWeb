@@ -42,10 +42,17 @@ export function* getDeviceIDUser({ payload }) {
   }
 }
 export function* playTrackToSpotify({ payload }) {
-  const { track } = payload;
+  const { track, chunesupply } = payload;
   const { idTrack, timeStop, deviceID } = yield select(getDataPlayer);
-  const { topTracks } = yield select(getArrayTracks);
-  const arrayTracks = topTracks.map(e => `spotify:track:${e.spotify_id}`);
+  let tracks = [];
+  if (chunesupply) {
+    const { topChune } = yield select(getArrayTracks);
+    tracks = topChune;
+  } else {
+    const { topTracks } = yield select(getArrayTracks);
+    tracks = topTracks;
+  }
+  const arrayTracks = tracks.map(e => `spotify:track:${e.spotify_id}`);
   let time = 0;
   if (idTrack === track) time = timeStop;
   yield call(spotifyPlayTrack, arrayTracks, track, time, deviceID);

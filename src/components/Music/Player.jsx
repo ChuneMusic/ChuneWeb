@@ -61,9 +61,12 @@ class Player extends React.Component {
   }
 
   playPauseTrack = (pausedTrack) => {
-    const { setPlayTrack, setPauseTrack, idTrack } = this.props;
+    const {
+      setPlayTrack, setPauseTrack, idTrack,
+      chunesupply
+    } = this.props;
     if (pausedTrack) {
-      setPlayTrack(idTrack);
+      setPlayTrack(idTrack, chunesupply);
       const intervalID = setInterval(this.timer, 1000);
       this.setState({ intervalID });
     } else {
@@ -209,7 +212,8 @@ const mapStateToProps = store => ({
   durationTrack: store.dataSpotify.durationTrack,
   idTrack: store.dataSpotify.idTrack,
   pausedTrack: store.dataSpotify.pausedTrack,
-  timeStop: store.dataSpotify.timeStop
+  timeStop: store.dataSpotify.timeStop,
+  chunesupply: store.dataSpotify.chunesupply
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
@@ -239,5 +243,6 @@ Player.propTypes = {
   setPrevTrack: func.isRequired,
   setPlayTrack: func.isRequired,
   setPauseTrack: func.isRequired,
-  idTrack: string.isRequired
+  idTrack: string.isRequired,
+  chunesupply: bool.isRequired
 };

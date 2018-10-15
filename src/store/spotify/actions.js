@@ -18,9 +18,9 @@ export const successGetDeviceID = deviceID => ({
   type: SUCCESS_GET_DEVICE_ID,
   payload: { deviceID }
 });
-export const playTrack = track => ({
+export const playTrack = (track, chunesupply) => ({
   type: PLAY_TRACK,
-  payload: { track }
+  payload: { track, chunesupply }
 });
 export const pauseTrack = () => ({
   type: PAUSE_TRACK

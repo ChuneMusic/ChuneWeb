@@ -23,12 +23,21 @@ class TopTracksChart extends React.Component {
     const { openList } = this.state;
     const tracksSpotify = tracks.map((e, index) => {
       if (index > 9 && openList === false) return null;
-      return <TracksConnect track={e} key={e.id} index={index} single={single} artistName={artistName} />;
+      return (
+        <TracksConnect
+          track={e}
+          key={e.id}
+          index={index}
+          single={single}
+          artistName={artistName}
+          chunesupply={false} // false - indicates that the playlist is playing top tracks, but not chune supply
+        />
+      );
     });
     return (
       <StyledMusic.MusicBlock>
         <StyledMusic.MusicTitle>
-          {single ? 'Top Tracks' : 'TOP TRACKS CHART'}
+          {single ? 'Top Tracks' : 'Top Tracks Chart'}
         </StyledMusic.MusicTitle>
         {tracksSpotify}
         <StyledMusic.MusicArrow onClick={this.openPlaylist} src={openList ? Up : Down} />

@@ -141,7 +141,7 @@ const mapActionsToProps = dispatch => bindActionCreators({
 const mapStateToProps = store => ({
   contentFeed: store.dataContent.contentFeedForYou,
   artists: store.dataArtists.artists,
-  artistTracks: store.dataContent.artistTracksForYou,
+  artistTracks: store.dataContent.topChune,
   followArtists: store.dataContent.followArtists,
   fetchDataForYou: store.dataContent.fetchDataForYou
 });

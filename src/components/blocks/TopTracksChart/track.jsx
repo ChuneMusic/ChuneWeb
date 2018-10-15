@@ -17,9 +17,30 @@ class Tracks extends React.Component {
     isPlaying: false
   }
 
+  componentWillMount() {
+    const { track, idTrack, pausedTrack } = this.props;
+    if (idTrack === track.spotify_id && pausedTrack === false) {
+      this.setState({ isPlaying: true });
+    } else {
+      this.setState({ isPlaying: false });
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { track } = this.props;
+    if (nextProps.idTrack === track.spotify_id && nextProps.pausedTrack === false) {
+      this.setState({ isPlaying: true });
+    } else {
+      this.setState({ isPlaying: false });
+    }
+  }
+
   play = (id, track) => {
-    const { single, sendHomeTrack, playTrackToSpotifyPlayer } = this.props;
-    playTrackToSpotifyPlayer(track);
+    const {
+      single, sendHomeTrack, playTrackToSpotifyPlayer,
+      chunesupply
+    } = this.props;
+    playTrackToSpotifyPlayer(track, chunesupply);
     this.setState({ isPlaying: true });
     if (single) {
       return null;
@@ -37,8 +58,10 @@ class Tracks extends React.Component {
     const { track, index, artistName } = this.props;
     const { isPlaying } = this.state;
     return (
-      <StyledMusic.MusicTrack key={track.id}>
-        <StyledMusic.MusicNumber>{index + 1}</StyledMusic.MusicNumber>
+      <StyledMusic.MusicTrack key={track.id} isPlaying={isPlaying}>
+        <StyledMusic.MusicNumber isPlaying={isPlaying}>
+          {index + 1}
+        </StyledMusic.MusicNumber>
         <StyledMusic.MusicSoundTitle>
           <StyledMusic.MusicSoundName>
             {track.title}
@@ -59,13 +82,18 @@ class Tracks extends React.Component {
   }
 }
 
+const mapStateToProps = store => ({
+  pausedTrack: store.dataSpotify.pausedTrack,
+  idTrack: store.dataSpotify.idTrack
+});
+
 const mapActionsToProps = dispatch => bindActionCreators({
   sendHomeTrack: playMusicOfTopTrack,
   playTrackToSpotifyPlayer: playTrack,
   pauseTrackToSpotifyPlayer: pauseTrack
 }, dispatch);
 
-export const TracksConnect = connect(null, mapActionsToProps)(Tracks);
+export const TracksConnect = connect(mapStateToProps, mapActionsToProps)(Tracks);
 
 Tracks.propTypes = {
   track: objectOf(any).isRequired,
@@ -75,6 +103,9 @@ Tracks.propTypes = {
   playTrackToSpotifyPlayer: func.isRequired,
   pauseTrackToSpotifyPlayer: func.isRequired,
   artistName: string,
+  chunesupply: bool.isRequired,
+  idTrack: string.isRequired,
+  pausedTrack: bool.isRequired
 };
 
 Tracks.defaultProps = {
