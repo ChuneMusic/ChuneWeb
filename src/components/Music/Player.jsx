@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Slider from '@material-ui/lab/Slider';
 import {
-  string, arrayOf,
-  any, number, objectOf
+  string, arrayOf, func,
+  any, number, objectOf,
+  bool
 } from 'prop-types';
 
 import * as StyledSpotify from '../styled-components/spotifyPlayer';
@@ -16,13 +17,22 @@ import VolumeOn from '../../../assets/images/control/volumeOn.svg';
 import VolumeOff from '../../../assets/images/control/volumeOff.svg';
 import Prev from '../../../assets/images/control/prev.svg';
 import Repeat from '../../../assets/images/control/repeat.svg';
+import {
+  seekToPositionInCurrentlyPlayingTrack, setVolumeForPlayback,
+  toggleShuffleForPlayback, setRepeatModeOnPlayback, skipPlaybackToNextTrack,
+  skipPlaybackToPreviousTrack,
+  playTrack,
+  pauseTrack
+} from '../../store/spotify/actions';
 
 class Player extends React.Component {
-  state={
+  state = {
     volume: 5,
     positionsMs: 0,
     intervalID: null,
-    duration: 0
+    duration: 0,
+    shuffleButton: false,
+    repeatButton: false
   }
 
   componentDidMount() {
@@ -33,7 +43,7 @@ class Player extends React.Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.durationTrack !== prevState.duration) {
-      return { duration: nextProps.durationTrack, positionsMs: 0 };
+      return { duration: nextProps.durationTrack, positionsMs: nextProps.timeStop };
     }
     return prevState;
   }
@@ -50,14 +60,54 @@ class Player extends React.Component {
     if (pos <= durationTrack) this.setState({ positionsMs: pos });
   }
 
+  playPauseTrack = (pausedTrack) => {
+    const { setPlayTrack, setPauseTrack, idTrack } = this.props;
+    if (pausedTrack) {
+      setPlayTrack(idTrack);
+      const intervalID = setInterval(this.timer, 1000);
+      this.setState({ intervalID });
+    } else {
+      const { intervalID } = this.state;
+      clearInterval(intervalID);
+      setPauseTrack();
+    }
+  }
+
   handleChangeVolume = (event, value) => {
+    const { setVolumePlayer } = this.props;
+    setVolumePlayer(value * 10);
     this.setState({ volume: value });
   }
 
+  handleChangeProgressBar = (event, value) => {
+    const { setPositionTrack } = this.props;
+    setPositionTrack(Math.round(value));
+    this.setState({ positionsMs: Math.round(value) });
+  }
+
+  handleChangeShuffle = () => {
+    const { shuffleButton } = this.state;
+    const { setShuffle } = this.props;
+    setShuffle(!shuffleButton);
+    this.setState({ shuffleButton: !shuffleButton });
+  }
+
+  handleChangeRepeat = () => {
+    const { repeatButton } = this.state;
+    const { setRepeat } = this.props;
+    setRepeat(!repeatButton);
+    this.setState({ repeatButton: !repeatButton });
+  }
+
   render() {
-    const { volume, positionsMs, duration } = this.state;
-    const { artistsTrack, nameTrack, imageTrack } = this.props;
-    const musicPlaying = false;
+    const {
+      volume, positionsMs, duration,
+      shuffleButton, repeatButton
+    } = this.state;
+    const {
+      artistsTrack, nameTrack, imageTrack,
+      pausedTrack, setNextTrack, setPrevTrack
+    } = this.props;
     let artists = '';
     let arr = null;
     if (artistsTrack.length <= 3 && artistsTrack.length > 0) {
@@ -69,7 +119,6 @@ class Player extends React.Component {
       arr.length = 3;
       artists = `${arr.join(' & ')} and other`;
     }
-    console.log(positionsMs, 'ms');
     return (
       <StyledSpotify.SpotifyWrapper>
         <StyledSpotify.SpotifyPlayer>
@@ -86,21 +135,31 @@ class Player extends React.Component {
           </StyledSpotify.SpotifyLeftBlock>
           <StyledSpotify.SpotifyCenterBlock>
             <StyledSpotify.SpotyfiControlBar>
-              <StyledSpotify.SpotifySVG viewBox="0 0 512 512">
-                <use xlinkHref={`${Shuffle}#Shuffle`} />
-              </StyledSpotify.SpotifySVG>
-              <StyledSpotify.SpotifySVG viewBox="0 0 512 512">
-                <use xlinkHref={`${Prev}#Prev`} />
-              </StyledSpotify.SpotifySVG>
-              <StyledSpotify.SpotifySVG viewBox="0 0 512 512">
-                <use xlinkHref={musicPlaying ? `${Pause}#Pause` : `${Play}#Play`} />
-              </StyledSpotify.SpotifySVG>
-              <StyledSpotify.SpotifySVG viewBox="0 0 512 512">
-                <use xlinkHref={`${Next}#Next`} />
-              </StyledSpotify.SpotifySVG>
-              <StyledSpotify.SpotifySVG viewBox="0 0 512 512">
-                <use xlinkHref={`${Repeat}#Repeat`} />
-              </StyledSpotify.SpotifySVG>
+              <StyledSpotify.SpotifyButton onClick={this.handleChangeShuffle}>
+                <StyledSpotify.SpotifyShuffleSVG viewBox="0 0 512 512" active={shuffleButton}>
+                  <use xlinkHref={`${Shuffle}#Shuffle`} />
+                </StyledSpotify.SpotifyShuffleSVG>
+              </StyledSpotify.SpotifyButton>
+              <StyledSpotify.SpotifyButton onClick={setPrevTrack}>
+                <StyledSpotify.SpotifySVG viewBox="0 0 512 512">
+                  <use xlinkHref={`${Prev}#Prev`} />
+                </StyledSpotify.SpotifySVG>
+              </StyledSpotify.SpotifyButton>
+              <StyledSpotify.SpotifyButton onClick={() => this.playPauseTrack(pausedTrack)}>
+                <StyledSpotify.SpotifySVG viewBox="0 0 512 512">
+                  <use xlinkHref={pausedTrack ? `${Play}#Play` : `${Pause}#Pause`} />
+                </StyledSpotify.SpotifySVG>
+              </StyledSpotify.SpotifyButton>
+              <StyledSpotify.SpotifyButton onClick={setNextTrack}>
+                <StyledSpotify.SpotifySVG viewBox="0 0 512 512">
+                  <use xlinkHref={`${Next}#Next`} />
+                </StyledSpotify.SpotifySVG>
+              </StyledSpotify.SpotifyButton>
+              <StyledSpotify.SpotifyButton onClick={this.handleChangeRepeat}>
+                <StyledSpotify.SpotifyRepeatSVG viewBox="0 0 512 512" active={repeatButton}>
+                  <use xlinkHref={`${Repeat}#Repeat`} />
+                </StyledSpotify.SpotifyRepeatSVG>
+              </StyledSpotify.SpotifyButton>
             </StyledSpotify.SpotyfiControlBar>
             <StyledSpotify.SpotifyProgressBlock>
               <Slider
@@ -108,6 +167,7 @@ class Player extends React.Component {
                 aria-labelledby="label"
                 min={0}
                 max={duration}
+                onChange={this.handleChangeProgressBar}
                 classes={{
                   root: 'rootProgressBar',
                   thumb: 'thumbProgressBar',
@@ -146,10 +206,21 @@ const mapStateToProps = store => ({
   artistsTrack: store.dataSpotify.artistsTrack,
   nameTrack: store.dataSpotify.nameTrack,
   imageTrack: store.dataSpotify.imageTrack,
-  durationTrack: store.dataSpotify.durationTrack
+  durationTrack: store.dataSpotify.durationTrack,
+  idTrack: store.dataSpotify.idTrack,
+  pausedTrack: store.dataSpotify.pausedTrack,
+  timeStop: store.dataSpotify.timeStop
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
+  setPositionTrack: seekToPositionInCurrentlyPlayingTrack,
+  setVolumePlayer: setVolumeForPlayback,
+  setShuffle: toggleShuffleForPlayback,
+  setRepeat: setRepeatModeOnPlayback,
+  setNextTrack: skipPlaybackToNextTrack,
+  setPrevTrack: skipPlaybackToPreviousTrack,
+  setPlayTrack: playTrack,
+  setPauseTrack: pauseTrack
 }, dispatch);
 
 export const PlayerConnect = connect(mapStateToProps, mapActionsToProps)(Player);
@@ -158,5 +229,15 @@ Player.propTypes = {
   artistsTrack: arrayOf(any).isRequired,
   imageTrack: objectOf(any).isRequired,
   nameTrack: string.isRequired,
-  durationTrack: number.isRequired
+  durationTrack: number.isRequired,
+  setVolumePlayer: func.isRequired,
+  setPositionTrack: func.isRequired,
+  setShuffle: func.isRequired,
+  pausedTrack: bool.isRequired,
+  setRepeat: func.isRequired,
+  setNextTrack: func.isRequired,
+  setPrevTrack: func.isRequired,
+  setPlayTrack: func.isRequired,
+  setPauseTrack: func.isRequired,
+  idTrack: string.isRequired
 };

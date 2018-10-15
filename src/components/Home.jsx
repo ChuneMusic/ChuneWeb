@@ -16,7 +16,6 @@ import {
 import { VideoCardConnect } from './Videos/Video';
 import { ArticleCardConnect } from './News/Article';
 import { getAccessTokenSpotify } from '../store/spotify/actions';
-import { playMusicPlayer, pauseMusicPlayer } from '../store/musicPlayer/actions';
 import { fethcMoreContentHomePageUser } from '../store/content/actions';
 import { Loading } from './shared/Loading';
 import * as Styled from './styled-components/home';
@@ -145,8 +144,6 @@ const mapStateToProps = store => ({
 
 const mapActionsToProps = dispatch => bindActionCreators({
   getTokenSpotify: getAccessTokenSpotify,
-  playMusic: playMusicPlayer,
-  pauseMusic: pauseMusicPlayer,
   loadMoreItems: fethcMoreContentHomePageUser,
   sendTweet: clickTwitterPost
 }, dispatch);

@@ -86,6 +86,12 @@ export const SpotifyRightBlock = styled.div`
   flex-direction: row;
   justify-content: flex-end;
 `;
+export const SpotifyButton = styled.button`
+  background: none;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+`;
 export const SpotifySVG = styled.svg`
   width: 15px;
   height: 15px;
@@ -93,5 +99,23 @@ export const SpotifySVG = styled.svg`
   fill: #ffffff;
   &:active{
     fill: #bebebe;
+  }
+`;
+export const SpotifyShuffleSVG = styled.svg`
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+  fill: ${props => (props.active ? '#bebebe' : '#ffffff')} ;
+  &:active{
+    fill: ${props => (props.active ? '#ffffff' : '#bebebe')} ;
+  }
+`;
+export const SpotifyRepeatSVG = styled.svg`
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+  fill: ${props => (props.active ? '#bebebe' : '#ffffff')} ;
+  &:active{
+    fill: ${props => (props.active ? '#ffffff' : '#bebebe')} ;
   }
 `;

@@ -9,11 +9,10 @@ const spotifySDKPlaybackAPI = new SpotifyWebApi();
 export const spotyfiDevice = (token, deviceID) => {
   const data = [deviceID];
   const play = { play: false };
-  console.log(token, deviceID, 'token, device');
   spotifySDKPlaybackAPI.setAccessToken(token);
   spotifySDKPlaybackAPI.transferMyPlayback(data, play);
 };
-export const spotifyPlayTrack = (arrayTracks, track, time) => {
+export const spotifyPlayTrack = (arrayTracks, track, time, deviceID) => {
   const dataPlay = {
     uris: arrayTracks,
     offset: {
@@ -22,9 +21,30 @@ export const spotifyPlayTrack = (arrayTracks, track, time) => {
     position_ms: time
   };
   spotifySDKPlaybackAPI.play(dataPlay);
+  spotifySDKPlaybackAPI.setVolume(50, [deviceID]);
+  spotifySDKPlaybackAPI.setShuffle(false, [deviceID]);
+  spotifySDKPlaybackAPI.setRepeat('off', [deviceID]);
 };
 export const spotifyPauseTrack = () => {
   spotifySDKPlaybackAPI.pause();
+};
+export const spotifyPositionTrack = (position, deviceID) => {
+  spotifySDKPlaybackAPI.seek(position, [deviceID]);
+};
+export const spotifySetVolume = (volume, deviceID) => {
+  spotifySDKPlaybackAPI.setVolume(volume, [deviceID]);
+};
+export const spotifyShuffleTrack = (shuffle, deviceID) => {
+  spotifySDKPlaybackAPI.setShuffle(shuffle, [deviceID]);
+};
+export const spotifyRepeatTrack = (str, deviceID) => {
+  spotifySDKPlaybackAPI.setRepeat(str, [deviceID]);
+};
+export const spotifyPreviousTrack = (deviceID) => {
+  spotifySDKPlaybackAPI.skipToPrevious([deviceID]);
+};
+export const spotifyNextTrack = (deviceID) => {
+  spotifySDKPlaybackAPI.skipToNext([deviceID]);
 };
 
 export const getUserProfileSpotify = () => spotifyAPI.get('me');
@@ -45,8 +65,13 @@ export const getDeviceID = token => new Promise((resolve) => {
       const duration = state.track_window.current_track.duration_ms;
       const imageTrack = state.track_window.current_track.album.images[0];
       const nameTrack = state.track_window.current_track.name;
-      if (state.paused === false) store.dispatch(dataTrackFromSpotifySDK(artistsTrack, duration, nameTrack, imageTrack));
-      if (state.paused) store.dispatch(dataStopTrackFromSpotifySDK(idTrack, positionTrack));
+      const pausedTrack = state.paused;
+      if (pausedTrack === false) {
+        store.dispatch(dataTrackFromSpotifySDK(artistsTrack, duration, nameTrack, imageTrack, pausedTrack, positionTrack, idTrack));
+      }
+      if (pausedTrack) {
+        store.dispatch(dataStopTrackFromSpotifySDK(idTrack, positionTrack, pausedTrack));
+      }
       console.log(state, 'hello');
     });
     player.addListener('ready', (data) => {

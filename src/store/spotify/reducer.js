@@ -12,7 +12,11 @@ export const initState = {
   artistsTrack: [],
   durationTrack: 0,
   nameTrack: '',
-  imageTrack: {}
+  imageTrack: {},
+  pausedTrack: true,
+  volume: 50,
+  repeat: false,
+  shuffle: false
 };
 
 const getAccessTokenSpotify = (state, { token }) => ({ ...state, token });
@@ -21,19 +25,36 @@ const successGetDeviceID = (state, { deviceID }) => ({ ...state, deviceID });
 
 const playTrack = (state, { track }) => ({ ...state, track, modal: true });
 const pauseTrack = state => ({ ...state });
-const dataStopTrackFromSpotifySDK = (state, { idTrack, timeStop }) => ({ ...state, idTrack, timeStop });
+const dataStopTrackFromSpotifySDK = (state, { idTrack, timeStop, pausedTrack }) => ({
+  ...state,
+  idTrack,
+  timeStop,
+  pausedTrack
+});
 const dataTrackFromSpotifySDK = (state, {
   artistsTrack,
   durationTrack,
   nameTrack,
-  imageTrack
+  imageTrack,
+  pausedTrack,
+  timeStop,
+  idTrack
 }) => ({
   ...state,
   artistsTrack,
   durationTrack,
   nameTrack,
-  imageTrack
+  imageTrack,
+  pausedTrack,
+  timeStop,
+  idTrack
 });
+const seekToPositionInCurrentlyPlayingTrack = (state, { position }) => ({ ...state, position });
+const setVolumeForPlayback = (state, { volume }) => ({ ...state, volume });
+const toggleShuffleForPlayback = (state, { shuffle }) => ({ ...state, shuffle });
+const setRepeatModeOnPlayback = (state, { repeat }) => ({ ...state, repeat });
+const skipPlaybackToPreviousTrack = state => ({ ...state });
+const skipPlaybackToNextTrack = state => ({ ...state });
 
 const handlers = {
   [TYPES.GET_ACCESS_TOKEN_SPOTIFY]: getAccessTokenSpotify,
@@ -42,7 +63,13 @@ const handlers = {
   [TYPES.PLAY_TRACK]: playTrack,
   [TYPES.PAUSE_TRACK]: pauseTrack,
   [TYPES.DATA_STOP_TRACK_FROM_SPOTIFY_SDK]: dataStopTrackFromSpotifySDK,
-  [TYPES.DATA_TRACK_FROM_SPOTIFY_SDK]: dataTrackFromSpotifySDK
+  [TYPES.DATA_TRACK_FROM_SPOTIFY_SDK]: dataTrackFromSpotifySDK,
+  [TYPES.SEEK_TO_POSITION_IN_CURRENTLY_PLAYING_TRACK]: seekToPositionInCurrentlyPlayingTrack,
+  [TYPES.SET_VOLUME_FOR_PLAYBACK]: setVolumeForPlayback,
+  [TYPES.TOGGLE_SHUFFLE_FOR_PLAYBACK]: toggleShuffleForPlayback,
+  [TYPES.SET_REPEAT_MODE_ON_PLAYBACK]: setRepeatModeOnPlayback,
+  [TYPES.SKIP_PLAYBACK_TO_PREVIOUS_TRACK]: skipPlaybackToPreviousTrack,
+  [TYPES.SKIP_PLAYBACK_TO_NEXT_TRACK]: skipPlaybackToNextTrack
 };
 
 export const reducerSpotify = createReducer(initState, handlers);
