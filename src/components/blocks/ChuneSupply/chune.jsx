@@ -59,36 +59,55 @@ class Chune extends React.PureComponent {
     }
   }
 
+  playTrackSpotify = (id) => {
+    const { chunesupply, recentReleases, setChuneSupply } = this.props;
+    if (chunesupply === 'forYouTopTracks') return recentReleases(id);
+    return setChuneSupply(id);
+  }
+
   render() {
-    const { supply } = this.props;
+    const { supply, token } = this.props;
     const { isPlaying } = this.state;
     let images = supply.image;
     if (~images.indexOf('.jpg')) images = `https://api-stage.chunesupply.com/static/imgs/full/${images}`;
+    if (token === '') {
+      return (
+        <a
+          href={`https://open.spotify.com/track/${supply.spotify_id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          key={`track-${supply.id}`}
+          onClick={() => this.playTrackSpotify(supply.id)}
+        >
+          <Card className="card" key={supply.spotify_id}>
+            <CardMedia className="cover" image={images} title={supply.title} />
+            <div className="details">
+              <CardContent className="content">
+                <Typography variant="headline" className={isPlaying ? 'headline isActive' : 'headline'}>
+                  {supply.title}
+                </Typography>
+                <Typography className={isPlaying ? 'subheading isActive' : 'subheading'} variant="subheading" color="textSecondary">
+                  {supply.artist_name || supply.artist }
+                </Typography>
+              </CardContent>
+            </div>
+          </Card>
+        </a>
+      );
+    }
     return (
       <Card
         className="card"
         key={supply.spotify_id}
         onClick={() => this.eventClickMusic(supply.id, supply.spotify_id)}
       >
-        <CardMedia
-          className="cover"
-          image={images}
-          title={supply.title}
-        />
-
+        <CardMedia className="cover" image={images} title={supply.title} />
         <div className="details">
           <CardContent className="content">
-            <Typography
-              variant="headline"
-              className={isPlaying ? 'headline isActive' : 'headline'}
-            >
+            <Typography variant="headline" className={isPlaying ? 'headline isActive' : 'headline'}>
               {supply.title}
             </Typography>
-            <Typography
-              className={isPlaying ? 'subheading isActive' : 'subheading'}
-              variant="subheading"
-              color="textSecondary"
-            >
+            <Typography className={isPlaying ? 'subheading isActive' : 'subheading'} variant="subheading" color="textSecondary">
               {supply.artist_name || supply.artist }
             </Typography>
           </CardContent>
@@ -102,7 +121,8 @@ const mapStateToProps = store => ({
   pausedTrack: store.dataSpotify.pausedTrack,
   idTrack: store.dataSpotify.idTrack,
   topTracksForYou: store.dataContent.topTracksForYou,
-  topChune: store.dataContent.topChune
+  topChune: store.dataContent.topChune,
+  token: store.dataSpotify.token
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
@@ -124,5 +144,6 @@ Chune.propTypes = {
   supply: objectOf(any).isRequired,
   pausedTrack: bool.isRequired,
   topTracksForYou: arrayOf(any).isRequired,
-  topChune: arrayOf(any).isRequired
+  topChune: arrayOf(any).isRequired,
+  token: string.isRequired
 };

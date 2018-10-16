@@ -56,9 +56,46 @@ class Tracks extends React.Component {
     this.setState({ isPlaying: false });
   }
 
+  playTrackSpotify = (id) => {
+    const { chunesupply, sendHomeTrack } = this.props;
+    if (chunesupply === 'artistTopTracks') return null;
+    return sendHomeTrack(id);
+  }
+
   render() {
-    const { track, index, artistName } = this.props;
+    const {
+      track, index, artistName,
+      token
+    } = this.props;
     const { isPlaying } = this.state;
+    if (token === '') {
+      return (
+        <a
+          href={`https://open.spotify.com/track/${track.spotify_id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          key={`track-${track.id}`}
+          onClick={() => this.playTrackSpotify(track.id)}
+        >
+          <StyledMusic.MusicTrack key={track.id} isPlaying={isPlaying}>
+            <StyledMusic.MusicNumber isPlaying={isPlaying}>
+              {index + 1}
+            </StyledMusic.MusicNumber>
+            <StyledMusic.MusicSoundTitle>
+              <StyledMusic.MusicSoundName>
+                {track.title}
+              </StyledMusic.MusicSoundName>
+              <StyledMusic.MusicSoundArtist>
+                by {track.artist_name || artistName}
+              </StyledMusic.MusicSoundArtist>
+            </StyledMusic.MusicSoundTitle>
+            <StyledMusic.MusicIcon>
+              <PlayIcon />
+            </StyledMusic.MusicIcon>
+          </StyledMusic.MusicTrack>
+        </a>
+      );
+    }
     return (
       <StyledMusic.MusicTrack key={track.id} isPlaying={isPlaying}>
         <StyledMusic.MusicNumber isPlaying={isPlaying}>
@@ -111,7 +148,8 @@ Tracks.propTypes = {
   idTrack: string.isRequired,
   pausedTrack: bool.isRequired,
   topTracksArtist: arrayOf(any).isRequired,
-  topTracks: arrayOf(any).isRequired
+  topTracks: arrayOf(any).isRequired,
+  token: string.isRequired
 };
 
 Tracks.defaultProps = {

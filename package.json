@@ -134,6 +134,7 @@
     },
     "rules": {
       "comma-dangle": "off",
+      "no-bitwise": ["error", { "allow": ["~"] }],
       "import/no-default-export": "error",
       "import/prefer-default-export": "off",
       "function-paren-newline": "off",

@@ -443,12 +443,12 @@ class Navbar extends React.Component {
                       <MenuItem onClick={() => this.goToRoute('/faq')}>
                         FAQ
                       </MenuItem>
-                      <MenuItem>
+                      {/* <MenuItem>
                         <SpotifyIcon width="30px" height="30px" />
                         &nbsp;
                         {spotify}
                       </MenuItem>
-                      {/* <MenuItem onClick={this.sendPasswordResetEmail}>
+                      <MenuItem onClick={this.sendPasswordResetEmail}>
                         Reset Password
                       </MenuItem> */}
                       <MenuItem onClick={() => logOut()}>
