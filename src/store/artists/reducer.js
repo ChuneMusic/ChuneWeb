@@ -7,7 +7,6 @@ export const initState = {
   artist: {},
   name: '',
   content: [],
-  tracks: [],
   artistsSuccess: false
 };
 
@@ -17,12 +16,7 @@ const successGetUserArtists = (state, { artists, recommended }) => ({
   recommended,
   artistsSuccess: true
 });
-const successGetInfoArtist = (state, { artist, content, tracks }) => ({
-  ...state,
-  artist,
-  content,
-  tracks
-});
+const successGetInfoArtist = (state, { artist, content }) => ({ ...state, artist, content });
 const followArtist = (state, { name }) => ({ ...state, name });
 const successFollowArtist = state => ({ ...state });
 const unfollowArtist = (state, { name }) => ({ ...state, name });

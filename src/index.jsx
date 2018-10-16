@@ -18,9 +18,8 @@ import {
   EventsConnect, ArtistEventsConnect, NavBarConnect,
   GuestNavbarConnect, ForYouConnect, blogiFrame
 } from './components';
-import { ModalBlockConnect } from './components/blocks/LargeAudioPlayer/modalAudioPlayer';
+import { ModalBlockConnect } from './components/Music/modalAudioPlayer';
 import { ModalNewsConnect } from './components/News/modalNews';
-import { topTracks } from './store/musicPlayer/topTracks/topTracks';
 
 import './styles/reset.css';
 import './styles/global.css';
@@ -68,18 +67,9 @@ function PublicRoute({ component: Component, token, ...rest }) {
 
 class App extends React.PureComponent {
   render() {
-    const {
-      token, modal, track,
-      playMusic, modalNews
-    } = this.props;
+    const { token, modal, modalNews } = this.props;
     const newsModal = modalNews ? <ModalNewsConnect /> : null;
-    const musicPlayer = modal ? (
-      <ModalBlockConnect
-        playlist={topTracks}
-        selectedRecordId={track}
-        playPause={playMusic}
-      />
-    ) : null;
+    const musicPlayer = modal ? <ModalBlockConnect /> : null;
     let navbar = false;
     if (token) navbar = true;
     return (
@@ -110,11 +100,8 @@ class App extends React.PureComponent {
 
 const mapStateToProps = state => ({
   token: state.dataAuth.token,
-  modal: state.dataMusicPlayer.modal,
-  playlist: state.dataMusicPlayer.playlist,
-  track: state.dataMusicPlayer.track,
-  playMusic: state.dataMusicPlayer.playMusic,
-  modalNews: state.dataContent.modal
+  modalNews: state.dataContent.modal,
+  modal: state.dataSpotify.modal
 });
 
 const ChuneApp = withRouter(connect(mapStateToProps, null)(App));

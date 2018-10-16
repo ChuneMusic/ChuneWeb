@@ -91,7 +91,7 @@ class ForYou extends React.Component {
   render() {
     const {
       contentFeed, artistTracks, followArtists,
-      fetchDataForYou
+      fetchDataForYou, modal
     } = this.props;
     const { position } = this.state;
     if (followArtists) {
@@ -105,7 +105,7 @@ class ForYou extends React.Component {
     if (contentFeed.length === 0) return <Loading />;
     if (contentFeed.length) {
       return (
-        <StyledContent.Wrapper onScroll={this.scrollDiv} id="blockDiv">
+        <StyledContent.Wrapper modal={modal} onScroll={this.scrollDiv} id="blockDiv">
           <StyledContent.ForYouPadding>
             <StyledContent.Content>
               <StyledContent.LeftBlockContent>
@@ -116,7 +116,7 @@ class ForYou extends React.Component {
               <StyledContent.RightBlockContent id="right" pos={position}>
                 <ChuneSupplyConnect
                   supplies={artistTracks}
-                  foryou
+                  chunesupply="forYouTopTracks"
                 />
               </StyledContent.RightBlockContent>
             </StyledContent.Content>
@@ -141,9 +141,10 @@ const mapActionsToProps = dispatch => bindActionCreators({
 const mapStateToProps = store => ({
   contentFeed: store.dataContent.contentFeedForYou,
   artists: store.dataArtists.artists,
-  artistTracks: store.dataContent.artistTracksForYou,
+  artistTracks: store.dataContent.topTracksForYou,
   followArtists: store.dataContent.followArtists,
-  fetchDataForYou: store.dataContent.fetchDataForYou
+  fetchDataForYou: store.dataContent.fetchDataForYou,
+  modal: store.dataSpotify.modal
 });
 
 export const ForYouConnect = withRouter(connect(mapStateToProps, mapActionsToProps)(ForYou));
@@ -154,5 +155,6 @@ ForYou.propTypes = {
   loadMoreItems: func.isRequired,
   followArtists: bool.isRequired,
   fetchDataForYou: bool.isRequired,
-  sendTweet: func.isRequired
+  sendTweet: func.isRequired,
+  modal: bool.isRequired
 };

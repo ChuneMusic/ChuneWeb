@@ -4,12 +4,13 @@ import * as TYPES from './types';
 export const initState = {
   featured: [],
   contentFeedHome: [],
-  artistTracksForYou: [],
   contentFeedForYou: [],
   quantityHome: 0,
   quantityForYou: 0,
   topTracks: [],
   topChune: [],
+  topTracksForYou: [],
+  topTracksArtist: [],
   url: '',
   title: '',
   modal: false,
@@ -27,7 +28,7 @@ const successGetContentHomePageUser = (state, { featured, contentFeedHome }) => 
 });
 const successGetContentForYouPageUser = (state, { artistTracksForYou, contentFeedForYou }) => ({
   ...state,
-  artistTracksForYou,
+  topTracksForYou: artistTracksForYou,
   contentFeedForYou,
   quantityForYou: 10
 });
@@ -49,7 +50,7 @@ const successfethcMoreContentForYou = (state, { artistTracksForYou, contentFeedF
   const quantity = state.quantityForYou + 10;
   return ({
     ...state,
-    artistTracksForYou,
+    topTracksForYou: artistTracksForYou,
     contentFeedForYou: content,
     quantityForYou: quantity,
     fetchDataForYou: false
@@ -57,7 +58,12 @@ const successfethcMoreContentForYou = (state, { artistTracksForYou, contentFeedF
 };
 const successGetTopTracks = (state, { topTracks }) => ({ ...state, topTracks });
 const successGetChuneSupply = (state, { topChune }) => ({ ...state, topChune });
-const openArticleUrl = (state, { idNews, url, title, modal }) => ({
+const openArticleUrl = (state, {
+  idNews,
+  url,
+  title,
+  modal
+}) => ({
   ...state,
   idNews,
   url,
@@ -72,6 +78,7 @@ const closeArticleUrl = (state, { modal }) => ({
   modal
 });
 const noFollowArtists = (state, { followArtists }) => ({ ...state, followArtists });
+const successGetTracksArtist = (state, { tracks }) => ({ ...state, topTracksArtist: tracks });
 
 const handlers = {
   [TYPES.SUCCESS_GET_CONTENT_HOME_PAGE_USER]: successGetContentHomePageUser,
@@ -84,7 +91,8 @@ const handlers = {
   [TYPES.SUCCESS_GET_CHUNE_SUPPLY]: successGetChuneSupply,
   [TYPES.OPEN_ARTICLE_URL]: openArticleUrl,
   [TYPES.CLOSE_ARTICLE_URL]: closeArticleUrl,
-  [TYPES.NO_FOLLOW_ARTISTS]: noFollowArtists
+  [TYPES.NO_FOLLOW_ARTISTS]: noFollowArtists,
+  [TYPES.SUCCESS_GET_TRACKS_ARTIST]: successGetTracksArtist
 };
 
 export const reducerContent = createReducer(initState, handlers);

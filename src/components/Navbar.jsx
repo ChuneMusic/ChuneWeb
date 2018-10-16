@@ -24,7 +24,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 
 import { SearchFormConnect } from './SearchForm';
-// import { SpotifyIcon } from './shared/SocialIcons';
+import { SpotifyIcon } from './shared/SocialIcons';
 import LogoSVG from '../../assets/images/Chune_Supply_Logotype_White.svg';
 import { logOutUser } from '../store/auth/actions';
 import * as StyledNavBar from './styled-components/navbar';
@@ -354,14 +354,14 @@ class Navbar extends React.Component {
     const { drawerOpen } = this.state;
     const {
       classes, logOut, searching,
-      // profile
+      profile
     } = this.props;
     const { value, anchorEl } = this.state;
-    // const spotify = profile.display_name ? profile.display_name : (
-    //   <a href="http://localhost:4001/auth/spotify">
-    //     Spotify
-    //   </a>
-    // );
+    const spotify = profile.display_name ? profile.display_name : (
+      <a href="http://localhost:4001/auth/spotify">
+        Spotify
+      </a>
+    );
     const searchForm = <SearchFormConnect cancelSearch={this.toggleSearch} />;
     const normalMenu = (
       <header>
@@ -519,12 +519,12 @@ class Navbar extends React.Component {
                     <MenuItem onClick={() => this.goToRoute('/faq')}>
                       FAQ
                     </MenuItem>
-                    {/* <MenuItem>
+                    <MenuItem>
                       <SpotifyIcon width="30px" height="30px" />
                       &nbsp;
                       {spotify}
                     </MenuItem>
-                    <MenuItem onClick={this.sendPasswordResetEmail}>
+                    {/* <MenuItem onClick={this.sendPasswordResetEmail}>
                       Reset Password
                     </MenuItem> */}
                     <MenuItem onClick={() => logOut()}>

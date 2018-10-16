@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
-  height: calc(100vh - 74px);
+  height: ${props => (props.modal ? 'calc(100vh - 164px)' : 'calc(100vh - 74px)')} ;
   @media(max-width: 1059px){
     height: calc(100vh - 56px);
   }

@@ -11,7 +11,6 @@ import {
 } from 'prop-types';
 import { Tweet } from 'react-twitter-widgets';
 
-import { TopTracksChartConnect } from '../blocks';
 import { followArtist, unfollowArtist } from '../../store/artists/actions';
 import { Loading } from '../shared/Loading';
 import { NoMediaConnect } from '../shared/NoMedia';
@@ -24,6 +23,7 @@ import * as StyledArticle from '../styled-components/article';
 import * as StyledArtist from '../styled-components/artistSingle';
 import { EventCardConnect } from '../Events/EventCard';
 import { followFromArtistPage, clickTwitterPost } from '../../store/learningMachine/actions';
+import { TopTracksChartConnect } from '../blocks/TopTracksChart/TopTracksChart';
 
 const styles = () => ({
   followButton: {
@@ -118,7 +118,8 @@ class Artist extends React.Component {
   render() {
     const {
       classes, content, artists,
-      artist, topTracksArtist, db
+      artist, topTracksArtist, db,
+      modal
     } = this.props;
     const { position } = this.state;
     if (db) {
@@ -170,7 +171,7 @@ class Artist extends React.Component {
       contentArtist = <NoMediaConnect />;
     }
     return (
-      <StyledContent.Wrapper onScroll={this.scrollDiv} id="blockDiv">
+      <StyledContent.Wrapper modal={modal} onScroll={this.scrollDiv} id="blockDiv">
         <StyledArtist.WrapperArtist>
           <StyledArtist.ArtistHeader id="featured">
             <StyledContent.LeftBlockContent>
@@ -196,7 +197,7 @@ class Artist extends React.Component {
               <TopTracksChartConnect
                 tracks={topTracksArtist}
                 artistName={artist.name}
-                single
+                chunesupply="artistTopTracks"
               />
             </StyledContent.RightBlockArtistContent>
           </StyledContent.Content>
@@ -210,8 +211,9 @@ const mapStateToProps = store => ({
   artist: store.dataArtists.artist,
   content: store.dataArtists.content,
   artists: store.dataArtists.artists,
-  topTracksArtist: store.dataArtists.tracks,
-  db: store.dataSearch.db
+  topTracksArtist: store.dataContent.topTracksArtist,
+  db: store.dataSearch.db,
+  modal: store.dataSpotify.modal
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
@@ -233,5 +235,6 @@ Artist.propTypes = {
   unfollowToArtist: func.isRequired,
   db: bool.isRequired,
   sendDataArtist: func.isRequired,
-  sendTweet: func.isRequired
+  sendTweet: func.isRequired,
+  modal: bool.isRequired
 };

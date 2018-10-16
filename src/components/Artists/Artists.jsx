@@ -35,7 +35,7 @@ class Artists extends React.Component {
   render() {
     const {
       classes, artists, recommended,
-      artistsSuccess
+      artistsSuccess, modal
     } = this.props;
     if (!artistsSuccess) return <Loading />;
     if (artists.length === 0) {
@@ -49,7 +49,7 @@ class Artists extends React.Component {
       );
     }
     return (
-      <StyledContent.Wrapper>
+      <StyledContent.Wrapper modal={modal}>
         <div className={classes.container}>
           <RelatedArtistsConnect relatedArtists={recommended} />
           <FollowingConnect artists={artists} />
@@ -62,7 +62,8 @@ class Artists extends React.Component {
 const mapStateToProps = store => ({
   artists: store.dataArtists.artists,
   recommended: store.dataArtists.recommended,
-  artistsSuccess: store.dataArtists.artistsSuccess
+  artistsSuccess: store.dataArtists.artistsSuccess,
+  modal: store.dataSpotify.modal
 });
 
 export const ArtistsConnect = withStyles(styles)(connect(mapStateToProps, null)(Artists));
@@ -71,5 +72,6 @@ Artists.propTypes = {
   classes: objectOf(any).isRequired,
   artists: arrayOf(any).isRequired,
   recommended: arrayOf(any).isRequired,
-  artistsSuccess: bool.isRequired
+  artistsSuccess: bool.isRequired,
+  modal: bool.isRequired
 };
