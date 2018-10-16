@@ -4,7 +4,8 @@ import { bindActionCreators } from 'redux';
 import {
   any, objectOf,
   func, number, bool,
-  string
+  string,
+  arrayOf
 } from 'prop-types';
 
 import { PlayIcon, PauseIcon } from '../../shared/SocialIcons';
@@ -36,12 +37,16 @@ class Tracks extends React.Component {
   }
 
   play = (id, track) => {
-    const { sendHomeTrack, playTrackToSpotifyPlayer, chunesupply } = this.props;
-    playTrackToSpotifyPlayer(track, chunesupply);
+    const {
+      sendHomeTrack, playTrackToSpotifyPlayer, chunesupply,
+      topTracksArtist, topTracks
+    } = this.props;
     this.setState({ isPlaying: true });
     if (chunesupply === 'artistTopTracks') {
+      playTrackToSpotifyPlayer(track, topTracksArtist);
       return null;
     }
+    playTrackToSpotifyPlayer(track, topTracks);
     return sendHomeTrack(id);
   }
 
@@ -81,7 +86,10 @@ class Tracks extends React.Component {
 
 const mapStateToProps = store => ({
   pausedTrack: store.dataSpotify.pausedTrack,
-  idTrack: store.dataSpotify.idTrack
+  idTrack: store.dataSpotify.idTrack,
+  topTracksArtist: store.dataContent.topTracksArtist,
+  topTracks: store.dataContent.topTracks,
+  token: store.dataSpotify.token
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
@@ -101,7 +109,9 @@ Tracks.propTypes = {
   pauseTrackToSpotifyPlayer: func.isRequired,
   artistName: string,
   idTrack: string.isRequired,
-  pausedTrack: bool.isRequired
+  pausedTrack: bool.isRequired,
+  topTracksArtist: arrayOf(any).isRequired,
+  topTracks: arrayOf(any).isRequired
 };
 
 Tracks.defaultProps = {

@@ -18,7 +18,7 @@ import {
 import { successGetUserProfileSpotify, successGetDeviceID } from './actions';
 import { errorMessage } from '../error/actions';
 import { setUserTokenSpotify } from '../../utilities/APIConfig';
-import { getDataPlayer, getArrayTracks } from './helpers/selector';
+import { getDataPlayer } from './helpers/selector';
 
 export function* getUserProfile({ payload }) {
   const { token } = payload;
@@ -42,35 +42,9 @@ export function* getDeviceIDUser({ payload }) {
   }
 }
 export function* playTrackToSpotify({ payload }) {
-  const { track, chunesupply } = payload;
+  const { track, playingTracks } = payload;
   const { idTrack, timeStop, deviceID } = yield select(getDataPlayer);
-  let tracks = [];
-  switch (chunesupply) {
-    case 'homeTopTracks': {
-      const { topTracks } = yield select(getArrayTracks);
-      tracks = topTracks;
-      break;
-    }
-    case 'homeChuneSupply': {
-      const { topChune } = yield select(getArrayTracks);
-      tracks = topChune;
-      break;
-    }
-    case 'forYouTopTracks': {
-      const { topTracksForYou } = yield select(getArrayTracks);
-      tracks = topTracksForYou;
-      break;
-    }
-    case 'artistTopTracks': {
-      const { topTracksArtist } = yield select(getArrayTracks);
-      tracks = topTracksArtist;
-      break;
-    }
-    default:
-      tracks = [];
-      break;
-  }
-  const arrayTracks = tracks.map(e => `spotify:track:${e.spotify_id}`);
+  const arrayTracks = playingTracks.map(e => `spotify:track:${e.spotify_id}`);
   let time = 0;
   if (idTrack === track) time = timeStop;
   yield call(spotifyPlayTrack, arrayTracks, track, time, deviceID);

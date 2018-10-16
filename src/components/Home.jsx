@@ -66,7 +66,8 @@ class Home extends React.Component {
       location, history,
       topTracks, contentFeed,
       getTokenSpotify, token,
-      topChune, featured, fetchDataHome
+      topChune, featured, fetchDataHome,
+      modal
     } = this.props;
     const { position } = this.state;
     if (location.search !== '' && token === '') {
@@ -76,7 +77,7 @@ class Home extends React.Component {
     }
     if (topChune.length === 0) return <Loading />;
     return (
-      <StyledContent.Wrapper onScroll={this.scrollDiv} id="blockDiv">
+      <StyledContent.Wrapper modal={modal} onScroll={this.scrollDiv} id="blockDiv">
         <Styled.WrapperHomePage>
           <Styled.FeaturedBlock id="featured">
             <BasicArticleCardConnect featured={featured} />
@@ -139,7 +140,8 @@ const mapStateToProps = store => ({
   contentFeed: store.dataContent.contentFeedHome,
   topTracks: store.dataContent.topTracks,
   topChune: store.dataContent.topChune,
-  fetchDataHome: store.dataContent.fetchDataHome
+  fetchDataHome: store.dataContent.fetchDataHome,
+  modal: store.dataSpotify.modal
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
@@ -161,5 +163,6 @@ Home.propTypes = {
   loadMoreItems: func.isRequired,
   featured: arrayOf(any).isRequired,
   fetchDataHome: bool.isRequired,
-  sendTweet: func.isRequired
+  sendTweet: func.isRequired,
+  modal: bool.isRequired
 };

@@ -7,7 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import {
   func, objectOf,
-  any, string, bool
+  any, string, bool, arrayOf
 } from 'prop-types';
 
 import './ChuneSupply.css';
@@ -40,17 +40,22 @@ class Chune extends React.PureComponent {
   eventClickMusic = (id, track) => {
     const {
       chunesupply, recentReleases, setChuneSupply,
-      setPlayTrack, setPauseTrack
+      setPlayTrack, setPauseTrack, topTracksForYou,
+      topChune
     } = this.props;
     const { isPlaying } = this.state;
     if (isPlaying) {
       setPauseTrack();
       this.setState({ isPlaying: !isPlaying });
     } else {
-      setPlayTrack(track, chunesupply);
       this.setState({ isPlaying: !isPlaying });
-      if (chunesupply === 'forYouTopTracks') recentReleases(id);
-      else setChuneSupply(id);
+      if (chunesupply === 'forYouTopTracks') {
+        recentReleases(id);
+        setPlayTrack(track, topTracksForYou);
+      } else {
+        setChuneSupply(id);
+        setPlayTrack(track, topChune);
+      }
     }
   }
 
@@ -95,7 +100,9 @@ class Chune extends React.PureComponent {
 
 const mapStateToProps = store => ({
   pausedTrack: store.dataSpotify.pausedTrack,
-  idTrack: store.dataSpotify.idTrack
+  idTrack: store.dataSpotify.idTrack,
+  topTracksForYou: store.dataContent.topTracksForYou,
+  topChune: store.dataContent.topChune
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
@@ -115,5 +122,7 @@ Chune.propTypes = {
   setPauseTrack: func.isRequired,
   idTrack: string.isRequired,
   supply: objectOf(any).isRequired,
-  pausedTrack: bool.isRequired
+  pausedTrack: bool.isRequired,
+  topTracksForYou: arrayOf(any).isRequired,
+  topChune: arrayOf(any).isRequired
 };

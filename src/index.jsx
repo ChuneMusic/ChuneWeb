@@ -67,16 +67,9 @@ function PublicRoute({ component: Component, token, ...rest }) {
 
 class App extends React.PureComponent {
   render() {
-    const {
-      token, modal,
-      modalNews, topTracks
-    } = this.props;
+    const { token, modal, modalNews } = this.props;
     const newsModal = modalNews ? <ModalNewsConnect /> : null;
-    const musicPlayer = modal ? (
-      <ModalBlockConnect
-        playlist={topTracks}
-      />
-    ) : null;
+    const musicPlayer = modal ? <ModalBlockConnect /> : null;
     let navbar = false;
     if (token) navbar = true;
     return (
@@ -106,7 +99,6 @@ class App extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  topTracks: state.dataContent.topTracks,
   token: state.dataAuth.token,
   modalNews: state.dataContent.modal,
   modal: state.dataSpotify.modal

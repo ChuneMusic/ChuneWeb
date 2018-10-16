@@ -33,14 +33,22 @@ class Player extends React.Component {
     duration: 0,
     shuffleButton: false,
     repeatButton: false,
-    id: ''
+    id: '',
+    oldVolume: 0
   }
 
   componentWillReceiveProps(nextProps) {
     const { idTrack, durationTrack, timeStop } = nextProps;
     const { pausedTrack } = this.props;
     const { id, intervalID } = this.state;
-    if (id !== idTrack) this.setState({ duration: durationTrack, positionsMs: timeStop, id: idTrack });
+    if (id !== idTrack) {
+      this.setState({
+        duration: durationTrack,
+        positionsMs: timeStop,
+        id: idTrack,
+        repeatButton: false
+      });
+    }
     if (nextProps.pausedTrack === false && pausedTrack) {
       const interval = setInterval(this.timer, 1000);
       this.setState({ intervalID: interval });
@@ -55,17 +63,30 @@ class Player extends React.Component {
     const { positionsMs } = this.state;
     const pos = positionsMs + 1000;
     if (pos <= durationTrack) this.setState({ positionsMs: pos });
+    else this.setState({ positionsMs: 0 });
   }
 
   playPauseTrack = () => {
     const {
       setPlayTrack, setPauseTrack, idTrack,
-      chunesupply, pausedTrack
+      playingTracks, pausedTrack
     } = this.props;
     if (pausedTrack) {
-      setPlayTrack(idTrack, chunesupply);
+      setPlayTrack(idTrack, playingTracks);
     } else {
       setPauseTrack();
+    }
+  }
+
+  changeVolume = () => {
+    const { volume, oldVolume } = this.state;
+    const { setVolumePlayer } = this.props;
+    if (volume !== 0) {
+      setVolumePlayer(0);
+      this.setState({ oldVolume: volume, volume: 0 });
+    } else {
+      setVolumePlayer(oldVolume * 10);
+      this.setState({ volume: oldVolume });
     }
   }
 
@@ -206,7 +227,7 @@ const mapStateToProps = store => ({
   idTrack: store.dataSpotify.idTrack,
   pausedTrack: store.dataSpotify.pausedTrack,
   timeStop: store.dataSpotify.timeStop,
-  chunesupply: store.dataSpotify.chunesupply
+  playingTracks: store.dataSpotify.playingTracks
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
@@ -237,6 +258,6 @@ Player.propTypes = {
   setPlayTrack: func.isRequired,
   setPauseTrack: func.isRequired,
   idTrack: string.isRequired,
-  chunesupply: string.isRequired,
+  playingTracks: arrayOf(any).isRequired,
   timeStop: number.isRequired
 };

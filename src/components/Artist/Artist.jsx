@@ -118,7 +118,8 @@ class Artist extends React.Component {
   render() {
     const {
       classes, content, artists,
-      artist, topTracksArtist, db
+      artist, topTracksArtist, db,
+      modal
     } = this.props;
     const { position } = this.state;
     if (db) {
@@ -170,7 +171,7 @@ class Artist extends React.Component {
       contentArtist = <NoMediaConnect />;
     }
     return (
-      <StyledContent.Wrapper onScroll={this.scrollDiv} id="blockDiv">
+      <StyledContent.Wrapper modal={modal} onScroll={this.scrollDiv} id="blockDiv">
         <StyledArtist.WrapperArtist>
           <StyledArtist.ArtistHeader id="featured">
             <StyledContent.LeftBlockContent>
@@ -211,7 +212,8 @@ const mapStateToProps = store => ({
   content: store.dataArtists.content,
   artists: store.dataArtists.artists,
   topTracksArtist: store.dataContent.topTracksArtist,
-  db: store.dataSearch.db
+  db: store.dataSearch.db,
+  modal: store.dataSpotify.modal
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
@@ -233,5 +235,6 @@ Artist.propTypes = {
   unfollowToArtist: func.isRequired,
   db: bool.isRequired,
   sendDataArtist: func.isRequired,
-  sendTweet: func.isRequired
+  sendTweet: func.isRequired,
+  modal: bool.isRequired
 };
