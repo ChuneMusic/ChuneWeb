@@ -32,24 +32,22 @@ class Player extends React.Component {
     intervalID: null,
     duration: 0,
     shuffleButton: false,
-    repeatButton: false
+    repeatButton: false,
+    id: ''
   }
 
-  componentDidMount() {
-    const intervalID = setInterval(this.timer, 1000);
-    this.setState({ intervalID });
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.durationTrack !== prevState.duration) {
-      return { duration: nextProps.durationTrack, positionsMs: nextProps.timeStop };
+  componentWillReceiveProps(nextProps) {
+    const { idTrack, durationTrack, timeStop } = nextProps;
+    const { pausedTrack } = this.props;
+    const { id, intervalID } = this.state;
+    if (id !== idTrack) this.setState({ duration: durationTrack, positionsMs: timeStop, id: idTrack });
+    if (nextProps.pausedTrack === false && pausedTrack) {
+      const interval = setInterval(this.timer, 1000);
+      this.setState({ intervalID: interval });
     }
-    return prevState;
-  }
-
-  componentWillUnmount() {
-    const { intervalID } = this.state;
-    clearInterval(intervalID);
+    if (nextProps.pausedTrack && pausedTrack === false) {
+      clearInterval(intervalID);
+    }
   }
 
   timer = () => {
@@ -66,11 +64,7 @@ class Player extends React.Component {
     } = this.props;
     if (pausedTrack) {
       setPlayTrack(idTrack, chunesupply);
-      const intervalID = setInterval(this.timer, 1000);
-      this.setState({ intervalID });
     } else {
-      const { intervalID } = this.state;
-      clearInterval(intervalID);
       setPauseTrack();
     }
   }
@@ -243,5 +237,6 @@ Player.propTypes = {
   setPlayTrack: func.isRequired,
   setPauseTrack: func.isRequired,
   idTrack: string.isRequired,
-  chunesupply: string.isRequired
+  chunesupply: string.isRequired,
+  timeStop: number.isRequired
 };
