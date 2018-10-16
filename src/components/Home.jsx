@@ -10,7 +10,7 @@ import { Tweet } from 'react-twitter-widgets';
 import Waypoint from 'react-waypoint';
 
 import {
-  ChuneSupplyConnect, BasicSoundPlayer, BasicArticleCardConnect,
+  ChuneSupplyConnect, BasicSoundPlayerConnect, BasicArticleCardConnect,
   TopTracksChartConnect
 } from './blocks';
 import { VideoCardConnect } from './Videos/Video';
@@ -120,7 +120,7 @@ class Home extends React.Component {
                 tracks={topTracks}
                 chunesupply="homeTopTracks"
               />
-              <BasicSoundPlayer />
+              <BasicSoundPlayerConnect />
               <ChuneSupplyConnect
                 supplies={topChune}
                 chunesupply="homeChuneSupply"

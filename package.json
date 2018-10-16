@@ -31,6 +31,7 @@
     "lodash": "4.17.11",
     "mixpanel-browser": "2.22.4",
     "moment": "2.22.2",
+    "moment-duration-format": "^2.2.2",
     "morgan": "1.9.1",
     "node-spotify-api": "1.0.7",
     "prop-types": "15.6.2",
@@ -134,7 +135,14 @@
     },
     "rules": {
       "comma-dangle": "off",
-      "no-bitwise": ["error", { "allow": ["~"] }],
+      "no-bitwise": [
+        "error",
+        {
+          "allow": [
+            "~"
+          ]
+        }
+      ],
       "import/no-default-export": "error",
       "import/prefer-default-export": "off",
       "function-paren-newline": "off",

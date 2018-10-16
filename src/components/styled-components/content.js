@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-  overflow-y: scroll;
+  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   height: ${props => (props.modal ? 'calc(100vh - 164px)' : 'calc(100vh - 74px)')} ;
   @media(max-width: 1059px){

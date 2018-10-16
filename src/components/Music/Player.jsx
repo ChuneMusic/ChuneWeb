@@ -7,6 +7,7 @@ import {
   any, number, objectOf,
   bool
 } from 'prop-types';
+import moment from 'moment';
 
 import * as StyledSpotify from '../styled-components/spotifyPlayer';
 import Shuffle from '../../../assets/images/control/shuffle.svg';
@@ -38,9 +39,12 @@ class Player extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { idTrack, durationTrack, timeStop } = nextProps;
+    const {
+      idTrack, durationTrack, timeStop,
+      shuffleTracks
+    } = nextProps;
     const { pausedTrack } = this.props;
-    const { id, intervalID } = this.state;
+    const { id, intervalID, shuffleButton } = this.state;
     if (id !== idTrack) {
       this.setState({
         duration: durationTrack,
@@ -49,6 +53,7 @@ class Player extends React.Component {
         repeatButton: false
       });
     }
+    if (shuffleButton && shuffleTracks === false) this.setState({ shuffleButton: shuffleTracks });
     if (nextProps.pausedTrack === false && pausedTrack) {
       const interval = setInterval(this.timer, 1000);
       this.setState({ intervalID: interval });
@@ -136,6 +141,8 @@ class Player extends React.Component {
       arr.length = 3;
       artists = `${arr.join(' & ')} and other`;
     }
+    const currentTime = moment.utc(positionsMs).format('m:ss');
+    const durationTime = moment.utc(duration).format('m:ss');
     return (
       <StyledSpotify.SpotifyWrapper>
         <StyledSpotify.SpotifyPlayer>
@@ -179,6 +186,9 @@ class Player extends React.Component {
               </StyledSpotify.SpotifyButton>
             </StyledSpotify.SpotyfiControlBar>
             <StyledSpotify.SpotifyProgressBlock>
+              <StyledSpotify.SpotifyTimer>
+                {currentTime}
+              </StyledSpotify.SpotifyTimer>
               <Slider
                 value={positionsMs}
                 aria-labelledby="label"
@@ -192,6 +202,9 @@ class Player extends React.Component {
                   trackAfter: 'trackAfter'
                 }}
               />
+              <StyledSpotify.SpotifyTimer>
+                {durationTime}
+              </StyledSpotify.SpotifyTimer>
             </StyledSpotify.SpotifyProgressBlock>
           </StyledSpotify.SpotifyCenterBlock>
           <StyledSpotify.SpotifyRightBlock>
@@ -227,7 +240,8 @@ const mapStateToProps = store => ({
   idTrack: store.dataSpotify.idTrack,
   pausedTrack: store.dataSpotify.pausedTrack,
   timeStop: store.dataSpotify.timeStop,
-  playingTracks: store.dataSpotify.playingTracks
+  playingTracks: store.dataSpotify.playingTracks,
+  shuffleTracks: store.dataSpotify.shuffleTracks
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
@@ -259,5 +273,6 @@ Player.propTypes = {
   setPauseTrack: func.isRequired,
   idTrack: string.isRequired,
   playingTracks: arrayOf(any).isRequired,
-  timeStop: number.isRequired
+  timeStop: number.isRequired,
+  shuffleTracks: bool.isRequired
 };
