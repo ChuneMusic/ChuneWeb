@@ -54,10 +54,18 @@ export const getDeviceID = token => new Promise((resolve) => {
       name: 'Chune Spotify Player',
       getOAuthToken: (cb) => { cb(token); }
     });
-    player.addListener('initialization_error', ({ message }) => { console.error(message); });
-    player.addListener('authentication_error', ({ message }) => { console.error(message); });
-    player.addListener('account_error', ({ message }) => { console.error(message); });
-    player.addListener('playback_error', ({ message }) => { console.error(message); });
+    player.addListener('initialization_error', ({ message }) => {
+      console.error(message);
+    });
+    player.addListener('authentication_error', ({ message }) => {
+      console.error(message);
+    });
+    player.addListener('account_error', ({ message }) => {
+      console.error(message);
+    });
+    player.addListener('playback_error', ({ message }) => {
+      console.error(message);
+    });
     player.addListener('player_state_changed', (state) => {
       const idTrack = state.track_window.current_track.id;
       const positionTrack = state.position;
