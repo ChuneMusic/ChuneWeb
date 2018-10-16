@@ -17,7 +17,8 @@ export const initState = {
   volume: 50,
   repeat: false,
   shuffle: false,
-  playingTracks: []
+  playingTracks: [],
+  shuffleTracks: false
 };
 
 const getAccessTokenSpotify = (state, { token }) => ({ ...state, token });
@@ -44,7 +45,8 @@ const dataTrackFromSpotifySDK = (state, {
   imageTrack,
   pausedTrack,
   timeStop,
-  idTrack
+  idTrack,
+  shuffleTracks
 }) => ({
   ...state,
   artistsTrack,
@@ -53,7 +55,8 @@ const dataTrackFromSpotifySDK = (state, {
   imageTrack,
   pausedTrack,
   timeStop,
-  idTrack
+  idTrack,
+  shuffleTracks
 });
 const seekToPositionInCurrentlyPlayingTrack = (state, { position }) => ({ ...state, position });
 const setVolumeForPlayback = (state, { volume }) => ({ ...state, volume });
@@ -61,6 +64,12 @@ const toggleShuffleForPlayback = (state, { shuffle }) => ({ ...state, shuffle })
 const setRepeatModeOnPlayback = (state, { repeat }) => ({ ...state, repeat });
 const skipPlaybackToPreviousTrack = state => ({ ...state });
 const skipPlaybackToNextTrack = state => ({ ...state });
+const closeThisSDKPlayback = state => ({
+  ...state,
+  modal: false,
+  token: '',
+  profile: {}
+});
 
 const handlers = {
   [TYPES.GET_ACCESS_TOKEN_SPOTIFY]: getAccessTokenSpotify,
@@ -75,7 +84,8 @@ const handlers = {
   [TYPES.TOGGLE_SHUFFLE_FOR_PLAYBACK]: toggleShuffleForPlayback,
   [TYPES.SET_REPEAT_MODE_ON_PLAYBACK]: setRepeatModeOnPlayback,
   [TYPES.SKIP_PLAYBACK_TO_PREVIOUS_TRACK]: skipPlaybackToPreviousTrack,
-  [TYPES.SKIP_PLAYBACK_TO_NEXT_TRACK]: skipPlaybackToNextTrack
+  [TYPES.SKIP_PLAYBACK_TO_NEXT_TRACK]: skipPlaybackToNextTrack,
+  [TYPES.CLOSE_THIS_SDK_PLAYBACK]: closeThisSDKPlayback
 };
 
 export const reducerSpotify = createReducer(initState, handlers);

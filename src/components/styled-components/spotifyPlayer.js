@@ -68,15 +68,25 @@ export const SpotyfiControlBar = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 300px;
+  width: 320px;
   margin: 0 auto;
 `;
 export const SpotifyProgressBlock = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 300px;
+  width: 320px;
   margin: 0 auto;
+`;
+export const SpotifyTimer = styled.h4`
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: .015em;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.6);
+  font-family: 'Roboto';
+  font-weight: 500;
+  width: 25px;
 `;
 /* Right block */
 export const SpotifyRightBlock = styled.div`

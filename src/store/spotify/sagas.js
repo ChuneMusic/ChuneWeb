@@ -1,6 +1,6 @@
 import {
   put, takeEvery, call,
-  select
+  select, take
 } from 'redux-saga/effects';
 
 import {
@@ -13,7 +13,7 @@ import {
   GET_ACCESS_TOKEN_SPOTIFY, SUCCESS_GET_USER_PROFILE_SPOTIFY,
   PLAY_TRACK, PAUSE_TRACK, SEEK_TO_POSITION_IN_CURRENTLY_PLAYING_TRACK,
   SET_VOLUME_FOR_PLAYBACK, TOGGLE_SHUFFLE_FOR_PLAYBACK, SET_REPEAT_MODE_ON_PLAYBACK,
-  SKIP_PLAYBACK_TO_PREVIOUS_TRACK, SKIP_PLAYBACK_TO_NEXT_TRACK
+  SKIP_PLAYBACK_TO_PREVIOUS_TRACK, SKIP_PLAYBACK_TO_NEXT_TRACK, SUCCESS_GET_DEVICE_ID
 } from './types';
 import { successGetUserProfileSpotify, successGetDeviceID } from './actions';
 import { errorMessage } from '../error/actions';
@@ -44,6 +44,7 @@ export function* getDeviceIDUser({ payload }) {
 export function* playTrackToSpotify({ payload }) {
   const { track, playingTracks } = payload;
   const { idTrack, timeStop, deviceID } = yield select(getDataPlayer);
+  if (deviceID === '') yield take(SUCCESS_GET_DEVICE_ID);
   const arrayTracks = playingTracks.map(e => `spotify:track:${e.spotify_id}`);
   let time = 0;
   if (idTrack === track) time = timeStop;

@@ -3,7 +3,7 @@ import SpotifyWebApi from 'spotify-web-api-js';
 
 import { spotifyAPI } from '../../../utilities/APIConfig';
 import { store } from '../../index';
-import { dataStopTrackFromSpotifySDK, dataTrackFromSpotifySDK } from '../actions';
+import { dataStopTrackFromSpotifySDK, dataTrackFromSpotifySDK, closeThisSDKPlayback } from '../actions';
 
 const spotifySDKPlaybackAPI = new SpotifyWebApi();
 export const spotyfiDevice = (token, deviceID) => {
@@ -55,18 +55,26 @@ export const getDeviceID = token => new Promise((resolve) => {
       getOAuthToken: (cb) => { cb(token); }
     });
     player.addListener('initialization_error', ({ message }) => {
+      store.dispatch(closeThisSDKPlayback());
       console.error(message);
     });
     player.addListener('authentication_error', ({ message }) => {
+      store.dispatch(closeThisSDKPlayback());
       console.error(message);
     });
     player.addListener('account_error', ({ message }) => {
+      store.dispatch(closeThisSDKPlayback());
       console.error(message);
     });
     player.addListener('playback_error', ({ message }) => {
+      store.dispatch(closeThisSDKPlayback());
       console.error(message);
     });
     player.addListener('player_state_changed', (state) => {
+      if (state === null) {
+        store.dispatch(closeThisSDKPlayback());
+        return;
+      }
       const idTrack = state.track_window.current_track.id;
       const positionTrack = state.position;
       const artistsTrack = state.track_window.current_track.artists;
@@ -74,13 +82,14 @@ export const getDeviceID = token => new Promise((resolve) => {
       const imageTrack = state.track_window.current_track.album.images[0];
       const nameTrack = state.track_window.current_track.name;
       const pausedTrack = state.paused;
+      const shuffleTracks = state.shuffle;
       if (pausedTrack === false) {
-        store.dispatch(dataTrackFromSpotifySDK(artistsTrack, duration, nameTrack, imageTrack, pausedTrack, positionTrack, idTrack));
+        store.dispatch(dataTrackFromSpotifySDK(artistsTrack, duration, nameTrack, imageTrack, pausedTrack, positionTrack, idTrack, shuffleTracks));
       }
       if (pausedTrack) {
         store.dispatch(dataStopTrackFromSpotifySDK(idTrack, positionTrack, pausedTrack));
       }
-      console.log(state, 'hello');
+      // console.log(state, 'hello');
     });
     player.addListener('ready', (data) => {
       const deviceID = data.device_id;
