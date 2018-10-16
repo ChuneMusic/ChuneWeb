@@ -56,7 +56,6 @@ class Player extends React.Component {
     const { durationTrack } = this.props;
     const { positionsMs } = this.state;
     const pos = positionsMs + 1000;
-    console.log(pos, 'ms');
     if (pos <= durationTrack) this.setState({ positionsMs: pos });
   }
 
