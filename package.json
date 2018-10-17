@@ -1,9 +1,9 @@
 {
   "name": "chune",
-  "version": "0.1.0",
+  "version": "0.8.8",
   "description": "Chune is a personalized music news feed featuring articles from a variety of music magazines as well as artist interviews from hundreds of curated YouTube channels",
   "engines": {
-    "node": "8.11.2"
+    "node": "8.12.0"
   },
   "main": "index.js",
   "scripts": {

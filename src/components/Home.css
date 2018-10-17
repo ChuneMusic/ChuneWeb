@@ -45,6 +45,9 @@
 .thumb:active{
   background-color: #1db954 !important;
 }
+.thumb:hover{
+  background-color: #1db954 !important;
+}
 .trackBefore{
   background-color: #ffffff !important;
 }

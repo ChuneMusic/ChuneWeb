@@ -110,6 +110,9 @@ export const SpotifySVG = styled.svg`
   &:active{
     fill: #1db954;
   }
+  &:hover{
+    fill: #1db954;
+  }
 `;
 export const SpotifyShuffleSVG = styled.svg`
   width: 15px;
@@ -119,6 +122,9 @@ export const SpotifyShuffleSVG = styled.svg`
   &:active{
     fill: ${props => (props.active ? '#ffffff' : '#1db954')} ;
   }
+  &:hover{
+    fill: #1db954;
+  }
 `;
 export const SpotifyRepeatSVG = styled.svg`
   width: 15px;
@@ -127,5 +133,8 @@ export const SpotifyRepeatSVG = styled.svg`
   fill: ${props => (props.active ? '#1db954' : '#ffffff')} ;
   &:active{
     fill: ${props => (props.active ? '#ffffff' : '#1db954')} ;
+  }
+  &:hover{
+    fill: #1db954;
   }
 `;
