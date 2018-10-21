@@ -18,9 +18,10 @@ import {
   string
 } from 'prop-types';
 
-import { GoogleIcon, FacebookIcon, TwitterIcon } from '../shared/SocialIcons';
 import { createNewUser } from '../../store/auth/actions';
 import BackgroundPNG from '../../../assets/images/background.jpg';
+import SocialButton from './SocialButton';
+import TwitterButton from './social/TwitterButton';
 
 const styles = () => ({
   pageContainer: {
@@ -242,7 +243,24 @@ class SignUp extends React.Component {
     const { newUserBasic } = this.props;
     newUserBasic(email, password, name);
   }
-
+    
+  handleFacebookSocialSignup = (payload) => {
+      console.log(payload);
+  }
+    
+  handleTwitterSocialSignup = (payload) => {
+      console.log(payload);
+  }
+    
+  handleGoogleSocialSignup = (payload) => {
+      console.log(payload);
+      
+  }
+    
+  handleLoginFailure = (e) => {
+      console.log(e)  
+  }
+a
   handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       if (this.enableButton()) this.onSubmit();
@@ -263,14 +281,15 @@ class SignUp extends React.Component {
     && this.validateNotBlank(password)
     && this.validateEmail(email);
   }
-
+    
   render() {
-    const { classes, messageSingUp } = this.props;
+    const { classes, messageSingUp, triggerLogin } = this.props;
     const {
       email, password, name,
       showPassword
     } = this.state;
-    return (
+     
+  return (
       <div className={classes.pageContainer}>
         <Paper className={classes.contentContainer}>
           <div className={classes.headingContainer}>
@@ -278,22 +297,23 @@ class SignUp extends React.Component {
               Sign Up
             </h3>
           </div>
-          {/* <div className={classes.iconListContainer}>
+          <div className={classes.iconListContainer}>
             <ul className={classes.iconList}>
               <li className={classes.iconListItem}>
-                <a href="https://chune-api.herokuapp.com/api/v1/users/social/login/twitter">
-                  <TwitterIcon />
-                </a>
+                <TwitterButton onLoginSuccess={this.handleTwitterSocialSignup} />
               </li>
               <li className={classes.iconListItem}>
-                <a href="https://chune-api.herokuapp.com/api/v1/users/social/login/facebook">
-                  <FacebookIcon />
-                </a>
+                 <SocialButton type='f' provider='facebook' appId='177327102945347' key={'facebook'} onLoginSuccess={this.handleFacebookSocialSignup} />
               </li>
               <li className={classes.iconListItem}>
-                <a href="https://chune-api.herokuapp.com/api/v1/users/social/login/google-oauth2">
-                  <GoogleIcon />
-                </a>
+                 <SocialButton type='g' provider='google' 
+                               appId='243198086936-g6h4hfvujnoms1j5i4d76vjqk08pp7gd.apps.googleusercontent.com' 
+                               onLoginSuccess={this.handleGoogleSocialSignup} onLoginFailure={this.handleLoginFailure} />
+              </li>
+              <li className={classes.iconListItem}>
+                 <SocialButton type='s' provider='google' 
+                               appId='243198086936-g6h4hfvujnoms1j5i4d76vjqk08pp7gd.apps.googleusercontent.com' 
+                               onLoginSuccess={this.handleGoogleSocialSignup} onLoginFailure={this.handleLoginFailure} />
               </li>
             </ul>
           </div>
@@ -301,7 +321,7 @@ class SignUp extends React.Component {
             <p className={classes.para}>
               Or use email instead
             </p>
-          </div> */}
+          </div>
           <div className={classes.errorMessage}>
             {messageSingUp ? 'This email is already in use' : null}
           </div>
