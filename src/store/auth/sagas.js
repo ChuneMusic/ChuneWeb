@@ -8,7 +8,7 @@ import {
 import { CREATE_NEW_USER, LOGIN_USER, SUCCESS_GET_TOKEN } from './types';
 import {
   successGetToken, successGetProfileSocial,
-  logOutUser, errorAuthUser
+  logOutUser, errorSignUpUser, errorSignInUser
 } from './actions';
 import { errorMessage } from '../error/actions';
 import { setUserToken } from '../../utilities/APIConfig';
@@ -23,12 +23,10 @@ export function* getTokenUser(action) {
     setUserToken(token);
     yield put(successGetToken(token));
   } catch (e) {
-    console.dir(e);
-    console.log(e.response, 'status');
     if (e.response.status === 400) {
-      const message = e.response.data.password || e.response.data.email || e.response.data.non_field_errors;
-      if (action.type === 'CREATE_NEW_USER') yield put(errorAuthUser(message[0]));
-      else if (action.type === 'LOGIN_USER') yield put(errorAuthUser(message[0]));
+      const message = e.response.data.email || e.response.data.password || e.response.data.non_field_errors;
+      if (action.type === 'CREATE_NEW_USER') yield put(errorSignUpUser(message[0]));
+      else if (action.type === 'LOGIN_USER') yield put(errorSignInUser(message[0]));
     } else {
       yield put(errorMessage(e.message));
     }

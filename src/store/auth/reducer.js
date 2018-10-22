@@ -5,14 +5,16 @@ export const initState = {
   token: '',
   profile: {},
   authSuccess: false,
-  message: ''
+  messageSignUp: '',
+  messageSignIn: ''
 };
 
 const successGetToken = (state, { token }) => ({
   ...state,
   token,
   authSuccess: true,
-  message: ''
+  messageSignUp: '',
+  messageSignIn: ''
 });
 const successGetProfileSocial = (state, { profile }) => ({ ...state, profile });
 const logOutUser = state => ({
@@ -21,13 +23,15 @@ const logOutUser = state => ({
   profile: {},
   authSuccess: false
 });
-const errorAuthUser = (state, { message }) => ({ ...state, message });
+const errorSignUpUser = (state, { message }) => ({ ...state, messageSignUp: message });
+const errorSignInUser = (state, { message }) => ({ ...state, messageSignIn: message });
 
 const handlers = {
   [TYPES.SUCCESS_GET_TOKEN]: successGetToken,
   [TYPES.SUCCESS_GET_PROFILE_SOCIAL]: successGetProfileSocial,
   [TYPES.LOG_OUT_USER]: logOutUser,
-  [TYPES.ERROR_AUTH_USER]: errorAuthUser
+  [TYPES.ERROR_SIGN_UP_USER]: errorSignUpUser,
+  [TYPES.ERROR_SIGN_IN_USER]: errorSignInUser
 };
 
 export const reducerAuthUser = createReducer(initState, handlers);

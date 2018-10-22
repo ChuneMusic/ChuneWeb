@@ -377,7 +377,7 @@ class SignUp extends React.Component {
 }
 
 const mapStateToProps = store => ({
-  message: store.dataAuth.message
+  message: store.dataAuth.messageSignUp
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({

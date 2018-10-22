@@ -362,7 +362,7 @@ class SignIn extends React.Component {
 }
 
 const mapStateToProps = store => ({
-  message: store.dataAuth.message
+  message: store.dataAuth.messageSignIn
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
