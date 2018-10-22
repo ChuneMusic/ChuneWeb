@@ -18,7 +18,7 @@ import {
   string
 } from 'prop-types';
 
-import { GoogleIcon, FacebookIcon, TwitterIcon } from '../shared/SocialIcons';
+// import { GoogleIcon, FacebookIcon, TwitterIcon } from '../shared/SocialIcons';
 import { createNewUser } from '../../store/auth/actions';
 import BackgroundPNG from '../../../assets/images/background.jpg';
 
@@ -265,7 +265,7 @@ class SignUp extends React.Component {
   }
 
   render() {
-    const { classes, messageSingUp } = this.props;
+    const { classes, message } = this.props;
     const {
       email, password, name,
       showPassword
@@ -303,7 +303,7 @@ class SignUp extends React.Component {
             </p>
           </div> */}
           <div className={classes.errorMessage}>
-            {messageSingUp ? 'This email is already in use' : null}
+            {message || null}
           </div>
           <div className={classes.formContainer}>
             <form className={classes.signupForm} noValidate autoComplete="off" onKeyPress={this.handleKeyPress}>
@@ -377,7 +377,7 @@ class SignUp extends React.Component {
 }
 
 const mapStateToProps = store => ({
-  messageSingUp: store.error.messageSingUp
+  message: store.dataAuth.message
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
@@ -389,5 +389,9 @@ export const SignUpConnect = withStyles(styles)(connect(mapStateToProps, mapActi
 SignUp.propTypes = {
   classes: objectOf(any).isRequired,
   newUserBasic: func.isRequired,
-  messageSingUp: string.isRequired
+  message: string
+};
+
+SignUp.defaultProps = {
+  message: undefined
 };

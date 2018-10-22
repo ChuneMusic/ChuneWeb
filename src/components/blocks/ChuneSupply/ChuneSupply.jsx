@@ -48,7 +48,7 @@ class ChuneSupply extends React.PureComponent {
           <div className="tracksList">
             {map(supplies, (supply, key) => {
               let images = supply.image;
-              if (~images.indexOf('.jpg')) images = 'https://via.placeholder.com/100x150';
+              if (~images.indexOf('.jpg')) images = `https://api-stage.chunesupply.com/static/imgs/full/${supply.image}`;
               if (key > 9 && openList === false) return null;
               return (
                 <a

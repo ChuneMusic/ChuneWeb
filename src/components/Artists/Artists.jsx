@@ -19,7 +19,7 @@ const styles = () => ({
     margin: '180px auto',
   },
   container: {
-    margin: '44px auto',
+    margin: '44px auto 0 auto',
     '@media (max-width: 1023px)': {
       width: '100vw',
       margin: '24px auto',
