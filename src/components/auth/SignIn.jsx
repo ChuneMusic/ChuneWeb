@@ -259,7 +259,7 @@ class SignIn extends React.Component {
   }
 
   render() {
-    const { classes, messageSingIn } = this.props;
+    const { classes, message } = this.props;
     const { email, password, showPassword } = this.state;
     return (
       <div className={classes.pageContainer}>
@@ -294,7 +294,7 @@ class SignIn extends React.Component {
             </p>
           </div> */}
           <div className={classes.errorMessage}>
-            {messageSingIn ? 'Email or password is incorrect' : null}
+            {message || null}
           </div>
           <div className={classes.formContainer}>
             <form className={classes.signupForm} noValidate autoComplete="off" onKeyPress={this.handleKeyPress}>
@@ -362,7 +362,7 @@ class SignIn extends React.Component {
 }
 
 const mapStateToProps = store => ({
-  messageSingIn: store.error.messageSingIn
+  message: store.dataAuth.messageSignIn
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
@@ -374,5 +374,9 @@ export const SignInConnect = withStyles(styles)(connect(mapStateToProps, mapActi
 SignIn.propTypes = {
   classes: objectOf(any).isRequired,
   loginBasic: func.isRequired,
-  messageSingIn: string.isRequired
+  message: string
+};
+
+SignIn.defaultProps = {
+  message: undefined
 };

@@ -4,10 +4,18 @@ import * as TYPES from './types';
 export const initState = {
   token: '',
   profile: {},
-  authSuccess: false
+  authSuccess: false,
+  messageSignUp: '',
+  messageSignIn: ''
 };
 
-const successGetToken = (state, { token }) => ({ ...state, token, authSuccess: true });
+const successGetToken = (state, { token }) => ({
+  ...state,
+  token,
+  authSuccess: true,
+  messageSignUp: '',
+  messageSignIn: ''
+});
 const successGetProfileSocial = (state, { profile }) => ({ ...state, profile });
 const logOutUser = state => ({
   ...state,
@@ -15,11 +23,15 @@ const logOutUser = state => ({
   profile: {},
   authSuccess: false
 });
+const errorSignUpUser = (state, { message }) => ({ ...state, messageSignUp: message });
+const errorSignInUser = (state, { message }) => ({ ...state, messageSignIn: message });
 
 const handlers = {
   [TYPES.SUCCESS_GET_TOKEN]: successGetToken,
   [TYPES.SUCCESS_GET_PROFILE_SOCIAL]: successGetProfileSocial,
-  [TYPES.LOG_OUT_USER]: logOutUser
+  [TYPES.LOG_OUT_USER]: logOutUser,
+  [TYPES.ERROR_SIGN_UP_USER]: errorSignUpUser,
+  [TYPES.ERROR_SIGN_IN_USER]: errorSignInUser
 };
 
 export const reducerAuthUser = createReducer(initState, handlers);
