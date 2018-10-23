@@ -362,7 +362,7 @@ class SignUp extends React.Component {
               </li>
               <li className={classes.iconListItem}>
                  <OauthSender
-                   authorizeUrl="https://accounts.spotify.com/authorize?scope=user-read-private"
+                   authorizeUrl="https://accounts.spotify.com/authorize?scope=user-read-email"
                    clientId='a48cf79e2b704d93adef19d5bcd67530'
                    redirectUri="http://localhost:4000/"
                    state={{ from: '/settings' }}
