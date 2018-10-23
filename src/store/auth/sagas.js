@@ -3,9 +3,9 @@ import { REHYDRATE } from 'redux-persist';
 
 import {
   getTokenToServer, getProfileUserSocial,
-  tokenVerifyCreate, refreshToken
+  tokenVerifyCreate, refreshToken, registerNewSocialUser
 } from './utilities/authUser';
-import { CREATE_NEW_USER, LOGIN_USER, SUCCESS_GET_TOKEN } from './types';
+import { CREATE_NEW_USER, CREATE_NEW_SOCIAL_USER, LOGIN_USER, LOGIN_SOCIAL_USER, SUCCESS_GET_TOKEN } from './types';
 import { successGetToken, successGetProfileSocial, logOutUser } from './actions';
 import { errorMessage, errorMessageSingUp, errorMessageSingIn } from '../error/actions';
 import { setUserToken } from '../../utilities/APIConfig';
@@ -54,8 +54,22 @@ export function* getProfile({ payload }) {
   }
 }
 
+export function* getSocialUserToken(action) {
+    try {
+        const { code, redirectUri, provider } = action.payload;
+        const token = yield call(registerNewSocialUser, code, redirectUri, provider);
+        setUserToken(token);
+        yield put(successGetToken(token));
+    }
+    catch (e) {
+        if (action.type === 'CREATE_NEW_SOCIAL_USER') yield put(errorMessageSingUp(e.message));
+        else if (action.type === 'LOGIN_USER') yield put(errorMessageSingIn(e.message));
+    }
+}
+
 export function* sagasAuthUser() {
   yield takeEvery([CREATE_NEW_USER, LOGIN_USER], getTokenUser);
+  yield takeEvery([CREATE_NEW_SOCIAL_USER, LOGIN_SOCIAL_USER], getSocialUserToken);
   yield takeEvery(REHYDRATE, rehydrateAuth);
   yield takeEvery(SUCCESS_GET_TOKEN, getProfile);
 }
