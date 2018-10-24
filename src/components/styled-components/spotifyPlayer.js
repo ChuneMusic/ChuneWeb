@@ -11,7 +11,7 @@ export const SpotifyWrapper = styled.div`
   bottom: 0;
 `;
 export const SpotifyPlayer = styled.div`
-  width: 960px;
+  width: 900px;
   background-color: #282828;
   display: flex;
   align-items: center;

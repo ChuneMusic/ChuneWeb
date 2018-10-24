@@ -103,7 +103,6 @@ const styles = () => ({
     height: 32
   },
   avatarContainer: {
-    height: 74,
     display: 'flex',
     alignItems: 'center',
     alignContent: 'flex-end',

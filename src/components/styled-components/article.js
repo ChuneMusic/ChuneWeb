@@ -10,7 +10,7 @@ export const ArticleTweet = styled.div`
   }
 `;
 export const Article = styled.div`
-  width: 530px;
+  width: 538px;
   height: 150px;
   border: solid 1px rgba(0, 0, 0, 0.12);
   margin: 0 auto;
@@ -36,7 +36,7 @@ export const ArticleImages = styled.div`
   }
 `;
 export const ArticleContainer = styled.div`
-  width: 380px;
+  width: 388px;
   height: 150px;
   display: flex;
   flex-direction: column;

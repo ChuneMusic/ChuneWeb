@@ -31,9 +31,8 @@ const Events = ({ artists, geolocation, artistsSuccess }) => {
           artists.map(artist => (
             <EventCardConnect
               artist={artist}
-              eventsLoading={false}
-              geolocation={geolocation}
               key={artist.id}
+              artistPage={false}
             />
           ))
         }

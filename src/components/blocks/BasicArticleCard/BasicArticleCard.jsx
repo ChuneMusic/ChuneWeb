@@ -22,7 +22,7 @@ class BasicArticleCard extends React.Component {
     if (featured.length === 0) {
       const articles = [
         {
-          id: 10,
+          id: 0,
           image: 'https://www.billboard.com/files/styles/article_main_image/public/media/shakira-june-2018-billboard-1548.jpg',
           title: 'Smino Brings Out T-Pain For Epic "Chopped N Skrewed" Performance In Atlanta',
           source: 'hotnewhiphop',
@@ -64,8 +64,8 @@ class BasicArticleCard extends React.Component {
     const featuredArticle = featured.map((e, index) => {
       let t = e.title;
       if (window.innerWidth >= 960) {
-        if (index === 0) t = truncateWithEllipses(e.title, 95);
-        if (index !== 0) t = truncateWithEllipses(e.title, 43);
+        if (index === 0) t = truncateWithEllipses(e.title, 90);
+        if (index !== 0) t = truncateWithEllipses(e.title, 38);
       } else {
         t = truncateWithEllipses(e.title, 40);
       }

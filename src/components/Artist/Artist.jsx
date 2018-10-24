@@ -27,7 +27,7 @@ import { TopTracksChartConnect } from '../blocks/TopTracksChart/TopTracksChart';
 
 const styles = () => ({
   followButton: {
-    width: 104,
+    width: '100%',
     height: 36,
     border: 'solid 1px rgba(0, 0, 0, 0.12)',
     fontFamily: 'Roboto',
@@ -40,6 +40,7 @@ const styles = () => ({
     textAlign: 'center',
     color: '#ffffff',
     backgroundColor: '#552e89',
+    margin: '0 0 20px 0',
     '&:hover': {
       backgroundColor: 'rgba(85, 46, 137, 0.75)',
     },
@@ -48,7 +49,7 @@ const styles = () => ({
     },
   },
   unfollowButton: {
-    width: 104,
+    width: '100%',
     height: 36,
     backgroundColor: 'rgba(98, 2, 238, 0)',
     border: 'solid 1px rgba(0, 0, 0, 0.12)',
@@ -61,6 +62,7 @@ const styles = () => ({
     letterSpacing: 1.3,
     textAlign: 'center',
     color: '#6200ee',
+    margin: '0 0 20px 0',
     '&:hover': {
       backgroundColor: 'rgba(98, 2, 238, 0)',
     },
@@ -102,11 +104,10 @@ class Artist extends React.Component {
   scrollDiv = () => {
     const block = document.getElementById('blockDiv');
     const right = document.getElementById('right');
-    const featured = document.getElementById('featured');
-    if (block.offsetHeight - featured.offsetHeight > right.offsetHeight) {
+    if (block.offsetHeight > right.offsetHeight + 24) {
       this.setState({ position: block.scrollTop });
     } else {
-      const diff = block.scrollTop - featured.offsetHeight + block.offsetHeight - right.offsetHeight - 50;
+      const diff = block.scrollTop + block.offsetHeight - right.offsetHeight - 40;
       if (diff > 0) {
         this.setState({ position: diff });
       } else {
@@ -173,7 +174,7 @@ class Artist extends React.Component {
     return (
       <StyledContent.Wrapper modal={modal} onScroll={this.scrollDiv} id="blockDiv">
         <StyledArtist.WrapperArtist>
-          <StyledArtist.ArtistHeader id="featured">
+          {/* <StyledArtist.ArtistHeader id="featured">
             <StyledContent.LeftBlockContent>
               <StyledArtist.ArtistImage image={artist.image_url} />
               <StyledArtist.ArtistName>{artist.name}</StyledArtist.ArtistName>
@@ -185,7 +186,7 @@ class Artist extends React.Component {
                   : <Button className={classes.followButton} onClick={this.follow}>FOLLOW</Button>
               }
             </StyledArtist.RightBlockButton>
-          </StyledArtist.ArtistHeader>
+          </StyledArtist.ArtistHeader> */}
           <StyledContent.Content>
             <StyledContent.LeftBlockContent>
               {contentArtist}
@@ -193,7 +194,12 @@ class Artist extends React.Component {
               <Styled.WaypointBlock />
             </StyledContent.LeftBlockContent>
             <StyledContent.RightBlockArtistContent id="right" pos={position}>
-              <EventCardConnect artist={artist} />
+              <EventCardConnect artist={artist} artistPage />
+              {
+                followButton
+                  ? <Button className={classes.unfollowButton} onClick={this.unfollow}>UNFOLLOW</Button>
+                  : <Button className={classes.followButton} onClick={this.follow}>FOLLOW</Button>
+              }
               <TopTracksChartConnect
                 tracks={topTracksArtist}
                 artistName={artist.name}

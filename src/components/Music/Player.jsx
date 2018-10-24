@@ -21,9 +21,7 @@ import Repeat from '../../../assets/images/control/repeat.svg';
 import {
   seekToPositionInCurrentlyPlayingTrack, setVolumeForPlayback,
   toggleShuffleForPlayback, setRepeatModeOnPlayback, skipPlaybackToNextTrack,
-  skipPlaybackToPreviousTrack,
-  playTrack,
-  pauseTrack
+  skipPlaybackToPreviousTrack, playTrack, pauseTrack
 } from '../../store/spotify/actions';
 
 class Player extends React.Component {
