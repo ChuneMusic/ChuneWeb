@@ -16,7 +16,7 @@ const styles = () => ({
   root: {
     width: 716,
     margin: '0px auto',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: '100vw',
     }
   },

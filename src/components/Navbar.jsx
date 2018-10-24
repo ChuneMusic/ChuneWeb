@@ -24,7 +24,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 
 import { SearchFormConnect } from './SearchForm';
-import { SpotifyIcon } from './shared/SocialIcons';
+// import { SpotifyIcon } from './shared/SocialIcons';
 import LogoSVG from '../../assets/images/Chune_Supply_Logotype_White.svg';
 import { logOutUser } from '../store/auth/actions';
 import * as StyledNavBar from './styled-components/navbar';
@@ -33,7 +33,7 @@ import { openCloseSearch } from '../store/autosuggest/actions';
 const styles = () => ({
   navContainer: {
     height: 74,
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       height: 56,
     }
   },
@@ -46,7 +46,7 @@ const styles = () => ({
     alignItems: 'center',
     width: '100%',
     margin: 0,
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       backgroundImage: 'linear-gradient(262deg, #9c05cd, #552e89)',
       height: 56,
     }
@@ -55,7 +55,7 @@ const styles = () => ({
     width: '100%',
     height: 74,
     margin: '0px auto',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: '100vw',
       backgroundImage: 'linear-gradient(262deg, #9c05cd, #552e89)',
       height: 56,
@@ -115,7 +115,7 @@ const styles = () => ({
     border: 0,
     color: 'white',
     outline: 'none',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       marginRight: 0,
       marginLeft: 30,
     }
@@ -139,7 +139,7 @@ const styles = () => ({
       backgroundColor: 'rgba(255, 255, 255, 0.16)',
     },
     borderRadius: '50%',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: 24,
       height: 24,
       fontSize: 24,
@@ -354,18 +354,18 @@ class Navbar extends React.Component {
     const { drawerOpen } = this.state;
     const {
       classes, logOut, searching,
-      profile
+      // profile
     } = this.props;
     const { value, anchorEl } = this.state;
-    const spotify = profile.display_name ? profile.display_name : (
-      <a href="http://localhost:4001/auth/spotify">
-        Spotify
-      </a>
-    );
+    // const spotify = profile.display_name ? profile.display_name : (
+    //   <a href="http://localhost:4001/auth/spotify">
+    //     Spotify
+    //   </a>
+    // );
     const searchForm = <SearchFormConnect cancelSearch={this.toggleSearch} />;
     const normalMenu = (
       <header>
-        <MediaQuery maxDeviceWidth={1059}>
+        <MediaQuery maxDeviceWidth={1029}>
           <div style={{ height: 56 }}>
             <StyledNavBar.NavBarMobile>
               <Toolbar className={classes.mobileToolbar}>
@@ -466,7 +466,7 @@ class Navbar extends React.Component {
             </StyledNavBar.NavBarMobile>
           </div>
         </MediaQuery>
-        <MediaQuery minDeviceWidth={1060}>
+        <MediaQuery minDeviceWidth={1030}>
           <div style={{ height: 74 }}>
             <StyledNavBar.NavBar>
               <StyledNavBar.NavBarLogoBlock>
@@ -519,12 +519,12 @@ class Navbar extends React.Component {
                     <MenuItem onClick={() => this.goToRoute('/faq')}>
                       FAQ
                     </MenuItem>
-                    <MenuItem>
+                    {/* <MenuItem>
                       <SpotifyIcon width="30px" height="30px" />
                       &nbsp;
                       {spotify}
                     </MenuItem>
-                    {/* <MenuItem onClick={this.sendPasswordResetEmail}>
+                    <MenuItem onClick={this.sendPasswordResetEmail}>
                       Reset Password
                     </MenuItem> */}
                     <MenuItem onClick={() => logOut()}>
@@ -564,7 +564,7 @@ export const NavBarConnect = withStyles(styles)(withRouter(connect(mapStateToPro
 
 Navbar.propTypes = {
   classes: objectOf(any).isRequired,
-  profile: objectOf(any).isRequired,
+  // profile: objectOf(any).isRequired,
   history: objectOf(any).isRequired,
   location: objectOf(any).isRequired,
   logOut: func.isRequired,

@@ -32,7 +32,7 @@ const styles = () => ({
     height: '100vh',
     display: 'flex',
     alignItems: 'center',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: '100vw',
       alignItems: 'flex-start'
     }
@@ -47,7 +47,7 @@ const styles = () => ({
     border: 'solid 1px transparent',
     backgroundImage: 'linear-gradient(#ffffff, #ffffff), linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1) 5%, rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, 0))',
     display: 'flex',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       margin: '60px auto 0 auto',
       width: 300,
       height: 450,
@@ -58,7 +58,7 @@ const styles = () => ({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 36,
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       marginTop: 20,
     }
   },
@@ -68,7 +68,7 @@ const styles = () => ({
     alignItems: 'center',
     marginTop: 34,
     height: 18,
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       marginTop: 20,
     }
   },
@@ -78,7 +78,7 @@ const styles = () => ({
     alignItems: 'center',
     marginTop: 34,
     height: 15,
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       marginTop: 20,
     }
   },
@@ -94,7 +94,7 @@ const styles = () => ({
     alignItems: 'center',
     marginTop: 34,
     marginBottom: 38,
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       marginTop: 20,
       marginBottom: 0,
     }

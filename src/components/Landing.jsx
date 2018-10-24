@@ -28,7 +28,7 @@ const styles = () => ({
     height: '100vh',
     display: 'flex',
     alignItems: 'center',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: '100vw',
     },
     '& .heroUnit': {
@@ -37,7 +37,7 @@ const styles = () => ({
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      '@media (max-width: 1023px)': {
+      '@media (max-width: 1029px)': {
         width: 332,
         margin: '98px auto',
         alignItems: 'flex-start',
@@ -56,7 +56,7 @@ const styles = () => ({
         color: '#ffffff',
         marginBottom: 22,
         marginTop: 0,
-        '@media (max-width: 1023px)': {
+        '@media (max-width: 1029px)': {
           width: 332,
           height: 160,
           fontSize: 30,
@@ -77,7 +77,7 @@ const styles = () => ({
         color: '#ffffff',
         marginBottom: 40,
         marginTop: 0,
-        '@media (max-width: 1023px)': {
+        '@media (max-width: 1029px)': {
           width: 332,
           height: 72,
           fontSize: 14,
@@ -146,7 +146,7 @@ const styles = () => ({
     color: '#232323',
     marginTop: 122,
     marginBottom: 20,
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       marginTop: 100,
       width: 332,
     },
@@ -165,7 +165,7 @@ const styles = () => ({
     color: '#515151',
     marginTop: 0,
     marginBottom: 47,
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: 332,
       height: 48,
     },
@@ -184,7 +184,7 @@ const styles = () => ({
     color: '#ffffff',
     marginTop: 122,
     marginBottom: 20,
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: 332,
       marginTop: 100,
     },
@@ -203,7 +203,7 @@ const styles = () => ({
     color: '#ffffff',
     marginTop: 0,
     marginBottom: 47,
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: 332,
       height: 48,
     },
@@ -215,7 +215,7 @@ const styles = () => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: '100vw',
       margin: '0px auto',
       height: 910,
@@ -228,7 +228,7 @@ const styles = () => ({
       height: 354,
       marginTop: 0,
       marginBottom: 48,
-      '@media (max-width: 1023px)': {
+      '@media (max-width: 1029px)': {
         width: 332,
         height: 536,
         flexDirection: 'column'
@@ -236,7 +236,7 @@ const styles = () => ({
       '& .artistCardImage': {
         '&:last-child': {
           marginLeft: -60,
-          '@media (max-width: 1023px)': {
+          '@media (max-width: 1029px)': {
             margin: 0,
           },
         },
@@ -278,7 +278,7 @@ const styles = () => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: '100vw',
       height: 827,
       flexDirection: 'column'
@@ -291,7 +291,7 @@ const styles = () => ({
       height: 454,
       marginTop: 0,
       marginBottom: 46,
-      '@media (max-width: 1023px)': {
+      '@media (max-width: 1029px)': {
         width: 375,
         height: 454,
         flexDirection: 'column'
@@ -305,7 +305,7 @@ const styles = () => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: '100vw',
       height: 673,
     },
@@ -317,7 +317,7 @@ const styles = () => ({
       height: 423,
       marginTop: 0,
 
-      '@media (max-width: 1023px)': {
+      '@media (max-width: 1029px)': {
         width: 375,
         height: 369,
         marginBottom: 28,
@@ -333,7 +333,7 @@ const styles = () => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: '100vw',
       margin: '0px auto',
       height: 870,
@@ -346,7 +346,7 @@ const styles = () => ({
       height: 350,
       marginTop: 0,
       marginBottom: 46,
-      '@media (max-width: 1023px)': {
+      '@media (max-width: 1029px)': {
         width: 375,
         margin: '0px auto',
         height: 566,
@@ -360,7 +360,7 @@ const styles = () => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: '100vw',
       margin: '0px auto',
       height: 940,
@@ -373,7 +373,7 @@ const styles = () => ({
       height: 376,
       marginTop: 0,
       marginBottom: 20,
-      '@media (max-width: 1023px)': {
+      '@media (max-width: 1029px)': {
         width: 375,
         margin: '0px auto',
         height: 524,
@@ -415,13 +415,13 @@ class Landing extends React.Component {
           <p className={classes.descriptionStyle1}>
             Follow your favorite artists.
           </p>
-          <MediaQuery minWidth={1024}>
+          <MediaQuery minWidth={1030}>
             <div className="artistCardsContainer">
               <img src={ArtistOnePNG} title="Dermot Kennedy" alt="Dermot Kennedy" />
               <img src={ArtistTwoPNG} title="Rejjie Snow" alt="Rejjie Snow" className="artistCardImage" />
             </div>
           </MediaQuery>
-          <MediaQuery maxWidth={1023}>
+          <MediaQuery maxWidth={1029}>
             <div className="artistCardsContainerMobile">
               <img src={ArtistOneMobilePNG} title="Dermot Kennedy" alt="Dermot Kennedy" />
               <img src={ArtistTwoMobilePNG} title="Rejjie Snow" alt="Rejjie Snow" className="artistCardImage" />
@@ -435,12 +435,12 @@ class Landing extends React.Component {
           <p className={classes.descriptionStyle2}>
             Get the latest articles about your favorite artists.
           </p>
-          <MediaQuery minWidth={1024}>
+          <MediaQuery minWidth={1030}>
             <div className="articleCardsContainer">
               <img src={ArticlePNG} title="Articles" alt="Articles" />
             </div>
           </MediaQuery>
-          <MediaQuery maxWidth={1023}>
+          <MediaQuery maxWidth={1029}>
             <div className="articleCardsContainer">
               <img src={ArticleMobilePNG} title="Articles" alt="Articles" />
             </div>
@@ -453,12 +453,12 @@ class Landing extends React.Component {
           <p className={classes.descriptionStyle1}>
             Get the latest videos about your favorite artists.
           </p>
-          <MediaQuery minWidth={1024}>
+          <MediaQuery minWidth={1030}>
             <div className="videoCardContainer">
               <img src={VideoPNG} title="Videos" alt="Videos" />
             </div>
           </MediaQuery>
-          <MediaQuery maxWidth={1023}>
+          <MediaQuery maxWidth={1029}>
             <div className="videoCardContainer">
               <img src={VideoMobilePNG} title="Videos" alt="Videos" />
             </div>
@@ -471,12 +471,12 @@ class Landing extends React.Component {
           <p className={classes.descriptionStyle2}>
             Get the latest releases by your favorite artists.
           </p>
-          <MediaQuery minWidth={1024}>
+          <MediaQuery minWidth={1030}>
             <div className="albumCardContainer">
               <img src={AlbumPNG} title="Album" alt="Album" />
             </div>
           </MediaQuery>
-          <MediaQuery maxWidth={1023}>
+          <MediaQuery maxWidth={1029}>
             <div className="albumCardContainer">
               <img src={AlbumMobilePNG} title="Album" alt="Album" />
             </div>
@@ -489,12 +489,12 @@ class Landing extends React.Component {
           <p className={classes.descriptionStyle1}>
             Know when your favorite artists are in town.
           </p>
-          <MediaQuery minWidth={1024}>
+          <MediaQuery minWidth={1030}>
             <div className="eventsCardContainer">
               <img src={EventCardPNG} title="Events" alt="Events" />
             </div>
           </MediaQuery>
-          <MediaQuery maxWidth={1023}>
+          <MediaQuery maxWidth={1029}>
             <div className="eventsCardContainer">
               <img src={EventCardMobilePNG} title="Events" alt="Events" />
             </div>

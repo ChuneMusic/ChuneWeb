@@ -24,7 +24,7 @@ const styles = () => ({
     transition: 'all 0.8s',
     position: 'absolute',
     zIndex: 10,
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: '100vw',
     }
   },
@@ -282,7 +282,7 @@ class GuestNavbar extends React.Component {
     const { drawerOpen } = this.state;
     return (
       <div>
-        <MediaQuery maxDeviceWidth={1023}>
+        <MediaQuery maxDeviceWidth={1029}>
           <div className={alternateColor ? classes.mobileTopbarContainerColor : classes.mobileTopbarContainer}>
             <div className={classes.mobileToolbarLeftSection}>
               <Link to="/">
@@ -337,7 +337,7 @@ class GuestNavbar extends React.Component {
             </div>
           </div>
         </MediaQuery>
-        <MediaQuery minDeviceWidth={1024}>
+        <MediaQuery minDeviceWidth={1030}>
           <Grid
             container
             alignItems="flex-end"

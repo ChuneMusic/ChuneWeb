@@ -12,7 +12,7 @@ const styles = () => ({
     justifyContent: 'flex-end',
     borderRadius: 0,
     boxShadow: 'none',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: '100vw',
       height: 278,
     }
@@ -30,7 +30,7 @@ const styles = () => ({
     lineHeight: 'normal',
     letterSpacing: 0.3,
     color: '#ffffff',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: '100vw',
     }
   },
@@ -48,7 +48,7 @@ const styles = () => ({
     letterSpacing: 0.3,
     color: 'rgba(255, 255, 255, 0.6)',
     textTransform: 'uppercase',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: '100vw',
     }
   },
