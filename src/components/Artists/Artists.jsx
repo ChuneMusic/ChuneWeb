@@ -19,10 +19,10 @@ const styles = () => ({
     margin: '180px auto',
   },
   container: {
-    margin: '44px auto 0 auto',
+    margin: '24px auto 0 auto',
     '@media (max-width: 1029px)': {
       width: '100vw',
-      margin: '24px auto',
+      margin: '24px auto 0 auto',
     }
   }
 });

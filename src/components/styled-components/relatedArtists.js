@@ -8,7 +8,7 @@ export const WrapperArtists = styled.div`
   flex-wrap: wrap;
   margin: 0 auto;
   @media(max-width: 1080px) and (min-width: 600px) {
-    width: 98%;
+    width: 100%;
     justify-content: center;
   }
   @media(max-width: 600px) and (min-width: 320px) {
@@ -25,7 +25,7 @@ export const ArtistsHeader = styled.div`
   margin: 0 auto;
   padding: 0 0 20px 0;
   @media(max-width: 1080px) and (min-width: 600px) {
-    width: 98%;
+    width: 100%;
     justify-content: center;
     align-items: center;
   }

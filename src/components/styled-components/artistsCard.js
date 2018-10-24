@@ -22,9 +22,9 @@ export const ArtistCard = styled.div`
     }
   }
   @media(max-width: 959px) and (min-width: 320px) {
-    width: 310px;
+    width: ${props => (props.artistPage ? '318px' : '310px')};
     height: 130px;
-    margin: 0 0 10px 0;
+    margin: ${props => (props.artistPage ? '0 0 20px 0' : '0 0 10px 0')};
   }
 `;
 export const ArtistCardImages = styled.div`

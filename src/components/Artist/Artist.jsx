@@ -41,6 +41,10 @@ const styles = () => ({
     color: '#ffffff',
     backgroundColor: '#552e89',
     margin: '0 0 20px 0',
+    '@media(max-width: 920px) and (min-width: 320px)': {
+      margin: 0,
+      width: 310
+    },
     '&:hover': {
       backgroundColor: 'rgba(85, 46, 137, 0.75)',
     },
@@ -63,6 +67,10 @@ const styles = () => ({
     textAlign: 'center',
     color: '#6200ee',
     margin: '0 0 20px 0',
+    '@media(max-width: 920px) and (min-width: 320px)': {
+      margin: 0,
+      width: 310
+    },
     '&:hover': {
       backgroundColor: 'rgba(98, 2, 238, 0)',
     },
@@ -174,7 +182,7 @@ class Artist extends React.Component {
     return (
       <StyledContent.Wrapper modal={modal} onScroll={this.scrollDiv} id="blockDiv">
         <StyledArtist.WrapperArtist>
-          {/* <StyledArtist.ArtistHeader id="featured">
+          <StyledArtist.ArtistHeader>
             <StyledContent.LeftBlockContent>
               <StyledArtist.ArtistImage image={artist.image_url} />
               <StyledArtist.ArtistName>{artist.name}</StyledArtist.ArtistName>
@@ -186,7 +194,7 @@ class Artist extends React.Component {
                   : <Button className={classes.followButton} onClick={this.follow}>FOLLOW</Button>
               }
             </StyledArtist.RightBlockButton>
-          </StyledArtist.ArtistHeader> */}
+          </StyledArtist.ArtistHeader>
           <StyledContent.Content>
             <StyledContent.LeftBlockContent>
               {contentArtist}
