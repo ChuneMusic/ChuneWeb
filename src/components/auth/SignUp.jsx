@@ -18,9 +18,11 @@ import {
   string
 } from 'prop-types';
 
-import { GoogleIcon, FacebookIcon, TwitterIcon } from '../shared/SocialIcons';
-import { createNewUser } from '../../store/auth/actions';
+import { createNewUser, createNewSocialUser } from '../../store/auth/actions';
 import BackgroundPNG from '../../../assets/images/background.jpg';
+import { GoogleIcon, FacebookIcon, TwitterIcon, SpotifyIcon2 } from '../shared/SocialIcons';
+import { OauthSender } from 'react-oauth-flow';
+
 
 const styles = () => ({
   pageContainer: {
@@ -217,7 +219,8 @@ class SignUp extends React.Component {
       name: '',
       email: '',
       password: '',
-      showPassword: false
+      showPassword: false,
+      provider: ''
     };
   }
 
@@ -242,7 +245,8 @@ class SignUp extends React.Component {
     const { newUserBasic } = this.props;
     newUserBasic(email, password, name);
   }
-
+    
+ 
   handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       if (this.enableButton()) this.onSubmit();
@@ -263,14 +267,67 @@ class SignUp extends React.Component {
     && this.validateNotBlank(password)
     && this.validateEmail(email);
   }
+    
+    openSocial = (url, provider) => { 
+        let w = 450;
+        let h = 600;
+        let dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
+        let dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
+        let width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+        let height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
 
+        let left = ((width / 2) - (w / 2)) + dualScreenLeft;
+        let top = ((height / 2) - (h / 2)) + dualScreenTop;
+        
+        
+        let newWin = window.open(url, '_blank', 'alwaysRaised=yes, scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+
+        let checkConnect = setInterval(() => {
+            try {
+                if (newWin.location.href.startsWith('http://localhost:4000')) {
+                    clearInterval(checkConnect);
+                    this.authenticateSocial(newWin);
+                }
+            }
+            catch(e) {
+            }}, 100);
+    }
+   
+    authenticateSocial = (popup) => {
+        const url = popup.location.href;
+        popup.close();
+        
+        const uri = url.split('?')[1];
+        const params = uri.split('&');
+        let code = null;
+        if (params.length > 1) {
+            params.forEach((p) => {
+                const parts = p.split('=');
+                const key = parts[0];
+                const val = parts[1];
+                if (key === 'code') {
+                    code = val;
+                    return;
+                }
+            });
+        }
+        if (!code) {
+            alert('Something went wrong. Please try again');
+            return;
+        }
+        
+        const { newSocialUser } = this.props; 
+        newSocialUser(code, 'http://localhost:4000/', this.state.provider);
+    }
+    
   render() {
     const { classes, messageSingUp } = this.props;
     const {
       email, password, name,
       showPassword
     } = this.state;
-    return (
+     
+  return (
       <div className={classes.pageContainer}>
         <Paper className={classes.contentContainer}>
           <div className={classes.headingContainer}>
@@ -278,22 +335,40 @@ class SignUp extends React.Component {
               Sign Up
             </h3>
           </div>
-          {/* <div className={classes.iconListContainer}>
-            <ul className={classes.iconList}>
+          <div className={classes.iconListContainer}>
+            <ul className={classes.iconList}> 
               <li className={classes.iconListItem}>
-                <a href="https://chune-api.herokuapp.com/api/v1/users/social/login/twitter">
-                  <TwitterIcon />
-                </a>
+                 <OauthSender
+                   authorizeUrl="https://www.facebook.com/v2.5/dialog/oauth?response_type=code&scope=email&display=popup"
+                   clientId='177327102945347'
+                   redirectUri="http://localhost:4000/"
+                   state={{ from: '/settings' }}
+                   render={({ url }) => <FacebookIcon 
+                                          onClick={() => this.openSocial(url, 'facebook')} />}
+
+                 />
               </li>
               <li className={classes.iconListItem}>
-                <a href="https://chune-api.herokuapp.com/api/v1/users/social/login/facebook">
-                  <FacebookIcon />
-                </a>
+                
+                 <OauthSender
+                   authorizeUrl="https://accounts.google.com/o/oauth2/v2/auth?scope=email"
+                   clientId='243198086936-g6h4hfvujnoms1j5i4d76vjqk08pp7gd.apps.googleusercontent.com'
+                   redirectUri="http://localhost:4000/"
+                   state={{ from: '/settings' }}
+                   render={({ url }) => <GoogleIcon 
+                                          onClick={() => this.openSocial(url, 'google')} />}
+
+                 />
               </li>
               <li className={classes.iconListItem}>
-                <a href="https://chune-api.herokuapp.com/api/v1/users/social/login/google-oauth2">
-                  <GoogleIcon />
-                </a>
+                 <OauthSender
+                   authorizeUrl="https://accounts.spotify.com/authorize?scope=user-read-email"
+                   clientId='a48cf79e2b704d93adef19d5bcd67530'
+                   redirectUri="http://localhost:4000/"
+                   state={{ from: '/settings' }}
+                   render={({ url }) => <SpotifyIcon2 
+                                          onClick={() => this.openSocial(url, 'spotify')} />}
+                 />
               </li>
             </ul>
           </div>
@@ -301,7 +376,7 @@ class SignUp extends React.Component {
             <p className={classes.para}>
               Or use email instead
             </p>
-          </div> */}
+          </div>
           <div className={classes.errorMessage}>
             {messageSingUp ? 'This email is already in use' : null}
           </div>
@@ -381,7 +456,8 @@ const mapStateToProps = store => ({
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
-  newUserBasic: createNewUser
+  newUserBasic: createNewUser,
+  newSocialUser: createNewSocialUser
 }, dispatch);
 
 export const SignUpConnect = withStyles(styles)(connect(mapStateToProps, mapActionsToProps)(SignUp));
@@ -389,5 +465,6 @@ export const SignUpConnect = withStyles(styles)(connect(mapStateToProps, mapActi
 SignUp.propTypes = {
   classes: objectOf(any).isRequired,
   newUserBasic: func.isRequired,
+  newSocialUser: func.isRequired,
   messageSingUp: string.isRequired
 };

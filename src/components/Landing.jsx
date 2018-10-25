@@ -458,8 +458,7 @@ class Landing extends React.Component {
               <img src={VideoPNG} title="Videos" alt="Videos" />
             </div>
           </MediaQuery>
-          <MediaQu
-            Fery maxWidth={1023}>
+          <MediaQuery Fery maxWidth={1023}>
             <div className="videoCardContainer">
               <img src={VideoMobilePNG} title="Videos" alt="Videos" />
             </div>
