@@ -284,7 +284,7 @@ class SignUp extends React.Component {
 
         let checkConnect = setInterval(() => {
             try {
-                if (newWin.location.href.startsWith('http://localhost:4000')) {
+                if (newWin.location.href.startsWith('https://stage.chunesupply.com')) {
                     clearInterval(checkConnect);
                     this.authenticateSocial(newWin);
                 }
@@ -317,7 +317,7 @@ class SignUp extends React.Component {
         }
         
         const { newSocialUser } = this.props; 
-        newSocialUser(code, 'http://localhost:4000/', this.state.provider);
+        newSocialUser(code, 'https://stage.chunesupply.com/', this.state.provider);
     }
     
   render() {
@@ -341,7 +341,7 @@ class SignUp extends React.Component {
                  <OauthSender
                    authorizeUrl="https://www.facebook.com/v2.5/dialog/oauth?response_type=code&scope=email&display=popup"
                    clientId='177327102945347'
-                   redirectUri="http://localhost:4000/"
+                   redirectUri="https://stage.chunesupply.com/"
                    state={{ from: '/settings' }}
                    render={({ url }) => <FacebookIcon 
                                           onClick={() => this.openSocial(url, 'facebook')} />}
@@ -353,7 +353,7 @@ class SignUp extends React.Component {
                  <OauthSender
                    authorizeUrl="https://accounts.google.com/o/oauth2/v2/auth?scope=email"
                    clientId='243198086936-g6h4hfvujnoms1j5i4d76vjqk08pp7gd.apps.googleusercontent.com'
-                   redirectUri="http://localhost:4000/"
+                   redirectUri="https://stage.chunesupply.com/"
                    state={{ from: '/settings' }}
                    render={({ url }) => <GoogleIcon 
                                           onClick={() => this.openSocial(url, 'google')} />}
@@ -364,7 +364,7 @@ class SignUp extends React.Component {
                  <OauthSender
                    authorizeUrl="https://accounts.spotify.com/authorize?scope=user-read-email"
                    clientId='a48cf79e2b704d93adef19d5bcd67530'
-                   redirectUri="http://localhost:4000/"
+                   redirectUri="https://stage.chunesupply.com/"
                    state={{ from: '/settings' }}
                    render={({ url }) => <SpotifyIcon2 
                                           onClick={() => this.openSocial(url, 'spotify')} />}
@@ -466,5 +466,4 @@ SignUp.propTypes = {
   classes: objectOf(any).isRequired,
   newUserBasic: func.isRequired,
   newSocialUser: func.isRequired,
-  messageSingUp: string.isRequired
 };
