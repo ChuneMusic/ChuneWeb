@@ -17,10 +17,15 @@ import {
   objectOf, any, func,
   string
 } from 'prop-types';
+import { OauthSender } from 'react-oauth-flow';
 
-// import { GoogleIcon, FacebookIcon, TwitterIcon } from '../shared/SocialIcons';
-import { createNewUser } from '../../store/auth/actions';
+import { createNewUser, createNewSocialUser } from '../../store/auth/actions';
 import BackgroundPNG from '../../../assets/images/background.jpg';
+import {
+  GoogleIcon, FacebookIcon,
+  TwitterIcon, SpotifyIcon2
+} from '../shared/SocialIcons';
+
 
 const styles = () => ({
   pageContainer: {
@@ -217,7 +222,8 @@ class SignUp extends React.Component {
       name: '',
       email: '',
       password: '',
-      showPassword: false
+      showPassword: false,
+      provider: ''
     };
   }
 
@@ -243,6 +249,7 @@ class SignUp extends React.Component {
     newUserBasic(email, password, name);
   }
 
+
   handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       if (this.enableButton()) this.onSubmit();
@@ -264,44 +271,122 @@ class SignUp extends React.Component {
     && this.validateEmail(email);
   }
 
+  openSocial = (url, provider) => {
+    const w = 450;
+    const h = 600;
+    const dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : screen.left;
+    const dualScreenTop = window.screenTop !== undefined ? window.screenTop : screen.top;
+    const width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+    const height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+    const left = ((width / 2) - (w / 2)) + dualScreenLeft;
+    const top = ((height / 2) - (h / 2)) + dualScreenTop;
+
+
+    const newWin = window.open(url, '_blank', `alwaysRaised=yes, scrollbars=yes, width=${w}, height=${h}, top=${top}, left=${left}`);
+
+    const checkConnect = setInterval(() => {
+      try {
+        if (newWin.location.href.startsWith('https://stage.chunesupply.com')) {
+          clearInterval(checkConnect);
+          this.authenticateSocial(newWin);
+        }
+      } catch (e) {
+        console.log(e.message);
+      }
+    }, 100);
+  }
+
+  authenticateSocial = (popup) => {
+    const url = popup.location.href;
+    popup.close();
+
+    const uri = url.split('?')[1];
+    const params = uri.split('&');
+    let code = null;
+    if (params.length > 1) {
+      params.forEach((p) => {
+        const parts = p.split('=');
+        const key = parts[0];
+        const val = parts[1];
+        if (key === 'code') {
+          code = val;
+        }
+      });
+    }
+    if (!code) {
+      alert('Something went wrong. Please try again');
+      return;
+    }
+
+    const { newSocialUser } = this.props;
+    newSocialUser(code, 'https://stage.chunesupply.com/', this.state.provider);
+  }
+
   render() {
     const { classes, message } = this.props;
     const {
       email, password, name,
       showPassword
     } = this.state;
+
     return (
       <div className={classes.pageContainer}>
         <Paper className={classes.contentContainer}>
           <div className={classes.headingContainer}>
             <h3 className={classes.formHeading}>
-              Sign Up
+          Sign Up
             </h3>
           </div>
-          {/* <div className={classes.iconListContainer}>
+          <div className={classes.iconListContainer}>
             <ul className={classes.iconList}>
               <li className={classes.iconListItem}>
-                <a href="https://chune-api.herokuapp.com/api/v1/users/social/login/twitter">
-                  <TwitterIcon />
-                </a>
+                <OauthSender
+                  authorizeUrl="https://www.facebook.com/v2.5/dialog/oauth?response_type=code&scope=email&display=popup"
+                  clientId="177327102945347"
+                  redirectUri="https://stage.chunesupply.com/"
+                  state={{ from: '/settings' }}
+                  render={({ url }) => (
+                    <FacebookIcon
+                      onClick={() => this.openSocial(url, 'facebook')}
+                    />
+                  )}
+                />
               </li>
               <li className={classes.iconListItem}>
-                <a href="https://chune-api.herokuapp.com/api/v1/users/social/login/facebook">
-                  <FacebookIcon />
-                </a>
+
+                <OauthSender
+                  authorizeUrl="https://accounts.google.com/o/oauth2/v2/auth?scope=email"
+                  clientId="243198086936-g6h4hfvujnoms1j5i4d76vjqk08pp7gd.apps.googleusercontent.com"
+                  redirectUri="https://stage.chunesupply.com/"
+                  state={{ from: '/settings' }}
+                  render={({ url }) => (
+                    <GoogleIcon
+                      onClick={() => this.openSocial(url, 'google')}
+                    />
+                  )}
+                />
               </li>
               <li className={classes.iconListItem}>
-                <a href="https://chune-api.herokuapp.com/api/v1/users/social/login/google-oauth2">
-                  <GoogleIcon />
-                </a>
+                <OauthSender
+                  authorizeUrl="https://accounts.spotify.com/authorize?scope=user-read-email"
+                  clientId="a48cf79e2b704d93adef19d5bcd67530"
+                  redirectUri="https://stage.chunesupply.com/"
+                  state={{ from: '/settings' }}
+                  render={({ url }) => (
+                    <SpotifyIcon2
+                      onClick={() => this.openSocial(url, 'spotify')}
+                    />
+                  )}
+                />
               </li>
             </ul>
           </div>
           <div className={classes.paragraphContainer}>
             <p className={classes.para}>
-              Or use email instead
+            Or use email instead
             </p>
-          </div> */}
+          </div>
           <div className={classes.errorMessage}>
             {message || null}
           </div>
@@ -352,21 +437,21 @@ class SignUp extends React.Component {
                           {showPassword ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
                       </InputAdornment>
-                    )}
+                  )}
                   />
                 </FormControl>
               </div>
               <Button className={classes.submitButton} onClick={this.onSubmit} disabled={!this.enableButton()}>
-                SIGN UP
+              SIGN UP
               </Button>
             </form>
           </div>
           <div className={classes.footerContainer}>
             <p className={classes.footerLine}>
-              Already have an account?
+            Already have an account?
               {' '}
               <Link to="/login" style={{ color: '#6200ee', fontWeight: 500 }}>
-                Log in
+              Log in
               </Link>
             </p>
           </div>
@@ -381,7 +466,8 @@ const mapStateToProps = store => ({
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
-  newUserBasic: createNewUser
+  newUserBasic: createNewUser,
+  newSocialUser: createNewSocialUser
 }, dispatch);
 
 export const SignUpConnect = withStyles(styles)(connect(mapStateToProps, mapActionsToProps)(SignUp));
