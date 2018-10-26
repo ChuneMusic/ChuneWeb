@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 export const WrapperArtists = styled.div`
   display: flex;
@@ -45,4 +45,137 @@ export const ArtistsBlock = styled.div`
     justify-content: center;
     flex-direction: column;
   }
+`;
+
+export const FirstArtistsHeader = styled.div`
+  height: 74px;
+  margin: 0 auto;
+  background: linear-gradient(262deg,#9c05cd,#552e89) #552e89;;
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+`;
+export const FirstArtistsBody = styled.div`
+  width: 910px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 220px);
+  grid-template-rows: repeat(9, 220px);
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+  padding: 0 0 10px 0;
+`;
+export const FirstBlock = styled.div`
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 3;
+  background: linear-gradient(262deg,#9c05cd,#552e89) #552e89;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  flex-direction: column;
+`;
+export const OtherBlock = styled.div`
+  background: url(${props => props.image}) top no-repeat;
+  background-size: cover;
+  border-radius: 6px;
+  position: relative;
+  width: 220px;
+  height: 220px;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0,0,0,0.3);
+    border-radius: 6px;
+  }
+`;
+export const DescriptionPage = styled.h1`
+  font-size: 48px;
+  font-family: 'Roboto';
+  color: #fff;
+  width: 345px;
+  font-weight: 700;
+  line-height: 50px;
+  text-align: center;
+  margin: 0 0 20px 0;
+`;
+export const TextPage = styled.p`
+  opacity: .5;
+  font-size: 20px;
+  font-family: 'Roboto';
+  color: #fff;
+  width: 300px;
+  font-weight: 700;
+  line-height: 22px;
+  text-align: center;
+`;
+export const BlockButtons = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  overflow: hidden;
+  white-space: nowrap;
+  position: absolute;
+`;
+export const ButtonNameArtist = styled.div`
+  min-width: 110px;
+  height: 44px;
+  background: rgba(255,255,255,0.9);;
+  border-radius: 44px;
+  margin: 0 0 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+export const SpanNameArtist = styled.p`
+  text-align: center;
+  padding: 0 15px;
+  font-family: 'Roboto';
+  font-size: 16px;
+`;
+export const ButtonCheck = styled.button`
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  outline: none;
+  cursor: pointer;
+  width: 220px;
+  height: 220px;
+  transition: all .4s cubic-bezier(.23,1,.32,1);
+  text-align: left;
+  &:hover {
+    transform: scale(0.95);
+  }
+  &:active {
+    transform: scale(0.90);
+  }
+`;
+export const SVGCheck = styled.svg`
+  cursor: pointer;
+  fill: #ffffff;
+  width: 128px;
+  position: absolute;
+  height: 128px;
+  left: 20%;
+  top: 20%;
+`;
+export const ButtonSend = styled.button`
+    position: absolute;
+    right: 20px;
+    width: 150px;
+    height: 44px;
+    border-radius: 6px;
+    cursor: pointer;
+    outline: none;
+    z-index: 105;
 `;

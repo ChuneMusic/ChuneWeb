@@ -22,7 +22,7 @@ export const ArtistsHeader = styled.div`
   width: 1080px;
   justify-content: space-between;
   align-items: flex-start;
-  margin: 0 auto;
+  margin: 24px auto 0 auto;
   padding: 0 0 20px 0;
   @media(max-width: 1080px) and (min-width: 600px) {
     width: 100%;

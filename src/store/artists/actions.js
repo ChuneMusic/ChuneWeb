@@ -1,7 +1,7 @@
 import {
   SUCCESS_GET_USER_ARTISTS, SUCCESS_GET_INFO_ARTIST, FOLLOW_ARTIST,
   SUCCESS_FOLLOW_ARTIST, UNFOLLOW_ARTIST, SUCCESS_UNFOLLOW_ARTIST,
-  CLEAR_INFO_ARTIST
+  CLEAR_INFO_ARTIST, SUCCESS_GET_FIRST_LIST_ARTISTS, ADD_IN_ARRAY_ARTIST
 } from './types';
 
 export const successGetUserArtists = (artists, recommended) => ({
@@ -28,4 +28,12 @@ export const successUnfollowArtist = () => ({
 });
 export const clearInfoArtist = () => ({
   type: CLEAR_INFO_ARTIST
+});
+export const successGetFirstListArtists = firstListArtists => ({
+  type: SUCCESS_GET_FIRST_LIST_ARTISTS,
+  payload: { firstListArtists }
+});
+export const addInArrayArtist = artist => ({
+  type: ADD_IN_ARRAY_ARTIST,
+  payload: { artist }
 });

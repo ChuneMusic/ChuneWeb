@@ -129,3 +129,12 @@ export const BlockButton = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
+export const ArtistNameBlock = styled.h3`
+  font-family: 'Roboto';
+  color: #fff;
+  font-weight: 700;
+  line-height: 1.1;
+  font-size: 14px;
+  padding: 10px 0 0 10px;
+  position: relative;
+`;
