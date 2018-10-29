@@ -52,13 +52,8 @@ class Home extends React.Component {
   scrollDiv = () => {
     const block = document.getElementById('blockDiv');
     const right = document.getElementById('right');
-    const featured = document.getElementById('featured');
-    const diff = block.scrollTop - featured.offsetHeight + block.offsetHeight - right.offsetHeight - 15;
-    if (diff > 0) {
-      this.setState({ position: diff });
-    } else {
-      this.setState({ position: 0 });
-    }
+    const diff = block.offsetHeight - 42 - right.offsetHeight;
+    this.setState({ position: diff });
   }
 
   render() {

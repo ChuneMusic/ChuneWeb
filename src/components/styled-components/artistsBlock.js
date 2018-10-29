@@ -58,6 +58,9 @@ export const FirstArtistsHeader = styled.div`
   right: 0;
   display: flex;
   align-items: center;
+  @media(max-width: 959px) and (min-width: 320px) {
+    justify-content: center;
+  }
 `;
 export const FirstArtistsBody = styled.div`
   width: 910px;
@@ -68,6 +71,12 @@ export const FirstArtistsBody = styled.div`
   grid-column-gap: 10px;
   grid-row-gap: 10px;
   padding: 0 0 10px 0;
+  @media(max-width: 959px) and (min-width: 320px) {
+    width: 310px;
+    grid-template-columns: repeat(2, 150px);
+    grid-template-rows: repeat(18, 150px);
+    padding: 20px 0 0 0;
+  }
 `;
 export const FirstBlock = styled.div`
   grid-column-start: 1;
@@ -82,7 +91,7 @@ export const FirstBlock = styled.div`
   flex-direction: column;
 `;
 export const OtherBlock = styled.div`
-  background: url(${props => props.image}) top no-repeat;
+  background: url(${props => props.image}) center no-repeat;
   background-size: cover;
   border-radius: 6px;
   position: relative;
@@ -98,6 +107,10 @@ export const OtherBlock = styled.div`
     background: rgba(0,0,0,0.3);
     border-radius: 6px;
   }
+  @media(max-width: 959px) and (min-width: 320px) {
+    width: 150px;
+    height: 150px;
+  }
 `;
 export const DescriptionPage = styled.h1`
   font-size: 48px;
@@ -108,6 +121,10 @@ export const DescriptionPage = styled.h1`
   line-height: 50px;
   text-align: center;
   margin: 0 0 20px 0;
+  @media(max-width: 959px) and (min-width: 320px) {
+    width: 310px;
+    font-size: 36px;
+  }
 `;
 export const TextPage = styled.p`
   opacity: .5;
@@ -118,6 +135,10 @@ export const TextPage = styled.p`
   font-weight: 700;
   line-height: 22px;
   text-align: center;
+  @media(max-width: 959px) and (min-width: 320px) {
+    width: 260px;
+    font-size: 16px;
+  }
 `;
 export const BlockButtons = styled.div`
   display: flex;
@@ -126,6 +147,9 @@ export const BlockButtons = styled.div`
   white-space: nowrap;
   position: absolute;
   width: 90%;
+  @media(max-width: 959px) and (min-width: 320px) {
+    display: none;
+  }
 `;
 export const ButtonNameArtist = styled.div`
   height: 44px;
@@ -159,6 +183,10 @@ export const ButtonCheck = styled.button`
   &:active {
     transform: scale(0.90);
   }
+  @media(max-width: 959px) and (min-width: 320px) {
+    width: 150px;
+    height: 150px;
+  }
 `;
 export const SVGCheck = styled.svg`
   cursor: pointer;
@@ -168,6 +196,10 @@ export const SVGCheck = styled.svg`
   height: 128px;
   left: 20%;
   top: 20%;
+  @media(max-width: 959px) and (min-width: 320px) {
+    left: 10%;
+    top: 10%;
+  }
 `;
 export const DivBlockSend = styled.div`
   position: absolute;
@@ -178,7 +210,10 @@ export const DivBlockSend = styled.div`
   border-radius: 6px;
   z-index: 105;
   box-shadow: 0px 0px 15px 10px rgba(86,46,137,0.6);
-  transition: all 1s cubic-bezier(.86,0,.07,1);
+  @media(max-width: 959px) and (min-width: 320px) {
+    position: relative;
+    right: 0;
+  }
 `;
 export const DivColorBlock = styled.div`
   background: #99ccff;
@@ -187,6 +222,7 @@ export const DivColorBlock = styled.div`
   border-radius: ${props => (props.widthColor === '100%' ? '6px' : '6px 0 0 6px')};
   position: absolute;
   z-index: 106;
+  transition: all .4s cubic-bezier(.86,0,.07,1);
 `;
 export const ButtonSend = styled.button`
   position: absolute;
@@ -209,6 +245,9 @@ export const DivBlockSkip = styled.div`
   height: 64px;
   display: flex;
   justify-content: flex-end;
+  @media(max-width: 959px) and (min-width: 320px) {
+    width: auto;
+  }
 `;
 export const ButtonSkip = styled.button`
   width: 150px;

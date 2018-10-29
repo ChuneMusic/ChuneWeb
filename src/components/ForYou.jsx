@@ -39,6 +39,7 @@ class ForYou extends React.Component {
 
   renderItems = contentFeed => contentFeed.map((item, index) => {
     const keyIndex = index + 1;
+    console.log(item, index);
     switch (item.type) {
       case 'video':
         return (
@@ -76,16 +77,10 @@ class ForYou extends React.Component {
   scrollDiv = () => {
     const block = document.getElementById('blockDiv');
     const right = document.getElementById('right');
-    if (block.offsetHeight > right.offsetHeight) {
-      this.setState({ position: block.scrollTop });
-    } else {
-      const diff = block.scrollTop + block.offsetHeight - right.offsetHeight - 60;
-      if (diff > 0) {
-        this.setState({ position: diff });
-      } else {
-        this.setState({ position: 0 });
-      }
-    }
+    let diff = 0;
+    if (block.offsetHeight > right.offsetHeight) diff = 0;
+    else diff = block.offsetHeight - 40 - right.offsetHeight;
+    this.setState({ position: diff });
   }
 
   render() {

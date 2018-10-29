@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   overflow-y: auto;
+  overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   height: ${props => (props.modal ? 'calc(100vh - 164px)' : 'calc(100vh - 74px)')} ;
   @media(max-width: 1030px){
@@ -36,14 +37,16 @@ export const LeftBlockContent = styled.div`
 `;
 export const RightBlockContent = styled.div`
   width: 320px;
-  margin-top: ${props => props.pos}px;
+  position: sticky;
+  top: ${props => props.pos}px;
   @media(max-width: 920px) and (min-width: 320px) {
     display: none;
   }
 `;
 export const RightBlockArtistContent = styled.div`
   width: 320px;
-  margin-top: ${props => props.pos}px;
+  position: sticky;
+  top: ${props => props.pos}px;
   @media(max-width: 920px) and (min-width: 320px) {
     display: none;
   }
