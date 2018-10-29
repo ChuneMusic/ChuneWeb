@@ -6,7 +6,7 @@ import { objectOf, any, func } from 'prop-types';
 import * as StyledArtists from '../../styled-components/artistsBlock';
 import * as StyledCard from '../../styled-components/artistsCard';
 import Check from '../../../../assets/images/control/check.svg';
-import { addInArrayArtist } from '../../../store/artists/actions';
+import { addOrDeleteArtistInArray } from '../../../store/artists/actions';
 
 class ArtistsForChoice extends React.Component {
   state = {
@@ -41,7 +41,7 @@ class ArtistsForChoice extends React.Component {
 }
 
 const mapActionsToProps = dispatch => bindActionCreators({
-  addArtist: addInArrayArtist
+  addArtist: addOrDeleteArtistInArray
 }, dispatch);
 
 export const ArtistsForChoiceConnect = connect(null, mapActionsToProps)(ArtistsForChoice);

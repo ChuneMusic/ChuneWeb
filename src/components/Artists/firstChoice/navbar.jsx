@@ -7,21 +7,19 @@ import { unfollowArtist, followArtist } from '../../../store/artists/actions';
 import * as StyledArtists from '../../styled-components/artistsBlock';
 import { followFromArtistPage } from '../../../store/learningMachine/actions';
 
-const NavBar = ({ arrayArtists }) => {
-  return (
-    <StyledArtists.BlockButtons>
-      {
-        arrayArtists.map((e, index) => (
-          <StyledArtists.ButtonNameArtist key={`${e}-${index}`}>
-            <StyledArtists.SpanNameArtist>
-              {e}
-            </StyledArtists.SpanNameArtist>
-          </StyledArtists.ButtonNameArtist>
-        ))
-      }
-    </StyledArtists.BlockButtons>
-  );
-};
+const NavBar = ({ arrayArtists }) => (
+  <StyledArtists.BlockButtons>
+    {
+      arrayArtists.map((e, index) => (
+        <StyledArtists.ButtonNameArtist key={`${e}-${index}`}>
+          <StyledArtists.SpanNameArtist>
+            {e}
+          </StyledArtists.SpanNameArtist>
+        </StyledArtists.ButtonNameArtist>
+      ))
+    }
+  </StyledArtists.BlockButtons>
+);
 
 const mapStateToProps = store => ({
   arrayArtists: store.dataArtists.firstArray

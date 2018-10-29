@@ -18,15 +18,16 @@ class Artists extends React.Component {
   render() {
     const {
       artists, recommended, artistsSuccess,
-      modal, followArtists, firstListArtists
+      modal, followArtists, firstListArtists,
+      skip
     } = this.props;
     if (!artistsSuccess) return <Loading />;
-    if (followArtists && firstListArtists.length !== 0) {
+    if (followArtists && firstListArtists.length !== 0 && !skip) {
       return (
         <FirstArtistsConnect artists={firstListArtists} />
       );
     }
-    if (artists.length === 0) {
+    if (followArtists && artists.length === 0) {
       return (
         <EmptyListConnect
           messageOne="You didn't follow any artists yet."
@@ -49,7 +50,8 @@ const mapStateToProps = store => ({
   artistsSuccess: store.dataArtists.artistsSuccess,
   modal: store.dataSpotify.modal,
   followArtists: store.dataContent.followArtists,
-  firstListArtists: store.dataArtists.firstListArtists
+  firstListArtists: store.dataArtists.firstListArtists,
+  skip: store.dataArtists.skip
 });
 
 export const ArtistsConnect = connect(mapStateToProps, null)(Artists);
@@ -60,5 +62,6 @@ Artists.propTypes = {
   artistsSuccess: bool.isRequired,
   modal: bool.isRequired,
   followArtists: bool.isRequired,
-  firstListArtists: arrayOf(any).isRequired
+  firstListArtists: arrayOf(any).isRequired,
+  skip: bool.isRequired
 };

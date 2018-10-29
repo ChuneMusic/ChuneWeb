@@ -26,7 +26,7 @@ const unfollowArtist = (state, { name }) => ({ ...state, name });
 const successUnfollowArtist = state => ({ ...state });
 const clearInfoArtist = state => ({ ...state, artist: {} });
 const successGetFirstListArtists = (state, { firstListArtists }) => ({ ...state, firstListArtists });
-const addInArrayArtist = (state, { artist }) => {
+const addOrDeleteArtistInArray = (state, { artist }) => {
   const array = state.firstArray.concat();
   let newArray = [];
   if (array.includes(artist)) {
@@ -38,6 +38,15 @@ const addInArrayArtist = (state, { artist }) => {
   }
   return ({ ...state, firstArray: newArray });
 };
+const sendArrayFirstChoice = (state, { firstArray }) => ({ ...state, firstArray });
+const successSendArray = state => ({
+  ...state,
+  skip: true,
+  firstListArtists: [],
+  firstArray: [],
+  artistsSuccess: false
+});
+const skipChoiceArtists = state => ({ ...state, skip: true });
 
 const handlers = {
   [TYPES.SUCCESS_GET_USER_ARTISTS]: successGetUserArtists,
@@ -48,7 +57,10 @@ const handlers = {
   [TYPES.SUCCESS_UNFOLLOW_ARTIST]: successUnfollowArtist,
   [TYPES.CLEAR_INFO_ARTIST]: clearInfoArtist,
   [TYPES.SUCCESS_GET_FIRST_LIST_ARTISTS]: successGetFirstListArtists,
-  [TYPES.ADD_IN_ARRAY_ARTIST]: addInArrayArtist
+  [TYPES.ADD_OR_DELETE_ARTIST_IN_ARRAY]: addOrDeleteArtistInArray,
+  [TYPES.SEND_ARRAY_FIRST_CHOICE]: sendArrayFirstChoice,
+  [TYPES.SUCCESS_SEND_ARRAY]: successSendArray,
+  [TYPES.SKIP_CHOICE_ARTISTS]: skipChoiceArtists
 };
 
 export const reducerArtists = createReducer(initState, handlers);

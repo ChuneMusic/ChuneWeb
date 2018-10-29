@@ -67,7 +67,7 @@ class Home extends React.Component {
       topTracks, contentFeed,
       getTokenSpotify, token,
       topChune, featured, fetchDataHome,
-      modal
+      modal, firstListArtists, skip
     } = this.props;
     const { position } = this.state;
     if (location.search !== '' && token === '') {
@@ -75,6 +75,7 @@ class Home extends React.Component {
       location.search = '';
       history.push('/home');
     }
+    if (firstListArtists.length > 0 && !skip) history.push('/artists');
     if (topChune.length === 0) return <Loading />;
     return (
       <StyledContent.Wrapper modal={modal} onScroll={this.scrollDiv} id="blockDiv">
@@ -141,7 +142,9 @@ const mapStateToProps = store => ({
   topTracks: store.dataContent.topTracks,
   topChune: store.dataContent.topChune,
   fetchDataHome: store.dataContent.fetchDataHome,
-  modal: store.dataSpotify.modal
+  modal: store.dataSpotify.modal,
+  firstListArtists: store.dataArtists.firstListArtists,
+  skip: store.dataArtists.skip
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
@@ -164,5 +167,7 @@ Home.propTypes = {
   featured: arrayOf(any).isRequired,
   fetchDataHome: bool.isRequired,
   sendTweet: func.isRequired,
-  modal: bool.isRequired
+  modal: bool.isRequired,
+  firstListArtists: arrayOf(any).isRequired,
+  skip: bool.isRequired
 };

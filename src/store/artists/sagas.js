@@ -2,19 +2,22 @@ import {
   put, takeEvery, call,
   take, select
 } from 'redux-saga/effects';
+import { push } from 'connected-react-router';
 
 import { errorMessage } from '../error/actions';
 import {
   getList, postArtist,
-  deleteArtist, getChoiceList
+  deleteArtist, getChoiceList,
+  sendArtistsArray
 } from './utilities/artistsUser';
 import {
   successGetUserArtists, successFollowArtist,
-  successUnfollowArtist, successGetFirstListArtists
+  successUnfollowArtist, successGetFirstListArtists,
+  successSendArray
 } from './actions';
 import {
   FOLLOW_ARTIST, UNFOLLOW_ARTIST, SUCCESS_FOLLOW_ARTIST,
-  SUCCESS_UNFOLLOW_ARTIST
+  SUCCESS_UNFOLLOW_ARTIST, SEND_ARRAY_FIRST_CHOICE, SKIP_CHOICE_ARTISTS
 } from './types';
 import { locationChange } from '../../utilities/patternForSagas';
 import { noFollowArtists } from '../content/actions';
@@ -59,9 +62,25 @@ export function* deleteFollowArtist({ payload }) {
     yield put(errorMessage(e.message));
   }
 }
+export function* sendFirstArtists({ payload }) {
+  const { firstArray } = payload;
+  try {
+    yield call(sendArtistsArray, firstArray);
+    yield put(successSendArray());
+    yield put(noFollowArtists(false));
+    yield put(push('/for-you'));
+  } catch (e) {
+    yield put(errorMessage(e.message));
+  }
+}
+export function* skipArtists() {
+  yield put(push('/home'));
+}
 
 export function* sagasArtists() {
   yield takeEvery([locationChange('/artists'), locationChange('/home'), SUCCESS_FOLLOW_ARTIST, SUCCESS_UNFOLLOW_ARTIST], getListArtistsUser);
   yield takeEvery(FOLLOW_ARTIST, postFollowArtist);
   yield takeEvery(UNFOLLOW_ARTIST, deleteFollowArtist);
+  yield takeEvery(SEND_ARRAY_FIRST_CHOICE, sendFirstArtists);
+  yield takeEvery(SKIP_CHOICE_ARTISTS, skipArtists);
 }

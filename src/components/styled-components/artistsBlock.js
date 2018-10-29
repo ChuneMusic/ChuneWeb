@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 
 export const WrapperArtists = styled.div`
   display: flex;
@@ -125,11 +125,11 @@ export const BlockButtons = styled.div`
   overflow: hidden;
   white-space: nowrap;
   position: absolute;
+  width: 90%;
 `;
 export const ButtonNameArtist = styled.div`
-  min-width: 110px;
   height: 44px;
-  background: rgba(255,255,255,0.9);;
+  background: #99ccff;
   border-radius: 44px;
   margin: 0 0 0 20px;
   display: flex;
@@ -169,13 +169,58 @@ export const SVGCheck = styled.svg`
   left: 20%;
   top: 20%;
 `;
+export const DivBlockSend = styled.div`
+  position: absolute;
+  background: #f2f2f2;
+  right: 20px;
+  width: 150px;
+  height: 44px;
+  border-radius: 6px;
+  z-index: 105;
+  box-shadow: 0px 0px 15px 10px rgba(86,46,137,0.6);
+  transition: all 1s cubic-bezier(.86,0,.07,1);
+`;
+export const DivColorBlock = styled.div`
+  background: #99ccff;
+  width: ${props => props.widthColor};
+  height: 44px;
+  border-radius: ${props => (props.widthColor === '100%' ? '6px' : '6px 0 0 6px')};
+  position: absolute;
+  z-index: 106;
+`;
 export const ButtonSend = styled.button`
-    position: absolute;
-    right: 20px;
-    width: 150px;
-    height: 44px;
-    border-radius: 6px;
-    cursor: pointer;
-    outline: none;
-    z-index: 105;
+  position: absolute;
+  width: 150px;
+  height: 44px;
+  border-radius: 6px;
+  cursor: pointer;
+  outline: none;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  z-index: 107;
+  background: none;
+  font-family: 'Roboto';
+  font-size: 16px;
+`;
+export const DivBlockSkip = styled.div`
+  width: 910px;
+  margin: 0 auto;
+  height: 64px;
+  display: flex;
+  justify-content: flex-end;
+`;
+export const ButtonSkip = styled.button`
+  width: 150px;
+  height: 44px;
+  border-radius: 6px;
+  background: linear-gradient(262deg,#9c05cd,#552e89) #552e89;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+  font-family: Roboto;
+  font-size: 16px;
+  color: #fff;
+  margin: 10px;
+  padding: 0;
 `;
