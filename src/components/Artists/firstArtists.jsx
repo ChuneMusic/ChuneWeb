@@ -57,10 +57,10 @@ class FirstArtists extends React.Component {
           <StyledArtists.FirstArtistsBody>
             <StyledArtists.FirstBlock>
               <StyledArtists.DescriptionPage>
-                {'What are your favorite artists?'}
+                {'Who are your favorite artists?'}
               </StyledArtists.DescriptionPage>
               <StyledArtists.TextPage>
-                {'Select at least 3 artists from the proposed.'}
+                {'Pick at least 3 to get started.'}
               </StyledArtists.TextPage>
             </StyledArtists.FirstBlock>
             {
