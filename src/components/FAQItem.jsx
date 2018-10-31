@@ -144,6 +144,9 @@ const styles = () => ({
     lineHeight: 1.5,
     letterSpacing: 'normal',
     color: '#515151',
+    '@media (max-width: 800px)': {
+      width: 310
+    }
   },
 });
 

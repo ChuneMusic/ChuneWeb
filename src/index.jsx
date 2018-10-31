@@ -13,10 +13,11 @@ import { ConnectedRouter } from 'connected-react-router';
 import { store, persistor, history } from './store';
 import {
   ArtistsConnect, ArtistConnect, HomeConnect,
-  LandingConnect, TermsOfUseConnect, PrivacyPolicyConnect, FAQConnect,
-  SignUpConnect, SignInConnect,
+  LandingConnect, TermsOfUseConnect, PrivacyPolicyConnect,
+  SignUpConnect, SignInConnect, FAQConnect,
   EventsConnect, ArtistEventsConnect, NavBarConnect,
-  GuestNavbarConnect, ForYouConnect, blogiFrame
+  GuestNavbarConnect, ForYouConnect, blogiFrame,
+  shopiFrame
 } from './components';
 import { ModalBlockConnect } from './components/Music/modalAudioPlayer';
 import { ModalNewsConnect } from './components/News/modalNews';
@@ -91,6 +92,7 @@ class App extends React.PureComponent {
           <PrivateRoute exact path="/events" token={token} component={EventsConnect} />
           <PrivateRoute exact path="/event/:artistName" token={token} component={ArtistEventsConnect} />
           <PrivateRoute exact path="/blog" token={token} component={blogiFrame} />
+          <PrivateRoute exact path="/shop" token={token} component={shopiFrame} />
           <Redirect to="/" />
         </Switch>
       </div>

@@ -39,7 +39,6 @@ class ForYou extends React.Component {
 
   renderItems = contentFeed => contentFeed.map((item, index) => {
     const keyIndex = index + 1;
-    console.log(item, index);
     switch (item.type) {
       case 'video':
         return (

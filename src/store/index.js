@@ -2,9 +2,9 @@ import {
   createStore, combineReducers, applyMiddleware,
   compose
 } from 'redux';
-import { createLogger } from 'redux-logger';
+// import { createLogger } from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
-import { composeWithDevTools } from 'redux-devtools-extension';
+// import { composeWithDevTools } from 'redux-devtools-extension';
 import { persistStore, persistReducer, createTransform } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { createBrowserHistory } from 'history';
@@ -34,6 +34,14 @@ const reducer = combineReducers({
   dataMachine: reducerLearningMachine
 });
 
+const rootReducer = (state, action) => {
+  let initState = state;
+  if (action.type === 'LOG_OUT_USER') {
+    initState = undefined;
+  }
+  return reducer(initState, action);
+};
+
 const userPersistConfig = {
   key: 'root',
   storage,
@@ -47,24 +55,24 @@ const userPersistConfig = {
   ]
 };
 
-const persistedReducer = persistReducer(userPersistConfig, reducer);
+const persistedReducer = persistReducer(userPersistConfig, rootReducer);
 
-const middleware = composeWithDevTools(
-  compose(
-    applyMiddleware(
-      routerMiddleware(history),
-      sagaMiddleware,
-      createLogger({ collapsed: true })
-    )
-  )
-);
-
-// const middleware = compose(
-//   applyMiddleware(
-//     routerMiddleware(history),
-//     sagaMiddleware
+// const middleware = composeWithDevTools(
+//   compose(
+//     applyMiddleware(
+//       routerMiddleware(history),
+//       sagaMiddleware,
+//       createLogger({ collapsed: true })
+//     )
 //   )
 // );
+
+const middleware = compose(
+  applyMiddleware(
+    routerMiddleware(history),
+    sagaMiddleware
+  )
+);
 
 export const store = createStore(
   connectRouter(history)(persistedReducer),

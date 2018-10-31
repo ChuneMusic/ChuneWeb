@@ -196,12 +196,12 @@ class Artist extends React.Component {
               <Styled.WaypointBlock />
             </StyledContent.LeftBlockContent>
             <StyledContent.RightBlockArtistContent id="right" pos={position}>
-              <EventCardConnect artist={artist} artistPage />
               {
                 followButton
                   ? <Button className={classes.unfollowButton} onClick={this.unfollow}>UNFOLLOW</Button>
                   : <Button className={classes.followButton} onClick={this.follow}>FOLLOW</Button>
               }
+              <EventCardConnect artist={artist} artistPage />
               <TopTracksChartConnect
                 tracks={topTracksArtist}
                 artistName={artist.name}

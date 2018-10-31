@@ -55,7 +55,7 @@ const styles = () => ({
     '@media (max-width: 1029px)': {
       margin: '60px auto 0 auto',
       width: 300,
-      height: 450,
+      height: 500,
     }
   },
   headingContainer: {
@@ -201,7 +201,10 @@ const styles = () => ({
     letterSpacing: 'normal',
     color: 'rgba(0, 0, 0, 0.38)',
     width: 290,
-    height: 47
+    height: 47,
+    '@media (max-width: 1029px)': {
+      width: 260
+    }
   },
   errorMessage: {
     margin: '0 auto',

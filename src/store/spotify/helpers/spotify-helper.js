@@ -89,7 +89,6 @@ export const getDeviceID = token => new Promise((resolve) => {
       if (pausedTrack) {
         store.dispatch(dataStopTrackFromSpotifySDK(idTrack, positionTrack, pausedTrack));
       }
-      // console.log(state, 'hello');
     });
     player.addListener('ready', (data) => {
       const deviceID = data.device_id;

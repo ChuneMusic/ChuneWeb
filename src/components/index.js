@@ -14,3 +14,4 @@ export { SignInConnect } from './auth/SignIn';
 export { SignUpConnect } from './auth/SignUp';
 export { blogiFrame } from './blog/blogiFrame';
 export { TermsOfUseConnect } from './TermsOfUse';
+export { shopiFrame } from './shop/shopIFrame';
