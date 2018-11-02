@@ -11,11 +11,6 @@ import { truncateWithEllipses } from '../../helpers/eventHelpers';
 import { playYouTubeVideo, stopYouTubeVideo } from '../../store/learningMachine/actions';
 
 class VideoCard extends React.Component {
-  constructor(props) {
-    super(props);
-    this.videoRef = React.createRef();
-  }
-
   onPlay = () => {
     const { playVideo, video } = this.props;
     playVideo(video.id);

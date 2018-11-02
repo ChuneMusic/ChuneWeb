@@ -17,7 +17,7 @@ const styles = () => ({
     margin: '178px auto',
     display: 'flex',
     flexDirection: 'column',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: '310px',
       margin: '80px auto',
     }
@@ -39,7 +39,7 @@ const styles = () => ({
     letterSpacing: 0.3,
     textAlign: 'center',
     color: 'rgba(0, 0, 0, 0.5)',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: 310,
       margin: '0px auto',
     }

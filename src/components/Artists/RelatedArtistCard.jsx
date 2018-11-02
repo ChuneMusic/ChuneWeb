@@ -40,7 +40,7 @@ const styles = () => ({
     lineHeight: 'normal',
     letterSpacing: 0.2,
     color: '#ffffff',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: 249,
     }
   },
@@ -58,7 +58,7 @@ const styles = () => ({
     letterSpacing: 0.3,
     color: 'rgba(255, 255, 255, 0.6)',
     textTransform: 'capitalize',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: 249,
     }
   },
@@ -68,7 +68,7 @@ const styles = () => ({
     justifyContent: 'flex-start',
     paddingTop: 10,
     marginBottom: 8,
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: 249,
     }
   },

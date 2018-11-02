@@ -11,7 +11,6 @@ import {
 } from 'prop-types';
 import { Tweet } from 'react-twitter-widgets';
 
-import { TopTracksChartConnect } from '../blocks';
 import { followArtist, unfollowArtist } from '../../store/artists/actions';
 import { Loading } from '../shared/Loading';
 import { NoMediaConnect } from '../shared/NoMedia';
@@ -24,10 +23,11 @@ import * as StyledArticle from '../styled-components/article';
 import * as StyledArtist from '../styled-components/artistSingle';
 import { EventCardConnect } from '../Events/EventCard';
 import { followFromArtistPage, clickTwitterPost } from '../../store/learningMachine/actions';
+import { TopTracksChartConnect } from '../blocks/TopTracksChart/TopTracksChart';
 
 const styles = () => ({
   followButton: {
-    width: 104,
+    width: '100%',
     height: 36,
     border: 'solid 1px rgba(0, 0, 0, 0.12)',
     fontFamily: 'Roboto',
@@ -40,6 +40,11 @@ const styles = () => ({
     textAlign: 'center',
     color: '#ffffff',
     backgroundColor: '#552e89',
+    margin: '0 0 20px 0',
+    '@media(max-width: 920px) and (min-width: 320px)': {
+      margin: 0,
+      width: 310
+    },
     '&:hover': {
       backgroundColor: 'rgba(85, 46, 137, 0.75)',
     },
@@ -48,7 +53,7 @@ const styles = () => ({
     },
   },
   unfollowButton: {
-    width: 104,
+    width: '100%',
     height: 36,
     backgroundColor: 'rgba(98, 2, 238, 0)',
     border: 'solid 1px rgba(0, 0, 0, 0.12)',
@@ -61,6 +66,11 @@ const styles = () => ({
     letterSpacing: 1.3,
     textAlign: 'center',
     color: '#6200ee',
+    margin: '0 0 20px 0',
+    '@media(max-width: 920px) and (min-width: 320px)': {
+      margin: 0,
+      width: 310
+    },
     '&:hover': {
       backgroundColor: 'rgba(98, 2, 238, 0)',
     },
@@ -100,22 +110,19 @@ class Artist extends React.Component {
   }
 
   scrollDiv = () => {
-    if (window.innerHeight === 970) {
-      const block = document.getElementById('blockDiv');
-      const right = document.getElementById('right');
-      if (block.scrollTop >= right.offsetHeight - 730) {
-        const pxTop = block.scrollTop - right.offsetHeight + 74 + 650;
-        this.setState({ position: pxTop });
-      } else {
-        this.setState({ position: 0 });
-      }
-    }
+    const block = document.getElementById('blockDiv');
+    const right = document.getElementById('right');
+    let diff = 0;
+    if (block.offsetHeight > right.offsetHeight) diff = 24;
+    else diff = block.offsetHeight - 40 - right.offsetHeight;
+    this.setState({ position: diff });
   }
 
   render() {
     const {
       classes, content, artists,
-      artist, topTracksArtist, db
+      artist, topTracksArtist, db,
+      modal
     } = this.props;
     const { position } = this.state;
     if (db) {
@@ -167,7 +174,7 @@ class Artist extends React.Component {
       contentArtist = <NoMediaConnect />;
     }
     return (
-      <StyledContent.Wrapper onScroll={this.scrollDiv} id="blockDiv">
+      <StyledContent.Wrapper modal={modal} onScroll={this.scrollDiv} id="blockDiv">
         <StyledArtist.WrapperArtist>
           <StyledArtist.ArtistHeader>
             <StyledContent.LeftBlockContent>
@@ -189,11 +196,16 @@ class Artist extends React.Component {
               <Styled.WaypointBlock />
             </StyledContent.LeftBlockContent>
             <StyledContent.RightBlockArtistContent id="right" pos={position}>
-              <EventCardConnect artist={artist} />
+              {
+                followButton
+                  ? <Button className={classes.unfollowButton} onClick={this.unfollow}>UNFOLLOW</Button>
+                  : <Button className={classes.followButton} onClick={this.follow}>FOLLOW</Button>
+              }
+              <EventCardConnect artist={artist} artistPage />
               <TopTracksChartConnect
                 tracks={topTracksArtist}
                 artistName={artist.name}
-                single
+                chunesupply="artistTopTracks"
               />
             </StyledContent.RightBlockArtistContent>
           </StyledContent.Content>
@@ -207,8 +219,9 @@ const mapStateToProps = store => ({
   artist: store.dataArtists.artist,
   content: store.dataArtists.content,
   artists: store.dataArtists.artists,
-  topTracksArtist: store.dataArtists.tracks,
-  db: store.dataSearch.db
+  topTracksArtist: store.dataContent.topTracksArtist,
+  db: store.dataSearch.db,
+  modal: store.dataSpotify.modal
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
@@ -230,5 +243,6 @@ Artist.propTypes = {
   unfollowToArtist: func.isRequired,
   db: bool.isRequired,
   sendDataArtist: func.isRequired,
-  sendTweet: func.isRequired
+  sendTweet: func.isRequired,
+  modal: bool.isRequired
 };

@@ -37,6 +37,9 @@ const styles = () => ({
       width: '250px !important',
       padding: '0 !important',
       margin: '0 5px 0 0'
+    },
+    '&:last-child': {
+      margin: 0
     }
   }
 });
@@ -93,12 +96,12 @@ class RelatedArtists extends React.Component {
             </StyledArtists.ArtistsButton>
           </StyledArtists.ArtistsHeader>
           <MediaQuery minWidth={601}>
-            <GridList cols={3} className={classes.gridList} cellHeight={258} spacing={30}>
+            <GridList cols={3} className={classes.gridList} cellHeight={258}>
               {newArray}
             </GridList>
           </MediaQuery>
           <MediaQuery maxWidth={600}>
-            <GridList cols={1.25} className={classes.gridList} cellHeight={250} spacing={15}>
+            <GridList cols={1.25} className={classes.gridList} cellHeight={250}>
               {relatedArtists.map(e => (
                 <GridListTile key={e.id} className={classes.gridListTile}>
                   <RelatedArtistCardConnect artist={e} />

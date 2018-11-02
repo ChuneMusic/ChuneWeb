@@ -12,6 +12,7 @@ import { locationChange } from '../../utilities/patternForSagas';
 import { getRoute } from '../auth/utilities/selectors';
 import { getAuth } from '../content/utilities/selectors';
 import { SUCCESS_GET_TOKEN } from '../auth/types';
+import { successGetTracksArtist } from '../content/actions';
 
 function* getListArtists({ payload }) {
   const { value } = payload;
@@ -33,7 +34,8 @@ function* getInfoArtist({ payload }) {
   try {
     const { artist, content = [], tracks = [] } = yield call(getInfoSingleArtist, name);
     yield put(noArtistInDB(false));
-    yield put(successGetInfoArtist(artist, content, tracks));
+    yield put(successGetInfoArtist(artist, content));
+    yield put(successGetTracksArtist(tracks));
   } catch (e) {
     if (e.response.status === 500) yield put(noArtistInDB(true));
     yield put(errorMessage(e));

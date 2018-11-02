@@ -2,29 +2,29 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 export const ArtistCard = styled.div`
-  width: 343px;
+  width: ${props => (props.artistPage ? '318px' : '343px')};
   height: 130px;
   border: solid 1px rgba(0, 0, 0, 0.12);
   display: flex;
   border-radius: 6px;
   flex-direction: row;
   background-color: #ffffff;
-  margin: 0 22px 20px 0;
+  margin: ${props => (props.artistPage ? '0 0 20px 0' : '0 22px 20px 0')};
   &:nth-child(3n){
     margin: 0 0 20px 0;
   }
   @media(max-width: 1080px) and (min-width: 960px) {
-    margin: 0 10px 10px 0;
-    width: 310px;
+    margin: ${props => (props.artistPage ? '0 0 20px 0' : '0 10px 10px 0')};
+    width: ${props => (props.artistPage ? '318px' : '310px')};
     height: 130px;
     &:nth-child(3n){
-    margin: 0 0 10px 0;
-  }
+      margin: 0 0 10px 0;
+    }
   }
   @media(max-width: 959px) and (min-width: 320px) {
-    width: 310px;
+    width: ${props => (props.artistPage ? '318px' : '310px')};
     height: 130px;
-    margin: 0 0 10px 0;
+    margin: ${props => (props.artistPage ? '0 0 20px 0' : '0 0 10px 0')};
   }
 `;
 export const ArtistCardImages = styled.div`
@@ -128,4 +128,13 @@ export const BlockButton = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+export const ArtistNameBlock = styled.h3`
+  font-family: 'Roboto';
+  color: #fff;
+  font-weight: 700;
+  line-height: 1.1;
+  font-size: 14px;
+  padding: 10px 0 0 10px;
+  position: relative;
 `;

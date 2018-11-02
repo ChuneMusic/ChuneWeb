@@ -2,21 +2,20 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
-  func, any,
-  arrayOf, bool
+  func, any, objectOf,
+  arrayOf, bool, string
 } from 'prop-types';
 import { map } from 'lodash';
 import { Tweet } from 'react-twitter-widgets';
 import Waypoint from 'react-waypoint';
 
 import {
-  TopTracksChartConnect, ChuneSupplyConnect, BasicSoundPlayer,
-  BasicArticleCardConnect
+  ChuneSupplyConnect, BasicSoundPlayerConnect, BasicArticleCardConnect,
+  TopTracksChartConnect
 } from './blocks';
 import { VideoCardConnect } from './Videos/Video';
 import { ArticleCardConnect } from './News/Article';
-import { playMusicPlayer, pauseMusicPlayer } from '../store/musicPlayer/actions';
-// import { getAccessTokenSpotify } from '../store/spotify/actions';
+import { getAccessTokenSpotify } from '../store/spotify/actions';
 import { fethcMoreContentHomePageUser } from '../store/content/actions';
 import { Loading } from './shared/Loading';
 import * as Styled from './styled-components/home';
@@ -51,36 +50,32 @@ class Home extends React.Component {
 
 
   scrollDiv = () => {
-    if (window.innerHeight === 970) {
-      const block = document.getElementById('blockDiv');
-      const right = document.getElementById('right');
-      if (block.scrollTop >= right.offsetHeight - 74) {
-        const pxTop = block.scrollTop - right.offsetHeight + 74;
-        this.setState({ position: pxTop });
-      } else {
-        this.setState({ position: 0 });
-      }
-    }
+    const block = document.getElementById('blockDiv');
+    const right = document.getElementById('right');
+    const diff = block.offsetHeight - 42 - right.offsetHeight;
+    this.setState({ position: diff });
   }
 
   render() {
     const {
-      // location, history,
+      location, history,
       topTracks, contentFeed,
-      // getTokenSpotify, token,
-      topChune, featured, fetchDataHome
+      getTokenSpotify, token,
+      topChune, featured, fetchDataHome,
+      modal, firstListArtists, skip
     } = this.props;
     const { position } = this.state;
-    // if (location.search !== '' && token === '') {
-    //   getTokenSpotify(location.search);
-    //   location.search = '';
-    //   history.push('/home');
-    // }
+    if (location.search !== '' && token === '') {
+      getTokenSpotify(location.search);
+      location.search = '';
+      history.push('/home');
+    }
+    if (firstListArtists.length > 0 && !skip) history.push('/artists');
     if (topChune.length === 0) return <Loading />;
     return (
-      <StyledContent.Wrapper onScroll={this.scrollDiv} id="blockDiv">
+      <StyledContent.Wrapper modal={modal} onScroll={this.scrollDiv} id="blockDiv">
         <Styled.WrapperHomePage>
-          <Styled.FeaturedBlock>
+          <Styled.FeaturedBlock id="featured">
             <BasicArticleCardConnect featured={featured} />
           </Styled.FeaturedBlock>
           <StyledContent.Content>
@@ -119,12 +114,12 @@ class Home extends React.Component {
             <StyledContent.RightBlockContent id="right" pos={position}>
               <TopTracksChartConnect
                 tracks={topTracks}
-                single={false}
+                chunesupply="homeTopTracks"
               />
-              <BasicSoundPlayer />
+              <BasicSoundPlayerConnect />
               <ChuneSupplyConnect
                 supplies={topChune}
-                foryou={false}
+                chunesupply="homeChuneSupply"
               />
             </StyledContent.RightBlockContent>
           </StyledContent.Content>
@@ -135,19 +130,20 @@ class Home extends React.Component {
 }
 
 const mapStateToProps = store => ({
-  // token: store.dataSpotify.token,
-  // profile: store.dataSpotify.profile,
+  token: store.dataSpotify.token,
+  profile: store.dataSpotify.profile,
   featured: store.dataContent.featured,
   contentFeed: store.dataContent.contentFeedHome,
   topTracks: store.dataContent.topTracks,
   topChune: store.dataContent.topChune,
-  fetchDataHome: store.dataContent.fetchDataHome
+  fetchDataHome: store.dataContent.fetchDataHome,
+  modal: store.dataSpotify.modal,
+  firstListArtists: store.dataArtists.firstListArtists,
+  skip: store.dataArtists.skip
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
-  playMusic: playMusicPlayer,
-  pauseMusic: pauseMusicPlayer,
-  // getTokenSpotify: getAccessTokenSpotify,
+  getTokenSpotify: getAccessTokenSpotify,
   loadMoreItems: fethcMoreContentHomePageUser,
   sendTweet: clickTwitterPost
 }, dispatch);
@@ -155,15 +151,18 @@ const mapActionsToProps = dispatch => bindActionCreators({
 export const HomeConnect = connect(mapStateToProps, mapActionsToProps)(Home);
 
 Home.propTypes = {
-  // getTokenSpotify: func.isRequired,
-  // token: string.isRequired,
-  // location: objectOf(any).isRequired,
-  // history: objectOf(any).isRequired,
+  getTokenSpotify: func.isRequired,
+  token: string.isRequired,
+  location: objectOf(any).isRequired,
+  history: objectOf(any).isRequired,
   contentFeed: arrayOf(any).isRequired,
   topTracks: arrayOf(any).isRequired,
   topChune: arrayOf(any).isRequired,
   loadMoreItems: func.isRequired,
   featured: arrayOf(any).isRequired,
   fetchDataHome: bool.isRequired,
-  sendTweet: func.isRequired
+  sendTweet: func.isRequired,
+  modal: bool.isRequired,
+  firstListArtists: arrayOf(any).isRequired,
+  skip: bool.isRequired
 };

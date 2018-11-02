@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import {
   arrayOf, any, objectOf,
-  number
+  number, bool
 } from 'prop-types';
 
 import { EventsTableConnect } from './EventsTable';
@@ -16,7 +16,7 @@ const styles = () => ({
   root: {
     width: 716,
     margin: '0px auto',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: '100vw',
     }
   },
@@ -57,7 +57,8 @@ class ArtistEvents extends React.Component {
   render() {
     const {
       classes, events, id,
-      artists, geolocation, history
+      artists, geolocation, history,
+      modal
     } = this.props;
     if (artists.length === 0) {
       history.push('/events');
@@ -73,7 +74,7 @@ class ArtistEvents extends React.Component {
       );
     }
     return (
-      <StyledContent.Wrapper>
+      <StyledContent.Wrapper modal={modal}>
         <div className={classes.root}>
           <ArtistWallpaperConnect artist={artist[0]} />
           <EventsTableConnect events={events} geolocation={geolocation} />
@@ -88,7 +89,8 @@ const mapStateToProps = store => ({
   events: store.dataEvents.events,
   id: store.dataEvents.id,
   artists: store.dataArtists.artists,
-  geolocation: store.dataEvents.geolocation
+  geolocation: store.dataEvents.geolocation,
+  modal: store.dataSpotify.modal
 });
 
 export const ArtistEventsConnect = withStyles(styles)(connect(mapStateToProps, null)(ArtistEvents));
@@ -99,5 +101,6 @@ ArtistEvents.propTypes = {
   artists: arrayOf(any).isRequired,
   classes: objectOf(any).isRequired,
   geolocation: objectOf(any).isRequired,
-  history: objectOf(any).isRequired
+  history: objectOf(any).isRequired,
+  modal: bool.isRequired
 };

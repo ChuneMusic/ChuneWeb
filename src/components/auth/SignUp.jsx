@@ -17,11 +17,14 @@ import {
   objectOf, any, func,
   string
 } from 'prop-types';
+import { OauthSender } from 'react-oauth-flow';
 
 import { createNewUser, createNewSocialUser } from '../../store/auth/actions';
 import BackgroundPNG from '../../../assets/images/background.jpg';
-import { GoogleIcon, FacebookIcon, TwitterIcon, SpotifyIcon2 } from '../shared/SocialIcons';
-import { OauthSender } from 'react-oauth-flow';
+import {
+  GoogleIcon, FacebookIcon,
+  TwitterIcon, SpotifyIcon2
+} from '../shared/SocialIcons';
 
 
 const styles = () => ({
@@ -34,7 +37,7 @@ const styles = () => ({
     height: '100vh',
     display: 'flex',
     alignItems: 'center',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: '100vw',
       alignItems: 'flex-start'
     }
@@ -49,10 +52,10 @@ const styles = () => ({
     border: 'solid 1px transparent',
     backgroundImage: 'linear-gradient(#ffffff, #ffffff), linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1) 5%, rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, 0))',
     display: 'flex',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       margin: '60px auto 0 auto',
       width: 300,
-      height: 450,
+      height: 500,
     }
   },
   headingContainer: {
@@ -60,7 +63,7 @@ const styles = () => ({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 36,
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       marginTop: 20,
     }
   },
@@ -70,7 +73,7 @@ const styles = () => ({
     alignItems: 'center',
     marginTop: 34,
     height: 18,
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       marginTop: 20,
     }
   },
@@ -80,7 +83,7 @@ const styles = () => ({
     alignItems: 'center',
     marginTop: 34,
     height: 15,
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       marginTop: 20,
     }
   },
@@ -96,7 +99,7 @@ const styles = () => ({
     alignItems: 'center',
     marginTop: 34,
     marginBottom: 38,
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       marginTop: 20,
       marginBottom: 0,
     }
@@ -205,7 +208,10 @@ const styles = () => ({
     letterSpacing: 'normal',
     color: 'rgba(0, 0, 0, 0.38)',
     width: 290,
-    height: 47
+    height: 47,
+    '@media (max-width: 1029px)': {
+      width: 260
+    }
   },
   inputStylesOverrides: {
     borderBottom: '1px solid rgba(0, 0, 0, 0.12)'
@@ -245,8 +251,8 @@ class SignUp extends React.Component {
     const { newUserBasic } = this.props;
     newUserBasic(email, password, name);
   }
-    
- 
+
+
   handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       if (this.enableButton()) this.onSubmit();
@@ -267,118 +273,125 @@ class SignUp extends React.Component {
     && this.validateNotBlank(password)
     && this.validateEmail(email);
   }
-    
-    openSocial = (url, provider) => { 
-        let w = 450;
-        let h = 600;
-        let dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
-        let dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
-        let width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
-        let height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
 
-        let left = ((width / 2) - (w / 2)) + dualScreenLeft;
-        let top = ((height / 2) - (h / 2)) + dualScreenTop;
-        
-        
-        let newWin = window.open(url, '_blank', 'alwaysRaised=yes, scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+  openSocial = (url, provider) => {
+    const w = 450;
+    const h = 600;
+    const dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : screen.left;
+    const dualScreenTop = window.screenTop !== undefined ? window.screenTop : screen.top;
+    const width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+    const height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
 
-        let checkConnect = setInterval(() => {
-            try {
-                if (newWin.location.href.startsWith('https://stage.chunesupply.com')) {
-                    clearInterval(checkConnect);
-                    this.authenticateSocial(newWin);
-                }
-            }
-            catch(e) {
-            }}, 100);
-    }
-   
-    authenticateSocial = (popup) => {
-        const url = popup.location.href;
-        popup.close();
-        
-        const uri = url.split('?')[1];
-        const params = uri.split('&');
-        let code = null;
-        if (params.length > 1) {
-            params.forEach((p) => {
-                const parts = p.split('=');
-                const key = parts[0];
-                const val = parts[1];
-                if (key === 'code') {
-                    code = val;
-                    return;
-                }
-            });
+    const left = ((width / 2) - (w / 2)) + dualScreenLeft;
+    const top = ((height / 2) - (h / 2)) + dualScreenTop;
+
+
+    const newWin = window.open(url, '_blank', `alwaysRaised=yes, scrollbars=yes, width=${w}, height=${h}, top=${top}, left=${left}`);
+
+    const checkConnect = setInterval(() => {
+      try {
+        if (newWin.location.href.startsWith('https://stage.chunesupply.com')) {
+          clearInterval(checkConnect);
+          this.authenticateSocial(newWin);
         }
-        if (!code) {
-            alert('Something went wrong. Please try again');
-            return;
+      } catch (e) {
+        console.log(e.message);
+      }
+    }, 100);
+  }
+
+  authenticateSocial = (popup) => {
+    const url = popup.location.href;
+    popup.close();
+
+    const uri = url.split('?')[1];
+    const params = uri.split('&');
+    let code = null;
+    if (params.length > 1) {
+      params.forEach((p) => {
+        const parts = p.split('=');
+        const key = parts[0];
+        const val = parts[1];
+        if (key === 'code') {
+          code = val;
         }
-        
-        const { newSocialUser } = this.props; 
-        newSocialUser(code, 'https://stage.chunesupply.com/', this.state.provider);
+      });
     }
-    
+    if (!code) {
+      alert('Something went wrong. Please try again');
+      return;
+    }
+
+    const { newSocialUser } = this.props;
+    newSocialUser(code, 'https://stage.chunesupply.com/', this.state.provider);
+  }
+
   render() {
-    const { classes, messageSingUp } = this.props;
+    const { classes, message } = this.props;
     const {
       email, password, name,
       showPassword
     } = this.state;
-     
-  return (
+
+    return (
       <div className={classes.pageContainer}>
         <Paper className={classes.contentContainer}>
           <div className={classes.headingContainer}>
             <h3 className={classes.formHeading}>
-              Sign Up
+          Sign Up
             </h3>
           </div>
           <div className={classes.iconListContainer}>
-            <ul className={classes.iconList}> 
+            <ul className={classes.iconList}>
               <li className={classes.iconListItem}>
-                 <OauthSender
-                   authorizeUrl="https://www.facebook.com/v2.5/dialog/oauth?response_type=code&scope=email&display=popup"
-                   clientId='177327102945347'
-                   redirectUri="https://stage.chunesupply.com/"
-                   state={{ from: '/settings' }}
-                   render={({ url }) => <FacebookIcon 
-                                          onClick={() => this.openSocial(url, 'facebook')} />}
-
-                 />
+                <OauthSender
+                  authorizeUrl="https://www.facebook.com/v2.5/dialog/oauth?response_type=code&scope=email&display=popup"
+                  clientId="177327102945347"
+                  redirectUri="https://stage.chunesupply.com/"
+                  state={{ from: '/settings' }}
+                  render={({ url }) => (
+                    <FacebookIcon
+                      onClick={() => this.openSocial(url, 'facebook')}
+                    />
+                  )}
+                />
               </li>
               <li className={classes.iconListItem}>
-                
-                 <OauthSender
-                   authorizeUrl="https://accounts.google.com/o/oauth2/v2/auth?scope=email"
-                   clientId='243198086936-g6h4hfvujnoms1j5i4d76vjqk08pp7gd.apps.googleusercontent.com'
-                   redirectUri="https://stage.chunesupply.com/"
-                   state={{ from: '/settings' }}
-                   render={({ url }) => <GoogleIcon 
-                                          onClick={() => this.openSocial(url, 'google')} />}
 
-                 />
+                <OauthSender
+                  authorizeUrl="https://accounts.google.com/o/oauth2/v2/auth?scope=email"
+                  clientId="243198086936-g6h4hfvujnoms1j5i4d76vjqk08pp7gd.apps.googleusercontent.com"
+                  redirectUri="https://stage.chunesupply.com/"
+                  state={{ from: '/settings' }}
+                  render={({ url }) => (
+                    <GoogleIcon
+                      onClick={() => this.openSocial(url, 'google')}
+                    />
+                  )}
+                />
               </li>
               <li className={classes.iconListItem}>
-                 <OauthSender
-                   authorizeUrl="https://accounts.spotify.com/authorize?scope=user-read-email"
-                   clientId='a48cf79e2b704d93adef19d5bcd67530'
-                   redirectUri="https://stage.chunesupply.com/"
-                   state={{ from: '/settings' }}
-                   render={({ url }) => <SpotifyIcon2 
-                                          onClick={() => this.openSocial(url, 'spotify')} />}
-                 />
+                <OauthSender
+                  authorizeUrl="https://accounts.spotify.com/authorize?scope=user-read-email"
+                  clientId="a48cf79e2b704d93adef19d5bcd67530"
+                  redirectUri="https://stage.chunesupply.com/"
+                  state={{ from: '/settings' }}
+                  render={({ url }) => (
+                    <SpotifyIcon2
+                      onClick={() => this.openSocial(url, 'spotify')}
+                    />
+                  )}
+                />
               </li>
             </ul>
           </div>
           <div className={classes.paragraphContainer}>
             <p className={classes.para}>
-              Or use email instead
+            Or use email instead
             </p>
           </div>
           <div className={classes.errorMessage}>
-            {messageSingUp ? 'This email is already in use' : null}
+            {message || null}
           </div>
           <div className={classes.formContainer}>
             <form className={classes.signupForm} noValidate autoComplete="off" onKeyPress={this.handleKeyPress}>
@@ -427,21 +440,21 @@ class SignUp extends React.Component {
                           {showPassword ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
                       </InputAdornment>
-                    )}
+                  )}
                   />
                 </FormControl>
               </div>
               <Button className={classes.submitButton} onClick={this.onSubmit} disabled={!this.enableButton()}>
-                SIGN UP
+              SIGN UP
               </Button>
             </form>
           </div>
           <div className={classes.footerContainer}>
             <p className={classes.footerLine}>
-              Already have an account?
+            Already have an account?
               {' '}
               <Link to="/login" style={{ color: '#6200ee', fontWeight: 500 }}>
-                Log in
+              Log in
               </Link>
             </p>
           </div>
@@ -452,7 +465,7 @@ class SignUp extends React.Component {
 }
 
 const mapStateToProps = store => ({
-  messageSingUp: store.error.messageSingUp
+  message: store.dataAuth.messageSignUp
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
@@ -465,5 +478,9 @@ export const SignUpConnect = withStyles(styles)(connect(mapStateToProps, mapActi
 SignUp.propTypes = {
   classes: objectOf(any).isRequired,
   newUserBasic: func.isRequired,
-  newSocialUser: func.isRequired,
+  message: string
+};
+
+SignUp.defaultProps = {
+  message: undefined
 };

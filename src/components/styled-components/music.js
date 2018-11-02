@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const MusicBlock = styled.div`
-  padding: 25px 25px 5px 25px;
+  padding: 25px 5px 5px 5px;
   font-family: 'Roboto';
   border: solid 1px rgba(0, 0, 0, 0.12);
   background: #ffffff;
@@ -29,7 +29,7 @@ export const MusicTrack = styled.div`
 `;
 export const MusicNumber = styled.p`
   font-size: 16px;
-  color: rgba(0, 0, 0, 0.54);
+  color: ${props => (props.isPlaying ? '#6200ee' : 'rgba(0, 0, 0, 0.54)')};
   width: 20px;
 `;
 export const MusicSoundTitle = styled.div`
@@ -42,6 +42,9 @@ export const MusicSoundName = styled.p`
   margin: 0;
   padding: 0;
   display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 `;
 export const MusicSoundArtist = styled.p`
   font-size: 12px;
@@ -49,9 +52,13 @@ export const MusicSoundArtist = styled.p`
   margin: 0;
   padding: 0;
   display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 `;
 export const MusicIcon = styled.div`
   width: 30px;
+  cursor: pointer;
 `;
 export const MusicArrow = styled.img`
   width: 20px;

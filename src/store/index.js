@@ -12,7 +12,6 @@ import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createWhitelistFilter } from 'redux-persist-transform-filter';
 
 import { rootSagas } from './sagas';
-import { reducerMusicPlayer } from './musicPlayer/reducer';
 import { reducerError } from './error/reducer';
 import { reducerSpotify } from './spotify/reducer';
 import { reducerAuthUser } from './auth/reducer';
@@ -25,7 +24,6 @@ import { reducerLearningMachine } from './learningMachine/reducer';
 export const history = createBrowserHistory();
 const sagaMiddleware = createSagaMiddleware();
 const reducer = combineReducers({
-  dataMusicPlayer: reducerMusicPlayer,
   error: reducerError,
   dataSpotify: reducerSpotify,
   dataAuth: reducerAuthUser,
@@ -35,6 +33,14 @@ const reducer = combineReducers({
   dataEvents: reducerEvents,
   dataMachine: reducerLearningMachine
 });
+
+const rootReducer = (state, action) => {
+  let initState = state;
+  if (action.type === 'LOG_OUT_USER') {
+    initState = undefined;
+  }
+  return reducer(initState, action);
+};
 
 const userPersistConfig = {
   key: 'root',
@@ -49,7 +55,7 @@ const userPersistConfig = {
   ]
 };
 
-const persistedReducer = persistReducer(userPersistConfig, reducer);
+const persistedReducer = persistReducer(userPersistConfig, rootReducer);
 
 // const middleware = composeWithDevTools(
 //   compose(

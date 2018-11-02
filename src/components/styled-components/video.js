@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 export const VideoBlock = styled.div`
-  width: 530px;
+  width: 540px;
   height: 369px;
   display: flex;
   flex-direction: column;
@@ -17,7 +17,7 @@ export const VideoBlock = styled.div`
   }
 `;
 export const VideoDescriptionBlock = styled.div`
-  width: 530px;
+  width: 540px;
   height: 70px;
   display: flex;
   flex-direction: column;
@@ -69,7 +69,7 @@ export const VideoTitle = styled.h2`
   }
 `;
 export const Video = styled.div`
-  width: 530px;
+  width: 540px;
   height: 299px;
   @media(max-width: 849px) and (min-width: 320px) {
     width: 310px;

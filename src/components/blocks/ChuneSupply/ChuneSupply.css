@@ -60,6 +60,9 @@
   font-family: Roboto;
   font-size: 16px;
   font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .chuneSupplyWrapper .chuneSupplyPaper .content .subheading {
@@ -67,6 +70,9 @@
   font-family: Roboto;
   font-size: 12px;
   line-height: 1.67;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .chuneSupplyWrapper .chuneSupplyPaper .content .headline.isActive {

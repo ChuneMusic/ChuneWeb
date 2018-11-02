@@ -2,12 +2,18 @@ import { put, takeEvery, call } from 'redux-saga/effects';
 import { REHYDRATE } from 'redux-persist';
 
 import {
+  CREATE_NEW_USER, CREATE_NEW_SOCIAL_USER, LOGIN_USER,
+  LOGIN_SOCIAL_USER, SUCCESS_GET_TOKEN
+} from './types';
+import {
   getTokenToServer, getProfileUserSocial,
   tokenVerifyCreate, refreshToken, registerNewSocialUser
 } from './utilities/authUser';
-import { CREATE_NEW_USER, CREATE_NEW_SOCIAL_USER, LOGIN_USER, LOGIN_SOCIAL_USER, SUCCESS_GET_TOKEN } from './types';
-import { successGetToken, successGetProfileSocial, logOutUser } from './actions';
-import { errorMessage, errorMessageSingUp, errorMessageSingIn } from '../error/actions';
+import {
+  successGetToken, successGetProfileSocial,
+  logOutUser, errorSignUpUser, errorSignInUser
+} from './actions';
+import { errorMessage } from '../error/actions';
 import { setUserToken } from '../../utilities/APIConfig';
 
 export function* getTokenUser(action) {
@@ -20,8 +26,13 @@ export function* getTokenUser(action) {
     setUserToken(token);
     yield put(successGetToken(token));
   } catch (e) {
-    if (action.type === 'CREATE_NEW_USER') yield put(errorMessageSingUp(e.message));
-    else if (action.type === 'LOGIN_USER') yield put(errorMessageSingIn(e.message));
+    if (e.response.status === 400) {
+      const message = e.response.data.email || e.response.data.password || e.response.data.non_field_errors;
+      if (action.type === 'CREATE_NEW_USER') yield put(errorSignUpUser(message[0]));
+      else if (action.type === 'LOGIN_USER') yield put(errorSignInUser(message[0]));
+    } else {
+      yield put(errorMessage(e.message));
+    }
   }
 }
 export function* rehydrateAuth({ payload }) {
@@ -55,16 +66,15 @@ export function* getProfile({ payload }) {
 }
 
 export function* getSocialUserToken(action) {
-    try {
-        const { code, redirectUri, provider } = action.payload;
-        const token = yield call(registerNewSocialUser, code, redirectUri, provider);
-        setUserToken(token);
-        yield put(successGetToken(token));
-    }
-    catch (e) {
-        if (action.type === 'CREATE_NEW_SOCIAL_USER') yield put(errorMessageSingUp(e.message));
-        else if (action.type === 'LOGIN_USER') yield put(errorMessageSingIn(e.message));
-    }
+  try {
+    const { code, redirectUri, provider } = action.payload;
+    const token = yield call(registerNewSocialUser, code, redirectUri, provider);
+    setUserToken(token);
+    yield put(successGetToken(token));
+  } catch (e) {
+    if (action.type === 'CREATE_NEW_SOCIAL_USER') yield put(errorMessageSingUp(e.message));
+    else if (action.type === 'LOGIN_USER') yield put(errorMessageSingIn(e.message));
+  }
 }
 
 export function* sagasAuthUser() {

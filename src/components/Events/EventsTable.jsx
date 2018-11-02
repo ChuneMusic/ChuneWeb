@@ -11,7 +11,6 @@ import TableRow from '@material-ui/core/TableRow';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
 import { isNearByEvent } from '../../helpers/eventHelpers';
-import * as StyledContent from '../styled-components/content';
 
 const styles = () => ({
   root: {
@@ -20,7 +19,7 @@ const styles = () => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: '100vw',
     }
   },
@@ -29,13 +28,13 @@ const styles = () => ({
     backgroundColor: '#ffffff',
     border: 'none',
     boxShadow: 'none',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: '100vw',
     }
   },
   table: {
     minWidth: 716,
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: '100vw',
       minWidth: 320,
     }
@@ -44,19 +43,19 @@ const styles = () => ({
     backgroundColor: 'rgba(255, 14, 102, 0.1)',
     height: 50,
     borderTop: 'solid 1px #eaeaea',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: '100vw',
     }
   },
   tbody: {
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: '100vw',
     }
   },
   normal: {
     height: 50,
     borderTop: 'solid 1px #eaeaea',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: '100vw',
     }
   },
@@ -73,7 +72,7 @@ const styles = () => ({
     textAlign: 'left',
     borderRadius: 0,
     color: '#000000',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: 127,
       paddingLeft: 16,
       paddingRight: 2,
@@ -92,7 +91,7 @@ const styles = () => ({
     textAlign: 'right',
     borderRadius: 0,
     color: '#000000',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: 176,
       paddingLeft: 5,
       paddingRight: 0,
@@ -102,7 +101,7 @@ const styles = () => ({
   ticketCell: {
     width: 68,
     borderRadius: 0,
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: 24,
       paddingLeft: 0,
       textAlign: 'left',
@@ -128,7 +127,7 @@ const styles = () => ({
     textTransform: 'uppercase',
     cursor: 'pointer',
     width: 67.2,
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: 24,
       paddingLeft: 6,
       textAlign: 'left',
@@ -139,10 +138,10 @@ const styles = () => ({
 
 const renderTicketLink = (classes, event) => (
   <React.Fragment>
-    <MediaQuery minWidth={1024}>
+    <MediaQuery minWidth={1030}>
       <a href={event.offers[0].url} className={classes.ticketLink} rel="noopener noreferrer" target="_blank">TICKETS</a>
     </MediaQuery>
-    <MediaQuery maxWidth={1023}>
+    <MediaQuery maxWidth={1029}>
       <a href={event.offers[0].url} className={classes.ticketLink} rel="noopener noreferrer" target="_blank">
         <ShoppingCartIcon />
       </a>
@@ -170,41 +169,39 @@ class EventsTable extends React.Component {
       return venueStr;
     };
     return (
-      <StyledContent.Wrapper>
-        <Paper className={classes.tableContainer}>
-          <Table className={classes.table}>
-            <TableBody className={classes.tbody}>
-              {events.map(event => (
-                <TableRow key={event.id} className={isNearByEvent(event.venue, geolocation) ? classes.active : classes.normal}>
-                  <TableCell className={classes.eventDateCell}>
-                    <MediaQuery minWidth={1024}>
-                      { moment(event.datetime).format('dddd, MMMM Do, YYYY') }
-                    </MediaQuery>
-                    <MediaQuery maxWidth={1023}>
-                      { moment(event.datetime).format('MMM D, YYYY') }
-                    </MediaQuery>
-                  </TableCell>
-                  <TableCell className={classes.eventVenueCell}>
-                    <MediaQuery minWidth={1024}>
-                      {formatEventVenue(event.venue)}
-                    </MediaQuery>
-                    <MediaQuery maxWidth={1023}>
-                      {formatEventVenue(event.venue)}
-                    </MediaQuery>
-                  </TableCell>
-                  <TableCell className={classes.ticketCell}>
-                    {
-                      event.offers && event.offers[0]
-                        ? renderTicketLink(classes, event)
-                        : ''
-                    }
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Paper>
-      </StyledContent.Wrapper>
+      <Paper className={classes.tableContainer}>
+        <Table className={classes.table}>
+          <TableBody className={classes.tbody}>
+            {events.map(event => (
+              <TableRow key={event.id} className={isNearByEvent(event.venue, geolocation) ? classes.active : classes.normal}>
+                <TableCell className={classes.eventDateCell}>
+                  <MediaQuery minWidth={1030}>
+                    { moment(event.datetime).format('dddd, MMMM Do, YYYY') }
+                  </MediaQuery>
+                  <MediaQuery maxWidth={1029}>
+                    { moment(event.datetime).format('MMM D, YYYY') }
+                  </MediaQuery>
+                </TableCell>
+                <TableCell className={classes.eventVenueCell}>
+                  <MediaQuery minWidth={1030}>
+                    {formatEventVenue(event.venue)}
+                  </MediaQuery>
+                  <MediaQuery maxWidth={1029}>
+                    {formatEventVenue(event.venue)}
+                  </MediaQuery>
+                </TableCell>
+                <TableCell className={classes.ticketCell}>
+                  {
+                    event.offers && event.offers[0]
+                      ? renderTicketLink(classes, event)
+                      : ''
+                  }
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Paper>
     );
   }
 }

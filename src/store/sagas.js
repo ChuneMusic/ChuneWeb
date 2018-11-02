@@ -1,6 +1,5 @@
 import { fork } from 'redux-saga/effects';
 
-// import { sagasMusicPlayer as musicPlayer } from './musicPlayer/sagas';
 import { sagasSpotify as spotify } from './spotify/sagas';
 import { sagasAuthUser as auth } from './auth/sagas';
 import { sagasArtists as artists } from './artists/sagas';
@@ -12,7 +11,6 @@ import { sagasLearningMachine as machine } from './learningMachine/sagas';
 
 export function* rootSagas() {
   yield fork(auth);
-  // yield fork(musicPlayer);
   yield fork(spotify);
   yield fork(search);
   yield fork(artists);

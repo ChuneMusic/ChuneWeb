@@ -1,7 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { objectOf, any, func } from 'prop-types';
+import {
+  objectOf, any, func,
+  bool
+} from 'prop-types';
 
 import { getEventsArtist } from '../../store/events/actions';
 import * as StyledCard from '../styled-components/artistsCard';
@@ -15,10 +18,10 @@ class EventCard extends React.Component {
   }
 
   render() {
-    const { artist } = this.props;
+    const { artist, artistPage } = this.props;
     return (
-      <StyledCard.ArtistCard>
-        <StyledCard.ArtistCardImages image={artist.image_url || 'https://via.placeholder.com/254x254'} />
+      <StyledCard.ArtistCard artistPage={artistPage}>
+        <StyledCard.ArtistCardImages image={artist.image_url || 'https://via.placeholder.com/254x254'} artistPage={artistPage} />
         <StyledCard.ArtistCardContainer>
           <StyledCard.ArtistCardName>
             { artist.name }
@@ -42,5 +45,6 @@ export const EventCardConnect = connect(null, mapActionsToProps)(EventCard);
 EventCard.propTypes = {
   artist: objectOf(any).isRequired,
   getEvents: func.isRequired,
-  sendEvents: func.isRequired
+  sendEvents: func.isRequired,
+  artistPage: bool.isRequired
 };

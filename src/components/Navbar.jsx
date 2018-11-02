@@ -33,7 +33,7 @@ import { openCloseSearch } from '../store/autosuggest/actions';
 const styles = () => ({
   navContainer: {
     height: 74,
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       height: 56,
     }
   },
@@ -46,7 +46,7 @@ const styles = () => ({
     alignItems: 'center',
     width: '100%',
     margin: 0,
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       backgroundImage: 'linear-gradient(262deg, #9c05cd, #552e89)',
       height: 56,
     }
@@ -55,7 +55,7 @@ const styles = () => ({
     width: '100%',
     height: 74,
     margin: '0px auto',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: '100vw',
       backgroundImage: 'linear-gradient(262deg, #9c05cd, #552e89)',
       height: 56,
@@ -87,7 +87,11 @@ const styles = () => ({
   thetab: {
     height: 74,
     minWidth: 120,
-    width: 120,
+    width: 120
+  },
+  labelContainer: {
+    paddingLeft: '0 !important',
+    paddingRight: '0 !important'
   },
   tabLabel: {
     fontFamily: 'Roboto',
@@ -96,14 +100,13 @@ const styles = () => ({
     lineHeight: 'normal',
     letterSpacing: 0.3,
     textAlign: 'right',
-    textTransform: 'none',
+    textTransform: 'none'
   },
   avatar: {
     width: 32,
     height: 32
   },
   avatarContainer: {
-    height: 74,
     display: 'flex',
     alignItems: 'center',
     alignContent: 'flex-end',
@@ -115,7 +118,7 @@ const styles = () => ({
     border: 0,
     color: 'white',
     outline: 'none',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       marginRight: 0,
       marginLeft: 30,
     }
@@ -139,7 +142,7 @@ const styles = () => ({
       backgroundColor: 'rgba(255, 255, 255, 0.16)',
     },
     borderRadius: '50%',
-    '@media (max-width: 1023px)': {
+    '@media (max-width: 1029px)': {
       width: 24,
       height: 24,
       fontSize: 24,
@@ -167,14 +170,14 @@ const styles = () => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '35%',
+    width: '50%',
     alignItems: 'center',
   },
   mobileToolbarRightSection: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    width: '35%',
+    width: '50%',
     alignItems: 'center',
   },
   drawerContainer: {
@@ -257,6 +260,8 @@ class Navbar extends React.Component {
         return this.setState({ value: 3 });
       case '/blog':
         return this.setState({ value: 4 });
+      case '/shop':
+        return this.setState({ value: 5 });
       default:
         return null;
     }
@@ -266,10 +271,10 @@ class Navbar extends React.Component {
     window.scrollTo(0, 0);
     const { location } = nextProps;
     if (location.pathname.startsWith('/artist/')) {
-      this.setState({ value: 2 });
+      return this.setState({ value: 2 });
     }
     if (location.pathname.startsWith('/event/')) {
-      this.setState({ value: 3 });
+      return this.setState({ value: 3 });
     }
     switch (location.pathname) {
       case '/home':
@@ -282,6 +287,8 @@ class Navbar extends React.Component {
         return this.setState({ value: 3 });
       case '/blog':
         return this.setState({ value: 4 });
+      case '/shop':
+        return this.setState({ value: 5 });
       default:
         return null;
     }
@@ -293,13 +300,15 @@ class Navbar extends React.Component {
       case '/home':
         return 'Home';
       case '/for-you':
-        return 'For You';
+        return 'Your Feed';
       case '/artists':
         return 'Artists';
       case '/events':
         return 'Events';
       case '/blog':
         return 'Blog';
+      case '/shop':
+        return 'Shop';
       default:
         break;
     }
@@ -365,7 +374,7 @@ class Navbar extends React.Component {
     const searchForm = <SearchFormConnect cancelSearch={this.toggleSearch} />;
     const normalMenu = (
       <header>
-        <MediaQuery maxDeviceWidth={1059}>
+        <MediaQuery maxDeviceWidth={1109}>
           <div style={{ height: 56 }}>
             <StyledNavBar.NavBarMobile>
               <Toolbar className={classes.mobileToolbar}>
@@ -386,7 +395,7 @@ class Navbar extends React.Component {
                         </NavLink>
                         <NavLink exact to="/for-you" activeClassName={classes.navLinkActive} className={classes.navLink}>
                           <ListItem button className={this.matchPath('/for-you') ? classes.activeListItem : classes.listItem}>
-                              For You
+                              Your Feed
                           </ListItem>
                         </NavLink>
                         <NavLink exact to="/artists" activeClassName={classes.navLinkActive} className={classes.navLink}>
@@ -402,6 +411,11 @@ class Navbar extends React.Component {
                         <NavLink exact to="/blog" activeClassName={classes.navLinkActive} className={classes.navLink}>
                           <ListItem button className={this.matchPath('/blog') ? classes.activeListItem : classes.listItem}>
                               Blog
+                          </ListItem>
+                        </NavLink>
+                        <NavLink exact to="/shop" activeClassName={classes.navLinkActive} className={classes.navLink}>
+                          <ListItem button className={this.matchPath('/shop') ? classes.activeListItem : classes.listItem}>
+                              Shop
                           </ListItem>
                         </NavLink>
                       </List>
@@ -466,7 +480,7 @@ class Navbar extends React.Component {
             </StyledNavBar.NavBarMobile>
           </div>
         </MediaQuery>
-        <MediaQuery minDeviceWidth={1060}>
+        <MediaQuery minDeviceWidth={1110}>
           <div style={{ height: 74 }}>
             <StyledNavBar.NavBar>
               <StyledNavBar.NavBarLogoBlock>
@@ -478,11 +492,12 @@ class Navbar extends React.Component {
               <StyledNavBar.NavBarMenu>
                 <StyledNavBar.NavBarMenuBlock>
                   <Tabs value={value} onChange={this.handleChange} fullWidth classes={{ root: classes.tabContainer, indicator: classes.indicator }}>
-                    <Tab label={(<span className={classes.tabLabel}>Home</span>)} component={Link} to="/home" className={classes.thetab} />
-                    <Tab label={(<span className={classes.tabLabel}>For You</span>)} component={Link} to="/for-you" className={classes.thetab} />
-                    <Tab label={(<span className={classes.tabLabel}>Artists</span>)} component={Link} to="/artists" className={classes.thetab} />
-                    <Tab label={(<span className={classes.tabLabel}>Events</span>)} component={Link} to="/events" className={classes.thetab} />
-                    <Tab label={(<span className={classes.tabLabel}>Blog</span>)} component={Link} to="/blog" className={classes.thetab} />
+                    <Tab label={(<span className={classes.tabLabel}>Home</span>)} component={Link} to="/home" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
+                    <Tab label={(<span className={classes.tabLabel}>Your Feed</span>)} component={Link} to="/for-you" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
+                    <Tab label={(<span className={classes.tabLabel}>Artists</span>)} component={Link} to="/artists" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
+                    <Tab label={(<span className={classes.tabLabel}>Events</span>)} component={Link} to="/events" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
+                    <Tab label={(<span className={classes.tabLabel}>Blog</span>)} component={Link} to="/blog" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
+                    <Tab label={(<span className={classes.tabLabel}>Shop</span>)} component={Link} to="/shop" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
                   </Tabs>
                 </StyledNavBar.NavBarMenuBlock>
                 <StyledNavBar.NavBarSubMenu>
@@ -564,7 +579,7 @@ export const NavBarConnect = withStyles(styles)(withRouter(connect(mapStateToPro
 
 Navbar.propTypes = {
   classes: objectOf(any).isRequired,
-  profile: objectOf(any).isRequired,
+  // profile: objectOf(any).isRequired,
   history: objectOf(any).isRequired,
   location: objectOf(any).isRequired,
   logOut: func.isRequired,
