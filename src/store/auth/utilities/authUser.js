@@ -43,7 +43,8 @@ export const getProfileUserSocial = (token) => {
 
 export const registerNewSocialUser = (code, redirectUri, provider) => {
     let url = '';
-    let clientId = '';    
+    let clientId = '';
+    console.log(provider);
     switch (provider){
         case 'google':
             url = 'users/social/login/google-oauth2';
