@@ -279,7 +279,7 @@ class SignIn extends React.Component {
 
     const checkConnect = setInterval(() => {
       try {
-        if (newWin.location.href.startsWith('https://stage.chunesupply.com')) {
+          if (newWin.location.href.startsWith(this.props.host)) {
           clearInterval(checkConnect);
           this.authenticateSocial(newWin);
         }
@@ -312,7 +312,7 @@ class SignIn extends React.Component {
       }
 
       const { loginSocial } = this.props;
-      loginSocial(code, 'https://stage.chunesupply.com/', this.state.provider);
+        loginSocial(code, this.props.host, this.state.provider);
     }
 
   handleKeyPress = (e) => {
@@ -322,7 +322,7 @@ class SignIn extends React.Component {
   }
 
   render() {
-    const { classes, message } = this.props;
+    const { classes, message, host } = this.props;
     const { email, password, showPassword } = this.state;
     return (
       <div className={classes.pageContainer}>
@@ -338,7 +338,7 @@ class SignIn extends React.Component {
                 <OauthSender
                   authorizeUrl="https://www.facebook.com/v2.5/dialog/oauth?response_type=code&scope=email&display=popup"
                   clientId="177327102945347"
-                  redirectUri="https://stage.chunesupply.com/"
+                  redirectUri={ host }
                   state={{ from: '/settings' }}
                   render={({ url }) => (
                     <FacebookIcon
@@ -351,7 +351,7 @@ class SignIn extends React.Component {
                 <OauthSender
                   authorizeUrl="https://accounts.google.com/o/oauth2/v2/auth?scope=email"
                   clientId="243198086936-g6h4hfvujnoms1j5i4d76vjqk08pp7gd.apps.googleusercontent.com"
-                  redirectUri="https://stage.chunesupply.com"
+                  redirectUri={ host }
                   state={{ from: '/settings' }}
                   render={({ url }) => (
                     <GoogleIcon
@@ -364,7 +364,7 @@ class SignIn extends React.Component {
                 <OauthSender
                   authorizeUrl="https://accounts.spotify.com/authorize?scope=user-read-email"
                   clientId="a48cf79e2b704d93adef19d5bcd67530"
-                  redirectUri="https://stage.chunesupply.com"
+                  redirectUri={ host }
                   state={{ from: '/settings' }}
                   render={({ url }) => (
                     <SpotifyIcon2
@@ -462,5 +462,6 @@ SignIn.propTypes = {
 };
 
 SignIn.defaultProps = {
-  message: undefined
+  message: undefined,
+  host: window.location.origin + '/'
 };

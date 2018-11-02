@@ -72,8 +72,8 @@ export function* getSocialUserToken(action) {
     setUserToken(token);
     yield put(successGetToken(token));
   } catch (e) {
-    if (action.type === 'CREATE_NEW_SOCIAL_USER') yield put(errorMessageSingUp(e.message));
-    else if (action.type === 'LOGIN_USER') yield put(errorMessageSingIn(e.message));
+    if (action.type === 'CREATE_NEW_SOCIAL_USER') yield put(errorSignUpUser(e.message || e));
+    else if (action.type === 'LOGIN_USER') yield put(errorSignInUser(e.message || e));
   }
 }
 
