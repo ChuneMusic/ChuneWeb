@@ -46,7 +46,13 @@ const successSendArray = state => ({
   firstArray: [],
   artistsSuccess: false
 });
-const skipChoiceArtists = state => ({ ...state, skip: true });
+const skipChoiceArtists = state => ({
+  ...state,
+  skip: true,
+  firstListArtists: [],
+  firstArray: [],
+  artistsSuccess: false
+});
 
 const handlers = {
   [TYPES.SUCCESS_GET_USER_ARTISTS]: successGetUserArtists,
