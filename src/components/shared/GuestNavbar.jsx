@@ -316,11 +316,11 @@ class GuestNavbar extends React.Component {
                         Terms of Use
                       </Link>
                     </ListItem>
-                    <ListItem button disableRipple className={classes.listItem}>
+                    {/*<ListItem button disableRipple className={classes.listItem}>
                       <Link className={classes.listItemLink} to="/faq">
                         FAQ
                       </Link>
-                    </ListItem>
+                      </ListItem>*/}
                     <ListItem button disableRipple className={classes.listItem}>
                       <Link className={classes.listItemLinkPrimary} to="/signup">
                         Sign Up
@@ -366,11 +366,11 @@ class GuestNavbar extends React.Component {
                     Terms of Use
                   </Link>
                 </li>
-                <li className={`menuListItem ${activePage === '/faq' ? 'active' : ''}`}>
+                { /*<li className={`menuListItem ${activePage === '/faq' ? 'active' : ''}`}>
                   <Link className="menuLink" to="/faq">
                     FAQ
                   </Link>
-                </li>
+                  </li>*/}
               </ul>
             </Grid>
             <Grid item xs={3}>
