@@ -21,6 +21,7 @@ import * as Styled from './styled-components/home';
 import * as StyledContent from './styled-components/content';
 import * as StyledArticle from './styled-components/article';
 import { clickTwitterPost } from '../store/learningMachine/actions';
+import Drift from 'react-driftjs';
 
 import './Home.css';
 
@@ -66,6 +67,7 @@ class Home extends React.Component {
     if (topChune.length === 0) return <Loading />;
     return (
       <StyledContent.Wrapper modal={modal} onScroll={this.scrollDiv} id="blockDiv">
+        <Drift appId="4nu2fz5thdf2" />
         <Styled.WrapperHomePage>
           <Styled.FeaturedBlock id="featured">
             <BasicArticleCardConnect featured={featured} />

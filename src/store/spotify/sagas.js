@@ -27,7 +27,7 @@ export function* getUserProfile({ payload }) {
   try {
     const data = yield call(spotifyReg, code, host);
     setUserTokenSpotify(data.spotify);
-    yield put(successGetUserProfileSpotify('', data.spotify));
+    yield put(successGetUserProfileSpotify(`${data.first_name} ${data.last_name}`, data.spotify));
   } catch (e) {
     yield put(errorMessage(e.message));
   }

@@ -73,7 +73,7 @@ export function* getSocialUserToken(action) {
     setUserToken(data.token);
     yield put(successGetToken(data.token));
     if (data.spotify !== '') {
-      yield put(successGetUserProfileSpotify('', data.spotify));
+      yield put(successGetUserProfileSpotify(`${data.first_name} ${data.last_name}`, data.spotify));
     }
   } catch (e) {
     if (action.type === 'CREATE_NEW_SOCIAL_USER') yield put(errorSignUpUser(e.message || e));
