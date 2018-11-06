@@ -351,8 +351,8 @@ class Navbar extends React.Component {
     this.setState({ value });
   }
 
-  openSocial = (url, provider) => {
-    this.setState({ provider });
+  spotifyAuth = (url) => {
+    // Modal properties - TODO: Move this to component
     const w = 450;
     const h = 600;
     const dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : screen.left;
@@ -365,15 +365,14 @@ class Navbar extends React.Component {
 
 
     const newWin = window.open(url, '_blank', `alwaysRaised=yes, scrollbars=yes, width=${w}, height=${h}, top=${top}, left=${left}`);
+    
     const checkConnect = setInterval(() => {
       try {
         if (newWin.location.href.startsWith(this.props.host)) {
           clearInterval(checkConnect);
           this.authenticateSocial(newWin);
         }
-      } catch (e) {
-        console.log(e.message);
-      }
+      } catch(e) {}
     }, 100);
   }
 
@@ -400,7 +399,7 @@ class Navbar extends React.Component {
       }
 
       const { loginSocial } = this.props;
-      loginSocial(code, this.props.host, this.state.provider);
+      loginSocial(code, this.props.host, 'spotify');
     }
 
     render() {
@@ -423,7 +422,7 @@ class Navbar extends React.Component {
           redirectUri={host}
           state={{ from: '/settings' }}
           render={({ url }) => (
-            <MenuItem onClick={() => this.openSocial(url, 'spotify')}>
+            <MenuItem onClick={() => this.spotifyAuth(url)}>
               <SpotifyIcon width="30px" height="30px" />
               &nbsp;Spotify
             </MenuItem>

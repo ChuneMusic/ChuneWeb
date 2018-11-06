@@ -20,7 +20,7 @@ export const spotifyAPI = axios.create({
 });
 
 export const setUserTokenSpotify = (token) => {
-  API.defaults.headers.common.Authorization = `Bearer ${token}`;
+  //API.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
 
 export const clearUserTokenSpotify = () => {
