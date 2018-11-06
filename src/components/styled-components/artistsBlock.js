@@ -54,6 +54,7 @@ export const FirstArtistsHeader = styled.div`
   position: fixed;
   top: 0;
   z-index: 100;
+  transform: translate3d(0,0,10px);
   left: 0;
   right: 0;
   display: flex;
@@ -241,7 +242,7 @@ export const ButtonSend = styled.button`
 `;
 export const DivBlockSkip = styled.div`
   width: 910px;
-  margin: 0 auto;
+  margin: 0 auto 60px auto;
   height: 64px;
   display: flex;
   justify-content: flex-end;

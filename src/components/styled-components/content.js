@@ -9,6 +9,13 @@ export const Wrapper = styled.div`
     height: calc(100vh - 56px);
   }
 `;
+export const WrapperFirstChoice = styled.div`
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  height: calc(100vh - 74px);
+  margin: 74px auto 0 auto;
+`;
 export const Content = styled.div`
   display: flex;
   justify-content: space-between;

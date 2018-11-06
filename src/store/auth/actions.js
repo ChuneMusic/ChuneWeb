@@ -29,9 +29,9 @@ export const successGetToken = token => ({
   payload: { token }
 });
 
-export const successGetProfileSocial = profile => ({
+export const successGetProfileSocial = (profile, tokenSpotify) => ({
   type: SUCCESS_GET_PROFILE_SOCIAL,
-  payload: { profile }
+  payload: { profile, tokenSpotify }
 });
 
 export const logOutUser = () => ({

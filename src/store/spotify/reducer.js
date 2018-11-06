@@ -3,7 +3,7 @@ import * as TYPES from './types';
 
 export const initState = {
   token: '',
-  profile: {},
+  profile: '',
   deviceID: '',
   track: '',
   idTrack: '',
@@ -18,10 +18,12 @@ export const initState = {
   repeat: false,
   shuffle: false,
   playingTracks: [],
-  shuffleTracks: false
+  shuffleTracks: false,
+  code: '',
+  host: ''
 };
 
-const getAccessTokenSpotify = (state, { token }) => ({ ...state, token });
+const getAccessTokenSpotify = (state, { code, host }) => ({ ...state, code, host });
 const successGetUserProfileSpotify = (state, { profile, token }) => ({ ...state, profile, token });
 const successGetDeviceID = (state, { deviceID }) => ({ ...state, deviceID });
 

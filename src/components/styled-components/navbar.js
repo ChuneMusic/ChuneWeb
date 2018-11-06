@@ -8,7 +8,7 @@ export const NavBar = styled.nav`
   align-items: center;
   background: linear-gradient(262deg, #9c05cd, #552e89) #552e89;
   position: fixed;
-  z-index: 100;
+  z-index: 80;
 `;
 export const NavBarMobile = styled.nav`
   width: 100%;
@@ -17,7 +17,7 @@ export const NavBarMobile = styled.nav`
   align-items: center;
   background: linear-gradient(262deg, #9c05cd, #552e89) #552e89;
   position: fixed;
-  z-index: 100;
+  z-index: 80;
   color: #fff;
 `;
 export const NavBarLogoBlock = styled.div`

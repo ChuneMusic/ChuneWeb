@@ -30,9 +30,14 @@ class BasicArticleCard extends React.Component {
       } else {
         t = truncateWithEllipses(e.title, 40);
       }
+      const img = e.image.startsWith('static/') ? (
+        `https://api-stage.chunesupply.com/${e.image}`
+      ) : (
+        `https://api-stage.chunesupply.com/static/imgs/full/${e.image}`
+      );
       return (
         <Styled.FeaturedArticle
-          images={`https://api-stage.chunesupply.com/static/imgs/full/${e.image}`}
+          images={img}
           key={`${e.id}-article-featured`}
           onClick={() => this.openFeaturedArticle(e.id, e.url, e.title)}
         >

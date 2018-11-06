@@ -16,8 +16,7 @@ import {
   LandingConnect, TermsOfUseConnect, PrivacyPolicyConnect,
   SignUpConnect, SignInConnect, FAQConnect,
   EventsConnect, ArtistEventsConnect, NavBarConnect,
-  GuestNavbarConnect, ForYouConnect, blogiFrame,
-  shopiFrame
+  GuestNavbarConnect, ForYouConnect, blogiFrame
 } from './components';
 import { ModalBlockConnect } from './components/Music/modalAudioPlayer';
 import { ModalNewsConnect } from './components/News/modalNews';
@@ -68,16 +67,20 @@ function PublicRoute({ component: Component, token, ...rest }) {
 
 class App extends React.PureComponent {
   render() {
-    const { token, modal, modalNews } = this.props;
+    const {
+      token, modal, modalNews,
+      firstListArtists
+    } = this.props;
     const newsModal = modalNews ? <ModalNewsConnect /> : null;
     const musicPlayer = modal ? <ModalBlockConnect /> : null;
-    let navbar = false;
-    if (token) navbar = true;
+    let navbar = <GuestNavbarConnect />;
+    if (token) navbar = <NavBarConnect />;
+    if (firstListArtists.length) navbar = null;
     return (
       <div>
         {newsModal}
         {musicPlayer}
-        { navbar ? <NavBarConnect /> : <GuestNavbarConnect />}
+        {navbar}
         <Switch>
           <PublicRoute exact path="/" token={token} component={LandingConnect} />
           <PublicRoute exact path="/signup" token={token} component={SignUpConnect} />
@@ -92,7 +95,6 @@ class App extends React.PureComponent {
           <PrivateRoute exact path="/events" token={token} component={EventsConnect} />
           <PrivateRoute exact path="/event/:artistName" token={token} component={ArtistEventsConnect} />
           <PrivateRoute exact path="/blog" token={token} component={blogiFrame} />
-          <PrivateRoute exact path="/shop" token={token} component={shopiFrame} />
           <Redirect to="/" />
         </Switch>
       </div>
@@ -103,7 +105,8 @@ class App extends React.PureComponent {
 const mapStateToProps = state => ({
   token: state.dataAuth.token,
   modalNews: state.dataContent.modal,
-  modal: state.dataSpotify.modal
+  modal: state.dataSpotify.modal,
+  firstListArtists: state.dataArtists.firstListArtists
 });
 
 const ChuneApp = withRouter(connect(mapStateToProps, null)(App));

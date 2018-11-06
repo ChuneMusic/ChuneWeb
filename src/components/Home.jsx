@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
   func, any, objectOf,
-  arrayOf, bool, string
+  arrayOf, bool
 } from 'prop-types';
 import { map } from 'lodash';
 import { Tweet } from 'react-twitter-widgets';
@@ -15,7 +15,6 @@ import {
 } from './blocks';
 import { VideoCardConnect } from './Videos/Video';
 import { ArticleCardConnect } from './News/Article';
-import { getAccessTokenSpotify } from '../store/spotify/actions';
 import { fethcMoreContentHomePageUser } from '../store/content/actions';
 import { Loading } from './shared/Loading';
 import * as Styled from './styled-components/home';
@@ -58,18 +57,11 @@ class Home extends React.Component {
 
   render() {
     const {
-      location, history,
-      topTracks, contentFeed,
-      getTokenSpotify, token,
+      history, topTracks, contentFeed,
       topChune, featured, fetchDataHome,
       modal, firstListArtists, skip
     } = this.props;
     const { position } = this.state;
-    if (location.search !== '' && token === '') {
-      getTokenSpotify(location.search);
-      location.search = '';
-      history.push('/home');
-    }
     if (firstListArtists.length > 0 && !skip) history.push('/artists');
     if (topChune.length === 0) return <Loading />;
     return (
@@ -130,8 +122,6 @@ class Home extends React.Component {
 }
 
 const mapStateToProps = store => ({
-  token: store.dataSpotify.token,
-  profile: store.dataSpotify.profile,
   featured: store.dataContent.featured,
   contentFeed: store.dataContent.contentFeedHome,
   topTracks: store.dataContent.topTracks,
@@ -143,7 +133,6 @@ const mapStateToProps = store => ({
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
-  getTokenSpotify: getAccessTokenSpotify,
   loadMoreItems: fethcMoreContentHomePageUser,
   sendTweet: clickTwitterPost
 }, dispatch);
@@ -151,9 +140,6 @@ const mapActionsToProps = dispatch => bindActionCreators({
 export const HomeConnect = connect(mapStateToProps, mapActionsToProps)(Home);
 
 Home.propTypes = {
-  getTokenSpotify: func.isRequired,
-  token: string.isRequired,
-  location: objectOf(any).isRequired,
   history: objectOf(any).isRequired,
   contentFeed: arrayOf(any).isRequired,
   topTracks: arrayOf(any).isRequired,

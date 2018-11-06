@@ -45,38 +45,40 @@ class FirstArtists extends React.Component {
       widthColor = '100%';
     }
     return (
-      <StyledContent.Wrapper>
-        <StyledArtists.WrapperArtists>
-          <StyledArtists.FirstArtistsHeader>
-            <NavBarConnect />
-            <StyledArtists.DivBlockSend>
-              <StyledArtists.DivColorBlock widthColor={widthColor} />
-              {btn}
-            </StyledArtists.DivBlockSend>
-          </StyledArtists.FirstArtistsHeader>
-          <StyledArtists.FirstArtistsBody>
-            <StyledArtists.FirstBlock>
-              <StyledArtists.DescriptionPage>
-                {'Who are your favorite artists?'}
-              </StyledArtists.DescriptionPage>
-              <StyledArtists.TextPage>
-                {'Pick at least 3 to get started.'}
-              </StyledArtists.TextPage>
-            </StyledArtists.FirstBlock>
-            {
-              artists.map(artist => (
-                <ArtistsForChoiceConnect
-                  artist={artist}
-                  key={`${artist.id}-${artists.name}`}
-                />
-              ))
-            }
-          </StyledArtists.FirstArtistsBody>
-          <StyledArtists.DivBlockSkip>
-            <StyledArtists.ButtonSkip onClick={skipChoice}>Skip</StyledArtists.ButtonSkip>
-          </StyledArtists.DivBlockSkip>
-        </StyledArtists.WrapperArtists>
-      </StyledContent.Wrapper>
+      <div>
+        <StyledArtists.FirstArtistsHeader>
+          <NavBarConnect />
+          <StyledArtists.DivBlockSend>
+            <StyledArtists.DivColorBlock widthColor={widthColor} />
+            {btn}
+          </StyledArtists.DivBlockSend>
+        </StyledArtists.FirstArtistsHeader>
+        <StyledContent.WrapperFirstChoice>
+          <StyledArtists.WrapperArtists>
+            <StyledArtists.FirstArtistsBody>
+              <StyledArtists.FirstBlock>
+                <StyledArtists.DescriptionPage>
+                  {'Who are your favorite artists?'}
+                </StyledArtists.DescriptionPage>
+                <StyledArtists.TextPage>
+                  {'Pick at least 3 to get started.'}
+                </StyledArtists.TextPage>
+              </StyledArtists.FirstBlock>
+              {
+                artists.map(artist => (
+                  <ArtistsForChoiceConnect
+                    artist={artist}
+                    key={`${artist.id}-${artists.name}`}
+                  />
+                ))
+              }
+            </StyledArtists.FirstArtistsBody>
+            <StyledArtists.DivBlockSkip>
+              <StyledArtists.ButtonSkip onClick={skipChoice}>Skip</StyledArtists.ButtonSkip>
+            </StyledArtists.DivBlockSkip>
+          </StyledArtists.WrapperArtists>
+        </StyledContent.WrapperFirstChoice>
+      </div>
     );
   }
 }

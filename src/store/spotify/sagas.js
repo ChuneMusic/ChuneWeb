@@ -4,10 +4,11 @@ import {
 } from 'redux-saga/effects';
 
 import {
-  getUserProfileSpotify, getDeviceID, spotifyPlayTrack,
+  getDeviceID, spotifyPlayTrack,
   spotyfiDevice, spotifyPauseTrack, spotifyPositionTrack,
   spotifySetVolume, spotifyShuffleTrack, spotifyRepeatTrack,
-  spotifyPreviousTrack, spotifyNextTrack
+  spotifyPreviousTrack, spotifyNextTrack, spotifyReg,
+  // refreshTokenHelper
 } from './helpers/spotify-helper';
 import {
   GET_ACCESS_TOKEN_SPOTIFY, SUCCESS_GET_USER_PROFILE_SPOTIFY,
@@ -17,16 +18,16 @@ import {
 } from './types';
 import { successGetUserProfileSpotify, successGetDeviceID } from './actions';
 import { errorMessage } from '../error/actions';
-import { setUserTokenSpotify } from '../../utilities/APIConfig';
 import { getDataPlayer } from './helpers/selector';
+import { LOG_OUT_USER } from '../auth/types';
+import { setUserTokenSpotify } from '../../utilities/APIConfig';
 
 export function* getUserProfile({ payload }) {
-  const { token } = payload;
-  const tokenFromString = token.split('=');
-  setUserTokenSpotify(tokenFromString[1]);
+  const { code, host } = payload;
   try {
-    const profile = yield call(getUserProfileSpotify);
-    yield put(successGetUserProfileSpotify(profile.data, tokenFromString[1]));
+    const data = yield call(spotifyReg, code, host);
+    setUserTokenSpotify(data.spotify);
+    yield put(successGetUserProfileSpotify(`${data.first_name} ${data.last_name}`, data.spotify));
   } catch (e) {
     yield put(errorMessage(e.message));
   }
@@ -36,6 +37,7 @@ export function* getDeviceIDUser({ payload }) {
   try {
     const deviceID = yield call(getDeviceID, token);
     spotyfiDevice(token, deviceID);
+    setUserTokenSpotify(token);
     yield put(successGetDeviceID(deviceID));
   } catch (e) {
     yield put(errorMessage(e.message));
@@ -84,11 +86,19 @@ export function* nextTrack() {
   yield call(spotifyNextTrack, deviceID);
 }
 
+// export function* refreshTokenSpotify({ payload }) {
+//   const { token } = payload;
+//   console.log(token, 'token');
+//   const newToken = yield call(refreshTokenHelper, token);
+//   console.log(newToken);
+// }
+
 export function* sagasSpotify() {
   yield takeEvery(GET_ACCESS_TOKEN_SPOTIFY, getUserProfile);
   yield takeEvery(SUCCESS_GET_USER_PROFILE_SPOTIFY, getDeviceIDUser);
+  // yield takeEvery(SUCCESS_GET_USER_PROFILE_SPOTIFY, refreshTokenSpotify);
   yield takeEvery(PLAY_TRACK, playTrackToSpotify);
-  yield takeEvery(PAUSE_TRACK, pauseTrackToSpotify);
+  yield takeEvery([PAUSE_TRACK, LOG_OUT_USER], pauseTrackToSpotify);
   yield takeEvery(SEEK_TO_POSITION_IN_CURRENTLY_PLAYING_TRACK, positionTrack);
   yield takeEvery(SET_VOLUME_FOR_PLAYBACK, setVolume);
   yield takeEvery(TOGGLE_SHUFFLE_FOR_PLAYBACK, shuffleTrack);
