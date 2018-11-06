@@ -91,7 +91,7 @@ const Footer = (props) => {
           <div className="navContainer">
             <Link to="/privacy" className="navLink">Privacy Policy</Link>
             <Link to="/terms-of-use" className="navLink">Terms of Use</Link>
-            <Link to="/faq" className="navLink">FAQ</Link>
+            {/*<Link to="/faq" className="navLink">FAQ</Link>*/}
           </div>
         </div>
       </div>
