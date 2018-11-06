@@ -6,51 +6,35 @@ import Paper from '@material-ui/core/Paper';
 const styles = () => ({
   root: {
     width: 716,
-    height: 278,
+    height: 300,
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-around',
+    alignItems: 'center',
     borderRadius: 0,
     boxShadow: 'none',
     '@media (max-width: 1029px)': {
       width: '100vw',
-      height: 278,
+      height: 300,
     }
   },
   artistName: {
     paddingLeft: 16,
     margin: '0px 0px 24px 0px',
-    width: 675,
     height: 40,
     fontFamily: 'Roboto',
     fontSize: 34,
-    fontWeight: 'normal',
-    fontStyle: 'normal',
-    fontStretch: 'normal',
-    lineHeight: 'normal',
     letterSpacing: 0.3,
-    color: '#ffffff',
-    '@media (max-width: 1029px)': {
-      width: '100vw',
-    }
   },
   genre: {
     paddingLeft: 16,
     margin: '0px 0px 6px 0px',
-    width: 675,
     height: 20,
     fontFamily: 'Roboto',
     fontSize: 14,
-    fontWeight: 'normal',
-    fontStyle: 'normal',
-    fontStretch: 'normal',
     lineHeight: 1.43,
     letterSpacing: 0.3,
-    color: 'rgba(255, 255, 255, 0.6)',
     textTransform: 'uppercase',
-    '@media (max-width: 1029px)': {
-      width: '100vw',
-    }
   },
 });
 
@@ -62,11 +46,15 @@ const ArtistWallpaper = (props) => {
     backgroundSize: 'cover',
     backgroundPosition: 'center left',
     backgroundRepeat: 'no-repeat',
+    width: '180px',
+    height: '180px',
+    borderRadius: '100px',
   };
   let genre = 'POP';
   if (artist.genres[0] !== undefined) genre = artist.genres[0].description;
   return (
-    <Paper className={classes.root} style={overrideBgStyle}>
+    <Paper className={classes.root}>
+      <div style={overrideBgStyle} />
       <div className={classes.genre}>
         {genre}
       </div>

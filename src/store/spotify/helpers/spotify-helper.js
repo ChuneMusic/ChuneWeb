@@ -1,7 +1,7 @@
 /* globals Spotify */
 import SpotifyWebApi from 'spotify-web-api-js';
 
-import { spotifyAPI } from '../../../utilities/APIConfig';
+import { spotifyAPI, API } from '../../../utilities/APIConfig';
 import { store } from '../../index';
 import { dataStopTrackFromSpotifySDK, dataTrackFromSpotifySDK, closeThisSDKPlayback } from '../actions';
 
@@ -46,8 +46,6 @@ export const spotifyPreviousTrack = (deviceID) => {
 export const spotifyNextTrack = (deviceID) => {
   spotifySDKPlaybackAPI.skipToNext([deviceID]);
 };
-
-export const getUserProfileSpotify = () => spotifyAPI.get('me');
 export const getDeviceID = token => new Promise((resolve) => {
   const player = new Spotify.Player({
     name: 'Chune Spotify Player',
@@ -97,6 +95,30 @@ export const getDeviceID = token => new Promise((resolve) => {
     const deviceID = data.device_id;
     return resolve(deviceID);
   });
-  console.log(player, 'play');
   player.connect();
 });
+
+export const spotifyReg = (code, redirectUri) => {
+  const url = 'users/social/login/spotify';
+  const clientId = 'a48cf79e2b704d93adef19d5bcd67530';
+  const data = JSON.stringify({
+    clientId,
+    code,
+    redirectUri
+  });
+  return API.post(url, data).then(response => response.data);
+};
+
+export const refreshTokenHelper = (token) => {
+  setInterval(() => {
+    console.log('interval');
+    const data = JSON.stringify({
+      access_token: token,
+      token_type: 'Bearer',
+      scope: 'user-read-private user-read-email user-read-playback-state user-modify-playback-state streaming user-read-birthdate user-read-currently-playing',
+      expires_in: 3600,
+      refresh_token: ''
+    });
+    return spotifyAPI.post('/api/token', data).then(response => response);
+  }, 2000);
+};

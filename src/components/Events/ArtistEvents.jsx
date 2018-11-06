@@ -97,10 +97,15 @@ export const ArtistEventsConnect = withStyles(styles)(connect(mapStateToProps, n
 
 ArtistEvents.propTypes = {
   events: arrayOf(any).isRequired,
-  id: number.isRequired,
+  id: number,
   artists: arrayOf(any).isRequired,
   classes: objectOf(any).isRequired,
-  geolocation: objectOf(any).isRequired,
+  geolocation: objectOf(any),
   history: objectOf(any).isRequired,
   modal: bool.isRequired
+};
+
+ArtistEvents.defaultProps = {
+  id: null,
+  geolocation: null
 };

@@ -6,9 +6,9 @@ import {
   SKIP_PLAYBACK_TO_NEXT_TRACK, SKIP_PLAYBACK_TO_PREVIOUS_TRACK, CLOSE_THIS_SDK_PLAYBACK
 } from './types';
 
-export const getAccessTokenSpotify = token => ({
+export const getAccessTokenSpotify = (code, host) => ({
   type: GET_ACCESS_TOKEN_SPOTIFY,
-  payload: { token }
+  payload: { code, host }
 });
 export const successGetUserProfileSpotify = (profile, token) => ({
   type: SUCCESS_GET_USER_PROFILE_SPOTIFY,

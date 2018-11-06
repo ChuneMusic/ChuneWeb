@@ -27,9 +27,10 @@ import { OauthSender } from 'react-oauth-flow';
 import { SearchFormConnect } from './SearchForm';
 import { SpotifyIcon } from './shared/SocialIcons';
 import LogoSVG from '../../assets/images/Chune_Supply_Logotype_White.svg';
-import { logOutUser, loginSocialUser } from '../store/auth/actions';
+import { logOutUser } from '../store/auth/actions';
 import * as StyledNavBar from './styled-components/navbar';
 import { openCloseSearch } from '../store/autosuggest/actions';
+import { getAccessTokenSpotify } from '../store/spotify/actions';
 
 const styles = () => ({
   navContainer: {
@@ -119,10 +120,6 @@ const styles = () => ({
     border: 0,
     color: 'white',
     outline: 'none',
-    '@media (max-width: 1029px)': {
-      marginRight: 0,
-      marginLeft: 30,
-    }
   },
   settingsMenu: {
     borderRadius: 4,
@@ -475,7 +472,7 @@ class Navbar extends React.Component {
                                 Blog
                             </ListItem>
                           </NavLink>
-                          <a href="https://chune-supply.myshopify.com/" target="_blank" rel="noopener noreferrer" activeClassName={classes.navLinkActive} className={classes.navLink}>
+                          <a href="https://chune-supply.myshopify.com/" target="_blank" rel="noopener noreferrer" className={classes.navLink}>
                             <ListItem button className={classes.listItem}>
                                 Shop
                             </ListItem>
@@ -527,11 +524,9 @@ class Navbar extends React.Component {
                         </MenuItem>
                       </Menu>
                     </div>
-                    <button type="button" className={classes.avatarContainer} onClick={this.toggleSearch}>
-                      <IconButton classes={{ root: classes.settingsIconButton }}>
-                        <SearchIcon />
-                      </IconButton>
-                    </button>
+                    <IconButton classes={{ root: classes.settingsIconButton }} onClick={this.toggleSearch}>
+                      <SearchIcon />
+                    </IconButton>
                   </div>
                 </Toolbar>
               </StyledNavBar.NavBarMobile>
@@ -554,7 +549,7 @@ class Navbar extends React.Component {
                       <Tab label={(<span className={classes.tabLabel}>Artists</span>)} component={Link} to="/artists" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
                       <Tab label={(<span className={classes.tabLabel}>Events</span>)} component={Link} to="/events" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
                       <Tab label={(<span className={classes.tabLabel}>Blog</span>)} component={Link} to="/blog" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
-                      <Tab label={(<span className={classes.tabLabel}>Shop</span>)} component={Link} to="https://chune-supply.myshopify.com/" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
+                      <Tab label={(<span className={classes.tabLabel}>Shop</span>)} href="https://chune-supply.myshopify.com/" target="_blank" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
                     </Tabs>
                   </StyledNavBar.NavBarMenuBlock>
                   <StyledNavBar.NavBarSubMenu>
@@ -626,7 +621,7 @@ const mapStateToProps = store => ({
 const mapActionsToProps = dispatch => bindActionCreators({
   logOut: logOutUser,
   showHideSearch: openCloseSearch,
-  loginSocial: loginSocialUser
+  loginSocial: getAccessTokenSpotify
 }, dispatch);
 
 export const NavBarConnect = withStyles(styles)(withRouter(connect(mapStateToProps, mapActionsToProps)(Navbar)));
