@@ -512,10 +512,10 @@ class Navbar extends React.Component {
                         <MenuItem onClick={() => this.goToRoute('/terms-of-use')}>
                           Terms of Use
                         </MenuItem>
-                        <MenuItem onClick={() => this.goToRoute('/faq')}>
+                         {/* <MenuItem onClick={() => this.goToRoute('/faq')}>
                           FAQ
                         </MenuItem>
-                        {/* <MenuItem onClick={this.sendPasswordResetEmail}>
+                       <MenuItem onClick={this.sendPasswordResetEmail}>
                           Reset Password
                         </MenuItem> */}
                         <MenuItem onClick={() => logOut()}>
@@ -582,11 +582,12 @@ class Navbar extends React.Component {
                       <MenuItem onClick={() => this.goToRoute('/terms-of-use')}>
                         Terms of Use
                       </MenuItem>
-                      <MenuItem onClick={() => this.goToRoute('/faq')}>
+                      {spotify}
+                      {/* <MenuItem onClick={() => this.goToRoute('/faq')}>
                         FAQ
                       </MenuItem>
-                      {spotify}
-                      {/* <MenuItem onClick={this.sendPasswordResetEmail}>
+                      
+                      <MenuItem onClick={this.sendPasswordResetEmail}>
                         Reset Password
                       </MenuItem> */}
                       <MenuItem onClick={() => logOut()}>

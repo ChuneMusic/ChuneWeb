@@ -1,4 +1,4 @@
-import React from 'react';
+/*import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 
 import { StyledFAQItem } from './FAQItem';
@@ -202,4 +202,4 @@ class FAQ extends React.PureComponent {
   }
 }
 
-export const FAQConnect = withStyles(styles)(FAQ);
+export const FAQConnect = withStyles(styles)(FAQ);*/
