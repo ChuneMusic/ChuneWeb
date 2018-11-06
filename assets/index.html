@@ -19,12 +19,17 @@
 
         gtag('config', 'UA-120675194-1');
     </script>
-    <script src="https://sdk.scdn.co/spotify-player.js"></script>
   </head>
   <body>
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
     <div id="root"></div>
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+    <script>
+      window.onSpotifyWebPlaybackSDKReady = () => {
+        console.log("The Web Playback SDK is ready. We have access to Spotify.Player");
+      };
+    </script>
   </body>
 </html>

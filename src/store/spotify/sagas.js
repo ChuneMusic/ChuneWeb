@@ -19,6 +19,7 @@ import { successGetUserProfileSpotify, successGetDeviceID } from './actions';
 import { errorMessage } from '../error/actions';
 import { setUserTokenSpotify } from '../../utilities/APIConfig';
 import { getDataPlayer } from './helpers/selector';
+import { SUCCESS_GET_PROFILE_SOCIAL } from '../auth/types';
 
 export function* getUserProfile({ payload }) {
   const { token } = payload;
@@ -32,7 +33,9 @@ export function* getUserProfile({ payload }) {
   }
 }
 export function* getDeviceIDUser({ payload }) {
+  console.log(payload, 'payload');
   const { token } = payload;
+  console.log(token, 'token');
   try {
     const deviceID = yield call(getDeviceID, token);
     spotyfiDevice(token, deviceID);

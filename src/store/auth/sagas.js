@@ -15,6 +15,7 @@ import {
 } from './actions';
 import { errorMessage } from '../error/actions';
 import { setUserToken } from '../../utilities/APIConfig';
+import { successGetUserProfileSpotify } from '../spotify/actions';
 
 export function* getTokenUser(action) {
   const { email, password, name } = action.payload;
@@ -59,7 +60,7 @@ export function* getProfile({ payload }) {
   if (!token.includes(stg)) return;
   try {
     const profile = yield call(getProfileUserSocial, token);
-    yield put(successGetProfileSocial(profile));
+    yield put(successGetProfileSocial(profile, token));
   } catch (e) {
     yield put(errorMessage(e.message));
   }
@@ -68,9 +69,12 @@ export function* getProfile({ payload }) {
 export function* getSocialUserToken(action) {
   try {
     const { code, redirectUri, provider } = action.payload;
-    const token = yield call(registerNewSocialUser, code, redirectUri, provider);
-    setUserToken(token);
-    yield put(successGetToken(token));
+    const data = yield call(registerNewSocialUser, code, redirectUri, provider);
+    setUserToken(data.token);
+    yield put(successGetToken(data.token));
+    if (data.spotify !== '') {
+      yield put(successGetUserProfileSpotify(`${data.first_name} ${data.last_name}`, data.spotify));
+    }
   } catch (e) {
     if (action.type === 'CREATE_NEW_SOCIAL_USER') yield put(errorSignUpUser(e.message || e));
     else if (action.type === 'LOGIN_USER') yield put(errorSignInUser(e.message || e));

@@ -4,6 +4,7 @@ import * as TYPES from './types';
 export const initState = {
   token: '',
   profile: {},
+  tokenSpotify: '',
   authSuccess: false,
   messageSignUp: '',
   messageSignIn: ''
@@ -16,7 +17,7 @@ const successGetToken = (state, { token }) => ({
   messageSignUp: '',
   messageSignIn: ''
 });
-const successGetProfileSocial = (state, { profile }) => ({ ...state, profile });
+const successGetProfileSocial = (state, { profile, tokenSpotify }) => ({ ...state, profile, tokenSpotify });
 const logOutUser = state => ({
   ...state,
   token: '',

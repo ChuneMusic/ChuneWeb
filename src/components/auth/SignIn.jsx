@@ -276,10 +276,10 @@ class SignIn extends React.Component {
 
 
     const newWin = window.open(url, '_blank', `alwaysRaised=yes, scrollbars=yes, width=${w}, height=${h}, top=${top}, left=${left}`);
-
+    console.log(this.props.host, 'host su', newWin.location.href);
     const checkConnect = setInterval(() => {
       try {
-          if (newWin.location.href.startsWith(this.props.host)) {
+        if (newWin.location.href.startsWith(this.props.host)) {
           clearInterval(checkConnect);
           this.authenticateSocial(newWin);
         }
@@ -292,7 +292,7 @@ class SignIn extends React.Component {
     authenticateSocial = (popup) => {
       const url = popup.location.href;
       popup.close();
-
+      console.log(url);
       const uri = url.split('?')[1];
       const params = uri.split('&');
       let code = null;
@@ -312,7 +312,7 @@ class SignIn extends React.Component {
       }
 
       const { loginSocial } = this.props;
-        loginSocial(code, this.props.host, this.state.provider);
+      loginSocial(code, this.props.host, this.state.provider);
     }
 
   handleKeyPress = (e) => {
@@ -324,6 +324,7 @@ class SignIn extends React.Component {
   render() {
     const { classes, message, host } = this.props;
     const { email, password, showPassword } = this.state;
+    const scope = 'user-read-private user-read-email user-read-playback-state user-modify-playback-state streaming user-read-birthdate user-read-currently-playing';
     return (
       <div className={classes.pageContainer}>
         <Paper className={classes.contentContainer}>
@@ -338,7 +339,7 @@ class SignIn extends React.Component {
                 <OauthSender
                   authorizeUrl="https://www.facebook.com/v2.5/dialog/oauth?response_type=code&scope=email&display=popup"
                   clientId="177327102945347"
-                  redirectUri={ host }
+                  redirectUri={host}
                   state={{ from: '/settings' }}
                   render={({ url }) => (
                     <FacebookIcon
@@ -351,7 +352,7 @@ class SignIn extends React.Component {
                 <OauthSender
                   authorizeUrl="https://accounts.google.com/o/oauth2/v2/auth?scope=email"
                   clientId="243198086936-g6h4hfvujnoms1j5i4d76vjqk08pp7gd.apps.googleusercontent.com"
-                  redirectUri={ host }
+                  redirectUri={host}
                   state={{ from: '/settings' }}
                   render={({ url }) => (
                     <GoogleIcon
@@ -362,9 +363,9 @@ class SignIn extends React.Component {
               </li>
               <li className={classes.iconListItem}>
                 <OauthSender
-                  authorizeUrl="https://accounts.spotify.com/authorize?scope=user-read-email"
+                  authorizeUrl={`https://accounts.spotify.com/authorize?scope=${encodeURIComponent(scope)}`}
                   clientId="a48cf79e2b704d93adef19d5bcd67530"
-                  redirectUri={ host }
+                  redirectUri={host}
                   state={{ from: '/settings' }}
                   render={({ url }) => (
                     <SpotifyIcon2

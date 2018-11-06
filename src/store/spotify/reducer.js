@@ -3,7 +3,7 @@ import * as TYPES from './types';
 
 export const initState = {
   token: '',
-  profile: {},
+  profile: '',
   deviceID: '',
   track: '',
   idTrack: '',
