@@ -280,7 +280,7 @@ class SignUp extends React.Component {
       email, password, name,
       showPassword
     } = this.state;
-    const auth = 'SINGUP';
+    const auth = 'SIGNUP';
     const scope = 'user-read-private user-read-email user-read-playback-state user-modify-playback-state streaming user-read-birthdate user-read-currently-playing';
     return (
       <div className={classes.pageContainer}>
@@ -327,7 +327,7 @@ class SignUp extends React.Component {
                   state={{ from: '/settings' }}
                   render={({ url }) => (
                     <SpotifyIcon2
-                      onClick={() => this.openSocial(url, 'spotify', host, auth)}
+                      onClick={() => openSocial(url, 'spotify', host, auth)}
                     />
                   )}
                 />

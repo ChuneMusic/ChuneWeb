@@ -6,7 +6,6 @@ import { getAccessTokenSpotify } from '../store/spotify/actions';
 const authenticateSocial = (popup, host, prov, auth) => {
   const url = popup.location.href;
   popup.close();
-
   const uri = url.split('?')[1];
   const params = uri.split('&');
   let code = null;
