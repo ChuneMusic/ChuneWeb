@@ -50,8 +50,7 @@ const ArtistWallpaper = (props) => {
     height: '180px',
     borderRadius: '100px',
   };
-  let genre = 'POP';
-  if (artist.genres[0] !== undefined) genre = artist.genres[0].description;
+  const genre = artist.genres[0].description || 'POP';
   return (
     <Paper className={classes.root}>
       <div style={overrideBgStyle} />
