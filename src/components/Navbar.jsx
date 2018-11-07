@@ -361,7 +361,7 @@ class Navbar extends React.Component {
     const scope = 'user-read-private user-read-email user-read-playback-state user-modify-playback-state streaming user-read-birthdate user-read-currently-playing';
     const { value, anchorEl } = this.state;
     const auth = 'OTHER';
-    const spotify = profile ? (
+    let spotify = profile ? (
       <MenuItem>
         <SpotifyIcon width="30px" height="30px" />
         &nbsp;{profile}
@@ -380,6 +380,8 @@ class Navbar extends React.Component {
         )}
       />
     );
+    const browser = navigator.vendor;
+    if (browser.startsWith('Apple')) spotify = null;
     const searchForm = <SearchFormConnect cancelSearch={this.toggleSearch} />;
     const normalMenu = (
       <header>

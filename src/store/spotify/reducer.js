@@ -27,13 +27,7 @@ export const initState = {
 const getAccessTokenSpotify = (state, { code, host }) => ({ ...state, code, host });
 const successGetUserProfileSpotify = (state, { profile, token }) => ({ ...state, profile, token });
 const successGetDeviceID = (state, { deviceID }) => ({ ...state, deviceID });
-
-const playTrack = (state, { track, playingTracks }) => ({
-  ...state,
-  track,
-  modal: true,
-  playingTracks
-});
+const playTrack = (state, { track, playingTracks }) => ({ ...state, track, playingTracks });
 const pauseTrack = state => ({ ...state });
 const dataStopTrackFromSpotifySDK = (state, { idTrack, timeStop, pausedTrack }) => ({
   ...state,
@@ -71,9 +65,10 @@ const closeThisSDKPlayback = state => ({
   ...state,
   modal: false,
   token: '',
-  profile: {}
+  profile: ''
 });
-const errorConnectToApi = state => ({ ...state, offPlayer: true });
+const errorConnectToApi = state => ({ ...state, offPlayer: true, modal: false });
+const openModal = state => ({ ...state, modal: true });
 
 const handlers = {
   [TYPES.GET_ACCESS_TOKEN_SPOTIFY]: getAccessTokenSpotify,
@@ -90,7 +85,8 @@ const handlers = {
   [TYPES.SKIP_PLAYBACK_TO_PREVIOUS_TRACK]: skipPlaybackToPreviousTrack,
   [TYPES.SKIP_PLAYBACK_TO_NEXT_TRACK]: skipPlaybackToNextTrack,
   [TYPES.CLOSE_THIS_SDK_PLAYBACK]: closeThisSDKPlayback,
-  [TYPES.ERROR_CONNECT_API]: errorConnectToApi
+  [TYPES.ERROR_CONNECT_API]: errorConnectToApi,
+  [TYPES.OPEN_MODAL]: openModal
 };
 
 export const reducerSpotify = createReducer(initState, handlers);

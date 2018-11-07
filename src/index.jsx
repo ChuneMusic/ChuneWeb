@@ -83,18 +83,18 @@ class App extends React.PureComponent {
         {navbar}
         <Switch>
           <PublicRoute exact path="/" token={token} component={LandingConnect} />
-          <PublicRoute exact path="/signup" token={token} component={SignUpConnect} />
-          <PublicRoute exact path="/login" token={token} component={SignInConnect} />
-          <Route exact path="/terms-of-use" token={token} render={props => (<TermsOfUseConnect token={token} {...props} />)} />
-          <Route exact path="/privacy" token={token} render={props => (<PrivacyPolicyConnect token={token} {...props} />)} />
+          <PublicRoute path="/signup" token={token} component={SignUpConnect} />
+          <PublicRoute path="/login" token={token} component={SignInConnect} />
+          <Route path="/terms-of-use" token={token} render={props => (<TermsOfUseConnect token={token} {...props} />)} />
+          <Route path="/privacy" token={token} render={props => (<PrivacyPolicyConnect token={token} {...props} />)} />
           {/* <Route exact path="/faq" token={token} render={props => (<FAQConnect token={token} {...props} />)} /> */}
-          <PrivateRoute exact path="/home" token={token} component={HomeConnect} />
-          <PrivateRoute exact path="/for-you" token={token} component={ForYouConnect} />
-          <PrivateRoute exact path="/artists" token={token} component={ArtistsConnect} />
-          <PrivateRoute exact path="/artist/:artistName" token={token} component={ArtistConnect} />
-          <PrivateRoute exact path="/events" token={token} component={EventsConnect} />
-          <PrivateRoute exact path="/event/:artistName" token={token} component={ArtistEventsConnect} />
-          <PrivateRoute exact path="/blog" token={token} component={blogiFrame} />
+          <PrivateRoute path="/home" token={token} component={HomeConnect} />
+          <PrivateRoute path="/for-you" token={token} component={ForYouConnect} />
+          <PrivateRoute path="/artists" token={token} component={ArtistsConnect} />
+          <PrivateRoute path="/artist/:artistName" token={token} component={ArtistConnect} />
+          <PrivateRoute path="/events" token={token} component={EventsConnect} />
+          <PrivateRoute path="/event/:artistName" token={token} component={ArtistEventsConnect} />
+          <PrivateRoute path="/blog" token={token} component={blogiFrame} />
           <Redirect to="/" />
         </Switch>
       </div>

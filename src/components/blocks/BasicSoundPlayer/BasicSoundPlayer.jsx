@@ -8,7 +8,8 @@ import ChuneSupplyPNG from '../../../../assets/images/chune_supply.png';
 import './BasicSoundPlayer.css';
 
 const BasicSoundPlayer = ({ token, offPlayer }) => {
-  const buttonPlay = token === '' || offPlayer ? (
+  const browser = navigator.vendor;
+  const buttonPlay = token === '' || offPlayer || browser.startsWith('Apple') ? (
     <a href="https://open.spotify.com/playlist/3Tla7f8PBCSzI5lzrchu7l" target="_blank" rel="noopener noreferrer">
       <PlayIcon className="icon playIcon" />
     </a>

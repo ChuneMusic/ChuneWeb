@@ -7,11 +7,13 @@ import {
   string,
   arrayOf
 } from 'prop-types';
+import { OauthSender } from 'react-oauth-flow';
 
 import { PlayIcon, PauseIcon } from '../../shared/SocialIcons';
 import * as StyledMusic from '../../styled-components/music';
 import { playMusicOfTopTrack } from '../../../store/learningMachine/actions';
 import { playTrack, pauseTrack } from '../../../store/spotify/actions';
+import { openSocial } from '../../../utilities/authSocial';
 
 class Tracks extends React.Component {
   state = {
@@ -65,10 +67,13 @@ class Tracks extends React.Component {
   render() {
     const {
       track, index, artistName,
-      token, offPlayer
+      token, offPlayer, host
     } = this.props;
     const { isPlaying } = this.state;
-    if (token === '' || offPlayer) {
+    const browser = navigator.vendor;
+    const auth = 'OTHER';
+    const scope = 'user-read-private user-read-email user-read-playback-state user-modify-playback-state streaming user-read-birthdate user-read-currently-playing';
+    if (offPlayer || browser.startsWith('Apple')) {
       return (
         <a
           href={`https://open.spotify.com/track/${track.spotify_id}`}
@@ -96,8 +101,36 @@ class Tracks extends React.Component {
         </a>
       );
     }
+    if (token === '') {
+      return (
+        <OauthSender
+          authorizeUrl={`https://accounts.spotify.com/authorize?scope=${encodeURIComponent(scope)}`}
+          clientId="a48cf79e2b704d93adef19d5bcd67530"
+          redirectUri={host}
+          state={{ from: '/settings' }}
+          render={({ url }) => (
+            <StyledMusic.MusicTrack key={track.id} isPlaying={isPlaying} onClick={() => openSocial(url, 'spotify', host, auth)}>
+              <StyledMusic.MusicNumber isPlaying={isPlaying}>
+                {index + 1}
+              </StyledMusic.MusicNumber>
+              <StyledMusic.MusicSoundTitle>
+                <StyledMusic.MusicSoundName>
+                  {track.title}
+                </StyledMusic.MusicSoundName>
+                <StyledMusic.MusicSoundArtist>
+                  by {track.artist_name || artistName}
+                </StyledMusic.MusicSoundArtist>
+              </StyledMusic.MusicSoundTitle>
+              <StyledMusic.MusicIcon>
+                <PlayIcon />
+              </StyledMusic.MusicIcon>
+            </StyledMusic.MusicTrack>
+          )}
+        />
+      );
+    }
     return (
-      <StyledMusic.MusicTrack key={track.id} isPlaying={isPlaying}>
+      <StyledMusic.MusicTrack key={track.id} isPlaying={isPlaying} onClick={isPlaying ? (this.pause) : (() => this.play(track.id, track.spotify_id))}>
         <StyledMusic.MusicNumber isPlaying={isPlaying}>
           {index + 1}
         </StyledMusic.MusicNumber>
@@ -111,9 +144,9 @@ class Tracks extends React.Component {
         </StyledMusic.MusicSoundTitle>
         <StyledMusic.MusicIcon>
           {isPlaying ? (
-            <PauseIcon onClick={this.pause} />
+            <PauseIcon />
           ) : (
-            <PlayIcon onClick={() => this.play(track.id, track.spotify_id)} />
+            <PlayIcon />
           )}
         </StyledMusic.MusicIcon>
       </StyledMusic.MusicTrack>
@@ -151,9 +184,11 @@ Tracks.propTypes = {
   topTracksArtist: arrayOf(any).isRequired,
   topTracks: arrayOf(any).isRequired,
   token: string.isRequired,
-  offPlayer: bool.isRequired
+  offPlayer: bool.isRequired,
+  host: string
 };
 
 Tracks.defaultProps = {
-  artistName: undefined
+  artistName: undefined,
+  host: `${window.location.origin}/`
 };
