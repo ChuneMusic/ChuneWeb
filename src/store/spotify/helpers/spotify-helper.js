@@ -3,14 +3,20 @@ import SpotifyWebApi from 'spotify-web-api-js';
 
 import { spotifyAPI, API } from '../../../utilities/APIConfig';
 import { store } from '../../index';
-import { dataStopTrackFromSpotifySDK, dataTrackFromSpotifySDK, closeThisSDKPlayback } from '../actions';
+import {
+  dataStopTrackFromSpotifySDK, dataTrackFromSpotifySDK,
+  closeThisSDKPlayback, errorConnectToApi
+} from '../actions';
 
 const spotifySDKPlaybackAPI = new SpotifyWebApi();
 export const spotyfiDevice = (token, deviceID) => {
   const data = [deviceID];
   const play = { play: false };
   spotifySDKPlaybackAPI.setAccessToken(token);
-  spotifySDKPlaybackAPI.transferMyPlayback(data, play);
+  spotifySDKPlaybackAPI.transferMyPlayback(data, play).catch((e) => {
+    console.log(e.response);
+    store.dispatch(errorConnectToApi());
+  });
 };
 export const spotifyPlayTrack = (arrayTracks, track, time, deviceID) => {
   const dataPlay = {
@@ -109,16 +115,4 @@ export const spotifyReg = (code, redirectUri) => {
   return API.post(url, data).then(response => response.data);
 };
 
-export const refreshTokenHelper = (token) => {
-  setInterval(() => {
-    console.log('interval');
-    const data = JSON.stringify({
-      access_token: token,
-      token_type: 'Bearer',
-      scope: 'user-read-private user-read-email user-read-playback-state user-modify-playback-state streaming user-read-birthdate user-read-currently-playing',
-      expires_in: 3600,
-      refresh_token: ''
-    });
-    return spotifyAPI.post('/api/token', data).then(response => response);
-  }, 2000);
-};
+export const refreshTokenHelper = token => spotifyAPI.post(`/api/token?grant_type=refresh_token&refresh_token=${token}`);

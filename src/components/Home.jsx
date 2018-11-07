@@ -8,6 +8,7 @@ import {
 import { map } from 'lodash';
 import { Tweet } from 'react-twitter-widgets';
 import Waypoint from 'react-waypoint';
+import Drift from 'react-driftjs';
 
 import {
   ChuneSupplyConnect, BasicSoundPlayerConnect, BasicArticleCardConnect,
@@ -21,7 +22,6 @@ import * as Styled from './styled-components/home';
 import * as StyledContent from './styled-components/content';
 import * as StyledArticle from './styled-components/article';
 import { clickTwitterPost } from '../store/learningMachine/actions';
-import Drift from 'react-driftjs';
 
 import './Home.css';
 

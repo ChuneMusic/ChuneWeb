@@ -16,13 +16,9 @@ export const clearUserToken = () => {
 };
 
 export const spotifyAPI = axios.create({
-  baseURL: 'https://api.spotify.com/v1/',
+  baseURL: 'https://accounts.spotify.com',
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+    Authorization: 'Basic YTQ4Y2Y3OWUyYjcwNGQ5M2FkZWYxOWQ1YmNkNjc1MzA6YTQ4Y2Y3OWUyYjcwNGQ5M2FkZWYxOWQ1YmNkNjc1MzA='
+  }
 });
-
-export const setUserTokenSpotify = (token) => {
-  //API.defaults.headers.common.Authorization = `Bearer ${token}`;
-};
-
-export const clearUserTokenSpotify = () => {
-  API.defaults.headers.common.Authorization = null;
-};

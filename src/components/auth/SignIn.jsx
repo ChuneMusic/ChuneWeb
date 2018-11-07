@@ -19,12 +19,13 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { OauthSender } from 'react-oauth-flow';
 
-import { loginUser, loginSocialUser } from '../../store/auth/actions';
+import { loginUser } from '../../store/auth/actions';
 import BackgroundPNG from '../../../assets/images/background.jpg';
 import {
   GoogleIcon, FacebookIcon,
   TwitterIcon, SpotifyIcon2
 } from '../shared/SocialIcons';
+import { openSocial } from '../../utilities/authSocial';
 
 
 const styles = () => ({
@@ -224,8 +225,7 @@ class SignIn extends React.Component {
     this.state = {
       email: '',
       password: '',
-      showPassword: false,
-      provider: ''
+      showPassword: false
     };
   }
 
@@ -261,60 +261,6 @@ class SignIn extends React.Component {
     loginBasic(email, password);
   }
 
-
-  openSocial = (url, provider) => {
-    this.setState({ provider });
-    const w = 450;
-    const h = 600;
-    const dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : screen.left;
-    const dualScreenTop = window.screenTop !== undefined ? window.screenTop : screen.top;
-    const width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
-    const height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
-
-    const left = ((width / 2) - (w / 2)) + dualScreenLeft;
-    const top = ((height / 2) - (h / 2)) + dualScreenTop;
-
-
-    const newWin = window.open(url, '_blank', `alwaysRaised=yes, scrollbars=yes, width=${w}, height=${h}, top=${top}, left=${left}`);
-    console.log(this.props.host, 'host su', newWin.location.href);
-    const checkConnect = setInterval(() => {
-      try {
-        if (newWin.location.href.startsWith(this.props.host)) {
-          clearInterval(checkConnect);
-          this.authenticateSocial(newWin);
-        }
-      } catch (e) {
-        console.log(e.message);
-      }
-    }, 100);
-  }
-
-    authenticateSocial = (popup) => {
-      const url = popup.location.href;
-      popup.close();
-      console.log(url);
-      const uri = url.split('?')[1];
-      const params = uri.split('&');
-      let code = null;
-      if (params.length > 1) {
-        params.forEach((p) => {
-          const parts = p.split('=');
-          const key = parts[0];
-          const val = parts[1];
-          if (key === 'code') {
-            code = val;
-          }
-        });
-      }
-      if (!code) {
-        alert('Something went wrong. Please try again');
-        return;
-      }
-
-      const { loginSocial } = this.props;
-      loginSocial(code, this.props.host, this.state.provider);
-    }
-
   handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       this.onSubmit();
@@ -324,6 +270,7 @@ class SignIn extends React.Component {
   render() {
     const { classes, message, host } = this.props;
     const { email, password, showPassword } = this.state;
+    const auth = 'SIGNIN';
     const scope = 'user-read-private user-read-email user-read-playback-state user-modify-playback-state streaming user-read-birthdate user-read-currently-playing';
     return (
       <div className={classes.pageContainer}>
@@ -343,7 +290,7 @@ class SignIn extends React.Component {
                   state={{ from: '/settings' }}
                   render={({ url }) => (
                     <FacebookIcon
-                      onClick={() => this.openSocial(url, 'facebook')}
+                      onClick={() => openSocial(url, 'facebook', host, auth)}
                     />
                   )}
                 />
@@ -356,7 +303,7 @@ class SignIn extends React.Component {
                   state={{ from: '/settings' }}
                   render={({ url }) => (
                     <GoogleIcon
-                      onClick={() => this.openSocial(url, 'google')}
+                      onClick={() => openSocial(url, 'google', host, auth)}
                     />
                   )}
                 />
@@ -369,7 +316,7 @@ class SignIn extends React.Component {
                   state={{ from: '/settings' }}
                   render={({ url }) => (
                     <SpotifyIcon2
-                      onClick={() => this.openSocial(url, 'spotify')}
+                      onClick={() => openSocial(url, 'spotify', host, auth)}
                     />
                   )}
                 />
@@ -449,8 +396,7 @@ const mapStateToProps = store => ({
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
-  loginBasic: loginUser,
-  loginSocial: loginSocialUser
+  loginBasic: loginUser
 }, dispatch);
 
 export const SignInConnect = withStyles(styles)(connect(mapStateToProps, mapActionsToProps)(SignIn));
@@ -459,10 +405,10 @@ SignIn.propTypes = {
   classes: objectOf(any).isRequired,
   loginBasic: func.isRequired,
   message: string,
-  loginSocial: func.isRequired
+  host: string
 };
 
 SignIn.defaultProps = {
   message: undefined,
-  host: window.location.origin + '/'
+  host: `${window.location.origin}/`
 };
