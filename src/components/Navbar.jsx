@@ -30,7 +30,8 @@ import LogoSVG from '../../assets/images/Chune_Supply_Logotype_White.svg';
 import { logOutUser } from '../store/auth/actions';
 import * as StyledNavBar from './styled-components/navbar';
 import { openCloseSearch } from '../store/autosuggest/actions';
-import { getAccessTokenSpotify } from '../store/spotify/actions';
+import { openSocial } from '../utilities/authSocial';
+
 
 const styles = () => ({
   navContainer: {
@@ -351,207 +352,87 @@ class Navbar extends React.Component {
     this.setState({ value });
   }
 
-  spotifyAuth = (url) => {
-    // Modal properties - TODO: Move this to component
-    const w = 450;
-    const h = 600;
-    const dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : screen.left;
-    const dualScreenTop = window.screenTop !== undefined ? window.screenTop : screen.top;
-    const width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
-    const height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
-
-    const left = ((width / 2) - (w / 2)) + dualScreenLeft;
-    const top = ((height / 2) - (h / 2)) + dualScreenTop;
-
-
-    const newWin = window.open(url, '_blank', `alwaysRaised=yes, scrollbars=yes, width=${w}, height=${h}, top=${top}, left=${left}`);
-    
-    const checkConnect = setInterval(() => {
-      try {
-        if (newWin.location.href.startsWith(this.props.host)) {
-          clearInterval(checkConnect);
-          this.authenticateSocial(newWin);
-        }
-      } catch(e) {}
-    }, 100);
-  }
-
-    authenticateSocial = (popup) => {
-      const url = popup.location.href;
-      popup.close();
-
-      const uri = url.split('?')[1];
-      const params = uri.split('&');
-      let code = null;
-      if (params.length > 1) {
-        params.forEach((p) => {
-          const parts = p.split('=');
-          const key = parts[0];
-          const val = parts[1];
-          if (key === 'code') {
-            code = val;
-          }
-        });
-      }
-      if (!code) {
-        alert('Something went wrong. Please try again');
-        return;
-      }
-
-      const { loginSocial } = this.props;
-      loginSocial(code, this.props.host, 'spotify');
-    }
-
-    render() {
-      const { drawerOpen } = this.state;
-      const {
-        classes, logOut, searching,
-        profile, host
-      } = this.props;
-      const scope = 'user-read-private user-read-email user-read-playback-state user-modify-playback-state streaming user-read-birthdate user-read-currently-playing';
-      const { value, anchorEl } = this.state;
-      const spotify = profile ? (
-        <MenuItem>
-          <SpotifyIcon width="30px" height="30px" />
-          &nbsp;{profile}
-        </MenuItem>
-      ) : (
-        <OauthSender
-          authorizeUrl={`https://accounts.spotify.com/authorize?scope=${encodeURIComponent(scope)}`}
-          clientId="a48cf79e2b704d93adef19d5bcd67530"
-          redirectUri={host}
-          state={{ from: '/settings' }}
-          render={({ url }) => (
-            <MenuItem onClick={() => this.spotifyAuth(url)}>
-              <SpotifyIcon width="30px" height="30px" />
-              &nbsp;Spotify
-            </MenuItem>
-          )}
-        />
-      );
-      const searchForm = <SearchFormConnect cancelSearch={this.toggleSearch} />;
-      const normalMenu = (
-        <header>
-          <MediaQuery maxDeviceWidth={1109}>
-            <div style={{ height: 56 }}>
-              <StyledNavBar.NavBarMobile>
-                <Toolbar className={classes.mobileToolbar}>
-                  <div className={classes.mobileToolbarLeftSection}>
-                    <IconButton className={classes.menuButton} color="inherit" aria-label="Menu" onClick={this.toggleDrawer(true)}>
-                      <MenuIcon />
-                    </IconButton>
-                    <Typography variant="title" color="inherit" className={classes.mobileTitle}>
-                      {this.getTitle()}
-                    </Typography>
-                    <Drawer open={drawerOpen} onClose={this.toggleDrawer(false)}>
-                      <div className={classes.drawerContainer} role="button" onClick={this.toggleDrawer(false)}>
-                        <List component="section" className={classes.drawerMenu}>
-                          <NavLink exact to="/home" activeClassName={classes.navLinkActive} className={classes.navLink}>
-                            <ListItem button className={this.matchPath('/home') ? classes.activeListItem : classes.listItem}>
-                                Home
-                            </ListItem>
-                          </NavLink>
-                          <NavLink exact to="/for-you" activeClassName={classes.navLinkActive} className={classes.navLink}>
-                            <ListItem button className={this.matchPath('/for-you') ? classes.activeListItem : classes.listItem}>
-                                Your Feed
-                            </ListItem>
-                          </NavLink>
-                          <NavLink exact to="/artists" activeClassName={classes.navLinkActive} className={classes.navLink}>
-                            <ListItem button className={this.matchPath('/artists') ? classes.activeListItem : classes.listItem}>
-                                Artists
-                            </ListItem>
-                          </NavLink>
-                          <NavLink exact to="/events" activeClassName={classes.navLinkActive} className={classes.navLink}>
-                            <ListItem button className={this.matchPath('/events') ? classes.activeListItem : classes.listItem}>
-                                Events
-                            </ListItem>
-                          </NavLink>
-                          <NavLink exact to="/blog" activeClassName={classes.navLinkActive} className={classes.navLink}>
-                            <ListItem button className={this.matchPath('/blog') ? classes.activeListItem : classes.listItem}>
-                                Blog
-                            </ListItem>
-                          </NavLink>
-                          <a href="https://chune-supply.myshopify.com/" target="_blank" rel="noopener noreferrer" className={classes.navLink}>
-                            <ListItem button className={classes.listItem}>
-                                Shop
-                            </ListItem>
-                          </a>
-                        </List>
-                      </div>
-                    </Drawer>
-                  </div>
-                  <div className={classes.mobileToolbarRightSection}>
-                    <div className={classes.avatarContainer}>
-                      <IconButton
-                        aria-owns={anchorEl ? 'simple-menu' : null}
-                        aria-haspopup="true"
-                        onClick={this.handleClick}
-                        classes={{ root: classes.settingsIconButton }}
-                      >
-                        <SettingsIcon />
-                      </IconButton>
-                      <Menu
-                        className={classes.settingsMenu}
-                        id="simple-menu"
-                        anchorEl={anchorEl}
-                        open={Boolean(anchorEl)}
-                        onClose={this.handleClose}
-                        anchorOrigin={{
-                          vertical: 'bottom',
-                          horizontal: 'right',
-                        }}
-                        getContentAnchorEl={null}
-                        transformOrigin={{
-                          vertical: 'top',
-                          horizontal: 'right',
-                        }}
-                      >
-                        <MenuItem onClick={() => this.goToRoute('/privacy')}>
-                          Privacy Policy
-                        </MenuItem>
-                        <MenuItem onClick={() => this.goToRoute('/terms-of-use')}>
-                          Terms of Use
-                        </MenuItem>
-                         {/* <MenuItem onClick={() => this.goToRoute('/faq')}>
-                          FAQ
-                        </MenuItem>
-                       <MenuItem onClick={this.sendPasswordResetEmail}>
-                          Reset Password
-                        </MenuItem> */}
-                        <MenuItem onClick={() => logOut()}>
-                          Logout
-                        </MenuItem>
-                      </Menu>
+  render() {
+    const { drawerOpen } = this.state;
+    const {
+      classes, logOut, searching,
+      profile, host
+    } = this.props;
+    const scope = 'user-read-private user-read-email user-read-playback-state user-modify-playback-state streaming user-read-birthdate user-read-currently-playing';
+    const { value, anchorEl } = this.state;
+    const auth = 'OTHER';
+    const spotify = profile ? (
+      <MenuItem>
+        <SpotifyIcon width="30px" height="30px" />
+        &nbsp;{profile}
+      </MenuItem>
+    ) : (
+      <OauthSender
+        authorizeUrl={`https://accounts.spotify.com/authorize?scope=${encodeURIComponent(scope)}`}
+        clientId="a48cf79e2b704d93adef19d5bcd67530"
+        redirectUri={host}
+        state={{ from: '/settings' }}
+        render={({ url }) => (
+          <MenuItem onClick={() => openSocial(url, 'spotify', host, auth)}>
+            <SpotifyIcon width="30px" height="30px" />
+            &nbsp;Spotify
+          </MenuItem>
+        )}
+      />
+    );
+    const searchForm = <SearchFormConnect cancelSearch={this.toggleSearch} />;
+    const normalMenu = (
+      <header>
+        <MediaQuery maxDeviceWidth={1109}>
+          <div style={{ height: 56 }}>
+            <StyledNavBar.NavBarMobile>
+              <Toolbar className={classes.mobileToolbar}>
+                <div className={classes.mobileToolbarLeftSection}>
+                  <IconButton className={classes.menuButton} color="inherit" aria-label="Menu" onClick={this.toggleDrawer(true)}>
+                    <MenuIcon />
+                  </IconButton>
+                  <Typography variant="title" color="inherit" className={classes.mobileTitle}>
+                    {this.getTitle()}
+                  </Typography>
+                  <Drawer open={drawerOpen} onClose={this.toggleDrawer(false)}>
+                    <div className={classes.drawerContainer} role="button" onClick={this.toggleDrawer(false)}>
+                      <List component="section" className={classes.drawerMenu}>
+                        <NavLink exact to="/home" activeClassName={classes.navLinkActive} className={classes.navLink}>
+                          <ListItem button className={this.matchPath('/home') ? classes.activeListItem : classes.listItem}>
+                              Home
+                          </ListItem>
+                        </NavLink>
+                        <NavLink exact to="/for-you" activeClassName={classes.navLinkActive} className={classes.navLink}>
+                          <ListItem button className={this.matchPath('/for-you') ? classes.activeListItem : classes.listItem}>
+                              Your Feed
+                          </ListItem>
+                        </NavLink>
+                        <NavLink exact to="/artists" activeClassName={classes.navLinkActive} className={classes.navLink}>
+                          <ListItem button className={this.matchPath('/artists') ? classes.activeListItem : classes.listItem}>
+                              Artists
+                          </ListItem>
+                        </NavLink>
+                        <NavLink exact to="/events" activeClassName={classes.navLinkActive} className={classes.navLink}>
+                          <ListItem button className={this.matchPath('/events') ? classes.activeListItem : classes.listItem}>
+                              Events
+                          </ListItem>
+                        </NavLink>
+                        <NavLink exact to="/blog" activeClassName={classes.navLinkActive} className={classes.navLink}>
+                          <ListItem button className={this.matchPath('/blog') ? classes.activeListItem : classes.listItem}>
+                              Blog
+                          </ListItem>
+                        </NavLink>
+                        <a href="https://chune-supply.myshopify.com/" target="_blank" rel="noopener noreferrer" className={classes.navLink}>
+                          <ListItem button className={classes.listItem}>
+                              Shop
+                          </ListItem>
+                        </a>
+                      </List>
                     </div>
-                    <IconButton classes={{ root: classes.settingsIconButton }} onClick={this.toggleSearch}>
-                      <SearchIcon />
-                    </IconButton>
-                  </div>
-                </Toolbar>
-              </StyledNavBar.NavBarMobile>
-            </div>
-          </MediaQuery>
-          <MediaQuery minDeviceWidth={1110}>
-            <div style={{ height: 74 }}>
-              <StyledNavBar.NavBar>
-                <StyledNavBar.NavBarLogoBlock>
-                  <StyledNavBar.NavBarLogo to="/home">
-                    <img src={LogoSVG} height={30} title="Chune Supply Beta" alt="Chune Supply Beta" />
-                    <sub>beta</sub>
-                  </StyledNavBar.NavBarLogo>
-                </StyledNavBar.NavBarLogoBlock>
-                <StyledNavBar.NavBarMenu>
-                  <StyledNavBar.NavBarMenuBlock>
-                    <Tabs value={value} onChange={this.handleChange} fullWidth classes={{ root: classes.tabContainer, indicator: classes.indicator }}>
-                      <Tab label={(<span className={classes.tabLabel}>Home</span>)} component={Link} to="/home" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
-                      <Tab label={(<span className={classes.tabLabel}>Your Feed</span>)} component={Link} to="/for-you" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
-                      <Tab label={(<span className={classes.tabLabel}>Artists</span>)} component={Link} to="/artists" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
-                      <Tab label={(<span className={classes.tabLabel}>Events</span>)} component={Link} to="/events" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
-                      <Tab label={(<span className={classes.tabLabel}>Blog</span>)} component={Link} to="/blog" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
-                      <Tab label={(<span className={classes.tabLabel}>Shop</span>)} href="https://chune-supply.myshopify.com/" target="_blank" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
-                    </Tabs>
-                  </StyledNavBar.NavBarMenuBlock>
-                  <StyledNavBar.NavBarSubMenu>
+                  </Drawer>
+                </div>
+                <div className={classes.mobileToolbarRightSection}>
+                  <div className={classes.avatarContainer}>
                     <IconButton
                       aria-owns={anchorEl ? 'simple-menu' : null}
                       aria-haspopup="true"
@@ -582,46 +463,113 @@ class Navbar extends React.Component {
                       <MenuItem onClick={() => this.goToRoute('/terms-of-use')}>
                         Terms of Use
                       </MenuItem>
-                      {spotify}
                       {/* <MenuItem onClick={() => this.goToRoute('/faq')}>
-                        FAQ
-                      </MenuItem>
-                      
-                      <MenuItem onClick={this.sendPasswordResetEmail}>
-                        Reset Password
-                      </MenuItem> */}
+                          FAQ
+                        </MenuItem>
+                        <MenuItem onClick={this.sendPasswordResetEmail}>
+                          Reset Password
+                        </MenuItem> */}
                       <MenuItem onClick={() => logOut()}>
                         Logout
                       </MenuItem>
                     </Menu>
-                  </StyledNavBar.NavBarSubMenu>
-                  <StyledNavBar.NavBarSearchBlock onClick={this.toggleSearch}>
+                  </div>
+                  <IconButton classes={{ root: classes.settingsIconButton }} onClick={this.toggleSearch}>
                     <SearchIcon />
-                  </StyledNavBar.NavBarSearchBlock>
-                </StyledNavBar.NavBarMenu>
-              </StyledNavBar.NavBar>
-            </div>
-          </MediaQuery>
-        </header>
-      );
-      return (
-        <div>
-          {searching ? searchForm : normalMenu}
-        </div>
-      );
-    }
+                  </IconButton>
+                </div>
+              </Toolbar>
+            </StyledNavBar.NavBarMobile>
+          </div>
+        </MediaQuery>
+        <MediaQuery minDeviceWidth={1110}>
+          <div style={{ height: 74 }}>
+            <StyledNavBar.NavBar>
+              <StyledNavBar.NavBarLogoBlock>
+                <StyledNavBar.NavBarLogo to="/home">
+                  <img src={LogoSVG} height={30} title="Chune Supply Beta" alt="Chune Supply Beta" />
+                  <sub>beta</sub>
+                </StyledNavBar.NavBarLogo>
+              </StyledNavBar.NavBarLogoBlock>
+              <StyledNavBar.NavBarMenu>
+                <StyledNavBar.NavBarMenuBlock>
+                  <Tabs value={value} onChange={this.handleChange} fullWidth classes={{ root: classes.tabContainer, indicator: classes.indicator }}>
+                    <Tab label={(<span className={classes.tabLabel}>Home</span>)} component={Link} to="/home" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
+                    <Tab label={(<span className={classes.tabLabel}>Your Feed</span>)} component={Link} to="/for-you" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
+                    <Tab label={(<span className={classes.tabLabel}>Artists</span>)} component={Link} to="/artists" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
+                    <Tab label={(<span className={classes.tabLabel}>Events</span>)} component={Link} to="/events" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
+                    <Tab label={(<span className={classes.tabLabel}>Blog</span>)} component={Link} to="/blog" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
+                    <Tab label={(<span className={classes.tabLabel}>Shop</span>)} href="https://chune-supply.myshopify.com/" target="_blank" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
+                  </Tabs>
+                </StyledNavBar.NavBarMenuBlock>
+                <StyledNavBar.NavBarSubMenu>
+                  <IconButton
+                    aria-owns={anchorEl ? 'simple-menu' : null}
+                    aria-haspopup="true"
+                    onClick={this.handleClick}
+                    classes={{ root: classes.settingsIconButton }}
+                  >
+                    <SettingsIcon />
+                  </IconButton>
+                  <Menu
+                    className={classes.settingsMenu}
+                    id="simple-menu"
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={this.handleClose}
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'right',
+                    }}
+                    getContentAnchorEl={null}
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                  >
+                    <MenuItem onClick={() => this.goToRoute('/privacy')}>
+                      Privacy Policy
+                    </MenuItem>
+                    <MenuItem onClick={() => this.goToRoute('/terms-of-use')}>
+                      Terms of Use
+                    </MenuItem>
+                    {spotify}
+                    {/* <MenuItem onClick={() => this.goToRoute('/faq')}>
+                      FAQ
+                    </MenuItem>
+                    <MenuItem onClick={this.sendPasswordResetEmail}>
+                      Reset Password
+                    </MenuItem> */}
+                    <MenuItem onClick={() => logOut()}>
+                      Logout
+                    </MenuItem>
+                  </Menu>
+                </StyledNavBar.NavBarSubMenu>
+                <StyledNavBar.NavBarSearchBlock onClick={this.toggleSearch}>
+                  <SearchIcon />
+                </StyledNavBar.NavBarSearchBlock>
+              </StyledNavBar.NavBarMenu>
+            </StyledNavBar.NavBar>
+          </div>
+        </MediaQuery>
+      </header>
+    );
+    return (
+      <div>
+        {searching ? searchForm : normalMenu}
+      </div>
+    );
+  }
 }
 
 const mapStateToProps = store => ({
-  userID: store.user,
   profile: store.dataSpotify.profile,
   searching: store.dataSearch.inputSearch
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
   logOut: logOutUser,
-  showHideSearch: openCloseSearch,
-  loginSocial: getAccessTokenSpotify
+  showHideSearch: openCloseSearch
 }, dispatch);
 
 export const NavBarConnect = withStyles(styles)(withRouter(connect(mapStateToProps, mapActionsToProps)(Navbar)));
@@ -633,9 +581,10 @@ Navbar.propTypes = {
   location: objectOf(any).isRequired,
   logOut: func.isRequired,
   showHideSearch: func.isRequired,
-  searching: bool.isRequired
+  searching: bool.isRequired,
+  host: string
 };
 
 Navbar.defaultProps = {
-  host: window.location.origin + '/'
+  host: `${window.location.origin}/`
 };
