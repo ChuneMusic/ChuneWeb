@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { string } from 'prop-types';
+import { string, bool } from 'prop-types';
 
 import { PlayIcon } from '../../shared/SocialIcons';
 import ChuneSupplyPNG from '../../../../assets/images/chune_supply.png';
 
 import './BasicSoundPlayer.css';
 
-const BasicSoundPlayer = ({ token }) => {
-  const buttonPlay = token === '' ? (
+const BasicSoundPlayer = ({ token, offPlayer }) => {
+  const buttonPlay = token === '' || offPlayer ? (
     <a href="https://open.spotify.com/playlist/3Tla7f8PBCSzI5lzrchu7l" target="_blank" rel="noopener noreferrer">
       <PlayIcon className="icon playIcon" />
     </a>
@@ -29,11 +29,13 @@ const BasicSoundPlayer = ({ token }) => {
 };
 
 const mapStateToProps = store => ({
-  token: store.dataSpotify.token
+  token: store.dataSpotify.token,
+  offPlayer: store.dataSpotify.offPlayer
 });
 
 export const BasicSoundPlayerConnect = connect(mapStateToProps, null)(BasicSoundPlayer);
 
 BasicSoundPlayer.propTypes = {
-  token: string.isRequired
+  token: string.isRequired,
+  offPlayer: bool.isRequired
 };

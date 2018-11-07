@@ -66,11 +66,11 @@ class Chune extends React.PureComponent {
   }
 
   render() {
-    const { supply, token } = this.props;
+    const { supply, token, offPlayer } = this.props;
     const { isPlaying } = this.state;
     let images = supply.image;
     if (~images.indexOf('.jpg')) images = `https://api-stage.chunesupply.com/static/imgs/full/${images}`;
-    if (token === '') {
+    if (token === '' || offPlayer) {
       return (
         <a
           href={`https://open.spotify.com/track/${supply.spotify_id}`}
@@ -122,7 +122,8 @@ const mapStateToProps = store => ({
   idTrack: store.dataSpotify.idTrack,
   topTracksForYou: store.dataContent.topTracksForYou,
   topChune: store.dataContent.topChune,
-  token: store.dataSpotify.token
+  token: store.dataSpotify.token,
+  offPlayer: store.dataSpotify.offPlayer
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
@@ -145,5 +146,6 @@ Chune.propTypes = {
   pausedTrack: bool.isRequired,
   topTracksForYou: arrayOf(any).isRequired,
   topChune: arrayOf(any).isRequired,
-  token: string.isRequired
+  token: string.isRequired,
+  offPlayer: bool.isRequired
 };

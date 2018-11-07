@@ -3,14 +3,20 @@ import SpotifyWebApi from 'spotify-web-api-js';
 
 import { spotifyAPI, API } from '../../../utilities/APIConfig';
 import { store } from '../../index';
-import { dataStopTrackFromSpotifySDK, dataTrackFromSpotifySDK, closeThisSDKPlayback } from '../actions';
+import {
+  dataStopTrackFromSpotifySDK, dataTrackFromSpotifySDK,
+  closeThisSDKPlayback, errorConnectToApi
+} from '../actions';
 
 const spotifySDKPlaybackAPI = new SpotifyWebApi();
 export const spotyfiDevice = (token, deviceID) => {
   const data = [deviceID];
   const play = { play: false };
   spotifySDKPlaybackAPI.setAccessToken(token);
-  spotifySDKPlaybackAPI.transferMyPlayback(data, play);
+  spotifySDKPlaybackAPI.transferMyPlayback(data, play).catch((e) => {
+    console.log(e.response);
+    store.dispatch(errorConnectToApi());
+  });
 };
 export const spotifyPlayTrack = (arrayTracks, track, time, deviceID) => {
   const dataPlay = {

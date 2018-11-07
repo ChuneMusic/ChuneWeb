@@ -65,10 +65,10 @@ class Tracks extends React.Component {
   render() {
     const {
       track, index, artistName,
-      token
+      token, offPlayer
     } = this.props;
     const { isPlaying } = this.state;
-    if (token === '') {
+    if (token === '' || offPlayer) {
       return (
         <a
           href={`https://open.spotify.com/track/${track.spotify_id}`}
@@ -126,7 +126,8 @@ const mapStateToProps = store => ({
   idTrack: store.dataSpotify.idTrack,
   topTracksArtist: store.dataContent.topTracksArtist,
   topTracks: store.dataContent.topTracks,
-  token: store.dataSpotify.token
+  token: store.dataSpotify.token,
+  offPlayer: store.dataSpotify.offPlayer
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
@@ -149,7 +150,8 @@ Tracks.propTypes = {
   pausedTrack: bool.isRequired,
   topTracksArtist: arrayOf(any).isRequired,
   topTracks: arrayOf(any).isRequired,
-  token: string.isRequired
+  token: string.isRequired,
+  offPlayer: bool.isRequired
 };
 
 Tracks.defaultProps = {
