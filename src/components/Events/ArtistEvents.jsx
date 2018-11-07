@@ -58,17 +58,19 @@ class ArtistEvents extends React.Component {
     const {
       classes, events, id,
       artists, geolocation, history,
-      modal
+      modal, artist
     } = this.props;
-    if (artists.length === 0) {
+    if (artists.length === 0 && artist.name === undefined) {
       history.push('/events');
       return null;
     }
-    const artist = artists.filter(e => e.id === id);
+    const a = artists.filter(e => e.id === id);
+    let objArtists = a[0];
+    if (objArtists === undefined) objArtists = artist;
     if (events.length === 0) {
       return (
         <EmptyListConnect
-          messageOne={`Sorry, no recent events for ${artist[0].name}`}
+          messageOne={`Sorry, no recent events for ${objArtists.name}`}
           messageTwo="Click on the search bar to find and follow another artist."
         />
       );
@@ -76,7 +78,7 @@ class ArtistEvents extends React.Component {
     return (
       <StyledContent.Wrapper modal={modal}>
         <div className={classes.root}>
-          <ArtistWallpaperConnect artist={artist[0]} />
+          <ArtistWallpaperConnect artist={objArtists} />
           <EventsTableConnect events={events} geolocation={geolocation} />
         </div>
       </StyledContent.Wrapper>
@@ -90,22 +92,19 @@ const mapStateToProps = store => ({
   id: store.dataEvents.id,
   artists: store.dataArtists.artists,
   geolocation: store.dataEvents.geolocation,
-  modal: store.dataSpotify.modal
+  modal: store.dataSpotify.modal,
+  artist: store.dataArtists.artist
 });
 
 export const ArtistEventsConnect = withStyles(styles)(connect(mapStateToProps, null)(ArtistEvents));
 
 ArtistEvents.propTypes = {
   events: arrayOf(any).isRequired,
-  id: number,
+  id: number.isRequired,
   artists: arrayOf(any).isRequired,
   classes: objectOf(any).isRequired,
-  geolocation: objectOf(any),
+  geolocation: objectOf(any).isRequired,
   history: objectOf(any).isRequired,
-  modal: bool.isRequired
-};
-
-ArtistEvents.defaultProps = {
-  id: null,
-  geolocation: null
+  modal: bool.isRequired,
+  artist: objectOf(any).isRequired
 };
