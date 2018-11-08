@@ -64,7 +64,7 @@ class Home extends React.Component {
     } = this.props;
     const { position } = this.state;
     if (firstListArtists.length > 0 && !skip) history.push('/artists');
-    if (topChune.length === 0) return <Loading />;
+    if (contentFeed.length === 0) return <Loading />;
     return (
       <StyledContent.Wrapper modal={modal} onScroll={this.scrollDiv} id="blockDiv">
         <Drift appId="4nu2fz5thdf2" />

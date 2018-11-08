@@ -7,8 +7,7 @@ import {
   getDeviceID, spotifyPlayTrack,
   spotyfiDevice, spotifyPauseTrack, spotifyPositionTrack,
   spotifySetVolume, spotifyShuffleTrack, spotifyRepeatTrack,
-  spotifyPreviousTrack, spotifyNextTrack, spotifyReg,
-  // refreshTokenHelper
+  spotifyPreviousTrack, spotifyNextTrack, spotifyReg
 } from './helpers/spotify-helper';
 import {
   GET_ACCESS_TOKEN_SPOTIFY, SUCCESS_GET_USER_PROFILE_SPOTIFY,
@@ -16,7 +15,11 @@ import {
   SET_VOLUME_FOR_PLAYBACK, TOGGLE_SHUFFLE_FOR_PLAYBACK, SET_REPEAT_MODE_ON_PLAYBACK,
   SKIP_PLAYBACK_TO_PREVIOUS_TRACK, SKIP_PLAYBACK_TO_NEXT_TRACK, SUCCESS_GET_DEVICE_ID
 } from './types';
-import { successGetUserProfileSpotify, successGetDeviceID } from './actions';
+import {
+  successGetUserProfileSpotify, successGetDeviceID,
+  openModal, playerReady
+} from './actions';
+
 import { errorMessage } from '../error/actions';
 import { getDataPlayer } from './helpers/selector';
 import { LOG_OUT_USER } from '../auth/types';
@@ -26,14 +29,21 @@ export function* getUserProfile({ payload }) {
   const { code, host } = payload;
   try {
     const data = yield call(spotifyReg, code, host);
-    setUserTokenSpotify(data.spotify);
-    yield put(successGetUserProfileSpotify(`${data.first_name} ${data.last_name}`, data.spotify));
+
+    if (data.spotify !== '') {
+      yield put(successGetUserProfileSpotify(`${data.first_name} ${data.last_name}`, data.spotify));
+    }
   } catch (e) {
     yield put(errorMessage(e.message));
   }
 }
 export function* getDeviceIDUser({ payload }) {
   const { token } = payload;
+  const browser = navigator.vendor;
+  if (browser.startsWith('Apple')) {
+    yield put(playerReady());
+    return;
+  }
   try {
     const deviceID = yield call(getDeviceID, token);
     spotyfiDevice(token, deviceID);
@@ -53,7 +63,10 @@ export function* playTrackToSpotify({ payload }) {
   yield call(spotifyPlayTrack, arrayTracks, track, time, deviceID);
 }
 export function* pauseTrackToSpotify() {
-  yield call(spotifyPauseTrack);
+  const { deviceID, token } = yield select(getDataPlayer);
+  if (token && deviceID) {
+    yield call(spotifyPauseTrack);
+  }
 }
 export function* positionTrack({ payload }) {
   const { position } = payload;
@@ -85,18 +98,10 @@ export function* nextTrack() {
   const { deviceID } = yield select(getDataPlayer);
   yield call(spotifyNextTrack, deviceID);
 }
-
-// export function* refreshTokenSpotify({ payload }) {
-//   const { token } = payload;
-//   console.log(token, 'token');
-//   const newToken = yield call(refreshTokenHelper, token);
-//   console.log(newToken);
-// }
-
 export function* sagasSpotify() {
   yield takeEvery(GET_ACCESS_TOKEN_SPOTIFY, getUserProfile);
   yield takeEvery(SUCCESS_GET_USER_PROFILE_SPOTIFY, getDeviceIDUser);
-  // yield takeEvery(SUCCESS_GET_USER_PROFILE_SPOTIFY, refreshTokenSpotify);
+
   yield takeEvery(PLAY_TRACK, playTrackToSpotify);
   yield takeEvery([PAUSE_TRACK, LOG_OUT_USER], pauseTrackToSpotify);
   yield takeEvery(SEEK_TO_POSITION_IN_CURRENTLY_PLAYING_TRACK, positionTrack);

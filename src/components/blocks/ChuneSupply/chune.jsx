@@ -14,7 +14,7 @@ import './ChuneSupply.css';
 import { playMusicOfChuneSupply, playMusicOfRecentReleases } from '../../../store/learningMachine/actions';
 import { playTrack, pauseTrack } from '../../../store/spotify/actions';
 
-class Chune extends React.PureComponent {
+class Chune extends React.Component {
   state = {
     isPlaying: false
   }

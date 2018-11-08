@@ -1,9 +1,13 @@
 /* globals Spotify */
 import SpotifyWebApi from 'spotify-web-api-js';
 
-import { spotifyAPI, API } from '../../../utilities/APIConfig';
+import { API } from '../../../utilities/APIConfig';
 import { store } from '../../index';
-import { dataStopTrackFromSpotifySDK, dataTrackFromSpotifySDK, closeThisSDKPlayback } from '../actions';
+
+import {
+  dataStopTrackFromSpotifySDK, dataTrackFromSpotifySDK,
+  closeThisSDKPlayback, errorConnectToApi, playerReady
+} from '../actions';
 
 const spotifySDKPlaybackAPI = new SpotifyWebApi();
 export const spotyfiDevice = (token, deviceID) => {
@@ -52,19 +56,15 @@ export const getDeviceID = token => new Promise((resolve) => {
     getOAuthToken: (cb) => { cb(token); }
   });
   player.addListener('initialization_error', ({ message }) => {
-    store.dispatch(closeThisSDKPlayback());
     console.error(message);
   });
   player.addListener('authentication_error', ({ message }) => {
-    store.dispatch(closeThisSDKPlayback());
     console.error(message);
   });
   player.addListener('account_error', ({ message }) => {
-    store.dispatch(closeThisSDKPlayback());
     console.error(message);
   });
   player.addListener('playback_error', ({ message }) => {
-    store.dispatch(closeThisSDKPlayback());
     console.error(message);
   });
   player.addListener('player_state_changed', (state) => {
@@ -89,6 +89,7 @@ export const getDeviceID = token => new Promise((resolve) => {
   });
   player.addListener('ready', (data) => {
     const deviceID = data.device_id;
+    store.dispatch(playerReady());
     return resolve(deviceID);
   });
   player.addListener('not_ready', (data) => {

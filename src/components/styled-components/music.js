@@ -10,6 +10,7 @@ export const MusicBlock = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
 `;
 export const MusicTitle = styled.h2`
   color: rgba(0, 0, 0, 0.87);
