@@ -431,6 +431,7 @@ class Navbar extends React.Component {
                     <IconButton classes={{ root: classes.settingsIconButton }} onClick={this.toggleSearch}>
                       <SearchIcon />
                     </IconButton>
+                  </Drawer>
                   </div>
                 </Toolbar>
               </StyledNavBar.NavBarMobile>
