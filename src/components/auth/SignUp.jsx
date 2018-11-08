@@ -19,13 +19,12 @@ import {
 } from 'prop-types';
 import { OauthSender } from 'react-oauth-flow';
 
-import { createNewUser } from '../../store/auth/actions';
+import { createNewUser, createNewSocialUser } from '../../store/auth/actions';
 import BackgroundPNG from '../../../assets/images/background.jpg';
 import {
   GoogleIcon, FacebookIcon,
   TwitterIcon, SpotifyIcon2
 } from '../shared/SocialIcons';
-import { openSocial } from '../../utilities/authSocial';
 
 
 const styles = () => ({
@@ -226,7 +225,8 @@ class SignUp extends React.Component {
       name: '',
       email: '',
       password: '',
-      showPassword: false
+      showPassword: false,
+      provider: ''
     };
   }
 
@@ -274,20 +274,72 @@ class SignUp extends React.Component {
     && this.validateEmail(email);
   }
 
+  openSocial = (url, prov) => {
+    this.setState({ provider: prov});
+    const w = 450;
+    const h = 600;
+    const dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : screen.left;
+    const dualScreenTop = window.screenTop !== undefined ? window.screenTop : screen.top;
+    const width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+    const height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+    const left = ((width / 2) - (w / 2)) + dualScreenLeft;
+    const top = ((height / 2) - (h / 2)) + dualScreenTop;
+
+
+    const newWin = window.open(url, '_blank', `alwaysRaised=yes, scrollbars=yes, width=${w}, height=${h}, top=${top}, left=${left}`);
+
+    const checkConnect = setInterval(() => {
+      try {
+        if (newWin.location.href.startsWith(this.props.host)) {
+          clearInterval(checkConnect);
+          this.authenticateSocial(newWin);
+        }
+      } catch (e) {
+        console.log(e.message);
+      }
+    }, 100);
+  }
+
+  authenticateSocial = (popup) => {
+    const url = popup.location.href;
+    popup.close();
+
+    const uri = url.split('?')[1];
+    const params = uri.split('&');
+    let code = null;
+    if (params.length > 1) {
+      params.forEach((p) => {
+        const parts = p.split('=');
+        const key = parts[0];
+        const val = parts[1];
+        if (key === 'code') {
+          code = val;
+        }
+      });
+    }
+    if (!code) {
+      alert('Something went wrong. Please try again');
+      return;
+    }
+
+    const { newSocialUser } = this.props;
+    newSocialUser(code, this.props.host, this.state.provider);
+  }
+
   render() {
     const { classes, message, host } = this.props;
     const {
       email, password, name,
       showPassword
     } = this.state;
-    const auth = 'SIGNUP';
     const scope = 'user-read-private user-read-email user-read-playback-state user-modify-playback-state streaming user-read-birthdate user-read-currently-playing';
     return (
       <div className={classes.pageContainer}>
         <Paper className={classes.contentContainer}>
           <div className={classes.headingContainer}>
             <h3 className={classes.formHeading}>
-              Sign Up
+          Sign Up
             </h3>
           </div>
           <div className={classes.iconListContainer}>
@@ -300,7 +352,7 @@ class SignUp extends React.Component {
                   state={{ from: '/settings' }}
                   render={({ url }) => (
                     <FacebookIcon
-                      onClick={() => openSocial(url, 'facebook', host, auth)}
+                      onClick={() => this.openSocial(url, 'facebook')}
                     />
                   )}
                 />
@@ -314,7 +366,7 @@ class SignUp extends React.Component {
                   state={{ from: '/settings' }}
                   render={({ url }) => (
                     <GoogleIcon
-                      onClick={() => openSocial(url, 'google', host, auth)}
+                      onClick={() => this.openSocial(url, 'google')}
                     />
                   )}
                 />
@@ -327,7 +379,7 @@ class SignUp extends React.Component {
                   state={{ from: '/settings' }}
                   render={({ url }) => (
                     <SpotifyIcon2
-                      onClick={() => openSocial(url, 'spotify', host, auth)}
+                      onClick={() => this.openSocial(url, 'spotify')}
                     />
                   )}
                 />
@@ -418,7 +470,8 @@ const mapStateToProps = store => ({
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
-  newUserBasic: createNewUser
+  newUserBasic: createNewUser,
+  newSocialUser: createNewSocialUser
 }, dispatch);
 
 export const SignUpConnect = withStyles(styles)(connect(mapStateToProps, mapActionsToProps)(SignUp));
@@ -426,11 +479,10 @@ export const SignUpConnect = withStyles(styles)(connect(mapStateToProps, mapActi
 SignUp.propTypes = {
   classes: objectOf(any).isRequired,
   newUserBasic: func.isRequired,
-  message: string,
-  host: string
+  message: string
 };
 
 SignUp.defaultProps = {
   message: undefined,
-  host: `${window.location.origin}/`
+  host: window.location.origin + '/'
 };

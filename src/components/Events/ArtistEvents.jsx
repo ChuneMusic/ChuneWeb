@@ -58,19 +58,17 @@ class ArtistEvents extends React.Component {
     const {
       classes, events, id,
       artists, geolocation, history,
-      modal, artist
+      modal
     } = this.props;
-    if (artists.length === 0 && artist.name === undefined) {
+    if (artists.length === 0) {
       history.push('/events');
       return null;
     }
-    const a = artists.filter(e => e.id === id);
-    let objArtists = a[0];
-    if (objArtists === undefined) objArtists = artist;
+    const artist = artists.filter(e => e.id === id);
     if (events.length === 0) {
       return (
         <EmptyListConnect
-          messageOne={`Sorry, no recent events for ${objArtists.name}`}
+          messageOne={`Sorry, no recent events for ${artist[0].name}`}
           messageTwo="Click on the search bar to find and follow another artist."
         />
       );
@@ -78,7 +76,7 @@ class ArtistEvents extends React.Component {
     return (
       <StyledContent.Wrapper modal={modal}>
         <div className={classes.root}>
-          <ArtistWallpaperConnect artist={objArtists} />
+          <ArtistWallpaperConnect artist={artist[0]} />
           <EventsTableConnect events={events} geolocation={geolocation} />
         </div>
       </StyledContent.Wrapper>
@@ -92,19 +90,22 @@ const mapStateToProps = store => ({
   id: store.dataEvents.id,
   artists: store.dataArtists.artists,
   geolocation: store.dataEvents.geolocation,
-  modal: store.dataSpotify.modal,
-  artist: store.dataArtists.artist
+  modal: store.dataSpotify.modal
 });
 
 export const ArtistEventsConnect = withStyles(styles)(connect(mapStateToProps, null)(ArtistEvents));
 
 ArtistEvents.propTypes = {
   events: arrayOf(any).isRequired,
-  id: number.isRequired,
+  id: number,
   artists: arrayOf(any).isRequired,
   classes: objectOf(any).isRequired,
-  geolocation: objectOf(any).isRequired,
+  geolocation: objectOf(any),
   history: objectOf(any).isRequired,
-  modal: bool.isRequired,
-  artist: objectOf(any).isRequired
+  modal: bool.isRequired
+};
+
+ArtistEvents.defaultProps = {
+  id: null,
+  geolocation: null
 };
