@@ -2,9 +2,9 @@ import {
   createStore, combineReducers, applyMiddleware,
   compose
 } from 'redux';
-// import { createLogger } from 'redux-logger';
+import { createLogger } from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
-// import { composeWithDevTools } from 'redux-devtools-extension';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import { persistStore, persistReducer, createTransform } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { createBrowserHistory } from 'history';
@@ -57,22 +57,22 @@ const userPersistConfig = {
 
 const persistedReducer = persistReducer(userPersistConfig, rootReducer);
 
-// const middleware = composeWithDevTools(
-//   compose(
-//     applyMiddleware(
-//       routerMiddleware(history),
-//       sagaMiddleware,
-//       createLogger({ collapsed: true })
-//     )
-//   )
-// );
-
-const middleware = compose(
-  applyMiddleware(
-    routerMiddleware(history),
-    sagaMiddleware
+const middleware = composeWithDevTools(
+  compose(
+    applyMiddleware(
+      routerMiddleware(history),
+      sagaMiddleware,
+      createLogger({ collapsed: true })
+    )
   )
 );
+
+// const middleware = compose(
+//   applyMiddleware(
+//     routerMiddleware(history),
+//     sagaMiddleware
+//   )
+// );
 
 export const store = createStore(
   connectRouter(history)(persistedReducer),

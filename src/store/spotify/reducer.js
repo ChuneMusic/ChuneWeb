@@ -69,6 +69,7 @@ const closeThisSDKPlayback = state => ({
 });
 const errorConnectToApi = state => ({ ...state, offPlayer: true, modal: false });
 const openModal = state => ({ ...state, modal: true });
+const playerReady = state => ({ ...state, ready: true });
 
 const handlers = {
   [TYPES.GET_ACCESS_TOKEN_SPOTIFY]: getAccessTokenSpotify,

@@ -90,10 +90,10 @@ export function* nextTrack() {
 }
 
 export function* refreshTokenSpotify() {
-  yield call(delay, 12000);
-  const { token } = yield select(getDataPlayer);
-  const newToken = yield call(refreshTokenHelper, token);
-  console.log(newToken);
+  // yield call(delay, 12000);
+  // const { token } = yield select(getDataPlayer);
+  // const newToken = yield call(refreshTokenHelper, token);
+  // console.log(newToken);
 }
 
 export function* sagasSpotify() {

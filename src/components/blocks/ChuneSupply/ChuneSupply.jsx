@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Paper from '@material-ui/core/Paper';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { arrayOf, any, string } from 'prop-types';
 
 import * as StyledMusic from '../../styled-components/music';
@@ -34,6 +35,9 @@ class ChuneSupply extends React.PureComponent {
     return (
       <div className="chuneSupplyWrapper">
         <Paper className="chuneSupplyPaper">
+          <div className="blockCircularPropgress">
+            <CircularProgress className="circularProgress" />
+          </div>
           {textHeader}
           <div className="tracksList">
             {chunes}

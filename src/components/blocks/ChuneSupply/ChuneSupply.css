@@ -1,5 +1,6 @@
 .chuneSupplyWrapper .chuneSupplyPaper {
   font-family: Roboto;
+  position: relative;
 }
 
 .chuneSupplyWrapper .title {
@@ -89,4 +90,19 @@
 }
 .padding_recent{ 
   padding: 0 0 20px 0;
+}
+.circularProgress{
+  width: 80px !important;
+  height: 80px !important;
+}
+.blockCircularPropgress{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: RGBA(255, 255, 255, 0.6);
 }
