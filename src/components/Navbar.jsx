@@ -30,7 +30,7 @@ import LogoSVG from '../../assets/images/Chune_Supply_Logotype_White.svg';
 import { logOutUser } from '../store/auth/actions';
 import * as StyledNavBar from './styled-components/navbar';
 import { openCloseSearch } from '../store/autosuggest/actions';
-import { openSocial } from '../utilities/authSocial';
+
 
 
 const styles = () => ({
