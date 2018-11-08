@@ -1,0 +1,108 @@
+.chuneSupplyWrapper .chuneSupplyPaper {
+  font-family: Roboto;
+  position: relative;
+}
+
+.chuneSupplyWrapper .title {
+  color: rgba(0, 0, 0, 0.87);
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  line-height: normal;
+  padding: 10px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.tracksList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.chuneSupplyWrapper .subtitle {
+  color: rgba(0, 0, 0, 0.6);
+  font-family: Roboto;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  line-height: normal;
+  padding: 10px;
+}
+
+.chuneSupplyWrapper .chuneSupplyPaper .card {
+  box-shadow: none;
+  display: flex;
+  height: 60px;
+  width: 300px;
+  margin: 0 auto;
+  padding: 8px;
+}
+
+.chuneSupplyWrapper .chuneSupplyPaper .cover {
+  width: 60px;
+  height: 60px;
+}
+
+.chuneSupplyWrapper .chuneSupplyPaper .details {
+  display: flex;
+  flex-direction: column;
+  width: 240px;
+}
+
+.chuneSupplyWrapper .chuneSupplyPaper .content {
+  display: flex;
+  flex-direction: column;
+  padding: 5px 0 0 5px;
+}
+
+.chuneSupplyWrapper .chuneSupplyPaper .content .headline {
+  color: #000;
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.chuneSupplyWrapper .chuneSupplyPaper .content .subheading {
+  color: #000;
+  font-family: Roboto;
+  font-size: 12px;
+  line-height: 1.67;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.chuneSupplyWrapper .chuneSupplyPaper .content .headline.isActive {
+  color: #6200ee;
+}
+
+.chuneSupplyWrapper .chuneSupplyPaper .content .subheading.isActive {
+  color: #6200ee;
+}
+
+.chuneSupplyWrapper .chuneSupplyPaper .card:hover {
+  background-color: #f9f5ff;
+  cursor: pointer;
+}
+.padding_recent{ 
+  padding: 0 0 20px 0;
+}
+.circularProgress{
+  width: 80px !important;
+  height: 80px !important;
+}
+.blockCircularPropgress{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: RGBA(255, 255, 255, 0.6);
+}

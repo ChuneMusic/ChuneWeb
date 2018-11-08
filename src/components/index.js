@@ -1,0 +1,17 @@
+export { ArtistConnect } from './Artist/Artist';
+export { ArtistEventsConnect } from './Events/ArtistEvents';
+export { ArtistsConnect } from './Artists/Artists';
+export { EventsConnect } from './Events/Events';
+//export { FAQConnect } from './FAQ';
+export { ForYouConnect } from './ForYou';
+export { HomeConnect } from './Home';
+export { NavBarConnect } from './Navbar';
+export { GuestNavbarConnect } from './shared/GuestNavbar';
+export { Loading } from './shared/Loading';
+export { LandingConnect } from './Landing';
+export { PrivacyPolicyConnect } from './PrivacyPolicy';
+export { SignInConnect } from './auth/SignIn';
+export { SignUpConnect } from './auth/SignUp';
+export { blogiFrame } from './blog/blogiFrame';
+export { TermsOfUseConnect } from './TermsOfUse';
+export { shopiFrame } from './shop/shopIFrame';
