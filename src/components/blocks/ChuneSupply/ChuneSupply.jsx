@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { arrayOf, any, string } from 'prop-types';
+import {
+  arrayOf, any, string,
+  bool
+} from 'prop-types';
 
 import * as StyledMusic from '../../styled-components/music';
 import Up from '../../../../assets/images/chevron-arrow-up.svg';
@@ -19,8 +22,19 @@ class ChuneSupply extends React.PureComponent {
   openPlaylist = () => this.setState({ openList: !this.state.openList })
 
   render() {
-    const { supplies, chunesupply } = this.props;
+    const {
+      supplies, chunesupply,
+      token, ready
+    } = this.props;
     const { openList } = this.state;
+    let spinner = null;
+    if (token && !ready) {
+      spinner = (
+        <div className="blockCircularPropgress">
+          <CircularProgress className="circularProgress" />
+        </div>
+      );
+    }
     const chunes = supplies.map((e, index) => {
       if (index > 9 && openList === false) return null;
       return <ChuneConnect supply={e} key={e.id} chunesupply={chunesupply} />;
@@ -35,9 +49,7 @@ class ChuneSupply extends React.PureComponent {
     return (
       <div className="chuneSupplyWrapper">
         <Paper className="chuneSupplyPaper">
-          <div className="blockCircularPropgress">
-            <CircularProgress className="circularProgress" />
-          </div>
+          {spinner}
           {textHeader}
           <div className="tracksList">
             {chunes}
@@ -49,12 +61,19 @@ class ChuneSupply extends React.PureComponent {
   }
 }
 
+const mapStateToProps = store => ({
+  token: store.dataSpotify.token,
+  ready: store.dataSpotify.ready
+});
+
 const mapActionsToProps = dispatch => bindActionCreators({
 }, dispatch);
 
-export const ChuneSupplyConnect = connect(null, mapActionsToProps)(ChuneSupply);
+export const ChuneSupplyConnect = connect(mapStateToProps, mapActionsToProps)(ChuneSupply);
 
 ChuneSupply.propTypes = {
   chunesupply: string.isRequired,
-  supplies: arrayOf(any).isRequired
+  supplies: arrayOf(any).isRequired,
+  token: string.isRequired,
+  ready: bool.isRequired
 };

@@ -29,9 +29,13 @@ class VideoCard extends React.Component {
   render() {
     const { video } = this.props;
     const formattedDate = video.published_on ? timestampToDate(video.published_on) : '';
+    const host = window.location.origin;
     const opts = {
       height: '100%',
       width: '100%',
+      playerVars: {
+        origin: host
+      }
     };
     return (
       <StyledVideo.VideoBlock>

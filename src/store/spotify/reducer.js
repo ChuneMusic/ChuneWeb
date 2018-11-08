@@ -21,7 +21,8 @@ export const initState = {
   shuffleTracks: false,
   code: '',
   host: '',
-  offPlayer: false
+  offPlayer: false,
+  ready: false
 };
 
 const getAccessTokenSpotify = (state, { code, host }) => ({ ...state, code, host });
@@ -65,9 +66,15 @@ const closeThisSDKPlayback = state => ({
   ...state,
   modal: false,
   token: '',
-  profile: ''
+  profile: '',
+  ready: false
 });
-const errorConnectToApi = state => ({ ...state, offPlayer: true, modal: false });
+const errorConnectToApi = state => ({
+  ...state,
+  offPlayer: true,
+  modal: false,
+  ready: true
+});
 const openModal = state => ({ ...state, modal: true });
 const playerReady = state => ({ ...state, ready: true });
 
@@ -87,7 +94,8 @@ const handlers = {
   [TYPES.SKIP_PLAYBACK_TO_NEXT_TRACK]: skipPlaybackToNextTrack,
   [TYPES.CLOSE_THIS_SDK_PLAYBACK]: closeThisSDKPlayback,
   [TYPES.ERROR_CONNECT_API]: errorConnectToApi,
-  [TYPES.OPEN_MODAL]: openModal
+  [TYPES.OPEN_MODAL]: openModal,
+  [TYPES.PLAYER_READY]: playerReady
 };
 
 export const reducerSpotify = createReducer(initState, handlers);

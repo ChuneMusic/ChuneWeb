@@ -95,7 +95,7 @@ class App extends React.PureComponent {
           <PrivateRoute path="/events" token={token} component={EventsConnect} />
           <PrivateRoute path="/event/:artistName" token={token} component={ArtistEventsConnect} />
           <PrivateRoute path="/blog" token={token} component={blogiFrame} />
-          <Redirect to="/" />
+          <Redirect to={token ? '/home' : '/'} />
         </Switch>
       </div>
     );
