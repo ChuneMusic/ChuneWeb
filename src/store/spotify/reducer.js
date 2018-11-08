@@ -28,7 +28,13 @@ export const initState = {
 const getAccessTokenSpotify = (state, { code, host }) => ({ ...state, code, host });
 const successGetUserProfileSpotify = (state, { profile, token }) => ({ ...state, profile, token });
 const successGetDeviceID = (state, { deviceID }) => ({ ...state, deviceID });
-const playTrack = (state, { track, playingTracks }) => ({ ...state, track, playingTracks });
+
+const playTrack = (state, { track, playingTracks }) => ({
+  ...state,
+  track,
+  modal: true,
+  playingTracks
+});
 const pauseTrack = state => ({ ...state });
 const dataStopTrackFromSpotifySDK = (state, { idTrack, timeStop, pausedTrack }) => ({
   ...state,

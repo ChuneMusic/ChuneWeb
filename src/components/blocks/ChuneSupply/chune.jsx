@@ -9,12 +9,10 @@ import {
   func, objectOf,
   any, string, bool, arrayOf
 } from 'prop-types';
-import { OauthSender } from 'react-oauth-flow';
 
 import './ChuneSupply.css';
 import { playMusicOfChuneSupply, playMusicOfRecentReleases } from '../../../store/learningMachine/actions';
 import { playTrack, pauseTrack } from '../../../store/spotify/actions';
-import { openSocial } from '../../../utilities/authSocial';
 
 class Chune extends React.Component {
   state = {
@@ -68,17 +66,11 @@ class Chune extends React.Component {
   }
 
   render() {
-    const {
-      supply, token, offPlayer,
-      host
-    } = this.props;
+    const { supply, token } = this.props;
     const { isPlaying } = this.state;
     let images = supply.image;
-    const browser = navigator.vendor;
-    const auth = 'OTHER';
-    const scope = 'user-read-private user-read-email user-read-playback-state user-modify-playback-state streaming user-read-birthdate user-read-currently-playing';
     if (~images.indexOf('.jpg')) images = `https://api-stage.chunesupply.com/static/imgs/full/${images}`;
-    if (offPlayer || browser.startsWith('Apple')) {
+    if (token === '') {
       return (
         <a
           href={`https://open.spotify.com/track/${supply.spotify_id}`}
@@ -101,31 +93,6 @@ class Chune extends React.Component {
             </div>
           </Card>
         </a>
-      );
-    }
-    if (token === '') {
-      return (
-        <OauthSender
-          authorizeUrl={`https://accounts.spotify.com/authorize?scope=${encodeURIComponent(scope)}`}
-          clientId="a48cf79e2b704d93adef19d5bcd67530"
-          redirectUri={host}
-          state={{ from: '/settings' }}
-          render={({ url }) => (
-            <Card className="card" key={supply.spotify_id} onClick={() => openSocial(url, 'spotify', host, auth)}>
-              <CardMedia className="cover" image={images} title={supply.title} />
-              <div className="details">
-                <CardContent className="content">
-                  <Typography variant="headline" className={isPlaying ? 'headline isActive' : 'headline'}>
-                    {supply.title}
-                  </Typography>
-                  <Typography className={isPlaying ? 'subheading isActive' : 'subheading'} variant="subheading" color="textSecondary">
-                    {supply.artist_name || supply.artist }
-                  </Typography>
-                </CardContent>
-              </div>
-            </Card>
-          )}
-        />
       );
     }
     return (
@@ -155,8 +122,7 @@ const mapStateToProps = store => ({
   idTrack: store.dataSpotify.idTrack,
   topTracksForYou: store.dataContent.topTracksForYou,
   topChune: store.dataContent.topChune,
-  token: store.dataSpotify.token,
-  offPlayer: store.dataSpotify.offPlayer
+  token: store.dataSpotify.token
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
@@ -179,11 +145,5 @@ Chune.propTypes = {
   pausedTrack: bool.isRequired,
   topTracksForYou: arrayOf(any).isRequired,
   topChune: arrayOf(any).isRequired,
-  token: string.isRequired,
-  offPlayer: bool.isRequired,
-  host: string
-};
-
-Chune.defaultProps = {
-  host: `${window.location.origin}/`
+  token: string.isRequired
 };

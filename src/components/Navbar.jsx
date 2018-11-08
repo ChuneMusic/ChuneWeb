@@ -30,8 +30,7 @@ import LogoSVG from '../../assets/images/Chune_Supply_Logotype_White.svg';
 import { logOutUser } from '../store/auth/actions';
 import * as StyledNavBar from './styled-components/navbar';
 import { openCloseSearch } from '../store/autosuggest/actions';
-import { openSocial } from '../utilities/authSocial';
-
+import { getAccessTokenSpotify } from '../store/spotify/actions';
 
 const styles = () => ({
   navContainer: {
@@ -429,10 +428,35 @@ class Navbar extends React.Component {
                         </a>
                       </List>
                     </div>
-                  </Drawer>
-                </div>
-                <div className={classes.mobileToolbarRightSection}>
-                  <div className={classes.avatarContainer}>
+                    <IconButton classes={{ root: classes.settingsIconButton }} onClick={this.toggleSearch}>
+                      <SearchIcon />
+                    </IconButton>
+                  </div>
+                </Toolbar>
+              </StyledNavBar.NavBarMobile>
+            </div>
+          </MediaQuery>
+          <MediaQuery minDeviceWidth={1110}>
+            <div style={{ height: 74 }}>
+              <StyledNavBar.NavBar>
+                <StyledNavBar.NavBarLogoBlock>
+                  <StyledNavBar.NavBarLogo to="/home">
+                    <img src={LogoSVG} height={30} title="Chune Supply Beta" alt="Chune Supply Beta" />
+                    <sub>beta</sub>
+                  </StyledNavBar.NavBarLogo>
+                </StyledNavBar.NavBarLogoBlock>
+                <StyledNavBar.NavBarMenu>
+                  <StyledNavBar.NavBarMenuBlock>
+                    <Tabs value={value} onChange={this.handleChange} fullWidth classes={{ root: classes.tabContainer, indicator: classes.indicator }}>
+                      <Tab label={(<span className={classes.tabLabel}>Home</span>)} component={Link} to="/home" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
+                      <Tab label={(<span className={classes.tabLabel}>Your Feed</span>)} component={Link} to="/for-you" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
+                      <Tab label={(<span className={classes.tabLabel}>Artists</span>)} component={Link} to="/artists" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
+                      <Tab label={(<span className={classes.tabLabel}>Events</span>)} component={Link} to="/events" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
+                      <Tab label={(<span className={classes.tabLabel}>Blog</span>)} component={Link} to="/blog" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
+                      <Tab label={(<span className={classes.tabLabel}>Shop</span>)} href="https://chune-supply.myshopify.com/" target="_blank" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
+                    </Tabs>
+                  </StyledNavBar.NavBarMenuBlock>
+                  <StyledNavBar.NavBarSubMenu>
                     <IconButton
                       aria-owns={anchorEl ? 'simple-menu' : null}
                       aria-haspopup="true"
@@ -463,113 +487,46 @@ class Navbar extends React.Component {
                       <MenuItem onClick={() => this.goToRoute('/terms-of-use')}>
                         Terms of Use
                       </MenuItem>
+                      {spotify}
                       {/* <MenuItem onClick={() => this.goToRoute('/faq')}>
-                          FAQ
-                        </MenuItem>
-                        <MenuItem onClick={this.sendPasswordResetEmail}>
-                          Reset Password
-                        </MenuItem> */}
+                        FAQ
+                      </MenuItem>
+                      
+                      <MenuItem onClick={this.sendPasswordResetEmail}>
+                        Reset Password
+                      </MenuItem> */}
                       <MenuItem onClick={() => logOut()}>
                         Logout
                       </MenuItem>
                     </Menu>
-                  </div>
-                  <IconButton classes={{ root: classes.settingsIconButton }} onClick={this.toggleSearch}>
+                  </StyledNavBar.NavBarSubMenu>
+                  <StyledNavBar.NavBarSearchBlock onClick={this.toggleSearch}>
                     <SearchIcon />
-                  </IconButton>
-                </div>
-              </Toolbar>
-            </StyledNavBar.NavBarMobile>
-          </div>
-        </MediaQuery>
-        <MediaQuery minDeviceWidth={1110}>
-          <div style={{ height: 74 }}>
-            <StyledNavBar.NavBar>
-              <StyledNavBar.NavBarLogoBlock>
-                <StyledNavBar.NavBarLogo to="/home">
-                  <img src={LogoSVG} height={30} title="Chune Supply Beta" alt="Chune Supply Beta" />
-                  <sub>beta</sub>
-                </StyledNavBar.NavBarLogo>
-              </StyledNavBar.NavBarLogoBlock>
-              <StyledNavBar.NavBarMenu>
-                <StyledNavBar.NavBarMenuBlock>
-                  <Tabs value={value} onChange={this.handleChange} fullWidth classes={{ root: classes.tabContainer, indicator: classes.indicator }}>
-                    <Tab label={(<span className={classes.tabLabel}>Home</span>)} component={Link} to="/home" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
-                    <Tab label={(<span className={classes.tabLabel}>Your Feed</span>)} component={Link} to="/for-you" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
-                    <Tab label={(<span className={classes.tabLabel}>Artists</span>)} component={Link} to="/artists" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
-                    <Tab label={(<span className={classes.tabLabel}>Events</span>)} component={Link} to="/events" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
-                    <Tab label={(<span className={classes.tabLabel}>Blog</span>)} component={Link} to="/blog" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
-                    <Tab label={(<span className={classes.tabLabel}>Shop</span>)} href="https://chune-supply.myshopify.com/" target="_blank" className={classes.thetab} classes={{ labelContainer: classes.labelContainer }} />
-                  </Tabs>
-                </StyledNavBar.NavBarMenuBlock>
-                <StyledNavBar.NavBarSubMenu>
-                  <IconButton
-                    aria-owns={anchorEl ? 'simple-menu' : null}
-                    aria-haspopup="true"
-                    onClick={this.handleClick}
-                    classes={{ root: classes.settingsIconButton }}
-                  >
-                    <SettingsIcon />
-                  </IconButton>
-                  <Menu
-                    className={classes.settingsMenu}
-                    id="simple-menu"
-                    anchorEl={anchorEl}
-                    open={Boolean(anchorEl)}
-                    onClose={this.handleClose}
-                    anchorOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'right',
-                    }}
-                    getContentAnchorEl={null}
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                  >
-                    <MenuItem onClick={() => this.goToRoute('/privacy')}>
-                      Privacy Policy
-                    </MenuItem>
-                    <MenuItem onClick={() => this.goToRoute('/terms-of-use')}>
-                      Terms of Use
-                    </MenuItem>
-                    {spotify}
-                    {/* <MenuItem onClick={() => this.goToRoute('/faq')}>
-                      FAQ
-                    </MenuItem>
-                    <MenuItem onClick={this.sendPasswordResetEmail}>
-                      Reset Password
-                    </MenuItem> */}
-                    <MenuItem onClick={() => logOut()}>
-                      Logout
-                    </MenuItem>
-                  </Menu>
-                </StyledNavBar.NavBarSubMenu>
-                <StyledNavBar.NavBarSearchBlock onClick={this.toggleSearch}>
-                  <SearchIcon />
-                </StyledNavBar.NavBarSearchBlock>
-              </StyledNavBar.NavBarMenu>
-            </StyledNavBar.NavBar>
-          </div>
-        </MediaQuery>
-      </header>
-    );
-    return (
-      <div>
-        {searching ? searchForm : normalMenu}
-      </div>
-    );
-  }
+                  </StyledNavBar.NavBarSearchBlock>
+                </StyledNavBar.NavBarMenu>
+              </StyledNavBar.NavBar>
+            </div>
+          </MediaQuery>
+        </header>
+      );
+      return (
+        <div>
+          {searching ? searchForm : normalMenu}
+        </div>
+      );
+    }
 }
 
 const mapStateToProps = store => ({
+  userID: store.user,
   profile: store.dataSpotify.profile,
   searching: store.dataSearch.inputSearch
 });
 
 const mapActionsToProps = dispatch => bindActionCreators({
   logOut: logOutUser,
-  showHideSearch: openCloseSearch
+  showHideSearch: openCloseSearch,
+  loginSocial: getAccessTokenSpotify
 }, dispatch);
 
 export const NavBarConnect = withStyles(styles)(withRouter(connect(mapStateToProps, mapActionsToProps)(Navbar)));
@@ -581,10 +538,9 @@ Navbar.propTypes = {
   location: objectOf(any).isRequired,
   logOut: func.isRequired,
   showHideSearch: func.isRequired,
-  searching: bool.isRequired,
-  host: string
+  searching: bool.isRequired
 };
 
 Navbar.defaultProps = {
-  host: `${window.location.origin}/`
+  host: window.location.origin + '/'
 };

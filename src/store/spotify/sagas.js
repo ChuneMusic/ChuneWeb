@@ -19,14 +19,17 @@ import {
   successGetUserProfileSpotify, successGetDeviceID,
   openModal, playerReady
 } from './actions';
+
 import { errorMessage } from '../error/actions';
 import { getDataPlayer } from './helpers/selector';
 import { LOG_OUT_USER } from '../auth/types';
+import { setUserTokenSpotify } from '../../utilities/APIConfig';
 
 export function* getUserProfile({ payload }) {
   const { code, host } = payload;
   try {
     const data = yield call(spotifyReg, code, host);
+
     if (data.spotify !== '') {
       yield put(successGetUserProfileSpotify(`${data.first_name} ${data.last_name}`, data.spotify));
     }
@@ -44,24 +47,20 @@ export function* getDeviceIDUser({ payload }) {
   try {
     const deviceID = yield call(getDeviceID, token);
     spotyfiDevice(token, deviceID);
+    setUserTokenSpotify(token);
     yield put(successGetDeviceID(deviceID));
   } catch (e) {
     yield put(errorMessage(e.message));
   }
 }
 export function* playTrackToSpotify({ payload }) {
-  const {
-    idTrack, timeStop,
-    deviceID, offPlayer
-  } = yield select(getDataPlayer);
-  if (offPlayer) return null;
   const { track, playingTracks } = payload;
+  const { idTrack, timeStop, deviceID } = yield select(getDataPlayer);
   if (deviceID === '') yield take(SUCCESS_GET_DEVICE_ID);
   const arrayTracks = playingTracks.map(e => `spotify:track:${e.spotify_id}`);
   let time = 0;
   if (idTrack === track) time = timeStop;
   yield call(spotifyPlayTrack, arrayTracks, track, time, deviceID);
-  return yield put(openModal());
 }
 export function* pauseTrackToSpotify() {
   const { deviceID, token } = yield select(getDataPlayer);
@@ -99,10 +98,10 @@ export function* nextTrack() {
   const { deviceID } = yield select(getDataPlayer);
   yield call(spotifyNextTrack, deviceID);
 }
-
 export function* sagasSpotify() {
   yield takeEvery(GET_ACCESS_TOKEN_SPOTIFY, getUserProfile);
   yield takeEvery(SUCCESS_GET_USER_PROFILE_SPOTIFY, getDeviceIDUser);
+
   yield takeEvery(PLAY_TRACK, playTrackToSpotify);
   yield takeEvery([PAUSE_TRACK, LOG_OUT_USER], pauseTrackToSpotify);
   yield takeEvery(SEEK_TO_POSITION_IN_CURRENTLY_PLAYING_TRACK, positionTrack);

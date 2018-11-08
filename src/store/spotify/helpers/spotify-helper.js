@@ -3,6 +3,7 @@ import SpotifyWebApi from 'spotify-web-api-js';
 
 import { API } from '../../../utilities/APIConfig';
 import { store } from '../../index';
+
 import {
   dataStopTrackFromSpotifySDK, dataTrackFromSpotifySDK,
   closeThisSDKPlayback, errorConnectToApi, playerReady
@@ -13,10 +14,7 @@ export const spotyfiDevice = (token, deviceID) => {
   const data = [deviceID];
   const play = { play: false };
   spotifySDKPlaybackAPI.setAccessToken(token);
-  spotifySDKPlaybackAPI.transferMyPlayback(data, play).catch((e) => {
-    console.log(e.response);
-    store.dispatch(errorConnectToApi());
-  });
+  spotifySDKPlaybackAPI.transferMyPlayback(data, play);
 };
 export const spotifyPlayTrack = (arrayTracks, track, time, deviceID) => {
   const dataPlay = {
@@ -110,4 +108,18 @@ export const spotifyReg = (code, redirectUri) => {
     redirectUri
   });
   return API.post(url, data).then(response => response.data);
+};
+
+export const refreshTokenHelper = (token) => {
+  setInterval(() => {
+    console.log('interval');
+    const data = JSON.stringify({
+      access_token: token,
+      token_type: 'Bearer',
+      scope: 'user-read-private user-read-email user-read-playback-state user-modify-playback-state streaming user-read-birthdate user-read-currently-playing',
+      expires_in: 3600,
+      refresh_token: ''
+    });
+    return spotifyAPI.post('/api/token', data).then(response => response);
+  }, 2000);
 };
