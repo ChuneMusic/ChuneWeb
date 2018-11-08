@@ -2,13 +2,10 @@ import { createReducer } from '../../utilities/utility';
 import * as TYPES from './types';
 
 export const initState = {
-  id: 0,
+  id: null,
   name: '',
   events: [],
-  geolocation: {
-    latitude: 0,
-    longitude: 0
-  }
+  geolocation: null
 };
 
 const getEventsArtist = (state, { id, name }) => ({ ...state, id, name });

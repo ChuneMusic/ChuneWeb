@@ -3,8 +3,7 @@ import {
   SUCCESS_GET_DEVICE_ID, PLAY_TRACK, PAUSE_TRACK, DATA_TRACK_FROM_SPOTIFY_SDK,
   DATA_STOP_TRACK_FROM_SPOTIFY_SDK, SEEK_TO_POSITION_IN_CURRENTLY_PLAYING_TRACK,
   SET_VOLUME_FOR_PLAYBACK, TOGGLE_SHUFFLE_FOR_PLAYBACK, SET_REPEAT_MODE_ON_PLAYBACK,
-  SKIP_PLAYBACK_TO_NEXT_TRACK, SKIP_PLAYBACK_TO_PREVIOUS_TRACK, CLOSE_THIS_SDK_PLAYBACK,
-  ERROR_CONNECT_API, OPEN_MODAL
+  SKIP_PLAYBACK_TO_NEXT_TRACK, SKIP_PLAYBACK_TO_PREVIOUS_TRACK, CLOSE_THIS_SDK_PLAYBACK
 } from './types';
 
 export const getAccessTokenSpotify = (code, host) => ({
@@ -71,10 +70,4 @@ export const skipPlaybackToNextTrack = () => ({
 });
 export const closeThisSDKPlayback = () => ({
   type: CLOSE_THIS_SDK_PLAYBACK
-});
-export const errorConnectToApi = () => ({
-  type: ERROR_CONNECT_API
-});
-export const openModal = () => ({
-  type: OPEN_MODAL
 });
