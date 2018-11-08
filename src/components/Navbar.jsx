@@ -429,7 +429,6 @@ class Navbar extends React.Component {
                         </a>
                       </List>
                     </div>
-<<<<<<< HEAD
                     <IconButton classes={{ root: classes.settingsIconButton }} onClick={this.toggleSearch}>
                       <SearchIcon />
                     </IconButton>
@@ -460,12 +459,6 @@ class Navbar extends React.Component {
                     </Tabs>
                   </StyledNavBar.NavBarMenuBlock>
                   <StyledNavBar.NavBarSubMenu>
-=======
-                  </Drawer>
-                </div>
-                <div className={classes.mobileToolbarRightSection}>
-                  <div className={classes.avatarContainer}>
->>>>>>> feature/fixed-bugs-spotify-auth-and-player
                     <IconButton
                       aria-owns={anchorEl ? 'simple-menu' : null}
                       aria-haspopup="true"
