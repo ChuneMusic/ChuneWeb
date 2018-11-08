@@ -19,16 +19,13 @@ const styles = () => ({
     }
   },
   artistName: {
-    paddingLeft: 16,
-    margin: '0px 0px 24px 0px',
     height: 40,
     fontFamily: 'Roboto',
     fontSize: 34,
     letterSpacing: 0.3,
   },
   genre: {
-    paddingLeft: 16,
-    margin: '0px 0px 6px 0px',
+    margin: '0px 0px 10px 0px',
     height: 20,
     fontFamily: 'Roboto',
     fontSize: 14,
@@ -50,8 +47,7 @@ const ArtistWallpaper = (props) => {
     height: '180px',
     borderRadius: '100px',
   };
-  let genre = 'POP';
-  if (artist.genres[0] !== undefined) genre = artist.genres[0].description;
+  const genre = artist.genres[0].description || 'POP';
   return (
     <Paper className={classes.root}>
       <div style={overrideBgStyle} />

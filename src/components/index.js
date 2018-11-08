@@ -2,7 +2,7 @@ export { ArtistConnect } from './Artist/Artist';
 export { ArtistEventsConnect } from './Events/ArtistEvents';
 export { ArtistsConnect } from './Artists/Artists';
 export { EventsConnect } from './Events/Events';
-//export { FAQConnect } from './FAQ';
+// export { FAQConnect } from './FAQ';
 export { ForYouConnect } from './ForYou';
 export { HomeConnect } from './Home';
 export { NavBarConnect } from './Navbar';

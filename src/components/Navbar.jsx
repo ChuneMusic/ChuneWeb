@@ -30,6 +30,7 @@ import LogoSVG from '../../assets/images/Chune_Supply_Logotype_White.svg';
 import { logOutUser } from '../store/auth/actions';
 import * as StyledNavBar from './styled-components/navbar';
 import { openCloseSearch } from '../store/autosuggest/actions';
+import { openSocial } from '../utilities/authSocial';
 
 
 
@@ -429,59 +430,15 @@ class Navbar extends React.Component {
                         </a>
                       </List>
                     </div>
-                  </Drawer>
-                </div>
-                <div className={classes.mobileToolbarRightSection}>
-                  <div className={classes.avatarContainer}>
-                    <IconButton
-                      aria-owns={anchorEl ? 'simple-menu' : null}
-                      aria-haspopup="true"
-                      onClick={this.handleClick}
-                      classes={{ root: classes.settingsIconButton }}
-                    >
-                      <SettingsIcon />
+                    <IconButton classes={{ root: classes.settingsIconButton }} onClick={this.toggleSearch}>
+                      <SearchIcon />
                     </IconButton>
-                    <Menu
-                      className={classes.settingsMenu}
-                      id="simple-menu"
-                      anchorEl={anchorEl}
-                      open={Boolean(anchorEl)}
-                      onClose={this.handleClose}
-                      anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'right',
-                      }}
-                      getContentAnchorEl={null}
-                      transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                      }}
-                    >
-                      <MenuItem onClick={() => this.goToRoute('/privacy')}>
-                        Privacy Policy
-                      </MenuItem>
-                      <MenuItem onClick={() => this.goToRoute('/terms-of-use')}>
-                        Terms of Use
-                      </MenuItem>
-                      {/* <MenuItem onClick={() => this.goToRoute('/faq')}>
-                          FAQ
-                        </MenuItem>
-                        <MenuItem onClick={this.sendPasswordResetEmail}>
-                          Reset Password
-                        </MenuItem> */}
-                      <MenuItem onClick={() => logOut()}>
-                        Logout
-                      </MenuItem>
-                    </Menu>
+                  </Drawer>
                   </div>
-                  <IconButton classes={{ root: classes.settingsIconButton }} onClick={this.toggleSearch}>
-                    <SearchIcon />
-                  </IconButton>
-                </div>
-              </Toolbar>
-            </StyledNavBar.NavBarMobile>
-          </div>
-        </MediaQuery>
+                </Toolbar>
+              </StyledNavBar.NavBarMobile>
+            </div>
+          </MediaQuery>
         <MediaQuery minDeviceWidth={1110}>
           <div style={{ height: 74 }}>
             <StyledNavBar.NavBar>

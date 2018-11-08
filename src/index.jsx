@@ -69,10 +69,10 @@ class App extends React.PureComponent {
   render() {
     const {
       token, modal, modalNews,
-      firstListArtists
+      firstListArtists, offPlayer
     } = this.props;
     const newsModal = modalNews ? <ModalNewsConnect /> : null;
-    const musicPlayer = modal ? <ModalBlockConnect /> : null;
+    const musicPlayer = modal && offPlayer === false ? <ModalBlockConnect /> : null;
     let navbar = <GuestNavbarConnect />;
     if (token) navbar = <NavBarConnect />;
     if (firstListArtists.length) navbar = null;
@@ -106,7 +106,8 @@ const mapStateToProps = state => ({
   token: state.dataAuth.token,
   modalNews: state.dataContent.modal,
   modal: state.dataSpotify.modal,
-  firstListArtists: state.dataArtists.firstListArtists
+  firstListArtists: state.dataArtists.firstListArtists,
+  offPlayer: state.dataSpotify.offPlayer
 });
 
 const ChuneApp = withRouter(connect(mapStateToProps, null)(App));
