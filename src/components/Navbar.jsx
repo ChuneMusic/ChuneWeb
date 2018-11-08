@@ -33,6 +33,7 @@ import { openCloseSearch } from '../store/autosuggest/actions';
 import { openSocial } from '../utilities/authSocial';
 
 
+
 const styles = () => ({
   navContainer: {
     height: 74,
