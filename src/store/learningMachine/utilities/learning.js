@@ -6,7 +6,7 @@ export const sendArtist = (id, today) => {
     timestamp: today,
     event: 'ekvbyN5'
   });
-  API.post('events/log', data);
+  API.post('events/log', data).catch(() => console.log('error'));
 };
 export const sendRecommendArtist = (id, today) => {
   const data = JSON.stringify({
@@ -14,7 +14,7 @@ export const sendRecommendArtist = (id, today) => {
     timestamp: today,
     event: 'jVK6ZKm'
   });
-  API.post('events/log', data);
+  API.post('events/log', data).catch(() => console.log('error'));
 };
 export const sendTopTrack = (id, today) => {
   const data = JSON.stringify({
@@ -22,7 +22,7 @@ export const sendTopTrack = (id, today) => {
     timestamp: today,
     event: 'Zbqygvj'
   });
-  API.post('events/log', data);
+  API.post('events/log', data).catch(() => console.log('error'));
 };
 export const sendChuneSupply = (id, today) => {
   const data = JSON.stringify({
@@ -30,7 +30,7 @@ export const sendChuneSupply = (id, today) => {
     timestamp: today,
     event: 'e6NprKE'
   });
-  API.post('events/log', data);
+  API.post('events/log', data).catch(() => console.log('error'));
 };
 export const sendYouTube = (id, today) => {
   const data = JSON.stringify({
@@ -38,7 +38,7 @@ export const sendYouTube = (id, today) => {
     timestamp: today,
     event: 'pJK5AKj'
   });
-  API.post('events/log', data);
+  API.post('events/log', data).catch(() => console.log('error'));
 };
 export const sendStopYouTube = (id, today) => {
   const data = JSON.stringify({
@@ -46,7 +46,7 @@ export const sendStopYouTube = (id, today) => {
     timestamp: today,
     event: '6AvzVvR'
   });
-  API.post('events/log', data);
+  API.post('events/log', data).catch(() => console.log('error'));
 };
 export const sendTweet = (id, today) => {
   const data = JSON.stringify({
@@ -54,7 +54,7 @@ export const sendTweet = (id, today) => {
     timestamp: today,
     event: 'nEqkGqR'
   });
-  API.post('events/log', data);
+  API.post('events/log', data).catch(() => console.log('error 500'));
 };
 export const sendSuggestions = (id, today) => {
   const data = JSON.stringify({
@@ -62,7 +62,7 @@ export const sendSuggestions = (id, today) => {
     timestamp: today,
     event: 'nEqkGqR'
   });
-  API.post('events/log', data);
+  API.post('events/log', data).catch(() => console.log('error'));
 };
 export const sendAboutArtistInfo = (id, today) => {
   const data = JSON.stringify({
@@ -70,7 +70,7 @@ export const sendAboutArtistInfo = (id, today) => {
     timestamp: today,
     event: 'AXKD7vJ'
   });
-  API.post('events/log', data);
+  API.post('events/log', data).catch(() => console.log('error'));
 };
 export const sendEventsArtist = (id, today) => {
   const data = JSON.stringify({
@@ -86,7 +86,7 @@ export const sendOpenArticleToServer = (id, today) => {
     timestamp: today,
     event: '6DKdrNp'
   });
-  API.post('events/log', data);
+  API.post('events/log', data).catch(() => console.log('error'));
 };
 export const sendCloseArticleToServer = (id, today) => {
   const data = JSON.stringify({
@@ -94,7 +94,7 @@ export const sendCloseArticleToServer = (id, today) => {
     timestamp: today,
     event: '6Gq2wNb'
   });
-  API.post('events/log', data);
+  API.post('events/log', data).catch(() => console.log('error'));
 };
 export const sendOpenFeaturedArticleToServer = (id, today) => {
   const data = JSON.stringify({
@@ -102,7 +102,7 @@ export const sendOpenFeaturedArticleToServer = (id, today) => {
     timestamp: today,
     event: 'V9q3VKW'
   });
-  API.post('events/log', data);
+  API.post('events/log', data).catch(() => console.log('error'));
 };
 export const sendRecentReleases = (id, today) => {
   const data = JSON.stringify({
@@ -110,5 +110,5 @@ export const sendRecentReleases = (id, today) => {
     timestamp: today,
     event: 'wXqPQNo'
   });
-  API.post('events/log', data);
+  API.post('events/log', data).catch(() => console.log('error'));
 };

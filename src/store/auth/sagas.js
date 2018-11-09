@@ -70,7 +70,6 @@ export function* getSocialUserToken(action) {
   try {
     const { code, redirectUri, provider } = action.payload;
     const data = yield call(registerNewSocialUser, code, redirectUri, provider);
-    console.log(data, 'data');
     setUserToken(data.token);
     yield put(successGetToken(data.token));
     if (data.spotify !== '') {
