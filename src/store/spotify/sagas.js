@@ -64,10 +64,7 @@ export function* playTrackToSpotify({ payload }) {
   return yield put(openModal());
 }
 export function* pauseTrackToSpotify() {
-  const { deviceID, token } = yield select(getDataPlayer);
-  if (token && deviceID) {
-    yield call(spotifyPauseTrack);
-  }
+  yield call(spotifyPauseTrack);
 }
 export function* positionTrack({ payload }) {
   const { position } = payload;

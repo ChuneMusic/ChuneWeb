@@ -57,9 +57,23 @@ export const NavBarSubMenu = styled.div`
   justify-content: center;
   color: #fff;
 `;
+export const NavBarSubMenuMobile = styled.div`
+  margin: 0 20px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+`;
 export const NavBarSearchBlock = styled.div`
   width: 70px;
   height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+`;
+export const NavBarSearchBlockMobile = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
