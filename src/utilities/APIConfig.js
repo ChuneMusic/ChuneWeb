@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const API = axios.create({
-  baseURL: 'https://api-stage.chunesupply.com/api/v1/',
+  baseURL: 'http://chune-prod.us-east-2.elasticbeanstalk.com/api/v1/',
   headers: {
     'Content-Type': 'application/json'
   }
