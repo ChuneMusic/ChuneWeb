@@ -1,0 +1,14 @@
+{
+    "prod": {
+        "awscloudformation": {
+            "AuthRoleName": "chune-ui-prod-20190727134103-authRole",
+            "UnauthRoleArn": "arn:aws:iam::699860445804:role/chune-ui-prod-20190727134103-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::699860445804:role/chune-ui-prod-20190727134103-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "chune-ui-prod-20190727134103-deployment",
+            "UnauthRoleName": "chune-ui-prod-20190727134103-unauthRole",
+            "StackName": "chune-ui-prod-20190727134103",
+            "StackId": "arn:aws:cloudformation:us-east-1:699860445804:stack/chune-ui-prod-20190727134103/d9f040f0-b0ae-11e9-8b9f-0a1726208052"
+        }
+    }
+}

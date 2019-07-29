@@ -31,9 +31,9 @@ class BasicArticleCard extends React.Component {
         t = truncateWithEllipses(e.title, 40);
       }
       const img = e.image.startsWith('static/') ? (
-        `https://api-stage.chunesupply.com/${e.image}`
+        `http://chune-prod.us-east-2.elasticbeanstalk.com/${e.image}`
       ) : (
-        `https://api-stage.chunesupply.com/static/imgs/full/${e.image}`
+        `http://chune-prod.us-east-2.elasticbeanstalk.com/static/imgs/full/${e.image}`
       );
       return (
         <Styled.FeaturedArticle

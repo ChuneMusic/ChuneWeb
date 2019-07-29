@@ -69,7 +69,7 @@ class Chune extends React.Component {
     const { supply, token } = this.props;
     const { isPlaying } = this.state;
     let images = supply.image;
-    if (~images.indexOf('.jpg')) images = `https://api-stage.chunesupply.com/static/imgs/full/${images}`;
+    if (~images.indexOf('.jpg')) images = `http://chune-prod.us-east-2.elasticbeanstalk.com/static/imgs/full/${images}`;
     if (token === '') {
       return (
         <a
