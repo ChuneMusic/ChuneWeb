@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const API = axios.create({
-  baseURL: 'http://chune-prod.us-east-2.elasticbeanstalk.com/api/v1/',
+  baseURL: 'https://api.getphusion.com/api/v1/',
   headers: {
     'Content-Type': 'application/json'
   }
