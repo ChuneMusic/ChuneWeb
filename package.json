@@ -31,7 +31,7 @@
     "history": "4.7.2",
     "lodash": "^4.17.15",
     "mixpanel-browser": "2.22.4",
-    "moment": "2.22.2",
+    "moment": "2.29.2",
     "moment-duration-format": "2.2.2",
     "morgan": "1.9.1",
     "node-spotify-api": "1.0.7",
